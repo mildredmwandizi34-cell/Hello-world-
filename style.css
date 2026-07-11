@@ -108,17 +108,17 @@ footer {
         align-items: center;
     }
 }
-
-    nav a {
+nav a {
     color: white;
     text-decoration: none;
-    margin: 15px;
+    margin: 0 10px;
     font-weight: bold;
+    font-size: 16px;
 }
 .hero-image {
-    display: block;
-    width: 400px;
+    width: 420px;
     max-width: 90%;
     height: auto;
+    display: block;
     margin: 0 auto 30px;
 }
