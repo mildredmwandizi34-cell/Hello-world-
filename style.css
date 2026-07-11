@@ -65,7 +65,7 @@ nav a:hover {
     color: white;
     padding: 15px 30px;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-weight: bold;
 }
 
@@ -127,9 +127,9 @@ nav a {
     font-size: 16px;
 }
 .hero-image {
-    width: 420px;
+    width: 320px;
     max-width: 90%;
     height: auto;
     display: block;
     margin: 0 auto 30px;
-}
+    }
