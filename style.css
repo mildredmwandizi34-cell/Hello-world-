@@ -113,12 +113,9 @@ footer {
 
     nav a {
         .hero-logo {
-    width: 220px;
-    max-width: 90%;
+    width: 180px;
+    max-width: 100%;
+    height: auto;
     display: block;
     margin: 0 auto 20px;
-}
-        display: inline-block;
-        margin: 8px;
-    }
-}
+        }
