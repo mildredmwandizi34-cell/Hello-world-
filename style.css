@@ -130,3 +130,10 @@ footer {
     display: block;
     margin: 0 auto 20px;
 }
+.hero-image {
+    display: block;
+    width: 300px;
+    max-width: 90%;
+    height: auto;
+    margin: 20px auto;
+    }
