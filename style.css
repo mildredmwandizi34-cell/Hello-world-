@@ -15,7 +15,9 @@ header {
     color: white;
     text-align: center;
     padding: 20px;
-    nav {
+}
+
+nav {
     background: #0056b3;
     display: flex;
     justify-content: center;
