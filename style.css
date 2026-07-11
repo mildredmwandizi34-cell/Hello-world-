@@ -120,8 +120,8 @@ footer {
 }
 .hero-image {
     display: block;
-    width: 150px;
+    width: 220px;
     max-width: 100%;
     height: auto;
-    margin: 20px auto;
+    margin: 20px auto 30px;
     }
