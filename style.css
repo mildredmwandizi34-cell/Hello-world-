@@ -112,21 +112,16 @@ footer {
     }
 
     nav a {
-        .hero-logo {
+    color: white;
+    text-decoration: none;
+    margin: 15px;
+    font-weight: bold;
+}
+
+.hero-logo {
     width: 180px;
     max-width: 100%;
     height: auto;
     display: block;
     margin: 0 auto 20px;
-        }
-.hero-logo {
-    text-align: center;
-    padding: 40px 20px;
-}
-.hero-image {
-    display: block;
-    width: 150px;
-    max-width: 100%;
-    height: auto;
-    margin: 20px auto;
 }
