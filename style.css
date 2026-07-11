@@ -6,22 +6,22 @@ body {
 }
 
 header {
-    background: #003366;
+    background: #0b3d91;
     color: white;
     text-align: center;
-    padding: 20px;
+    padding: 25px;
 }
 
 nav {
-    background: #00509e;
+    background: #0056b3;
     text-align: center;
-    padding: 12px;
+    padding: 15px;
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    margin: 0 12px;
+    margin: 15px;
     font-weight: bold;
 }
 
@@ -30,35 +30,89 @@ nav a:hover {
 }
 
 .hero {
+    background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+    url("https://images.unsplash.com/photo-1519003722824-194d4455a60c?w=1200");
+    background-size: cover;
+    background-position: center;
+    color: white;
     text-align: center;
-    padding: 60px 20px;
-    background: white;
+    padding: 100px 20px;
+}
+
+.hero h2 {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    max-width: 700px;
+    margin: auto;
 }
 
 .button {
     display: inline-block;
-    background: #0077cc;
+    margin-top: 30px;
+    background: #ff9800;
     color: white;
-    padding: 12px 24px;
+    padding: 15px 30px;
     text-decoration: none;
     border-radius: 5px;
-    margin-top: 20px;
+    font-weight: bold;
 }
 
 .button:hover {
-    background: #005fa3;
+    background: #e68900;
 }
 
-.container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 30px;
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 50px 20px;
+}
+
+.card {
+    background: white;
+    width: 260px;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,.15);
+}
+
+.card h3 {
+    color: #0b3d91;
 }
 
 footer {
-    background: #003366;
+    background: #0b3d91;
     color: white;
     text-align: center;
     padding: 20px;
-    margin-top: 40px;
+    margin-top: 30px;
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+@media (max-width: 768px) {
+    .hero h2 {
+        font-size: 28px;
+    }
+
+    .features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav a {
+        display: inline-block;
+        margin: 8px;
+    }
 }
