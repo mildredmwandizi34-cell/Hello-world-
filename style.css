@@ -124,23 +124,9 @@ footer {
     padding: 40px 20px;
 }
 .hero-image {
-    width: 250px;
-    max-width: 90%;
-    height: auto;
     display: block;
-    margin: 0 auto 20px;
-}
-.hero-image {
-    display: block;
-    width: 300px;
-    max-width: 90%;
-    height: auto;
-    margin: 20px auto;
-    }
-.hero-image {
-    display: block;
-    width: 300px;
+    width: 150px;
     max-width: 100%;
     height: auto;
-    margin: 0 auto 20px;
-    }
+    margin: 20px auto;
+}
