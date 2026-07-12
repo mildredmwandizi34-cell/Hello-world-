@@ -115,9 +115,7 @@ if (tracking === "AGL123456") {
 }
 
 else if (tracking === "AGL654321") {
-    status = "Delivered";
-    location = "London, United Kingdom";
-    delivery = "Delivered on 10 July 2026";
+
 
     document.getElementById("trackNo").innerHTML = "AGL654321";
     document.getElementById("sender").innerHTML = "American Global Logistics";
@@ -127,10 +125,7 @@ else if (tracking === "AGL654321") {
     document.getElementById("service").innerHTML = "Express Air Freight";
     document.getElementById("weight").innerHTML = "8.4 kg";
 }
-    status = "Delivered";
-    location = "London, United Kingdom";
-    delivery = "Delivered on 10 July 2026";
-}
+
 
 else if (tracking === "AGL987654") {
     status = "Customs Clearance";
@@ -159,7 +154,7 @@ else {
 document.getElementById("status").innerHTML = status;
 document.getElementById("location").innerHTML = location;
 document.getElementById("delivery").innerHTML = delivery;
-document.getElementById("trackingCode").innerHTML = tracking;
+document.getElementById("trackNo").innerHTML = tracking;
 document.getElementById("result").style.display = "block";
 
 }
