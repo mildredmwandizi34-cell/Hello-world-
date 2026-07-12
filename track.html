@@ -103,7 +103,28 @@ Track Shipment
 <strong><span id="route"></span></strong>
 </p>
 <hr style="margin:40px 0;">
+<hr style="margin:40px 0;">
 
+<h3 style="text-align:center; color:#0b4ea2;">
+Proof of Delivery
+</h3>
+
+<div class="card" style="margin-top:20px;">
+
+<p><strong>Receiver:</strong> <span id="receiverName">Not Delivered</span></p>
+
+<p><strong>Delivery Date:</strong> <span id="deliveryDate">Pending</span></p>
+
+<p><strong>Delivery Time:</strong> <span id="deliveryTime">Pending</span></p>
+
+<p><strong>Signature:</strong></p>
+
+<div id="signatureBox"
+style="height:80px; border:2px dashed #999; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#777;">
+Pending Delivery
+</div>
+
+    </div>
 </div>
    <hr style="margin:30px 0;">
 
@@ -153,6 +174,10 @@ function trackShipment() {
         document.getElementById("destination").innerHTML = "London, United Kingdom";
         document.getElementById("service").innerHTML = "Express Air Freight";
         document.getElementById("weight").innerHTML = "12.5 kg";
+        document.getElementById("receiverName").innerHTML = "Not Delivered";
+document.getElementById("deliveryDate").innerHTML = "Pending";
+document.getElementById("deliveryTime").innerHTML = "Pending";
+document.getElementById("signatureBox").innerHTML = "Pending Delivery";
   history = `
 <tr>
 <td>10 Jul 2026</td>
@@ -190,7 +215,10 @@ function trackShipment() {
         document.getElementById("destination").innerHTML = "Toronto, Canada";
         document.getElementById("service").innerHTML = "Express Air Freight";
         document.getElementById("weight").innerHTML = "8.4 kg";
-
+document.getElementById("receiverName").innerHTML = "Sarah Johnson";
+document.getElementById("deliveryDate").innerHTML = "10 July 2026";
+document.getElementById("deliveryTime").innerHTML = "2:45 PM";
+document.getElementById("signatureBox").innerHTML = "<b>Sarah Johnson</b>";
     }
 
     else if (tracking === "AGL987654") {
@@ -206,7 +234,10 @@ function trackShipment() {
         document.getElementById("destination").innerHTML = "Nairobi, Kenya";
         document.getElementById("service").innerHTML = "Priority Air Cargo";
         document.getElementById("weight").innerHTML = "18.2 kg";
-
+document.getElementById("receiverName").innerHTML = "Not Delivered";
+document.getElementById("deliveryDate").innerHTML = "Pending";
+document.getElementById("deliveryTime").innerHTML = "Pending";
+document.getElementById("signatureBox").innerHTML = "Pending Delivery";
     }
 
     else {
