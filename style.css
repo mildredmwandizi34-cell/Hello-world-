@@ -130,9 +130,9 @@ footer {
 nav a {
     color: white;
     text-decoration: none;
-    margin: 0 10px;
+    font-size: 14px;
     font-weight: bold;
-    font-size: 16px;
+    margin: 0 8px;
 }
 .hero-image {
     width: 320px;
