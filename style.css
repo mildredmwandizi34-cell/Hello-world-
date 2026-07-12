@@ -67,12 +67,14 @@ nav a:hover {
     color: white;
     padding: 15px 30px;
     text-decoration: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: bold;
+    transition: 0.3s;
 }
 
 .button:hover {
     background: #e68900;
+    transform: scale(1.05);
 }
 
 .features {
@@ -133,5 +135,5 @@ nav a {
     max-width: 90%;
     height: auto;
     display: block;
-    margin: 0 auto 30px;
+    margin: 0 auto 40px;
     }
