@@ -22,12 +22,11 @@ nav {
 }
 
 nav {
-    background: #0056b3;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
-    padding: 15px;
+    gap: 30px;
 }
 
 nav a {
@@ -58,9 +57,10 @@ nav a:hover {
 }
 
 .hero p {
-    font-size: 18px;
-    max-width: 700px;
-    margin: auto;
+    max-width: 800px;
+    margin: 20px auto;
+    font-size: 20px;
+    line-height: 1.6;
 }
 
 .button {
@@ -135,9 +135,8 @@ nav a {
     margin: 0 8px;
 }
 .hero-image {
-    width: 420px;
+    width: 350px;
     max-width: 90%;
-    height: auto;
-    display: block;
+    border-radius: 12px;
     margin: 0 auto 50px;
 }
