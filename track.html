@@ -93,7 +93,7 @@ Track Shipment
 <script>
 
 function trackShipment() {
-
+    
 let tracking = document.getElementById("trackingNumber").value.toUpperCase();
 
 let status = "";
@@ -127,7 +127,7 @@ else {
 document.getElementById("status").innerHTML = status;
 document.getElementById("location").innerHTML = location;
 document.getElementById("delivery").innerHTML = delivery;
-
+document.getElementById("trackingCode").innerHTML = tracking;
 document.getElementById("result").style.display = "block";
 
 }
