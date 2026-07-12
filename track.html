@@ -98,6 +98,11 @@ Track Shipment
 <strong><span id="mapLocation"></span></strong>
 </p>
 
+<p>
+🛫 Route:
+<strong><span id="route"></span></strong>
+</p>
+
 </div>
 </section>
 
@@ -114,13 +119,13 @@ function trackShipment() {
     let status = "";
     let location = "";
     let delivery = "";
-
+    let route = "";
     if (tracking === "AGL123456") {
 
         status = "In Transit";
         location = "New York Distribution Center";
         delivery = "15 July 2026";
-
+        route = "New York → London";
         document.getElementById("trackNo").innerHTML = "AGL123456";
         document.getElementById("sender").innerHTML = "American Global Logistics";
         document.getElementById("recipient").innerHTML = "John Smith";
@@ -136,7 +141,7 @@ function trackShipment() {
         status = "Delivered";
         location = "London, United Kingdom";
         delivery = "Delivered on 10 July 2026";
-
+        route = "Los Angeles → Toronto";
         document.getElementById("trackNo").innerHTML = "AGL654321";
         document.getElementById("sender").innerHTML = "American Global Logistics";
         document.getElementById("recipient").innerHTML = "Sarah Johnson";
@@ -152,7 +157,7 @@ function trackShipment() {
         status = "Customs Clearance";
         location = "Dubai, UAE";
         delivery = "17 July 2026";
-
+        route = "Dubai → Nairobi";
         document.getElementById("trackNo").innerHTML = "AGL987654";
         document.getElementById("sender").innerHTML = "American Global Logistics";
         document.getElementById("recipient").innerHTML = "Michael Brown";
@@ -168,7 +173,7 @@ function trackShipment() {
         status = "Tracking Number Not Found";
         location = "-";
         delivery = "-";
-
+        route = "-";
         document.getElementById("trackNo").innerHTML = tracking;
         document.getElementById("sender").innerHTML = "-";
         document.getElementById("recipient").innerHTML = "-";
@@ -183,7 +188,7 @@ function trackShipment() {
     document.getElementById("location").innerHTML = location;
     document.getElementById("mapLocation").innerHTML = location;
     document.getElementById("delivery").innerHTML = delivery;
-
+    document.getElementById("route").innerHTML = route;
     document.getElementById("result").style.display = "block";
 
 }
