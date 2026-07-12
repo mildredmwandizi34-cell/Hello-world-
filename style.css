@@ -25,17 +25,18 @@ nav {
     background: #0056b3;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 15px;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding: 15px 5px;
 }
 
 nav a {
     color: white;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
-    padding: 5px 10px;
+    white-space: nowrap;
 }
 
 nav a:hover {
