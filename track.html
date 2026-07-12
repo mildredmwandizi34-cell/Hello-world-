@@ -69,19 +69,19 @@ Track Shipment
 
 <h3>Shipment Details</h3>
 
-<p><strong>Tracking Number:</strong> <span id="trackingCode"></span></p>
+<p><strong>Tracking Number:</strong> <span id="trackNo"></span></p>
 
-<p><strong>Sender:</strong> American Global Logistics</p>
+<p><strong>Sender:</strong> <span id="sender"></span></p>
 
-<p><strong>Recipient:</strong> John Smith</p>
+<p><strong>Recipient:</strong> <span id="recipient"></span></p>
 
-<p><strong>Origin:</strong> New York, USA</p>
+<p><strong>Origin:</strong> <span id="origin"></span></p>
 
-<p><strong>Destination:</strong> London, United Kingdom</p>
+<p><strong>Destination:</strong> <span id="destination"></span></p>
 
-<p><strong>Service:</strong> Express Air Freight</p>
+<p><strong>Service:</strong> <span id="service"></span></p>
 
-<p><strong>Weight:</strong> 12.5 kg</p>
+<p><strong>Weight:</strong> <span id="weight"></span></p>
 </div>
 
 </section>
@@ -104,15 +104,47 @@ if (tracking === "AGL123456") {
     status = "In Transit";
     location = "New York Distribution Center";
     delivery = "15 July 2026";
+
+    document.getElementById("trackNo").innerHTML = "AGL123456";
+    document.getElementById("sender").innerHTML = "American Global Logistics";
+    document.getElementById("recipient").innerHTML = "John Smith";
+    document.getElementById("origin").innerHTML = "New York, USA";
+    document.getElementById("destination").innerHTML = "London, United Kingdom";
+    document.getElementById("service").innerHTML = "Express Air Freight";
+    document.getElementById("weight").innerHTML = "12.5 kg";
 }
 
 else if (tracking === "AGL654321") {
     status = "Delivered";
     location = "London, United Kingdom";
     delivery = "Delivered on 10 July 2026";
+
+    document.getElementById("trackNo").innerHTML = "AGL654321";
+    document.getElementById("sender").innerHTML = "American Global Logistics";
+    document.getElementById("recipient").innerHTML = "Sarah Johnson";
+    document.getElementById("origin").innerHTML = "Los Angeles, USA";
+    document.getElementById("destination").innerHTML = "Toronto, Canada";
+    document.getElementById("service").innerHTML = "Express Air Freight";
+    document.getElementById("weight").innerHTML = "8.4 kg";
+}
+    status = "Delivered";
+    location = "London, United Kingdom";
+    delivery = "Delivered on 10 July 2026";
 }
 
 else if (tracking === "AGL987654") {
+    status = "Customs Clearance";
+    location = "Dubai, UAE";
+    delivery = "17 July 2026";
+
+    document.getElementById("trackNo").innerHTML = "AGL987654";
+    document.getElementById("sender").innerHTML = "American Global Logistics";
+    document.getElementById("recipient").innerHTML = "Michael Brown";
+    document.getElementById("origin").innerHTML = "Dubai, UAE";
+    document.getElementById("destination").innerHTML = "Nairobi, Kenya";
+    document.getElementById("service").innerHTML = "Priority Air Cargo";
+    document.getElementById("weight").innerHTML = "18.2 kg";
+}
     status = "Customs Clearance";
     location = "Dubai, UAE";
     delivery = "17 July 2026";
