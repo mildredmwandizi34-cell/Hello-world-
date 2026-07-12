@@ -1,44 +1,60 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Track Shipment - American Global Logistics Company</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Shipment - American Global Logistics</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header>
-    <h1>American Global Logistics Company</h1>
+    <h1>Track Your Shipment</h1>
 </header>
 
 <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="services.html">Services</a>
-    <a href="track.html">Track Shipment</a>
+    <a href="tracking.html">Track Shipment</a>
     <a href="contact.html">Contact</a>
 </nav>
 
-<div class="container">
-    <h2>Track Your Shipment</h2>
+<section class="container">
 
-    <p>Enter your tracking number below.</p>
+<h2>Shipment Tracking</h2>
 
-    <form>
-        <input type="text" placeholder="Tracking Number" style="width:100%;padding:10px;margin:10px 0;">
-        <button type="submit">Track Shipment</button>
-    </form>
+<p>Enter your tracking number below to check the current status of your shipment.</p>
 
-    <br>
+<form>
 
-    <h3>Shipment Status</h3>
+<input
+type="text"
+placeholder="Enter Tracking Number"
+style="width:100%; padding:15px; font-size:18px; margin-bottom:20px; border:1px solid #ccc; border-radius:5px;">
 
-    <p><strong>Status:</strong> In Transit</p>
-    <p><strong>Current Location:</strong> New York Distribution Center</p>
-    <p><strong>Estimated Delivery:</strong> July 15, 2026</p>
+<button type="button" class="button">
+Track Shipment
+</button>
+
+</form>
+
+<div class="card" style="margin-top:40px;">
+<h3>Shipment Status</h3>
+
+<p><strong>Status:</strong> In Transit</p>
+
+<p><strong>Current Location:</strong> New York Distribution Center</p>
+
+<p><strong>Estimated Delivery:</strong> 15 July 2026</p>
+
 </div>
 
+</section>
+
 <footer>
-    <p>&copy; 2026 American Global Logistics Company. All rights reserved.</p>
+<p>© 2026 American Global Logistics Company. All rights reserved.</p>
 </footer>
 
 </body>
