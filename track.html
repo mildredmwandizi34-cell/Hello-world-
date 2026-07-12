@@ -6,49 +6,6 @@
     <title>Track Shipment - American Global Logistics</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<script>
-
-function trackShipment() {
-
-let tracking = document.getElementById("trackingNumber").value.toUpperCase();
-
-let status = "";
-let location = "";
-let delivery = "";
-
-if (tracking === "AGL123456") {
-    status = "In Transit";
-    location = "New York Distribution Center";
-    delivery = "15 July 2026";
-}
-
-else if (tracking === "AGL654321") {
-    status = "Delivered";
-    location = "London, United Kingdom";
-    delivery = "Delivered on 10 July 2026";
-}
-
-else if (tracking === "AGL987654") {
-    status = "Customs Clearance";
-    location = "Dubai, UAE";
-    delivery = "17 July 2026";
-}
-
-else {
-    status = "Tracking Number Not Found";
-    location = "-";
-    delivery = "-";
-}
-
-document.getElementById("status").innerHTML = status;
-document.getElementById("location").innerHTML = location;
-document.getElementById("delivery").innerHTML = delivery;
-
-document.getElementById("result").style.display = "block";
-
-}
-
-</script>
 <body>
 
 <header>
@@ -102,3 +59,46 @@ Track Shipment
 
 </body>
 </html>
+<script>
+
+function trackShipment() {
+
+let tracking = document.getElementById("trackingNumber").value.toUpperCase();
+
+let status = "";
+let location = "";
+let delivery = "";
+
+if (tracking === "AGL123456") {
+    status = "In Transit";
+    location = "New York Distribution Center";
+    delivery = "15 July 2026";
+}
+
+else if (tracking === "AGL654321") {
+    status = "Delivered";
+    location = "London, United Kingdom";
+    delivery = "Delivered on 10 July 2026";
+}
+
+else if (tracking === "AGL987654") {
+    status = "Customs Clearance";
+    location = "Dubai, UAE";
+    delivery = "17 July 2026";
+}
+
+else {
+    status = "Tracking Number Not Found";
+    location = "-";
+    delivery = "-";
+}
+
+document.getElementById("status").innerHTML = status;
+document.getElementById("location").innerHTML = location;
+document.getElementById("delivery").innerHTML = delivery;
+
+document.getElementById("result").style.display = "block";
+
+}
+
+</script>
