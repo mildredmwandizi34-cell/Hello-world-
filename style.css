@@ -89,7 +89,7 @@ img{
 
 .hero{
     background: linear-gradient(rgba(11,78,162,.65), rgba(11,78,162,.65)),
-                url("image/file_00000000094c7243b8d26f4fdd4ad1ee.png") center center/cover no-repeat;
+                url("image/hero.png") center center/cover no-repeat;
     color:white;
     text-align:center;
     min-height:70vh;
