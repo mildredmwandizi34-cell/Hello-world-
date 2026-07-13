@@ -88,13 +88,15 @@ img{
 /* Hero Section */
 
 .hero{
-    background:linear-gradient(rgba(11,78,162,.75),
-    rgba(11,78,162,.75)),
-    url("image/hero.jpg") center/cover no-repeat;
-
+    background: linear-gradient(rgba(11,78,162,.65), rgba(11,78,162,.65)),
+                url("image/hero.jpg") center center/cover no-repeat;
     color:white;
     text-align:center;
-    padding:100px 20px;
+    min-height:70vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 20px;
 }
 
 .hero h2{
