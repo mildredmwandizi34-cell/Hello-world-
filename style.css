@@ -47,10 +47,9 @@ img{
 /* Header */
 
 .logo{
-    width:120px;
-    height:auto;
+    width:170px;
     display:block;
-    margin:0 auto 15px;
+    margin:20px auto;
 }
 
 .header h1{
