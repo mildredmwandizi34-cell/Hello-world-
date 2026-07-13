@@ -20,6 +20,14 @@ function trackShipment() {
             deliveryDate: "Pending",
             deliveryTime: "Pending",
             signature: "Pending Delivery",
+            progress: `
+<li>✅ Shipment Created</li>
+<li>✅ Picked Up</li>
+<li>✅ Arrived at International Hub</li>
+<li>🟡 Customs Clearance</li>
+<li>⬜ Out for Delivery</li>
+<li>⬜ Delivered</li>
+`,
             history: `
                 <tr>
                     <td>10 Jul 2026</td>
@@ -60,6 +68,14 @@ function trackShipment() {
             deliveryDate: "10 July 2026",
             deliveryTime: "2:45 PM",
             signature: "Sarah Johnson",
+            progress: `
+<li>✅ Shipment Created</li>
+<li>✅ Picked Up</li>
+<li>✅ Arrived at International Hub</li>
+<li>✅ Customs Clearance</li>
+<li>✅ Out for Delivery</li>
+<li>✅ Delivered</li>
+`,
             history: `
                 <tr>
                     <td>08 Jul 2026</td>
@@ -100,6 +116,14 @@ function trackShipment() {
             deliveryDate: "Pending",
             deliveryTime: "Pending",
             signature: "Pending Delivery",
+            progress: `
+<li>✅ Shipment Created</li>
+<li>✅ Picked Up</li>
+<li>✅ Arrived at International Hub</li>
+<li>🟡 Customs Clearance</li>
+<li>⬜ Out for Delivery</li>
+<li>⬜ Delivered</li>
+`,
             history: `
                 <tr>
                     <td>13 Jul 2026</td>
@@ -151,6 +175,7 @@ function trackShipment() {
     document.getElementById("deliveryDate").textContent = shipment.deliveryDate;
     document.getElementById("deliveryTime").textContent = shipment.deliveryTime;
     document.getElementById("signatureBox").textContent = shipment.signature;
+    document.getElementById("progressList").innerHTML = shipment.progress;
     document.getElementById("historyTable").innerHTML = shipment.history;
 
     document.getElementById("result").style.display = "block";
