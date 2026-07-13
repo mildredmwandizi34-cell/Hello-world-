@@ -46,11 +46,11 @@ img{
 
 /* Header */
 
-.header{
-    background:#0b4ea2;
-    color:#fff;
-    text-align:center;
-    padding:25px 15px;
+.logo{
+    width:120px;
+    height:auto;
+    display:block;
+    margin:0 auto 15px;
 }
 
 .header h1{
