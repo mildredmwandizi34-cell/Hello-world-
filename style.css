@@ -94,12 +94,12 @@ img{
 
 .hero{
     background:
-    linear-gradient(rgba(11,78,162,.75), rgba(11,78,162,.75)),
-    url("image/file_00000000fb107243823fd30bcb45f00f.png") center/cover no-repeat;
+    linear-gradient(rgba(11,78,162,.70), rgba(11,78,162,.70)),
+    url("image/hero.jpg") center center/cover no-repeat;
 
     color:white;
     text-align:center;
-    padding:100px 20px;
+    padding:120px 20px;
 }
 
 .hero h2{
