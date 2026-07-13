@@ -54,7 +54,7 @@ img{
 }
 
 .logo{
-    width:300px;
+    width:320px;
     max-width:90%;
     height:auto;
     display:block;
@@ -96,7 +96,7 @@ img{
 .hero{
     background:
     linear-gradient(rgba(11,78,162,.75), rgba(11,78,162,.75)),
-    url("image/file_00000000a578724392b06d3f2958c446.png") center/cover no-repeat;
+    url("image/file_00000000fb107243823fd30bcb45f00f.png") center/cover no-repeat;
 
     color:white;
     text-align:center;
