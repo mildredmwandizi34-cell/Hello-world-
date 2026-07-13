@@ -3,270 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Track Shipment - American Global Logistics</title>
+    <title>Track Shipment | American Global Logistics</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-    <h1>Track Your Shipment</h1>
+<header class="header">
+    <h1>American Global Logistics</h1>
+    <p>Fast • Secure • Worldwide Delivery</p>
 </header>
 
-<nav>
+<nav class="navbar">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="services.html">Services</a>
-    <a href="track.html">Track Shipment</a>
+    <a href="track.html" class="active">Track Shipment</a>
     <a href="contact.html">Contact</a>
 </nav>
 
-<section class="container">
+<div class="container">
 
-<h2>Shipment Tracking</h2>
+    <div class="tracking-box">
 
-<p>Enter your tracking number below to check the current status of your shipment.</p>
+        <h2>Track Your Shipment</h2>
 
-<form>
+        <p>Enter your tracking number below.</p>
 
-<input
-type="text"
-id="trackingNumber"
-placeholder="Enter Tracking Number"
-style="width:100%; padding:15px; font-size:18px; margin-bottom:20px; border:1px solid #ccc; border-radius:5px;">
+        <input
+            type="text"
+            id="trackingNumber"
+            placeholder="Example: AGL123456">
 
-<button type="button" class="button" onclick="trackShipment()">
-Track Shipment
-</button>
-
-</form>
-
-<div class="card" id="result" style="margin-top:40px; display:none;">
-<h3>Shipment Status</h3>
-
-<p><strong>Status:</strong> <span id="status"></span></p>
-
-<p><strong>Current Location:</strong> <span id="location"></span></p>
-
-<p><strong>Estimated Delivery:</strong> <span id="delivery"></span></p>
-<hr style="margin:30px 0;">
-
-<h3>Shipment Progress</h3>
-
-<div style="margin-top:20px; line-height:2;">
-
-<p>✅ Package Received</p>
-
-<p>✅ Dispatched from Warehouse</p>
-
-<p>✅ Arrived at International Hub</p>
-
-<p>🟡 Customs Clearance</p>
-
-<p>⬜ Out for Delivery</p>
-
-<p>⬜ Delivered</p>
-<hr>
-
-<h3>Shipment Details</h3>
-
-<p><strong>Tracking Number:</strong> <span id="trackNo"></span></p>
-
-<p><strong>Sender:</strong> <span id="sender"></span></p>
-
-<p><strong>Recipient:</strong> <span id="recipient"></span></p>
-
-<p><strong>Origin:</strong> <span id="origin"></span></p>
-
-<p><strong>Destination:</strong> <span id="destination"></span></p>
-
-<p><strong>Service:</strong> <span id="service"></span></p>
-
-<p><strong>Weight:</strong> <span id="weight"></span></p>
-</div>
-<hr style="margin:30px 0;">
-
-<h3>Live Shipment Map</h3>
-
-<div style="margin-top:20px; text-align:center;">
-
-<img src="image/IMG-20260712-WA0007.jpg"
-     alt="Shipment Map"
-     style="width:100%; max-width:700px; border-radius:10px;">
-
-<p style="margin-top:15px;">
-📍 Current Location:
-<strong><span id="mapLocation"></span></strong>
-</p>
-
-<p>
-🛫 Route:
-<strong><span id="route"></span></strong>
-</p>
-<hr style="margin:40px 0;">
-<hr style="margin:40px 0;">
-
-<h3 style="text-align:center; color:#0b4ea2;">
-Proof of Delivery
-</h3>
-
-<div class="card" style="margin-top:20px;">
-
-<p><strong>Receiver:</strong> <span id="receiverName">Not Delivered</span></p>
-
-<p><strong>Delivery Date:</strong> <span id="deliveryDate">Pending</span></p>
-
-<p><strong>Delivery Time:</strong> <span id="deliveryTime">Pending</span></p>
-
-<p><strong>Signature:</strong></p>
-
-<div id="signatureBox"
-style="height:80px; border:2px dashed #999; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#777;">
-Pending Delivery
-</div>
+        <button onclick="trackShipment()">
+            Track Shipment
+        </button>
 
     </div>
+
+    <div id="result" class="result-card" style="display:none;">
+
+        <h2>Shipment Status</h2>
+
+        <div class="status-box">
+            <span id="status"></span>
+        </div>
+
+        <div class="info-grid">
+
+            <div class="info-item">
+                <strong>Tracking Number</strong>
+                <span id="trackNo"></span>
+            </div>
+
+            <div class="info-item">
+                <strong>Sender</strong>
+                <span id="sender"></span>
+            </div>
+
+            <div class="info-item">
+                <strong>Recipient</strong>
+                <span id="recipient"></span>
+            </div>
+
+            <div class="info-item">
+                <strong>Origin</strong>
+                <span id="origin"></span>
+            </div>
+
+            <div class="info-item">
+                <strong>Destination</strong>
+                <span id="destination"></span>
+            </div>
+
+            <div class="info-item">
+                <strong>Current Location</strong>
+                <span id="location"></span>
+            </div>
+
+            <div class="info-item">
+                <strong>Estimated Delivery</strong>
+                <span id="delivery"></span>
+            </div>
+
+            <div class="info-item">
+                <strong>Service</strong>
+                <span id="service"></span>
+            </div>
+
+            <div class="info-item">
+                <strong>Weight</strong>
+                <span id="weight"></span>
+            </div>
+
+            <div class="info-item">
+                <strong>Route</strong>
+                <span id="route"></span>
+            </div>
+
+        </div>
+
+        <h2>Shipment Progress</h2>
+
+        <ul class="progress-list">
+            <li>✅ Shipment Created</li>
+            <li>✅ Picked Up</li>
+            <li>✅ International Hub</li>
+            <li>🟡 Customs Clearance</li>
+            <li>⬜ Out for Delivery</li>
+            <li>⬜ Delivered</li>
+        </ul>
+
+        <h2>Live Shipment Map</h2>
+
+        <div class="map-box">
+
+            <img
+                src="image/IMG-20260712-WA0007.jpg"
+                alt="Shipment Map">
+
+        </div>
+
+        <h2>Proof of Delivery</h2>
+
+        <div class="delivery-box">
+
+            <p><strong>Receiver:</strong> <span id="receiverName"></span></p>
+
+            <p><strong>Delivery Date:</strong> <span id="deliveryDate"></span></p>
+
+            <p><strong>Delivery Time:</strong> <span id="deliveryTime"></span></p>
+
+            <div id="signatureBox" class="signature-box">
+                Pending Delivery
+            </div>
+
+        </div>
+
+        <h2>Shipment History</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+
+                    <th>Time</th>
+
+                    <th>Status</th>
+
+                    <th>Location</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="historyTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
 </div>
-   <hr style="margin:30px 0;">
-
-<h3>Shipment History</h3>
-
-<table style="width:100%; border-collapse:collapse; text-align:center;">
-    <thead style="background:#0b4ea2; color:white;">
-        <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Status</th>
-            <th>Location</th>
-        </tr>
-    </thead>
-
-    <tbody id="historyTable">
-
-    </tbody>
-</table>
-</section>
 
 <footer>
-    <p>© 2026 American Global Logistics Company. All rights reserved.</p>
+
+    © 2026 American Global Logistics Company. All Rights Reserved.
+
 </footer>
 
-<script>
-
-function trackShipment() {
-
-    let tracking = document.getElementById("trackingNumber").value.toUpperCase();
-
-    let status = "";
-    let location = "";
-    let delivery = "";
-    let route = "";
-    let history = "";
-    if (tracking === "AGL123456") {
-
-        status = "In Transit";
-        location = "New York Distribution Center";
-        delivery = "15 July 2026";
-        route = "New York → London";
-        document.getElementById("trackNo").innerHTML = "AGL123456";
-        document.getElementById("sender").innerHTML = "American Global Logistics";
-        document.getElementById("recipient").innerHTML = "John Smith";
-        document.getElementById("origin").innerHTML = "New York, USA";
-        document.getElementById("destination").innerHTML = "London, United Kingdom";
-        document.getElementById("service").innerHTML = "Express Air Freight";
-        document.getElementById("weight").innerHTML = "12.5 kg";
-        document.getElementById("receiverName").innerHTML = "Not Delivered";
-document.getElementById("deliveryDate").innerHTML = "Pending";
-document.getElementById("deliveryTime").innerHTML = "Pending";
-document.getElementById("signatureBox").innerHTML = "Pending Delivery";
-  history = `
-<tr>
-<td>10 Jul 2026</td>
-<td>09:15</td>
-<td>Shipment Created</td>
-<td>New York, USA</td>
-</tr>
-
-<tr>
-<td>11 Jul 2026</td>
-<td>07:40</td>
-<td>Picked Up</td>
-<td>New York, USA</td>
-</tr>
-
-<tr>
-<td>12 Jul 2026</td>
-<td>18:20</td>
-<td>Departed International Hub</td>
-<td>New York, USA</td>
-</tr>
-`;
- }
-
-    else if (tracking === "AGL654321") {
-
-        status = "Delivered";
-        location = "London, United Kingdom";
-        delivery = "Delivered on 10 July 2026";
-        route = "Los Angeles → Toronto";
-        document.getElementById("trackNo").innerHTML = "AGL654321";
-        document.getElementById("sender").innerHTML = "American Global Logistics";
-        document.getElementById("recipient").innerHTML = "Sarah Johnson";
-        document.getElementById("origin").innerHTML = "Los Angeles, USA";
-        document.getElementById("destination").innerHTML = "Toronto, Canada";
-        document.getElementById("service").innerHTML = "Express Air Freight";
-        document.getElementById("weight").innerHTML = "8.4 kg";
-document.getElementById("receiverName").innerHTML = "Sarah Johnson";
-document.getElementById("deliveryDate").innerHTML = "10 July 2026";
-document.getElementById("deliveryTime").innerHTML = "2:45 PM";
-document.getElementById("signatureBox").innerHTML = "<b>Sarah Johnson</b>";
-    }
-
-    else if (tracking === "AGL987654") {
-
-        status = "Customs Clearance";
-        location = "Dubai, UAE";
-        delivery = "17 July 2026";
-        route = "Dubai → Nairobi";
-        document.getElementById("trackNo").innerHTML = "AGL987654";
-        document.getElementById("sender").innerHTML = "American Global Logistics";
-        document.getElementById("recipient").innerHTML = "Michael Brown";
-        document.getElementById("origin").innerHTML = "Dubai, UAE";
-        document.getElementById("destination").innerHTML = "Nairobi, Kenya";
-        document.getElementById("service").innerHTML = "Priority Air Cargo";
-        document.getElementById("weight").innerHTML = "18.2 kg";
-document.getElementById("receiverName").innerHTML = "Not Delivered";
-document.getElementById("deliveryDate").innerHTML = "Pending";
-document.getElementById("deliveryTime").innerHTML = "Pending";
-document.getElementById("signatureBox").innerHTML = "Pending Delivery";
-    }
-
-    else {
-
-        status = "Tracking Number Not Found";
-        location = "-";
-        delivery = "-";
-        route = "-";
-        document.getElementById("trackNo").innerHTML = tracking;
-        document.getElementById("sender").innerHTML = "-";
-        document.getElementById("recipient").innerHTML = "-";
-        document.getElementById("origin").innerHTML = "-";
-        document.getElementById("destination").innerHTML = "-";
-        document.getElementById("service").innerHTML = "-";
-        document.getElementById("weight").innerHTML = "-";
-
-    }
-
-    document.getElementById("status").innerHTML = status;
-    document.getElementById("location").innerHTML = location;
-    document.getElementById("mapLocation").innerHTML = location;
-    document.getElementById("delivery").innerHTML = delivery;
-    document.getElementById("route").innerHTML = route;
-    document.getElementById("historyTable").innerHTML = history;
-    document.getElementById("result").style.display = "block";
-
-}
-
-</script>
+<script src="tracking.js"></script>
 
 </body>
 </html>
