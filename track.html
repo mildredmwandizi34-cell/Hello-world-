@@ -337,7 +337,39 @@ history:`
 }
 
 };
-
+"AGL456789":{
+status:"Out for Delivery",
+location:"London Distribution Center",
+delivery:"Today",
+route:"New York → London",
+sender:"James Wilson",
+receiver:"Mary Johnson",
+weight:"6.4 kg",
+service:"Express Delivery",
+progress:95,
+history:`
+✔ Shipment Created<br><br>
+✔ Picked Up<br><br>
+✔ Customs Cleared<br><br>
+✔ Arrived at London Hub<br><br>
+🚚 Out for Delivery
+`
+},
+ "AGL654321":{
+status:"Awaiting Pickup",
+location:"Los Angeles Warehouse",
+delivery:"18 July 2026",
+route:"Los Angeles → Paris",
+sender:"Robert Smith",
+receiver:"Sophie Martin",
+weight:"18.9 kg",
+service:"Air Freight",
+progress:10,
+history:`
+✔ Shipment Created<br><br>
+🟡 Awaiting Pickup
+`
+},    
 if(shipments[tracking]){
 
 let s=shipments[tracking];
