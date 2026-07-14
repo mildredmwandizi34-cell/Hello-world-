@@ -43,7 +43,7 @@ class="logo">
 
 <h3>Sender Details</h3>
 
-<input type="text" placeholder="Receiver Full Name" required>="width:100%;padding:15px;margin-bottom:15px;">
+<input type="text" id="sender" placeholder="Sender Full Name" required>="width:100%;padding:15px;margin-bottom:15px;">
 
 <input type="text" placeholder="Sender Address" required style="width:100%;padding:15px;margin-bottom:15px;">
 
@@ -59,9 +59,9 @@ class="logo">
 <input type="text" id="tracking" placeholder="Tracking Number" required>="width:100%;padding:15px;margin-bottom:15px;">
 <h3>Shipment Details</h3>
 
-<input type="text" placeholder="Package Description" required style="width:100%;padding:15px;margin-bottom:15px;">
+<input type="text" id="package" placeholder="Package Description">="width:100%;padding:15px;margin-bottom:15px;">
 
-<input type="number" placeholder="Weight (kg)" required style="width:100%;padding:15px;margin-bottom:15px;">
+<input type="number" id="weight" placeholder="Weight (kg)">="width:100%;padding:15px;margin-bottom:15px;">
 
 <select style="width:100%;padding:15px;margin-bottom:15px;">
 <option>Air Freight</option>
@@ -72,7 +72,7 @@ class="logo">
 
 <textarea placeholder="Special Instructions" rows="5" style="width:100%;padding:15px;margin-bottom:20px;"></textarea>
 
-<button class="btn-primary" style="border:none;padding:15px 30px;cursor:pointer;">
+<button type="submit" class="btn-primary" style="border:none;padding:15px;">
 Create Shipment
 </button>
 
