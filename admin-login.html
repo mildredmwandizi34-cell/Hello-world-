@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | American Global Logistics</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+<img src="image/file_00000000fb107243823fd30bcb45f00f.png"
+alt="AGL Logo"
+class="logo">
+
+<h1>Administrator Login</h1>
+
+<p>American Global Logistics Management System</p>
+
+</header>
+
+<section class="section">
+
+<div class="container">
+
+<div class="card">
+
+<h2 style="text-align:center;margin-bottom:20px;">Admin Login</h2>
+
+<input
+type="text"
+id="username"
+placeholder="Username"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="password"
+id="password"
+placeholder="Password"
+style="width:100%;padding:15px;margin-bottom:20px;">
+
+<button
+class="btn-primary"
+style="width:100%;border:none;padding:15px;cursor:pointer;"
+onclick="loginAdmin()">
+Login
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+function loginAdmin(){
+
+let user=document.getElementById("username").value;
+
+let pass=document.getElementById("password").value;
+
+if(user==="admin" && pass==="AGL2026"){
+
+window.location.href="admin-dashboard.html";
+
+}else{
+
+alert("Invalid username or password.");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
