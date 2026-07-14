@@ -426,3 +426,19 @@ color:#666;
         left:90%;
     }
 }
+.card{
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+    margin:25px 0;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.card p{
+    margin:12px 0;
+    font-size:16px;
+}
+
+.card strong{
+    color:#0b3c88;
+}
