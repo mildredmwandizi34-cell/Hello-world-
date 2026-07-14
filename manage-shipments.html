@@ -42,40 +42,18 @@ style="width:100%;padding:15px;margin-bottom:20px;">
 
 <table style="width:100%;border-collapse:collapse;background:#fff;">
 
+<thead>
 <tr style="background:#0b4ea2;color:white;">
 <th style="padding:12px;">Tracking No.</th>
+<th>Sender</th>
+<th>Receiver</th>
 <th>Status</th>
-<th>Location</th>
-<th>Delivery</th>
+<th>Action</th>
 </tr>
+</thead>
 
-<tr>
-<td style="padding:12px;">AGL123456</td>
-<td>In Transit</td>
-<td>New York Distribution Center</td>
-<td>15 July 2026</td>
-</tr>
-
-<tr>
-<td style="padding:12px;">AGL987654</td>
-<td>Delivered</td>
-<td>London, UK</td>
-<td>11 July 2026</td>
-</tr>
-
-<tr>
-<td style="padding:12px;">AGL456789</td>
-<td>Out for Delivery</td>
-<td>London Distribution Center</td>
-<td>Today</td>
-</tr>
-
-<tr>
-<td style="padding:12px;">AGL654321</td>
-<td>Awaiting Pickup</td>
-<td>Los Angeles Warehouse</td>
-<td>18 July 2026</td>
-</tr>
+<tbody id="shipmentTable">
+</tbody>
 
 </table>
 
@@ -114,6 +92,6 @@ rows[i].style.display="none";
 
 });
 </script>
-
+<script src="admin.js"></script>
 </body>
   </html>
