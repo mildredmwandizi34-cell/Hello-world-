@@ -77,36 +77,79 @@ Track Shipment
 <footer>
 <p>© 2026 American Global Logistics. All Rights Reserved.</p>
 </footer>
+     
+</script>
+function trackShipment() {
 
-<script>
+let tracking = document.getElementById("trackingNumber").value.toUpperCase();
 
-function trackShipment(){
+let shipments = {
 
-let tracking=document.getElementById("trackingNumber").value.toUpperCase();
+"AGL123456": {
+status:"In Transit",
+location:"New York Distribution Center",
+delivery:"15 July 2026",
+route:"New York → London",
+sender:"John Smith",
+receiver:"Emma Wilson",
+weight:"12.5 kg",
+service:"Air Freight",
+history:`
+✅ 08 Jul 2026 - Shipment Created<br><br>
+✅ 09 Jul 2026 - Picked Up (New York)<br><br>
+✅ 10 Jul 2026 - Customs Cleared<br><br>
+🟠 12 Jul 2026 - In Transit
+`
+},
 
-if(tracking==="AGL123456"){
+"AGL987654": {
+status:"Delivered",
+location:"London, United Kingdom",
+delivery:"Delivered on 11 July 2026",
+route:"Chicago → London",
+sender:"Michael Brown",
+receiver:"Sarah Johnson",
+weight:"8.2 kg",
+service:"Express Delivery",
+history:`
+✅ Shipment Created<br><br>
+✅ Picked Up<br><br>
+✅ Customs Cleared<br><br>
+✅ Out For Delivery<br><br>
+✅ Delivered
+`
+}
+
+};
+
+if(shipments[tracking]){
+
+let s = shipments[tracking];
 
 document.getElementById("result").style.display="block";
 
-document.getElementById("status").innerHTML="In Transit";
+document.getElementById("status").innerHTML=s.status;
 
-document.getElementById("location").innerHTML="New York Distribution Center";
+document.getElementById("location").innerHTML=s.location;
 
-document.getElementById("delivery").innerHTML="15 July 2026";
+document.getElementById("delivery").innerHTML=s.delivery;
 
-document.getElementById("route").innerHTML="New York → London";
+document.getElementById("route").innerHTML=s.route;
 
 document.getElementById("history").innerHTML=
-"✔ Shipment Created<br><br>✔ Picked Up<br><br>✔ Cleared Customs<br><br>✔ In Transit";
+"<strong>Sender:</strong> "+s.sender+
+"<br><strong>Receiver:</strong> "+s.receiver+
+"<br><strong>Weight:</strong> "+s.weight+
+"<br><strong>Service:</strong> "+s.service+
+"<hr>"+s.history;
 
 }else{
 
 alert("Tracking number not found.");
 
-}
-
-}
-
+} 
+     
+ }
 </script>
 
 </body>
