@@ -39,11 +39,11 @@ class="logo">
 
 <div class="card">
 
-<form>
+<form id="shipmentForm">
 
 <h3>Sender Details</h3>
 
-<input type="text" placeholder="Sender Full Name" required style="width:100%;padding:15px;margin-bottom:15px;">
+<input type="text" placeholder="Receiver Full Name" required>="width:100%;padding:15px;margin-bottom:15px;">
 
 <input type="text" placeholder="Sender Address" required style="width:100%;padding:15px;margin-bottom:15px;">
 
@@ -51,12 +51,12 @@ class="logo">
 
 <h3>Receiver Details</h3>
 
-<input type="text" placeholder="Receiver Full Name" required style="width:100%;padding:15px;margin-bottom:15px;">
+<input type="text" id="receiver" placeholder="Receiver Full Name" required>="width:100%;padding:15px;margin-bottom:15px;">
 
 <input type="text" placeholder="Receiver Address" required style="width:100%;padding:15px;margin-bottom:15px;">
 
 <input type="tel" placeholder="Receiver Phone Number" required style="width:100%;padding:15px;margin-bottom:15px;">
-
+<input type="text" id="tracking" placeholder="Tracking Number" required>="width:100%;padding:15px;margin-bottom:15px;">
 <h3>Shipment Details</h3>
 
 <input type="text" placeholder="Package Description" required style="width:100%;padding:15px;margin-bottom:15px;">
@@ -95,6 +95,25 @@ Create Shipment
 </p>
 
 </footer>
+<script>
+document.getElementById("shipmentForm").addEventListener("submit", function(e){
+    e.preventDefault();
 
+    let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+
+    let shipment = {
+        tracking: "AGL" + Math.floor(100000 + Math.random() * 900000),
+        sender: document.getElementById("sender").value,
+        receiver: document.getElementById("receiver").value,
+        status: "Shipment Created"
+    };
+
+    shipments.push(shipment);
+    localStorage.setItem("shipments", JSON.stringify(shipments));
+
+    alert("Shipment created successfully!");
+    this.reset();
+});
+  </script>
 </body>
 </html>
