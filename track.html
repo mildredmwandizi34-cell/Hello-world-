@@ -4,16 +4,54 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Track Shipment | American Global Logistics</title>
+
 <link rel="stylesheet" href="style.css">
+
+<style>
+.track-box{
+max-width:700px;
+margin:40px auto;
+background:#fff;
+padding:30px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.track-box input{
+width:100%;
+padding:15px;
+font-size:18px;
+margin-bottom:20px;
+}
+
+.track-box button{
+width:100%;
+padding:15px;
+background:#ff9800;
+color:white;
+border:none;
+font-size:18px;
+cursor:pointer;
+}
+
+.track-box button:hover{
+background:#e68900;
+}
+
+#result{
+display:none;
+margin-top:30px;
+line-height:1.8;
+}
+</style>
+
 </head>
 
 <body>
 
-<header class="header">
+<header class="hero">
 
-<img src="image/file_00000000a578724392b06d3f2958c446.png"
-     alt="AGL Logo"
-     class="logo">
+<img src="image/file_00000000a578724392b06d3f2958c446.png" class="hero-image">
 
 <h1>Track Your Shipment</h1>
 
@@ -29,30 +67,22 @@
 <a href="contact.html">Contact</a>
 </nav>
 
-<section class="section">
+<section>
 
-<div class="container">
+<div class="track-box">
 
-<h2 class="section-title">Shipment Tracking</h2>
-
-<div class="card">
+<h2>Shipment Tracking</h2>
 
 <input
 type="text"
 id="trackingNumber"
-placeholder="Enter Tracking Number"
-style="width:100%;padding:15px;font-size:18px;margin-bottom:20px;">
+placeholder="Enter Tracking Number">
 
-<button
-class="btn-primary"
-style="width:100%;border:none;padding:15px;font-size:18px;cursor:pointer;"
-onclick="trackShipment()">
+<button onclick="trackShipment()">
 Track Shipment
 </button>
 
-</div>
-
-<div id="result" class="card" style="margin-top:30px;display:none;">
+<div id="result">
 
 <h3>Shipment Status</h3>
 
@@ -64,9 +94,7 @@ Track Shipment
 
 <p><strong>Route:</strong> <span id="route"></span></p>
 
-<p><strong>History:</strong></p>
-
-<p id="history"></p>
+<div id="details"></div>
 
 </div>
 
@@ -75,56 +103,79 @@ Track Shipment
 </section>
 
 <footer>
+
 <p>© 2026 American Global Logistics. All Rights Reserved.</p>
+
 </footer>
-     
+
 <script>
-function trackShipment() {
 
-let tracking = document.getElementById("trackingNumber").value.toUpperCase();
+function trackShipment(){
 
-let shipments = {
+let tracking=document.getElementById("trackingNumber").value.toUpperCase();
 
-"AGL123456": {
+let shipments={
+
+"AGL123456":{
+
 status:"In Transit",
+
 location:"New York Distribution Center",
+
 delivery:"15 July 2026",
+
 route:"New York → London",
+
 sender:"John Smith",
+
 receiver:"Emma Wilson",
+
 weight:"12.5 kg",
+
 service:"Air Freight",
+
 history:`
-✅ 08 Jul 2026 - Shipment Created<br><br>
-✅ 09 Jul 2026 - Picked Up (New York)<br><br>
-✅ 10 Jul 2026 - Customs Cleared<br><br>
+✔ 08 Jul 2026 - Shipment Created<br><br>
+✔ 09 Jul 2026 - Picked Up (New York)<br><br>
+✔ 10 Jul 2026 - Customs Cleared<br><br>
 🟠 12 Jul 2026 - In Transit
 `
+
 },
 
-"AGL987654": {
+"AGL987654":{
+
 status:"Delivered",
+
 location:"London, United Kingdom",
+
 delivery:"Delivered on 11 July 2026",
+
 route:"Chicago → London",
+
 sender:"Michael Brown",
+
 receiver:"Sarah Johnson",
+
 weight:"8.2 kg",
+
 service:"Express Delivery",
+
 history:`
-✅ Shipment Created<br><br>
-✅ Picked Up<br><br>
-✅ Customs Cleared<br><br>
-✅ Out For Delivery<br><br>
-✅ Delivered
+✔ Shipment Created<br><br>
+✔ Picked Up<br><br>
+✔ Customs Cleared<br><br>
+✔ Out For Delivery<br><br>
+✔ Delivered
 `
+
 }
 
 };
 
 if(shipments[tracking]){
 
-let s = shipments[tracking];
+let s=shipments[tracking];
 
 document.getElementById("result").style.display="block";
 
@@ -136,20 +187,34 @@ document.getElementById("delivery").innerHTML=s.delivery;
 
 document.getElementById("route").innerHTML=s.route;
 
-document.getElementById("history").innerHTML=
-"<strong>Sender:</strong> "+s.sender+
-"<br><strong>Receiver:</strong> "+s.receiver+
-"<br><strong>Weight:</strong> "+s.weight+
-"<br><strong>Service:</strong> "+s.service+
-"<hr>"+s.history;
+document.getElementById("details").innerHTML=`
+
+<p><strong>Sender:</strong> ${s.sender}</p>
+
+<p><strong>Receiver:</strong> ${s.receiver}</p>
+
+<p><strong>Weight:</strong> ${s.weight}</p>
+
+<p><strong>Service:</strong> ${s.service}</p>
+
+<hr>
+
+<h3>Shipment History</h3>
+
+${s.history}
+
+`;
 
 }else{
 
 alert("Tracking number not found.");
 
-} 
-     
- }
+document.getElementById("result").style.display="none";
+
+}
+
+}
+
 </script>
 
 </body>
