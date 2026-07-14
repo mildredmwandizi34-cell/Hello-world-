@@ -336,3 +336,60 @@ color:#666;
 50%{transform:scale(1.1);}
 100%{transform:scale(1);}
    }
+.shipment-map{
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+    margin:30px 0;
+}
+
+.map-route{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.city{
+    text-align:center;
+    width:90px;
+}
+
+.dot{
+    display:block;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#ccc;
+    margin:0 auto 10px;
+}
+
+.completed .dot{
+    background:#28a745;
+}
+
+.active .dot{
+    background:#ff9800;
+    animation:pulse 1.5s infinite;
+}
+
+.line{
+    flex:1;
+    height:5px;
+    background:#ddd;
+}
+
+.line.completed{
+    background:#28a745;
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.3);
+    }
+    100%{
+        transform:scale(1);
+    }
+       }
