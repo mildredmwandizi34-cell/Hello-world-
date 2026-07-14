@@ -393,3 +393,36 @@ color:#666;
         transform:scale(1);
     }
        }
+/* Animated Shipment Route */
+
+.route-animation{
+    position:relative;
+    height:60px;
+    margin:30px 0;
+}
+
+.route-line{
+    height:4px;
+    background:#ddd;
+    position:absolute;
+    top:30px;
+    left:0;
+    right:0;
+}
+
+.plane{
+    position:absolute;
+    top:12px;
+    font-size:32px;
+    animation:fly 8s linear infinite;
+}
+
+@keyframes fly{
+    0%{
+        left:0%;
+    }
+
+    100%{
+        left:90%;
+    }
+}
