@@ -1,1 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manage Shipments | American Global Logistics</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+<header class="header">
+
+<img src="image/file_00000000fb107243823fd30bcb45f00f.png"
+alt="AGL Logo"
+class="logo">
+
+<h1>Manage Shipments</h1>
+
+<p>Administrator Control Panel</p>
+
+</header>
+
+<nav class="navbar">
+<a href="admin-dashboard.html">Dashboard</a>
+<a href="create-shipment.html">Create Shipment</a>
+<a href="track.html">Track Shipment</a>
+<a href="index.html">Website</a>
+</nav>
+
+<section class="section">
+
+<div class="container">
+
+<h2 class="section-title">Shipment List</h2>
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search Tracking Number..."
+style="width:100%;padding:15px;margin-bottom:20px;">
+
+<table style="width:100%;border-collapse:collapse;background:#fff;">
+
+<tr style="background:#0b4ea2;color:white;">
+<th style="padding:12px;">Tracking No.</th>
+<th>Status</th>
+<th>Location</th>
+<th>Delivery</th>
+</tr>
+
+<tr>
+<td style="padding:12px;">AGL123456</td>
+<td>In Transit</td>
+<td>New York Distribution Center</td>
+<td>15 July 2026</td>
+</tr>
+
+<tr>
+<td style="padding:12px;">AGL987654</td>
+<td>Delivered</td>
+<td>London, UK</td>
+<td>11 July 2026</td>
+</tr>
+
+<tr>
+<td style="padding:12px;">AGL456789</td>
+<td>Out for Delivery</td>
+<td>London Distribution Center</td>
+<td>Today</td>
+</tr>
+
+<tr>
+<td style="padding:12px;">AGL654321</td>
+<td>Awaiting Pickup</td>
+<td>Los Angeles Warehouse</td>
+<td>18 July 2026</td>
+</tr>
+
+</table>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>© 2026 American Global Logistics</p>
+
+</footer>
+
+<script>
+document.getElementById("searchInput").addEventListener("keyup", function(){
+
+let filter=this.value.toUpperCase();
+
+let rows=document.querySelectorAll("table tr");
+
+for(let i=1;i<rows.length;i++){
+
+let tracking=rows[i].cells[0].innerText;
+
+if(tracking.toUpperCase().indexOf(filter)>-1){
+
+rows[i].style.display="";
+
+}else{
+
+rows[i].style.display="none";
+
+}
+
+}
+
+});
+</script>
+
+</body>
+  </html>
