@@ -38,4 +38,5 @@ function deleteShipment(index){
     loadShipments();
 }
 
-window.onload = loadShipments;
+
+document.addEventListener("DOMContentLoaded", loadShipments);
