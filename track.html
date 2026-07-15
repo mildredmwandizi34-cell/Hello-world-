@@ -442,48 +442,9 @@ document.getElementById("progressContainer").style.display="none";
 }
 
 }
-
-<script>
-function trackShipment() {
-
-    let trackingNumber = document.getElementById("trackingNumber").value.toUpperCase();
-
-    let result = document.getElementById("trackingResult");
-
-    if (trackingNumber === "AGL123456") {
-
-        result.innerHTML = `
-            <h3>Shipment Found</h3>
-            <p><strong>Status:</strong> In Transit</p>
-            <p><strong>Current Location:</strong> New York Distribution Center</p>
-            <p><strong>Destination:</strong> London, United Kingdom</p>
-            <p><strong>Estimated Delivery:</strong> 15 July 2026</p>
-            <p><strong>Route:</strong> New York → London</p>
-        `;
-
-    } 
-    else if (trackingNumber === "AGL789012") {
-
-        result.innerHTML = `
-            <h3>Shipment Found</h3>
-            <p><strong>Status:</strong> Delivered</p>
-            <p><strong>Delivered Location:</strong> London Warehouse</p>
-            <p><strong>Delivery Date:</strong> 10 July 2026</p>
-        `;
-
-    } 
-    else {
-
-        result.innerHTML = `
-            <h3 style="color:red;">Shipment Not Found</h3>
-            <p>Please check your tracking number and try again.</p>
-        `;
-
-    }
-}
 </script>
 
-<script src="admin.js"></script>
+<!-- <script src="admin.js"></script> -->
 
 </body>
 </html>
