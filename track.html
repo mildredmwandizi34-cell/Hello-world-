@@ -310,143 +310,64 @@ let tracking = document.getElementById("trackingNumber").value.toUpperCase();
 
 let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-let s = shipments.find(function(shipment) {
+let s = shipments.find(function(shipment){
     return shipment.tracking.toUpperCase() === tracking;
 });
 
-status:"In Transit",
 
-location:"New York Distribution Center",
-
-delivery:"15 July 2026",
-
-route:"New York → London",
-
-sender:"John Smith",
-
-receiver:"Emma Wilson",
-
-weight:"12.5 kg",
-
-service:"Air Freight",
-progress:75,
-history:`
-✔ 08 Jul 2026 - Shipment Created<br><br>
-✔ 09 Jul 2026 - Picked Up (New York)<br><br>
-✔ 10 Jul 2026 - Customs Cleared<br><br>
-🟠 12 Jul 2026 - In Transit
-`
-
-},
-
-"AGL987654":{
-
-status:"Delivered",
-
-location:"London, United Kingdom",
-
-delivery:"Delivered on 11 July 2026",
-
-route:"Chicago → London",
-
-sender:"Michael Brown",
-
-receiver:"Sarah Johnson",
-
-weight:"8.2 kg",
-
-service:"Express Delivery",
-progress:100,
-history:`
-✔ Shipment Created<br><br>
-✔ Picked Up<br><br>
-✔ Customs Cleared<br><br>
-✔ Out For Delivery<br><br>
-✔ Delivered
-`
-},
-"AGL456789":{
-status:"Out for Delivery",
-location:"London Distribution Center",
-delivery:"Today",
-route:"New York → London",
-sender:"James Wilson",
-receiver:"Mary Johnson",
-weight:"6.4 kg",
-service:"Express Delivery",
-progress:95,
-history:`
-✔ Shipment Created<br><br>
-✔ Picked Up<br><br>
-✔ Customs Cleared<br><br>
-✔ Arrived at London Hub<br><br>
-🚚 Out for Delivery
-`
-},
- "AGL654321":{
-status:"Awaiting Pickup",
-location:"Los Angeles Warehouse",
-delivery:"18 July 2026",
-route:"Los Angeles → Paris",
-sender:"Robert Smith",
-receiver:"Sophie Martin",
-weight:"18.9 kg",
-service:"Air Freight",
-progress:10,
-history:`
-✔ Shipment Created<br><br>
-🟡 Awaiting Pickup
-`
-}
-};
-let s = shipments.find(
-    shipment => shipment.tracking.toUpperCase() === tracking
-);
-
-if (s) {
+if(s){
 
 document.getElementById("result").style.display="block";
 
-document.getElementById("status").innerHTML=s.status;
+document.getElementById("status").innerHTML = s.status || "Shipment Created";
 
-document.getElementById("location").innerHTML=s.location;
+document.getElementById("location").innerHTML = s.location || "Warehouse";
 
-document.getElementById("delivery").innerHTML=s.delivery;
+document.getElementById("delivery").innerHTML = s.delivery || "Pending";
 
-document.getElementById("route").innerHTML=s.route;
+document.getElementById("route").innerHTML = s.route || "Processing";
+
+
 document.getElementById("progressContainer").style.display="block";
 
-document.getElementById("progressBar").style.width=s.progress+"%";
 
-document.getElementById("progressBar").innerHTML=s.progress+"%";
+document.getElementById("progressBar").style.width="25%";
+
+document.getElementById("progressBar").innerHTML="25%";
+
+
 document.getElementById("details").innerHTML=`
 
 <p><strong>Sender:</strong> ${s.sender}</p>
 
 <p><strong>Receiver:</strong> ${s.receiver}</p>
 
-<p><strong>Weight:</strong> ${s.weight}</p>
+<p><strong>Package:</strong> ${s.package || "Not available"}</p>
 
-<p><strong>Service:</strong> ${s.service}</p>
+<p><strong>Weight:</strong> ${s.weight || "Not available"} kg</p>
 
-<hr>
+<p><strong>Status:</strong> ${s.status}</p>
 
 <h3>Shipment History</h3>
 
-${s.history}
+✔ Shipment Created
 
 `;
 
-}else{
+}
 
-alert("Tracking number not found.");
+else{
+
+alert("Tracking number not found. Please check your number.");
 
 document.getElementById("result").style.display="none";
-document.getElementById("progressContainer").style.display="none";
+
 }
 
 }
-</script>
+
+     </script>
+
 
 </body>
 </html>
