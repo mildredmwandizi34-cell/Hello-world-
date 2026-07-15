@@ -131,7 +131,7 @@ document.getElementById("shipmentForm").addEventListener("submit", function(e){
     shipments.push(shipment);
     localStorage.setItem("shipments", JSON.stringify(shipments));
 
-    alert("Shipment created successfully!");
+    alert("Your shipment has been created successfully! Tracking number generated.");
     this.reset();
 });
 </script>
