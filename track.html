@@ -306,11 +306,9 @@ transition:width 1s;">
 
 function trackShipment(){
 
-let tracking=document.getElementById("trackingNumber").value.toUpperCase();
+let tracking = document.getElementById("trackingNumber").value.toUpperCase();
 
-let shipments={
-
-"AGL123456":{
+let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
 status:"In Transit",
 
@@ -397,9 +395,11 @@ history:`
 `
 }
 };
-if(shipments[tracking]){
+let s = shipments.find(
+    shipment => shipment.tracking.toUpperCase() === tracking
+);
 
-let s=shipments[tracking];
+if (s) {
 
 document.getElementById("result").style.display="block";
 
