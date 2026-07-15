@@ -43,7 +43,12 @@ class="logo">
 
 <h3>Sender Details</h3>
 
-<input type="text" id="sender" placeholder="Sender Full Name" required>="width:100%;padding:15px;margin-bottom:15px;">
+<input
+type="text"
+id="sender"
+placeholder="Sender Full Name"
+required
+style="width:100%;padding:15px;margin-bottom:15px;">
 
 <input type="text" placeholder="Sender Address" required style="width:100%;padding:15px;margin-bottom:15px;">
 
@@ -102,11 +107,26 @@ document.getElementById("shipmentForm").addEventListener("submit", function(e){
     let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
     let shipment = {
-        tracking: "AGL" + Math.floor(100000 + Math.random() * 900000),
-        sender: document.getElementById("sender").value,
-        receiver: document.getElementById("receiver").value,
-        status: "Shipment Created"
-    };
+    tracking: "AGL" + Math.floor(100000 + Math.random() * 900000),
+
+    sender: document.getElementById("sender").value,
+    receiver: document.getElementById("receiver").value,
+
+    package: document.getElementById("package").value,
+    weight: document.getElementById("weight").value + " kg",
+
+    status: "Shipment Created",
+    location: "American Global Logistics Warehouse",
+    delivery: "Pending",
+    route: "To Be Assigned",
+    service: "Air Freight",
+
+    progress: 5,
+
+    history: `
+✔ Shipment Created
+`
+};
 
     shipments.push(shipment);
     localStorage.setItem("shipments", JSON.stringify(shipments));
