@@ -310,6 +310,10 @@ let tracking = document.getElementById("trackingNumber").value.toUpperCase();
 
 let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
+let s = shipments.find(function(shipment) {
+    return shipment.tracking.toUpperCase() === tracking;
+});
+
 status:"In Transit",
 
 location:"New York Distribution Center",
