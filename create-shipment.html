@@ -40,7 +40,7 @@ class="logo">
 <div class="card">
 
 <form id="shipmentForm">
-
+<div id="receipt" style="display:none; margin-top:30px; border:1px solid #ccc; padding:20px; background:#fff;"></div>
 <h3>Sender Details</h3>
 
 <input type="text" id="sender" placeholder="Sender Full Name" required style="width:100%;padding:15px;margin-bottom:15px;">
@@ -131,7 +131,24 @@ document.getElementById("shipmentForm").addEventListener("submit", function(e){
     shipments.push(shipment);
     localStorage.setItem("shipments", JSON.stringify(shipments));
 
-    alert("Your shipment has been created successfully! Tracking number generated.");
+    document.getElementById("receipt").style.display = "block";
+
+document.getElementById("receipt").innerHTML = `
+    <h2>American Global Logistics</h2>
+    <hr>
+
+    <p><strong>Tracking Number:</strong> ${shipment.tracking}</p>
+    <p><strong>Sender:</strong> ${shipment.sender}</p>
+    <p><strong>Receiver:</strong> ${shipment.receiver}</p>
+    <p><strong>Package:</strong> ${shipment.package}</p>
+    <p><strong>Weight:</strong> ${shipment.weight}</p>
+    <p><strong>Status:</strong> ${shipment.status}</p>
+    <p><strong>Location:</strong> ${shipment.location}</p>
+
+    <hr>
+
+    <button onclick="window.print()">🖨 Print Receipt</button>
+`;);
     this.reset();
 });
 </script>
