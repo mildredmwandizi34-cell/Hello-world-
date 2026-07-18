@@ -1,7 +1,12 @@
+// ===============================
+// American Global Logistics
+// Admin Dashboard JavaScript
+// ===============================
+
 // Load shipments
 let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-// Current selected shipment
+// Currently selected shipment
 let currentShipmentIndex = -1;
 
 // Save shipments
@@ -9,7 +14,28 @@ function saveShipments() {
     localStorage.setItem("shipments", JSON.stringify(shipments));
 }
 
-// Display shipments
+// -------------------------------
+// Dashboard Statistics
+// -------------------------------
+
+function updateDashboard() {
+
+    document.getElementById("totalShipments").innerHTML = shipments.length;
+
+    let transit = shipments.filter(s => s.status === "In Transit").length;
+    let delivered = shipments.filter(s => s.status === "Delivered").length;
+    let awaiting = shipments.filter(s => s.status === "Awaiting Pickup").length;
+
+    document.getElementById("inTransit").innerHTML = transit;
+    document.getElementById("delivered").innerHTML = delivered;
+    document.getElementById("awaiting").innerHTML = awaiting;
+
+}
+
+// -------------------------------
+// Display Shipments
+// -------------------------------
+
 function loadShipments() {
 
     let table = document.getElementById("shipmentTable");
@@ -18,34 +44,41 @@ function loadShipments() {
 
     table.innerHTML = "";
 
-    shipments.forEach((s, index) => {
+    shipments.forEach(function(s){
 
         table.innerHTML += `
         <tr>
-            <td>${s.tracking}</td>
-            <td>${s.sender}</td>
-            <td>${s.receiver}</td>
-            <td>${s.status}</td>
-            <td>
-                <button onclick="deleteShipment(${index})">
-                    Delete
-                </button>
-            </td>
+
+        <td>${s.tracking}</td>
+
+        <td>${s.sender}</td>
+
+        <td>${s.receiver}</td>
+
+        <td>${s.status}</td>
+
+        <td>${s.progress}%</td>
+
         </tr>
         `;
 
     });
 
+    updateDashboard();
+
 }
 
-// Search shipment
-function loadShipment() {
+// -------------------------------
+// Load Shipment
+// -------------------------------
+
+function loadShipment(){
 
     let tracking = document.getElementById("trackingSearch").value.toUpperCase();
 
-    currentShipmentIndex = shipments.findIndex(function(shipment){
+    currentShipmentIndex = shipments.findIndex(function(s){
 
-        return shipment.tracking.toUpperCase() === tracking;
+        return s.tracking.toUpperCase() === tracking;
 
     });
 
@@ -59,49 +92,114 @@ function loadShipment() {
 
     let s = shipments[currentShipmentIndex];
 
-    document.getElementById("statusUpdate").value = s.status;
+    document.getElementById("senderUpdate").value = s.sender || "";
 
-    document.getElementById("progressUpdate").value = s.progress;
+    document.getElementById("receiverUpdate").value = s.receiver || "";
 
-    document.getElementById("locationUpdate").value = s.location;
+    document.getElementById("packageUpdate").value = s.package || "";
+
+    document.getElementById("weightUpdate").value = s.weight || "";
+
+    document.getElementById("statusUpdate").value = s.status || "";
+
+    document.getElementById("locationUpdate").value = s.location || "";
+
+    document.getElementById("deliveryUpdate").value = s.delivery || "";
+
+    document.getElementById("routeUpdate").value = s.route || "";
+
+    document.getElementById("serviceUpdate").value = s.service || "";
+
+    document.getElementById("progressUpdate").value = s.progress || 0;
+
+    document.getElementById("historyUpdate").value = s.history || "";
 
 }
 
-// Update shipment
-function updateShipment() {
+// -------------------------------
+// Update Shipment
+// -------------------------------
 
-    if (currentShipmentIndex === -1) {
+function updateShipment(){
 
-        alert("Search for a shipment first.");
+    if(currentShipmentIndex === -1){
+
+        alert("Load a shipment first.");
 
         return;
 
     }
 
-    shipments[currentShipmentIndex].status =
-        document.getElementById("statusUpdate").value;
+    let s = shipments[currentShipmentIndex];
 
-    shipments[currentShipmentIndex].progress =
-        Number(document.getElementById("progressUpdate").value);
+    s.sender = document.getElementById("senderUpdate").value;
 
-    shipments[currentShipmentIndex].location =
-        document.getElementById("locationUpdate").value;
+    s.receiver = document.getElementById("receiverUpdate").value;
 
-    saveShipments();
+    s.package = document.getElementById("packageUpdate").value;
 
-    alert("Shipment updated successfully.");
+    s.weight = document.getElementById("weightUpdate").value;
 
-}
+    s.status = document.getElementById("statusUpdate").value;
 
-// Delete shipment
-function deleteShipment(index){
+    s.location = document.getElementById("locationUpdate").value;
 
-    shipments.splice(index,1);
+    s.delivery = document.getElementById("deliveryUpdate").value;
+
+    s.route = document.getElementById("routeUpdate").value;
+
+    s.service = document.getElementById("serviceUpdate").value;
+
+    s.progress = Number(document.getElementById("progressUpdate").value);
+
+    s.history = document.getElementById("historyUpdate").value;
 
     saveShipments();
 
     loadShipments();
 
+    alert("Shipment updated successfully!");
+
 }
 
-document.addEventListener("DOMContentLoaded", loadShipments);
+// -------------------------------
+// Delete Shipment
+// -------------------------------
+
+function deleteCurrentShipment(){
+
+    if(currentShipmentIndex === -1){
+
+        alert("Load a shipment first.");
+
+        return;
+
+    }
+
+    if(confirm("Delete this shipment?")){
+
+        shipments.splice(currentShipmentIndex,1);
+
+        saveShipments();
+
+        loadShipments();
+
+        currentShipmentIndex = -1;
+
+        document.getElementById("trackingSearch").value = "";
+
+        alert("Shipment deleted.");
+
+    }
+
+}
+
+// -------------------------------
+// Page Load
+// -------------------------------
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    loadShipments();
+
+});
