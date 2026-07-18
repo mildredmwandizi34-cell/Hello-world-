@@ -131,11 +131,55 @@ function updateShipment() {
         return;
     }
 
-    shipment.status = document.getElementById("statusUpdate").value;
-    shipment.location = document.getElementById("locationUpdate").value;
-    shipment.progress = Number(document.getElementById("progressUpdate").value);
+    // Get selected status
+    let status = document.getElementById("statusUpdate").value;
 
-    // Update history as text
+    shipment.status = status;
+    shipment.location = document.getElementById("locationUpdate").value;
+
+    // Automatically set progress
+    switch (status) {
+
+        case "Shipment Created":
+            shipment.progress = 5;
+            break;
+
+        case "Awaiting Pickup":
+            shipment.progress = 10;
+            break;
+
+        case "Picked Up":
+            shipment.progress = 25;
+            break;
+
+        case "In Transit":
+            shipment.progress = 50;
+            break;
+
+        case "Customs Cleared":
+            shipment.progress = 70;
+            break;
+
+        case "Arrived at Destination Hub":
+            shipment.progress = 85;
+            break;
+
+        case "Out for Delivery":
+            shipment.progress = 95;
+            break;
+
+        case "Delivered":
+            shipment.progress = 100;
+            break;
+
+        default:
+            shipment.progress = 0;
+    }
+
+    // Show the automatic progress in the dashboard
+    document.getElementById("progressUpdate").value = shipment.progress;
+
+    // Update shipment history
     shipment.history =
         "✔ Shipment Created<br>" +
         "📍 " + shipment.location + "<br>" +
