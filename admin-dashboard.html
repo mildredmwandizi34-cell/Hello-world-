@@ -93,6 +93,39 @@ Open
 
 </div>
 
+<h2 class="section-title">Update Shipment</h2>
+
+<div class="card">
+
+<h3>Update Shipment</h3>
+
+<select id="statusUpdate">
+    <option>Shipment Created</option>
+    <option>Awaiting Pickup</option>
+    <option>Picked Up</option>
+    <option>In Transit</option>
+    <option>Customs Cleared</option>
+    <option>Arrived at Destination Hub</option>
+    <option>Out for Delivery</option>
+    <option>Delivered</option>
+</select>
+
+<input type="number"
+id="progressUpdate"
+placeholder="Progress (%)"
+min="0"
+max="100">
+
+<input type="text"
+id="locationUpdate"
+placeholder="Current Location">
+
+<button onclick="updateShipment()" class="btn-primary">
+Update Shipment
+</button>
+
+</div>
+
 <script src="admin.js"></script>
 
 </body>
