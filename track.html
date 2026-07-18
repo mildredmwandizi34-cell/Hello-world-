@@ -304,120 +304,34 @@ transition:width 1s;">
 
 <script>
 
-function trackShipment() {
+function updateShipment() {
 
-    let tracking = document.getElementById("trackingNumber").value.trim().toUpperCase();
+    let tracking = document.getElementById("trackingSearch").value.toUpperCase();
 
-    // Demo shipments
-    let demoShipments = [
+    let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-        {
-            tracking: "AGL123456",
-            sender: "American Global Logistics",
-            receiver: "John Smith",
-            package: "Electronics",
-            weight: "12.5 kg",
-            status: "In Transit",
-            location: "New York Distribution Center",
-            delivery: "15 July 2026",
-            route: "New York → London",
-            progress: 60,
-            history: "✔ Shipment Created<br>✔ Picked Up<br>✔ In Transit"
-        },
+    let shipment = shipments.find(s => s.tracking === tracking);
 
-        {
-            tracking: "AGL456789",
-            sender: "James Wilson",
-            receiver: "Mary Johnson",
-            package: "Documents",
-            weight: "6.4 kg",
-            status: "Out for Delivery",
-            location: "London Distribution Center",
-            delivery: "Today",
-            route: "New York → London",
-            progress: 95,
-            history: "✔ Shipment Created<br>✔ Picked Up<br>✔ Customs Cleared<br>✔ Arrived at London Hub<br>🚚 Out for Delivery"
-        },
+    if (!shipment) {
+        alert("Shipment not found!");
+        return;
+    }
 
-        {
-            tracking: "AGL654321",
-            sender: "Robert Smith",
-            receiver: "Sophie Martin",
-            package: "Machinery",
-            weight: "18.9 kg",
-            status: "Awaiting Pickup",
-            location: "Los Angeles Warehouse",
-            delivery: "18 July 2026",
-            route: "Los Angeles → Paris",
-            progress: 10,
-            history: "✔ Shipment Created<br>🟡 Awaiting Pickup"
-        },
+    shipment.status = document.getElementById("statusUpdate").value;
+    shipment.location = document.getElementById("locationUpdate").value;
+    shipment.progress = parseInt(document.getElementById("progressUpdate").value);
 
-        {
-            tracking: "AGL789012",
-            sender: "David Brown",
-            receiver: "Emma White",
-            package: "Medical Supplies",
-            weight: "8.2 kg",
-            status: "Delivered",
-            location: "Paris, France",
-            delivery: "10 July 2026",
-            route: "Chicago → Paris",
-            progress: 100,
-            history: "✔ Shipment Created<br>✔ Picked Up<br>✔ In Transit<br>✔ Delivered"
-        }
-
-    ];
-
-    // Get created shipments
-    let savedShipments = JSON.parse(localStorage.getItem("shipments")) || [];
-
-    // Combine both lists
-    let allShipments = demoShipments.concat(savedShipments);
-
-    // Search shipment
-    let s = allShipments.find(function (shipment) {
-        return shipment.tracking.toUpperCase() === tracking;
+    shipment.history.push({
+        status: shipment.status,
+        date: new Date().toLocaleString(),
+        location: shipment.location
     });
 
-    if (s) {
+    localStorage.setItem("shipments", JSON.stringify(shipments));
 
-        document.getElementById("result").style.display = "block";
+    alert("Shipment Updated Successfully!");
 
-        document.getElementById("status").innerHTML = s.status;
-
-        document.getElementById("location").innerHTML = s.location;
-
-        document.getElementById("delivery").innerHTML = s.delivery;
-
-        document.getElementById("route").innerHTML = s.route;
-
-        document.getElementById("progressContainer").style.display = "block";
-
-        document.getElementById("progressBar").style.width = s.progress + "%";
-
-        document.getElementById("progressBar").innerHTML = s.progress + "%";
-
-        document.getElementById("details").innerHTML = `
-            <p><strong>Tracking Number:</strong> ${s.tracking}</p>
-            <p><strong>Sender:</strong> ${s.sender}</p>
-            <p><strong>Receiver:</strong> ${s.receiver}</p>
-            <p><strong>Package:</strong> ${s.package}</p>
-            <p><strong>Weight:</strong> ${s.weight}</p>
-            <p><strong>Status:</strong> ${s.status}</p>
-
-            <h3>Shipment History</h3>
-
-            <p>${s.history}</p>
-        `;
-
-    } else {
-
-        alert("Tracking number not found. Please check your number.");
-
-        document.getElementById("result").style.display = "none";
-
-    }
+                                                    }
 }
 
      </script>
