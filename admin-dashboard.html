@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Admin Dashboard | American Global Logistics</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -22,9 +26,17 @@ class="logo">
 </header>
 
 <nav class="navbar">
+
 <a href="index.html">Website</a>
+
+<a href="create-shipment.html">Create Shipment</a>
+
 <a href="track.html">Track Shipment</a>
+
+<a href="manage-shipments.html">Manage Shipments</a>
+
 <a href="admin-login.html">Logout</a>
+
 </nav>
 
 <section class="section">
@@ -37,58 +49,22 @@ class="logo">
 
 <div class="card">
 <h3>📦 Total Shipments</h3>
-<h1>4</h1>
+<h1 id="totalShipments">0</h1>
 </div>
 
 <div class="card">
 <h3>🚚 In Transit</h3>
-<h1>2</h1>
+<h1 id="transitCount">0</h1>
 </div>
 
 <div class="card">
 <h3>✅ Delivered</h3>
-<h1>1</h1>
+<h1 id="deliveredCount">0</h1>
 </div>
 
 <div class="card">
 <h3>⏳ Awaiting Pickup</h3>
-<h1>1</h1>
-</div>
-
-</div>
-
-<h2 class="section-title">Management</h2>
-
-<div class="cards">
-
-<div class="card">
-<h3>➕ Add Shipment</h3>
-<p>Create a new shipment.</p>
-
-<a href="create-shipment.html" class="btn-primary">
-Open
-</a>
-
-</div>
-
-<div class="card">
-<h3>📍 Track Shipments</h3>
-<p>View shipment status.</p>
-
-<a href="track.html" class="btn-primary">
-Open
-</a>
-
-</div>
-
-<div class="card">
-<h3>🌐 Visit Website</h3>
-<p>Open the public website.</p>
-
-<a href="index.html" class="btn-primary">
-    Open
-</a>
-
+<h1 id="awaitingCount">0</h1>
 </div>
 
 </div>
@@ -97,29 +73,35 @@ Open
 
 <div class="card">
 
-<h3>Update Shipment</h3>
-
 <input
 type="text"
 id="trackingSearch"
 placeholder="Enter Tracking Number"
 style="width:100%;padding:15px;margin-bottom:15px;">
 
-<button onclick="loadShipment()" class="btn-primary">
+<button
+onclick="loadShipment()"
+class="btn-primary">
 Load Shipment
 </button>
 
 <br><br>
 
-<select id="statusUpdate" style="width:100%;padding:15px;margin-bottom:15px;">
-    <option>Shipment Created</option>
-    <option>Awaiting Pickup</option>
-    <option>Picked Up</option>
-    <option>In Transit</option>
-    <option>Customs Cleared</option>
-    <option>Arrived at Destination Hub</option>
-    <option>Out for Delivery</option>
-    <option>Delivered</option>
+<label>Status</label>
+
+<select
+id="statusUpdate"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<option>Shipment Created</option>
+<option>Awaiting Pickup</option>
+<option>Picked Up</option>
+<option>In Transit</option>
+<option>Customs Cleared</option>
+<option>Arrived at Destination Hub</option>
+<option>Out for Delivery</option>
+<option>Delivered</option>
+
 </select>
 
 <input
@@ -136,16 +118,53 @@ id="locationUpdate"
 placeholder="Current Location"
 style="width:100%;padding:15px;margin-bottom:15px;">
 
-<button onclick="updateShipment()" class="btn-primary">
+<button
+onclick="updateShipment()"
+class="btn-primary">
 Update Shipment
 </button>
 
 </div>
 
+<h2 class="section-title">Manage Shipments</h2>
+
+<div class="card">
+
+<table
+style="width:100%;border-collapse:collapse;">
+
+<thead>
+
+<tr>
+
+<th>Tracking</th>
+
+<th>Sender</th>
+
+<th>Receiver</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="shipmentTable">
+
+</tbody>
+
+</table>
+
 </div>
+
+</div>
+
 </section>
 
 <script src="admin.js"></script>
 
 </body>
-</html>
+
+    </html>
