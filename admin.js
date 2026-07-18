@@ -122,11 +122,9 @@ function loadShipment(){
 
 function updateShipment() {
 
-    let tracking = document.getElementById("trackingSearch").value.toUpperCase();
+    let tracking = document.getElementById("trackingSearch").value.trim().toUpperCase();
 
-    let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
-
-    let shipment = shipments.find(s => s.tracking === tracking);
+    let shipment = shipments.find(s => s.tracking.toUpperCase() === tracking);
 
     if (!shipment) {
         alert("Shipment not found!");
@@ -135,15 +133,16 @@ function updateShipment() {
 
     shipment.status = document.getElementById("statusUpdate").value;
     shipment.location = document.getElementById("locationUpdate").value;
-    shipment.progress = parseInt(document.getElementById("progressUpdate").value);
+    shipment.progress = Number(document.getElementById("progressUpdate").value);
 
-    shipment.history.push({
-        status: shipment.status,
-        date: new Date().toLocaleString(),
-        location: shipment.location
-    });
+    // Update history as text
+    shipment.history =
+        "✔ Shipment Created<br>" +
+        "📍 " + shipment.location + "<br>" +
+        "🚚 " + shipment.status;
 
-    localStorage.setItem("shipments", JSON.stringify(shipments));
+    saveShipments();
+    loadShipments();
 
     alert("Shipment Updated Successfully!");
 
