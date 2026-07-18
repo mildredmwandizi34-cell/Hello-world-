@@ -306,36 +306,158 @@ transition:width 1s;">
 
 <script>
 
+let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+
+
+function saveShipments(){
+    localStorage.setItem("shipments", JSON.stringify(shipments));
+}
+
+
 function updateShipment() {
 
-    let tracking = document.getElementById("trackingSearch").value.toUpperCase();
+    let tracking = document.getElementById("trackingSearch").value.trim().toUpperCase();
 
-    let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+    if (tracking === "") {
+        alert("Please enter a tracking number.");
+        return;
+    }
 
-    let shipment = shipments.find(s => s.tracking === tracking);
+
+    let shipment = shipments.find(function(s){
+        return s.tracking.toUpperCase() === tracking;
+    });
+
 
     if (!shipment) {
         alert("Shipment not found!");
         return;
     }
 
-    shipment.status = document.getElementById("statusUpdate").value;
-    shipment.location = document.getElementById("locationUpdate").value;
-    shipment.progress = parseInt(document.getElementById("progressUpdate").value);
 
-    shipment.history.push({
-        status: shipment.status,
-        date: new Date().toLocaleString(),
-        location: shipment.location
-    });
+    let status = document.getElementById("statusUpdate").value;
 
-    localStorage.setItem("shipments", JSON.stringify(shipments));
+    let location = document.getElementById("locationUpdate").value.trim();
 
-    alert("Shipment Updated Successfully!");                                                   
+
+    shipment.status = status;
+    shipment.location = location;
+
+
+    switch(status){
+
+        case "Shipment Created":
+            shipment.progress = 5;
+            break;
+
+        case "Awaiting Pickup":
+            shipment.progress = 10;
+            break;
+
+        case "Picked Up":
+            shipment.progress = 25;
+            break;
+
+        case "In Transit":
+            shipment.progress = 50;
+            break;
+
+        case "Customs Cleared":
+            shipment.progress = 70;
+            break;
+
+        case "Arrived at Destination Hub":
+            shipment.progress = 85;
+            break;
+
+        case "Out for Delivery":
+            shipment.progress = 95;
+            break;
+
+        case "Delivered":
+            shipment.progress = 100;
+            break;
+
+        default:
+            shipment.progress = 0;
+    }
+
+
+
+    let icon = "📦";
+
+
+    switch(status){
+
+        case "Shipment Created":
+            icon="📦";
+            break;
+
+        case "Awaiting Pickup":
+            icon="📍";
+            break;
+
+        case "Picked Up":
+            icon="🚚";
+            break;
+
+        case "In Transit":
+            icon="✈️";
+            break;
+
+        case "Customs Cleared":
+            icon="🛃";
+            break;
+
+        case "Arrived at Destination Hub":
+            icon="🏢";
+            break;
+
+        case "Out for Delivery":
+            icon="🚛";
+            break;
+
+        case "Delivered":
+            icon="✅";
+            break;
+    }
+
+
+
+    if(!shipment.history){
+        shipment.history = "";
+    }
+
+
+    shipment.history += `
+
+<br>
+${icon} <strong>${status}</strong>
+<br>
+📍 ${location}
+<br>
+🕒 ${new Date().toLocaleString()}
+
+`;
+
+
+
+    saveShipments();
+
+
+    if(typeof loadShipments === "function"){
+        loadShipments();
+    }
+
+
+    document.getElementById("progressUpdate").value = shipment.progress;
+
+
+    alert("Shipment updated successfully!");
+
 }
-     
-</script>
 
+</script>
 
 </body>
 </html>
