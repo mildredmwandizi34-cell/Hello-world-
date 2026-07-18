@@ -179,22 +179,58 @@ function updateShipment() {
     // Show the automatic progress in the dashboard
     document.getElementById("progressUpdate").value = shipment.progress;
 
-    // Add a new history entry instead of replacing it
+    // Add a new history entry with the correct icon
 let time = new Date().toLocaleString();
 
 if (!shipment.history) {
     shipment.history = "";
 }
 
-shipment.history +=
-    `<br>✔ ${shipment.status} - ${shipment.location} (${time})`;
+let icon = "";
 
-    saveShipments();
-    loadShipments();
+switch (shipment.status) {
 
-    alert("Shipment Updated Successfully!");
+    case "Shipment Created":
+        icon = "📦";
+        break;
 
+    case "Awaiting Pickup":
+        icon = "📍";
+        break;
+
+    case "Picked Up":
+        icon = "🚚";
+        break;
+
+    case "In Transit":
+        icon = "✈️";
+        break;
+
+    case "Customs Cleared":
+        icon = "🛃";
+        break;
+
+    case "Arrived at Destination Hub":
+        icon = "🏢";
+        break;
+
+    case "Out for Delivery":
+        icon = "🚛";
+        break;
+
+    case "Delivered":
+        icon = "✅";
+        break;
+
+    default:
+        icon = "📌";
 }
+
+shipment.history += `
+<br>${icon} ${shipment.status}
+<br>&nbsp;&nbsp;&nbsp;📍 ${shipment.location}
+<br>&nbsp;&nbsp;&nbsp;🕒 ${time}
+`;
 // -------------------------------
 // Delete Shipment
 // -------------------------------
