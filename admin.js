@@ -120,48 +120,34 @@ function loadShipment(){
 // Update Shipment
 // -------------------------------
 
-function updateShipment(){
+function updateShipment() {
 
-    if(currentShipmentIndex === -1){
+    let tracking = document.getElementById("trackingSearch").value.toUpperCase();
 
-        alert("Load a shipment first.");
+    let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
+    let shipment = shipments.find(s => s.tracking === tracking);
+
+    if (!shipment) {
+        alert("Shipment not found!");
         return;
-
     }
 
-    let s = shipments[currentShipmentIndex];
+    shipment.status = document.getElementById("statusUpdate").value;
+    shipment.location = document.getElementById("locationUpdate").value;
+    shipment.progress = parseInt(document.getElementById("progressUpdate").value);
 
-    s.sender = document.getElementById("senderUpdate").value;
+    shipment.history.push({
+        status: shipment.status,
+        date: new Date().toLocaleString(),
+        location: shipment.location
+    });
 
-    s.receiver = document.getElementById("receiverUpdate").value;
+    localStorage.setItem("shipments", JSON.stringify(shipments));
 
-    s.package = document.getElementById("packageUpdate").value;
-
-    s.weight = document.getElementById("weightUpdate").value;
-
-    s.status = document.getElementById("statusUpdate").value;
-
-    s.location = document.getElementById("locationUpdate").value;
-
-    s.delivery = document.getElementById("deliveryUpdate").value;
-
-    s.route = document.getElementById("routeUpdate").value;
-
-    s.service = document.getElementById("serviceUpdate").value;
-
-    s.progress = Number(document.getElementById("progressUpdate").value);
-
-    s.history = document.getElementById("historyUpdate").value;
-
-    saveShipments();
-
-    loadShipments();
-
-    alert("Shipment updated successfully!");
+    alert("Shipment Updated Successfully!");
 
 }
-
 // -------------------------------
 // Delete Shipment
 // -------------------------------
