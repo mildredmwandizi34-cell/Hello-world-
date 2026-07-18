@@ -99,7 +99,19 @@ Open
 
 <h3>Update Shipment</h3>
 
-<select id="statusUpdate">
+<input
+type="text"
+id="trackingSearch"
+placeholder="Enter Tracking Number"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<button onclick="loadShipment()" class="btn-primary">
+Load Shipment
+</button>
+
+<br><br>
+
+<select id="statusUpdate" style="width:100%;padding:15px;margin-bottom:15px;">
     <option>Shipment Created</option>
     <option>Awaiting Pickup</option>
     <option>Picked Up</option>
@@ -110,15 +122,19 @@ Open
     <option>Delivered</option>
 </select>
 
-<input type="number"
+<input
+type="number"
 id="progressUpdate"
 placeholder="Progress (%)"
 min="0"
-max="100">
+max="100"
+style="width:100%;padding:15px;margin-bottom:15px;">
 
-<input type="text"
+<input
+type="text"
 id="locationUpdate"
-placeholder="Current Location">
+placeholder="Current Location"
+style="width:100%;padding:15px;margin-bottom:15px;">
 
 <button onclick="updateShipment()" class="btn-primary">
 Update Shipment
