@@ -442,3 +442,49 @@ color:#666;
 .card strong{
     color:#0b3c88;
 }
+/* ===== Shipment Timeline ===== */
+
+.timeline{
+    margin-top:20px;
+    border-left:4px solid #0b4ea2;
+    padding-left:20px;
+}
+
+.timeline-item{
+    position:relative;
+    margin-bottom:25px;
+    padding-left:20px;
+}
+
+.timeline-item::before{
+    content:"";
+    position:absolute;
+    left:-32px;
+    top:5px;
+    width:18px;
+    height:18px;
+    background:#28a745;
+    border-radius:50%;
+    border:3px solid white;
+    box-shadow:0 0 0 2px #28a745;
+}
+
+.timeline-item.current::before{
+    background:#0b4ea2;
+    box-shadow:0 0 0 2px #0b4ea2;
+}
+
+.timeline-item.future::before{
+    background:#ccc;
+    box-shadow:0 0 0 2px #ccc;
+}
+
+.timeline-item h4{
+    margin:0;
+    color:#0b4ea2;
+}
+
+.timeline-item p{
+    margin:5px 0;
+    color:#555;
+       }
