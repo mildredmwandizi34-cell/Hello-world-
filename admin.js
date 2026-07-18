@@ -179,11 +179,15 @@ function updateShipment() {
     // Show the automatic progress in the dashboard
     document.getElementById("progressUpdate").value = shipment.progress;
 
-    // Update shipment history
-    shipment.history =
-        "✔ Shipment Created<br>" +
-        "📍 " + shipment.location + "<br>" +
-        "🚚 " + shipment.status;
+    // Add a new history entry instead of replacing it
+let time = new Date().toLocaleString();
+
+if (!shipment.history) {
+    shipment.history = "";
+}
+
+shipment.history +=
+    `<br>✔ ${shipment.status} - ${shipment.location} (${time})`;
 
     saveShipments();
     loadShipments();
