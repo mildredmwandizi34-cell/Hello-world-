@@ -9,6 +9,103 @@
 
 <link rel="stylesheet" href="style.css">
 
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
+}
+
+.header{
+    background:#0b4ea2;
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+.logo{
+    width:90px;
+    margin-bottom:10px;
+}
+
+.navbar{
+    background:#083b80;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    padding:16px 20px;
+}
+
+.navbar a:hover{
+    background:#0b4ea2;
+}
+
+.container{
+    width:95%;
+    max-width:1200px;
+    margin:auto;
+    padding:25px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.card h3{
+    margin-top:0;
+    color:#0b4ea2;
+}
+
+.btn-primary{
+    background:#0b4ea2;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.btn-primary:hover{
+    background:#083b80;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    margin:8px 0 18px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    box-sizing:border-box;
+}
+
+textarea{
+    min-height:120px;
+}
+
+.update-box{
+    margin-top:40px;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -16,12 +113,11 @@
 <header class="header">
 
 <img src="image/file_00000000fb107243823fd30bcb45f00f.png"
-alt="AGL Logo"
 class="logo">
 
-<h1>Admin Dashboard</h1>
+<h1>American Global Logistics</h1>
 
-<p>American Global Logistics Management System</p>
+<p>Administration Dashboard</p>
 
 </header>
 
@@ -39,94 +135,165 @@ class="logo">
 
 </nav>
 
-<section class="section">
-
 <div class="container">
 
-<h2 class="section-title">Dashboard Overview</h2>
+<h2>Dashboard Overview</h2>
 
 <div class="cards">
 
 <div class="card">
-<h3>📦 Total Shipments</h3>
+<h3>Total Shipments</h3>
 <h1 id="totalShipments">0</h1>
 </div>
 
 <div class="card">
-<h3>🚚 In Transit</h3>
-<h1 id="transitCount">0</h1>
+<h3>In Transit</h3>
+<h1 id="inTransit">0</h1>
 </div>
 
 <div class="card">
-<h3>✅ Delivered</h3>
-<h1 id="deliveredCount">0</h1>
+<h3>Delivered</h3>
+<h1 id="delivered">0</h1>
 </div>
 
 <div class="card">
-<h3>⏳ Awaiting Pickup</h3>
-<h1 id="awaitingCount">0</h1>
+<h3>Awaiting Pickup</h3>
+<h1 id="awaiting">0</h1>
 </div>
 
 </div>
 
-<h2 class="section-title">Update Shipment</h2>
+<div class="card update-box">
 
-<div class="card">
+<h2>Load Shipment</h2>
 
 <input
 type="text"
 id="trackingSearch"
-placeholder="Enter Tracking Number"
-style="width:100%;padding:15px;margin-bottom:15px;">
+placeholder="Enter Tracking Number">
 
 <button
-onclick="loadShipment()"
-class="btn-primary">
+class="btn-primary"
+onclick="loadShipment()">
+
 Load Shipment
+
 </button>
 
-<br><br>
+<hr>
+
+<h2>Edit Shipment</h2>
 
 <label>Status</label>
 
-<select
-id="statusUpdate"
-style="width:100%;padding:15px;margin-bottom:15px;">
+<select id="statusUpdate">
 
 <option>Shipment Created</option>
+
 <option>Awaiting Pickup</option>
+
 <option>Picked Up</option>
+
 <option>In Transit</option>
+
 <option>Customs Cleared</option>
+
 <option>Arrived at Destination Hub</option>
+
 <option>Out for Delivery</option>
+
 <option>Delivered</option>
 
 </select>
 
-<input
-type="number"
-id="progressUpdate"
-placeholder="Progress (%)"
-min="0"
-max="100"
-style="width:100%;padding:15px;margin-bottom:15px;">
+<label>Current Location</label>
 
 <input
 type="text"
-id="locationUpdate"
-placeholder="Current Location"
-style="width:100%;padding:15px;margin-bottom:15px;">
+id="locationUpdate">
+
+<label>Delivery Date</label>
+
+<input
+type="text"
+id="deliveryUpdate">
+
+<label>Route</label>
+
+<input
+type="text"
+id="routeUpdate">
+
+<label>Progress (%)</label>
+
+<input
+type="number"
+id="progressUpdate"
+min="0"
+max="100">
+<label>Sender</label>
+
+<input
+type="text"
+id="senderUpdate">
+
+<label>Receiver</label>
+
+<input
+type="text"
+id="receiverUpdate">
+
+<label>Package</label>
+
+<input
+type="text"
+id="packageUpdate">
+
+<label>Weight</label>
+
+<input
+type="text"
+id="weightUpdate">
+
+<label>Shipping Service</label>
+
+<select id="serviceUpdate">
+
+<option>Air Freight</option>
+<option>Ocean Freight</option>
+<option>Road Transport</option>
+<option>Express Delivery</option>
+
+</select>
+
+<label>Shipment History</label>
+
+<textarea
+id="historyUpdate"></textarea>
+
+<div style="margin-top:20px;display:flex;gap:15px;flex-wrap:wrap;">
 
 <button
-onclick="updateShipment()"
-class="btn-primary">
-Update Shipment
+class="btn-primary"
+onclick="updateShipment()">
+
+💾 Save Changes
+
+</button>
+
+<button
+style="background:#d32f2f;color:white;border:none;padding:12px 25px;border-radius:6px;cursor:pointer;"
+onclick="deleteCurrentShipment()">
+
+🗑 Delete Shipment
+
 </button>
 
 </div>
 
-<h2 class="section-title">Manage Shipments</h2>
+</div>
+
+<h2 style="margin-top:40px;">All Shipments</h2>
 
 <div class="card">
 
@@ -135,17 +302,17 @@ style="width:100%;border-collapse:collapse;">
 
 <thead>
 
-<tr>
+<tr style="background:#0b4ea2;color:white;">
 
-<th>Tracking</th>
+<th style="padding:12px;">Tracking</th>
 
-<th>Sender</th>
+<th style="padding:12px;">Sender</th>
 
-<th>Receiver</th>
+<th style="padding:12px;">Receiver</th>
 
-<th>Status</th>
+<th style="padding:12px;">Status</th>
 
-<th>Action</th>
+<th style="padding:12px;">Progress</th>
 
 </tr>
 
@@ -161,10 +328,8 @@ style="width:100%;border-collapse:collapse;">
 
 </div>
 
-</section>
-
 <script src="admin.js"></script>
 
 </body>
 
-    </html>
+</html>
