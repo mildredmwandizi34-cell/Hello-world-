@@ -40,7 +40,7 @@ class="logo">
 <div class="card">
 
 <form id="shipmentForm">
-<div id="receipt" style="display:none; margin-top:30px; border:1px solid #ccc; padding:20px; background:#fff;"></div>
+
 <h3>Sender Details</h3>
 
 <input type="text" id="sender" placeholder="Sender Full Name" required style="width:100%;padding:15px;margin-bottom:15px;">
@@ -48,7 +48,7 @@ class="logo">
 <input type="text" placeholder="Sender Address" required style="width:100%;padding:15px;margin-bottom:15px;">
 
 <input type="tel" placeholder="Sender Phone Number" required style="width:100%;padding:15px;margin-bottom:15px;">
-
+tracking: "AGL" + Math.floor(100000 + Math.random() * 900000),
 <h3>Receiver Details</h3>
 
 <input
@@ -61,7 +61,7 @@ style="width:100%;padding:15px;margin-bottom:15px;">
 <input type="text" placeholder="Receiver Address" required style="width:100%;padding:15px;margin-bottom:15px;">
 
 <input type="tel" placeholder="Receiver Phone Number" required style="width:100%;padding:15px;margin-bottom:15px;">
-<input type="text" id="tracking" placeholder="Tracking Number" required style="width:100%;padding:15px;margin-bottom:15px;">
+
 <h3>Shipment Details</h3>
 
 <input type="text" id="package" placeholder="Package Description" style="width:100%;padding:15px;margin-bottom:15px;">
@@ -82,7 +82,7 @@ Create Shipment
 </button>
 
 </form>
-
+<div id="receipt" style="display:none; margin-top:30px; border:1px solid #ccc; padding:20px; background:#fff;"></div>
 </div>
 
 </div>
@@ -148,8 +148,9 @@ document.getElementById("receipt").innerHTML = `
     <hr>
 
     <button onclick="window.print()">🖨 Print Receipt</button>
-`;);
-    this.reset();
+`;
+
+this.reset();
 });
 </script>
 
