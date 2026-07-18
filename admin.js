@@ -74,45 +74,40 @@ function loadShipments() {
 
 function loadShipment(){
 
-    let tracking = document.getElementById("trackingSearch").value.toUpperCase();
+let tracking = document.getElementById("trackingSearch").value.trim().toUpperCase();
 
-    currentShipmentIndex = shipments.findIndex(function(s){
+let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-        return s.tracking.toUpperCase() === tracking;
+let shipment = shipments.find(s => 
+s.tracking.toUpperCase() === tracking
+);
 
-    });
 
-    if(currentShipmentIndex === -1){
+if(!shipment){
+alert("Shipment not found!");
+return;
+}
 
-        alert("Shipment not found.");
 
-        return;
+document.getElementById("statusUpdate").value = shipment.status || "";
 
-    }
+document.getElementById("locationUpdate").value = shipment.location || "";
 
-    let s = shipments[currentShipmentIndex];
+document.getElementById("deliveryUpdate").value = shipment.delivery || "";
 
-    document.getElementById("senderUpdate").value = s.sender || "";
+document.getElementById("routeUpdate").value = shipment.route || "";
 
-    document.getElementById("receiverUpdate").value = s.receiver || "";
+document.getElementById("progressUpdate").value = shipment.progress || 0;
 
-    document.getElementById("packageUpdate").value = s.package || "";
+document.getElementById("senderUpdate").value = shipment.sender || "";
 
-    document.getElementById("weightUpdate").value = s.weight || "";
+document.getElementById("receiverUpdate").value = shipment.receiver || "";
 
-    document.getElementById("statusUpdate").value = s.status || "";
+document.getElementById("packageUpdate").value = shipment.package || "";
 
-    document.getElementById("locationUpdate").value = s.location || "";
+document.getElementById("weightUpdate").value = shipment.weight || "";
 
-    document.getElementById("deliveryUpdate").value = s.delivery || "";
-
-    document.getElementById("routeUpdate").value = s.route || "";
-
-    document.getElementById("serviceUpdate").value = s.service || "";
-
-    document.getElementById("progressUpdate").value = s.progress || 0;
-
-    document.getElementById("historyUpdate").value = s.history || "";
+document.getElementById("historyUpdate").value = shipment.history || "";
 
 }
 
