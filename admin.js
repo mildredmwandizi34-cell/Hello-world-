@@ -78,10 +78,16 @@ let tracking = document.getElementById("trackingSearch").value.trim().toUpperCas
 
 let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-let shipment = shipments.find(s => 
-s.tracking.toUpperCase() === tracking
-);
+currentShipmentIndex = shipments.findIndex(function(s){
+    return s.tracking.toUpperCase() === tracking;
+});
 
+if(currentShipmentIndex === -1){
+    alert("Shipment not found!");
+    return;
+}
+
+let shipment = shipments[currentShipmentIndex];
 
 if(!shipment){
 alert("Shipment not found!");
