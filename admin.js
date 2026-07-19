@@ -119,7 +119,11 @@ function updateShipment() {
 
     let tracking = document.getElementById("trackingSearch").value.trim().toUpperCase();
 
-    let shipment = shipments.find(s => s.tracking.toUpperCase() === tracking);
+    currentShipmentIndex = shipments.findIndex(s =>
+    s.tracking.toUpperCase() === tracking
+);
+
+let shipment = shipments[currentShipmentIndex];
 
     if (!shipment) {
         alert("Shipment not found!");
@@ -225,6 +229,13 @@ shipment.history += `
 <br>${icon} ${shipment.status}
 <br>&nbsp;&nbsp;&nbsp;📍 ${shipment.location}
 <br>&nbsp;&nbsp;&nbsp;🕒 ${time}
+saveShipments();
+
+loadShipments();
+
+alert("Shipment updated successfully!");
+
+}
 `;
 // -------------------------------
 // Delete Shipment
