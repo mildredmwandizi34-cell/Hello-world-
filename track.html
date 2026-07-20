@@ -393,70 +393,35 @@ function updateShipment() {
             icon="📦";
             break;
 
-        case "Awaiting Pickup":
-            icon="📍";
-            break;
+<script>
+function trackShipment() {
 
-        case "Picked Up":
-            icon="🚚";
-            break;
+    let tracking = document.getElementById("trackingNumber").value.trim().toUpperCase();
 
-        case "In Transit":
-            icon="✈️";
-            break;
+    let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-        case "Customs Cleared":
-            icon="🛃";
-            break;
+    let shipment = shipments.find(function(s){
+        return s.tracking.toUpperCase() === tracking;
+    });
 
-        case "Arrived at Destination Hub":
-            icon="🏢";
-            break;
-
-        case "Out for Delivery":
-            icon="🚛";
-            break;
-
-        case "Delivered":
-            icon="✅";
-            break;
+    if (!shipment) {
+        alert("Tracking number not found!");
+        return;
     }
 
+    document.getElementById("result").style.display = "block";
 
+    document.getElementById("status").textContent = shipment.status;
+    document.getElementById("location").textContent = shipment.location;
+    document.getElementById("delivery").textContent = shipment.delivery;
+    document.getElementById("route").textContent = shipment.route;
 
-    if(!shipment.history){
-        shipment.history = "";
-    }
+    document.getElementById("progressContainer").style.display = "block";
 
-
-    shipment.history += `
-
-<br>
-${icon} <strong>${status}</strong>
-<br>
-📍 ${location}
-<br>
-🕒 ${new Date().toLocaleString()}
-
-`;
-
-
-
-    saveShipments();
-
-
-    if(typeof loadShipments === "function"){
-        loadShipments();
-    }
-
-
-    document.getElementById("progressUpdate").value = shipment.progress;
-
-
-    alert("Shipment updated successfully!");
-
+    let progressBar = document.getElementById("progressBar");
+    progressBar.style.width = shipment.progress + "%";
+    progressBar.innerHTML = shipment.progress + "%";
 }
-
 </script>
 
 </body>
