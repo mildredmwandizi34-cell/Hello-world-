@@ -1,9 +1,9 @@
-alert("admin.js loaded");
+
 // ===============================
 // American Global Logistics
 // Admin Dashboard JavaScript
 // ===============================
-
+alert("admin.js loaded");
 // Load shipments
 let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
@@ -80,7 +80,8 @@ function loadShipment(){
     let tracking = document.getElementById("trackingSearch").value.trim().toUpperCase();
 
     let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
-
+console.log(shipments);
+alert(JSON.stringify(shipments));
 currentShipmentIndex = shipments.findIndex(function(s){
     return s.tracking.toUpperCase() === tracking;
 });
