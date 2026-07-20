@@ -1,48 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Track Shipment | American Global Logistics</title>
 
 <link rel="stylesheet" href="style.css">
 
 <style>
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7fb;
+}
+
+.hero{
+    background:#0b4ea2;
+    color:white;
+    text-align:center;
+    padding:30px 20px;
+}
+
+.logo{
+    width:90px;
+    margin-bottom:10px;
+}
+
+.navbar{
+    background:#083b80;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    padding:16px 20px;
+}
+
+.navbar a:hover{
+    background:#0b4ea2;
+}
+
 .track-box{
-max-width:700px;
-margin:40px auto;
-background:#fff;
-padding:30px;
-border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,.15);
+    max-width:900px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.track-box h2{
+    color:#0b4ea2;
+    margin-top:0;
 }
 
 .track-box input{
-width:100%;
-padding:15px;
-font-size:18px;
-margin-bottom:20px;
+    width:100%;
+    padding:15px;
+    font-size:18px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    box-sizing:border-box;
+    margin-bottom:20px;
 }
 
 .track-box button{
-width:100%;
-padding:15px;
-background:#ff9800;
-color:white;
-border:none;
-font-size:18px;
-cursor:pointer;
+    width:100%;
+    padding:15px;
+    background:#ff9800;
+    color:white;
+    border:none;
+    border-radius:6px;
+    font-size:18px;
+    cursor:pointer;
 }
 
 .track-box button:hover{
-background:#e68900;
+    background:#e68900;
 }
 
-#result{
-display:none;
-margin-top:30px;
-line-height:1.8;
+.card{
+    background:#fff;
+    border-radius:10px;
+    padding:20px;
+    margin-top:25px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
 }
+
+.progress{
+    width:100%;
+    height:28px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    width:0%;
+    height:28px;
+    background:#28a745;
+    color:white;
+    text-align:center;
+    line-height:28px;
+    font-weight:bold;
+    transition:1s;
+}
+
+.timeline{
+    margin-top:20px;
+}
+
+.timeline-item{
+    border-left:4px solid #0b4ea2;
+    padding-left:15px;
+    margin-bottom:20px;
+}
+
+footer{
+    margin-top:50px;
+    background:#0b4ea2;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
 </style>
 
 </head>
@@ -52,25 +141,29 @@ line-height:1.8;
 <header class="hero">
 
 <img src="image/file_00000000fb107243823fd30bcb45f00f.png"
-     alt="AGL Logo"
-     class="logo">
+class="logo">
 
-<h1>Track Your Shipment</h1>
+<h1>American Global Logistics</h1>
 
 <p>Fast • Secure • Reliable Worldwide Delivery</p>
 
 </header>
 
 <nav class="navbar">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="services.html">Services</a>
-<a href="create-shipment.html">Create Shipment</a>
-<a href="track.html">Track Shipment</a>
-<a href="contact.html">Contact</a>
-</nav>
 
-<section>
+<a href="index.html">Home</a>
+
+<a href="about.html">About</a>
+
+<a href="services.html">Services</a>
+
+<a href="create-shipment.html">Create Shipment</a>
+
+<a href="track.html">Track Shipment</a>
+
+<a href="contact.html">Contact</a>
+
+</nav>
 
 <div class="track-box">
 
@@ -85,9 +178,10 @@ placeholder="Enter Tracking Number">
 Track Shipment
 </button>
 
-<div id="result">
+<div id="result" style="display:none;">
+     <h2>Shipment Status</h2>
 
-<h3>Shipment Status</h3>
+<div class="card">
 
 <p><strong>Status:</strong> <span id="status"></span></p>
 
@@ -96,307 +190,84 @@ Track Shipment
 <p><strong>Estimated Delivery:</strong> <span id="delivery"></span></p>
 
 <p><strong>Route:</strong> <span id="route"></span></p>
-<h3>Shipment Timeline</h3>
-
-<div class="timeline">
-
-<div class="timeline-item completed">
-    <div class="icon">📦</div>
-    <div class="content">
-        <h4>Delivered</h4>
-        <p>11 Jul 2026 - London, United Kingdom</p>
-    </div>
-</div>
-
-<div class="timeline-item completed">
-<div class="timeline-icon">🚚</div>
-<div class="timeline-content">
-<h4>Picked Up</h4>
-<p>09 Jul 2026 - New York, USA</p>
-</div>
-</div>
-
-<div class="timeline-item completed">
-<div class="timeline-icon">🛃</div>
-<div class="timeline-content">
-<h4>Customs Cleared</h4>
-<p>10 Jul 2026 - JFK International Airport</p>
-</div>
-</div>
-
-<div class="timeline-item active">
-<div class="timeline-icon">✈️</div>
-<div class="timeline-content">
-<h4>In Transit</h4>
-<p>Currently flying to London</p>
-</div>
-</div>
-
-<div class="timeline-item">
-<div class="timeline-icon">🏠</div>
-<div class="timeline-content">
-<h4>Delivered</h4>
-<p>Pending Delivery</p>
-</div>
-</div>
 
 </div>
-<div id="progressContainer" style="display:none; margin:25px 0;">
-<h3>🌍 Live Shipment Map</h3>
-     <h3>✈️ Live Route Animation</h3>
-
-<div class="route-animation">
-
-<div class="route-line"></div>
-
-<div class="plane">
-✈️
-</div>
-
-</div>
-<h3>📦 Shipment Details</h3>
-<h3>🚚 Live Vehicle Information</h3>
 
 <div class="card">
+
+<h2>Shipment Progress</h2>
+
+<div class="progress">
+
+<div id="progressBar" class="progress-bar">
+
+0%
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Shipment Details</h2>
+
+<p><strong>Tracking Number:</strong> <span id="trackingDisplay"></span></p>
+
+<p><strong>Sender:</strong> <span id="sender"></span></p>
+
+<p><strong>Receiver:</strong> <span id="receiver"></span></p>
+
+<p><strong>Package:</strong> <span id="package"></span></p>
+
+<p><strong>Weight:</strong> <span id="weight"></span></p>
+
+<p><strong>Shipping Service:</strong> <span id="service"></span></p>
+
+</div>
+
+<div class="card">
+
+<h2>Live Vehicle Information</h2>
 
 <p><strong>Vehicle ID:</strong> TRK-204</p>
 
 <p><strong>Driver:</strong> Daniel Carter</p>
 
-<p><strong>Vehicle Type:</strong> Mercedes-Benz Actros</p>
+<p><strong>Vehicle:</strong> Mercedes-Benz Actros</p>
 
-<p><strong>Current Speed:</strong> <span id="speed">78 km/h</span></p>
-
-<p><strong>Current Temperature:</strong> <span id="temperature">18°C</span></p>
-
-<p><strong>Fuel Level:</strong> <span id="fuel">82%</span></p>
-
-<p><strong>Last GPS Update:</strong> <span id="gps">2 minutes ago</span></p>
-
-<p><strong>Estimated Arrival:</strong> <span id="eta">1 Hour 15 Minutes</span></p>
+<p><strong>Current Speed:</strong> 78 km/h</p>
 
 <p><strong>Fuel Level:</strong> 82%</p>
 
-<p><strong>Last GPS Update:</strong> 2 minutes ago</p>
+<p><strong>Current Destination:</strong> <span id="vehicleDestination"></span></p>
 
-<p><strong>Current Destination:</strong> London Distribution Center</p>
-
-<p><strong>Estimated Arrival:</strong> 1 Hour 15 Minutes</p>
+<p><strong>ETA:</strong> 1 Hour 15 Minutes</p>
 
 </div>
-<div class="card">
-
-<p><strong>Tracking Number:</strong> AGL123456</p>
-
-<p><strong>Package Type:</strong> Electronics</p>
-
-<p><strong>Weight:</strong> 12.5 kg</p>
-
-<p><strong>Dimensions:</strong> 45 × 35 × 25 cm</p>
-
-<p><strong>Shipping Method:</strong> Air Freight Express</p>
-
-<p><strong>Insurance:</strong> Fully Insured</p>
-
-<p><strong>Reference No:</strong> AGL-2026-78451</p>
-
-<p><strong>Payment Status:</strong> Paid</p>
-
-</div>
-<div class="shipment-map">
-
-    <div class="map-route">
-        <div class="city completed">
-            <span class="dot"></span>
-            <h4>New York</h4>
-            <p>Origin</p>
-        </div>
-
-        <div class="line completed"></div>
-
-        <div class="city active">
-            <span class="dot"></span>
-            <h4>Atlantic Ocean</h4>
-            <p>✈ In Transit</p>
-        </div>
-
-        <div class="line"></div>
-
-        <div class="city">
-            <span class="dot"></span>
-            <h4>London</h4>
-            <p>Destination</p>
-        </div>
-
-    </div>
-     </div>
-<h3>Shipment Progress</h3>
-<h3>🚚 Live Vehicle Information</h3>
 
 <div class="card">
 
-<p><strong>Carrier:</strong> American Global Logistics</p>
+<h2>Shipment History</h2>
 
-<p><strong>Transport:</strong> ✈ Boeing 777 Cargo</p>
+<div id="history"></div>
 
-<p><strong>Flight Number:</strong> AGL782</p>
-
-<p><strong>Captain:</strong> David Williams</p>
-
-<p><strong>Current Speed:</strong> 905 km/h</p>
-
-<p><strong>Altitude:</strong> 11,000 m</p>
-
-<p><strong>Last Updated:</strong> <span id="lastUpdate">2 minutes ago</span></p>
-
-     </div>
-     <h3>🌍 Shipment Route</h3>
+</div>
 
 <div class="card">
 
-<img
-src="image/world-map.png"
-alt="Shipment Route"
-style="width:100%;border-radius:10px;">
+<h
+     <script>
 
-<p style="text-align:center;margin-top:15px;">
+function trackShipment() {
 
-📍 New York
-
-✈️ ───────────────►
-
-📍 London
-
-</p>
-
-</div>
-<div style="background:#ddd;height:25px;border-radius:20px;overflow:hidden;">
-
-<div id="progressBar"
-style="width:0%;
-height:25px;
-background:#28a745;
-color:white;
-text-align:center;
-line-height:25px;
-font-weight:bold;
-transition:width 1s;">
-0%
-</div>
-
-</div>
-
-</div>
-
-<div id="details"></div>
-<h3 style="margin-top:30px;">Shipment Timeline</h3>
-
-<div id="timeline" class="timeline"></div>
-</div>
-
-</div>
-
-</section>
-
-<footer>
-
-<p>© 2026 American Global Logistics. All Rights Reserved.</p>
-
-</footer>
-
-<script>
-
-let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
-
-
-function saveShipments(){
-    localStorage.setItem("shipments", JSON.stringify(shipments));
-}
-
-
-function updateShipment() {
-
-    let tracking = document.getElementById("trackingSearch").value.trim().toUpperCase();
+    let tracking = document.getElementById("trackingNumber").value.trim().toUpperCase();
 
     if (tracking === "") {
         alert("Please enter a tracking number.");
         return;
     }
-
-
-    let shipment = shipments.find(function(s){
-        return s.tracking.toUpperCase() === tracking;
-    });
-
-
-    if (!shipment) {
-        alert("Shipment not found!");
-        return;
-    }
-
-
-    let status = document.getElementById("statusUpdate").value;
-
-    let location = document.getElementById("locationUpdate").value.trim();
-
-
-    shipment.status = status;
-    shipment.location = location;
-
-
-    switch(status){
-
-        case "Shipment Created":
-            shipment.progress = 5;
-            break;
-
-        case "Awaiting Pickup":
-            shipment.progress = 10;
-            break;
-
-        case "Picked Up":
-            shipment.progress = 25;
-            break;
-
-        case "In Transit":
-            shipment.progress = 50;
-            break;
-
-        case "Customs Cleared":
-            shipment.progress = 70;
-            break;
-
-        case "Arrived at Destination Hub":
-            shipment.progress = 85;
-            break;
-
-        case "Out for Delivery":
-            shipment.progress = 95;
-            break;
-
-        case "Delivered":
-            shipment.progress = 100;
-            break;
-
-        default:
-            shipment.progress = 0;
-    }
-
-
-
-    let icon = "📦";
-
-
-    switch(status){
-
-        case "Shipment Created":
-            icon="📦";
-            break;
-
-<script>
-function trackShipment() {
-
-    let tracking = document.getElementById("trackingNumber").value.trim().toUpperCase();
 
     let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
@@ -411,18 +282,16 @@ function trackShipment() {
 
     document.getElementById("result").style.display = "block";
 
+    document.getElementById("trackingDisplay").textContent = shipment.tracking;
     document.getElementById("status").textContent = shipment.status;
     document.getElementById("location").textContent = shipment.location;
     document.getElementById("delivery").textContent = shipment.delivery;
     document.getElementById("route").textContent = shipment.route;
 
-    document.getElementById("progressContainer").style.display = "block";
+    document.getElementById("sender").textContent = shipment.sender;
+    document.getElementById("receiver").textContent = shipment.receiver;
+    document.getElementById("package").textContent = shipment.package;
+    document.getElementById("weight").textContent = shipment.weight;
+    document.getElementById("service").textContent = shipment.service;
 
-    let progressBar = document.getElementById("progressBar");
-    progressBar.style.width = shipment.progress + "%";
-    progressBar.innerHTML = shipment.progress + "%";
-}
-</script>
-
-</body>
-</html>
+    document.getElementById("vehicleDestination").textContent =
