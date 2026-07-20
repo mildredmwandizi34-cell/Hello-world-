@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Track Shipment | American Global Logistics</title>
@@ -19,9 +18,9 @@ body{
     background:#f4f7fb;
 }
 
-.hero{
+.header{
     background:#0b4ea2;
-    color:white;
+    color:#fff;
     text-align:center;
     padding:30px 20px;
 }
@@ -39,7 +38,7 @@ body{
 }
 
 .navbar a{
-    color:white;
+    color:#fff;
     text-decoration:none;
     padding:16px 20px;
 }
@@ -48,32 +47,32 @@ body{
     background:#0b4ea2;
 }
 
-.track-box{
-    max-width:900px;
+.container{
+    width:95%;
+    max-width:1000px;
     margin:40px auto;
-    background:white;
-    padding:30px;
-    border-radius:12px;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
 }
 
-.track-box h2{
-    color:#0b4ea2;
-    margin-top:0;
+.card{
+    background:#fff;
+    border-radius:10px;
+    padding:25px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    margin-bottom:25px;
 }
 
-.track-box input{
+input{
     width:100%;
     padding:15px;
     font-size:18px;
     border:1px solid #ccc;
     border-radius:6px;
     box-sizing:border-box;
-    margin-bottom:20px;
 }
 
-.track-box button{
+button{
     width:100%;
+    margin-top:15px;
     padding:15px;
     background:#ff9800;
     color:white;
@@ -83,16 +82,8 @@ body{
     cursor:pointer;
 }
 
-.track-box button:hover{
+button:hover{
     background:#e68900;
-}
-
-.card{
-    background:#fff;
-    border-radius:10px;
-    padding:20px;
-    margin-top:25px;
-    box-shadow:0 4px 12px rgba(0,0,0,.1);
 }
 
 .progress{
@@ -107,29 +98,25 @@ body{
     width:0%;
     height:28px;
     background:#28a745;
-    color:white;
+    color:#fff;
     text-align:center;
     line-height:28px;
     font-weight:bold;
-    transition:1s;
-}
-
-.timeline{
-    margin-top:20px;
+    transition:.5s;
 }
 
 .timeline-item{
     border-left:4px solid #0b4ea2;
     padding-left:15px;
-    margin-bottom:20px;
+    margin-bottom:15px;
 }
 
 footer{
-    margin-top:50px;
     background:#0b4ea2;
-    color:white;
+    color:#fff;
     text-align:center;
     padding:20px;
+    margin-top:40px;
 }
 
 </style>
@@ -138,12 +125,11 @@ footer{
 
 <body>
 
-<header class="hero">
+<header class="header">
 
-<img src="image/file_00000000fb107243823fd30bcb45f00f.png"
-class="logo">
+<img src="image/file_00000000fb107243823fd30bcb45f00f.png" class="logo">
 
-<h1>American Global Logistics</h1>
+<h1>Track Your Shipment</h1>
 
 <p>Fast • Secure • Reliable Worldwide Delivery</p>
 
@@ -165,7 +151,8 @@ class="logo">
 
 </nav>
 
-<div class="track-box">
+<div class="container">
+<div class="card">
 
 <h2>Shipment Tracking</h2>
 
@@ -178,10 +165,13 @@ placeholder="Enter Tracking Number">
 Track Shipment
 </button>
 
+</div>
+
 <div id="result" style="display:none;">
-     <h2>Shipment Status</h2>
 
 <div class="card">
+
+<h2>Shipment Status</h2>
 
 <p><strong>Status:</strong> <span id="status"></span></p>
 
@@ -200,9 +190,7 @@ Track Shipment
 <div class="progress">
 
 <div id="progressBar" class="progress-bar">
-
 0%
-
 </div>
 
 </div>
@@ -243,7 +231,7 @@ Track Shipment
 
 <p><strong>Current Destination:</strong> <span id="vehicleDestination"></span></p>
 
-<p><strong>ETA:</strong> 1 Hour 15 Minutes</p>
+<p><strong>Estimated Arrival:</strong> 1 Hour 15 Minutes</p>
 
 </div>
 
@@ -257,14 +245,30 @@ Track Shipment
 
 <div class="card">
 
-<h
+<h2>Shipment Timeline</h2>
+
+<div id="timeline"></div>
+
+</div>
+
+    </div>
+    <footer>
+
+<p><strong>American Global Logistics</strong></p>
+
+<p>Fast • Secure • Reliable Worldwide Shipping</p>
+
+<p>&copy; 2026 American Global Logistics. All Rights Reserved.</p>
+
+</footer>
+
 <script>
-alert("Track page loaded");
-function trackShipment() {
+
+function trackShipment(){
 
     let tracking = document.getElementById("trackingNumber").value.trim().toUpperCase();
 
-    if (tracking === "") {
+    if(tracking === ""){
         alert("Please enter a tracking number.");
         return;
     }
@@ -275,8 +279,9 @@ function trackShipment() {
         return s.tracking.toUpperCase() === tracking;
     });
 
-    if (!shipment) {
+    if(!shipment){
         alert("Tracking number not found!");
+        document.getElementById("result").style.display = "none";
         return;
     }
 
@@ -300,22 +305,19 @@ function trackShipment() {
 
     let bar = document.getElementById("progressBar");
     bar.style.width = progress + "%";
-    bar.innerHTML = progress + "%";
+    bar.textContent = progress + "%";
 
     document.getElementById("history").innerHTML =
         shipment.history || "No shipment history available.";
 
-    let timeline = document.getElementById("timeline");
-
-if (timeline) {
-    timeline.innerHTML = `
+    document.getElementById("timeline").innerHTML = `
         <div class="timeline-item">
-            <strong>Status:</strong> ${shipment.status}<br>
+            <strong>${shipment.status}</strong><br>
             📍 ${shipment.location}<br>
-            Progress: ${progress}%
+            🚚 Progress: ${progress}%<br>
+            📅 Delivery: ${shipment.delivery}
         </div>
     `;
-}
 }
 
 </script>
