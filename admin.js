@@ -235,6 +235,8 @@ shipment.history += `
 <br>${icon} ${shipment.status}
 <br>&nbsp;&nbsp;&nbsp;📍 ${shipment.location}
 <br>&nbsp;&nbsp;&nbsp;🕒 ${time}
+`;
+
 saveShipments();
 
 loadShipments();
@@ -242,7 +244,6 @@ loadShipments();
 alert("Shipment updated successfully!");
 
 }
-`;
 // -------------------------------
 // Delete Shipment
 // -------------------------------
