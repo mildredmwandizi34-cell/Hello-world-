@@ -307,13 +307,15 @@ function trackShipment() {
 
     let timeline = document.getElementById("timeline");
 
-timeline.innerHTML = `
-    <div class="timeline-item">
-        <strong>Status:</strong> ${shipment.status}<br>
-        📍 ${shipment.location}<br>
-        Progress: ${progress}%
-    </div>
-`;
+if (timeline) {
+    timeline.innerHTML = `
+        <div class="timeline-item">
+            <strong>Status:</strong> ${shipment.status}<br>
+            📍 ${shipment.location}<br>
+            Progress: ${progress}%
+        </div>
+    `;
+}
 }
 
 </script>
