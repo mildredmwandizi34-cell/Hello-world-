@@ -258,7 +258,7 @@ Track Shipment
 <div class="card">
 
 <h
-     <script>
+<script>
 
 function trackShipment() {
 
@@ -294,4 +294,29 @@ function trackShipment() {
     document.getElementById("weight").textContent = shipment.weight;
     document.getElementById("service").textContent = shipment.service;
 
-    document.getElementById("vehicleDestination").textContent =
+    document.getElementById("vehicleDestination").textContent = shipment.location;
+
+    let progress = shipment.progress || 0;
+
+    let bar = document.getElementById("progressBar");
+    bar.style.width = progress + "%";
+    bar.innerHTML = progress + "%";
+
+    document.getElementById("history").innerHTML =
+        shipment.history || "No shipment history available.";
+
+    let timeline = document.getElementById("timeline");
+
+    timeline.innerHTML = `
+        <div class="timeline-item">
+            <strong>Status:</strong> ${shipment.status}<br>
+            📍 ${shipment.location}<br>
+            Progress: ${progress}%
+        </div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
