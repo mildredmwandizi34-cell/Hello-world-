@@ -125,15 +125,20 @@ document.getElementById("historyUpdate").value = shipment.history || "";
 // Update Shipment
 // -------------------------------
 
-function updateShipment() {
+function loadShipment() {
 
     let tracking = document.getElementById("trackingSearch").value.trim().toUpperCase();
 
-    currentShipmentIndex = shipments.findIndex(s =>
-    s.tracking.toUpperCase() === tracking
-);
+    currentShipmentIndex = shipments.findIndex(function(s) {
+        return String(s.tracking).trim().toUpperCase() === tracking;
+    });
 
-let shipment = shipments[currentShipmentIndex];
+    if (currentShipmentIndex === -1) {
+        alert("Shipment not found!");
+        return;
+    }
+
+    let shipment = shipments[currentShipmentIndex];
 
     if (!shipment) {
         alert("Shipment not found!");
