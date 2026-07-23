@@ -275,12 +275,6 @@ Track Shipment
 
 <div class="card">
 
-<h2>Shipment Timeline</h2>
-
-<div id="timeline"></div>
-    
-<div class="card">
-
 <h2>🌍 Live Shipment Route</h2>
 
 <div class="shipment-map">
@@ -347,7 +341,12 @@ alert("Current Status: " + shipment.status);
     document.getElementById("location").textContent = shipment.location;
     document.getElementById("delivery").textContent = shipment.delivery;
     document.getElementById("route").textContent = shipment.route;
+let cities = shipment.route.split("→");
 
+if (cities.length === 2) {
+    document.getElementById("originCity").textContent = cities[0].trim();
+    document.getElementById("destinationCity").textContent = cities[1].trim();
+}
     document.getElementById("sender").textContent = shipment.sender;
     document.getElementById("receiver").textContent = shipment.receiver;
     document.getElementById("package").textContent = shipment.package;
