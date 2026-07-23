@@ -364,7 +364,11 @@ alert("Current Status: " + shipment.status);
     document.getElementById("service").textContent = shipment.service;
 
     document.getElementById("vehicleDestination").textContent = shipment.location;
+document.getElementById("originCity").textContent =
+    shipment.origin || "Warehouse";
 
+document.getElementById("destinationCity").textContent =
+    shipment.destination || shipment.route || "Destination";
     let progress = shipment.progress || 0;
 
     let bar = document.getElementById("progressBar");
