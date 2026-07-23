@@ -150,11 +150,11 @@ function trackShipment() {
 
     };
 
-    const shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+    const shipments = {
+   ...
+};
 
-const shipment = shipments.find(function(s){
-    return s.tracking.toUpperCase() === tracking;
-});
+const shipment = shipments[tracking];
 
     if (!shipment) {
 
