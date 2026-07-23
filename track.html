@@ -152,9 +152,9 @@ footer{
 .plane{
     position:absolute;
     top:-16px;
-    left:0;
+    left:0%;
     font-size:32px;
-    animation:flyPlane 8s linear infinite;
+    transition:left 1s ease;
 }
 
 @keyframes flyPlane{
@@ -399,6 +399,7 @@ document.getElementById("originCity").textContent =
 document.getElementById("destinationCity").textContent =
     shipment.destination || shipment.route || "Destination";
     let progress = shipment.progress || 0;
+    document.querySelector(".plane").style.left = progress + "%";
 document.getElementById("plane").style.left = progress + "%";
     let bar = document.getElementById("progressBar");
     bar.style.width = progress + "%";
