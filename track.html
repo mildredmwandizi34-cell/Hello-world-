@@ -275,9 +275,12 @@ function trackShipment(){
 
     let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-    let shipment = shipments.find(function(s){
-        return s.tracking.toUpperCase() === tracking;
-    });
+console.log(shipments);
+alert(JSON.stringify(shipments));
+
+let shipment = shipments.find(function(s){
+    return s.tracking.toUpperCase() === tracking;
+});
 
     if(!shipment){
         alert("Tracking number not found!");
