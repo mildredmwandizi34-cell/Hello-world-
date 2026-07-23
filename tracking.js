@@ -150,7 +150,11 @@ function trackShipment() {
 
     };
 
-    const shipment = shipments[tracking];
+    const shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+
+const shipment = shipments.find(function(s){
+    return s.tracking.toUpperCase() === tracking;
+});
 
     if (!shipment) {
 
@@ -166,7 +170,7 @@ function trackShipment() {
     document.getElementById("route").textContent = shipment.route;
     document.getElementById("trackNo").textContent = shipment.trackNo;
     document.getElementById("sender").textContent = shipment.sender;
-    document.getElementById("recipient").textContent = shipment.recipient;
+    document.getElementById("recipient").textContent = shipment.receiver;
     document.getElementById("origin").textContent = shipment.origin;
     document.getElementById("destination").textContent = shipment.destination;
     document.getElementById("service").textContent = shipment.service;
