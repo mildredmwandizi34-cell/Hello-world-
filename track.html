@@ -364,7 +364,7 @@ document.getElementById("plane").style.left = progress + "%";
     let bar = document.getElementById("progressBar");
     bar.style.width = progress + "%";
     bar.textContent = progress + "%";
-
+document.getElementById("plane").style.left = progress + "%";
     document.getElementById("history").innerHTML =
         shipment.history || "No shipment history available.";
 
