@@ -405,8 +405,17 @@ document.getElementById("plane").style.left = progress + "%";
     bar.style.width = progress + "%";
     bar.textContent = progress + "%";
 document.getElementById("plane").style.left = progress + "%";
-    document.getElementById("history").innerHTML =
-        shipment.history || "No shipment history available.";
+if (shipment.history) {
+    document.getElementById("history").innerHTML = shipment.history;
+} else {
+    document.getElementById("history").innerHTML = `
+        <div class="timeline-item">
+            📦 Shipment Created<br>
+            📍 ${shipment.location}<br>
+            🕒 ${new Date().toLocaleDateString()}
+        </div>
+    `;
+}
 
     document.getElementById("timeline").innerHTML = `
         <div class="timeline-item">
