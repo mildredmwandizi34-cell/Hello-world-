@@ -125,7 +125,7 @@ document.getElementById("historyUpdate").value = shipment.history || "";
 // Update Shipment
 // -------------------------------
 
-function loadShipment() {
+function updateShipment() {
 
     let tracking = document.getElementById("trackingSearch").value.trim().toUpperCase();
 
@@ -150,7 +150,8 @@ function loadShipment() {
 
     shipment.status = status;
     shipment.location = document.getElementById("locationUpdate").value;
-
+shipment.delivery = document.getElementById("deliveryUpdate").value;
+shipment.route = document.getElementById("routeUpdate").value;
     // Automatically set progress
     switch (status) {
 
