@@ -281,7 +281,8 @@ alert(JSON.stringify(shipments));
 let shipment = shipments.find(function(s){
     return s.tracking.toUpperCase() === tracking;
 });
-
+console.log(shipment);
+alert("Current Status: " + shipment.status);
     if(!shipment){
         alert("Tracking number not found!");
         document.getElementById("result").style.display = "none";
