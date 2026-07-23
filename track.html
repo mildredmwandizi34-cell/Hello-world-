@@ -118,7 +118,46 @@ footer{
     padding:20px;
     margin-top:40px;
 }
+.shipment-map{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:20px;
+    gap:20px;
+}
 
+.city{
+    width:120px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.route{
+    flex:1;
+    height:6px;
+    background:#ddd;
+    border-radius:20px;
+    position:relative;
+    overflow:hidden;
+}
+
+#plane{
+    position:absolute;
+    left:0;
+    top:-18px;
+    font-size:28px;
+    animation:flyPlane 6s linear infinite;
+}
+
+@keyframes flyPlane{
+    0%{
+        left:0%;
+    }
+
+    100%{
+        left:calc(100% - 30px);
+    }
+    }
 </style>
 
 </head>
@@ -248,8 +287,29 @@ Track Shipment
 <h2>Shipment Timeline</h2>
 
 <div id="timeline"></div>
+    
+<div class="card">
+
+<h2>🌍 Live Shipment Route</h2>
+
+<div class="shipment-map">
+
+<div class="city">
+📍 <strong id="originCity">Origin</strong>
+</div>
+
+<div class="route">
+<div id="plane">✈️</div>
+</div>
+
+<div class="city">
+📍 <strong id="destinationCity">Destination</strong>
+</div>
 
 </div>
+
+</div>
+
 
     </div>
     <footer>
