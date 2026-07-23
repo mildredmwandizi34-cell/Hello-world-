@@ -389,7 +389,9 @@ if (cities.length === 2) {
     document.getElementById("package").textContent = shipment.package;
     document.getElementById("weight").textContent = shipment.weight;
     document.getElementById("service").textContent = shipment.service;
-
+document.getElementById("originCity").textContent = shipment.origin;
+document.getElementById("destinationCity").textContent = shipment.destination;
+document.getElementById("statusRoute").textContent = shipment.status;
     document.getElementById("vehicleDestination").textContent = shipment.location;
 document.getElementById("originCity").textContent =
     shipment.origin || "Warehouse";
