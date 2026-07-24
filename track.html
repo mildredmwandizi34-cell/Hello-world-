@@ -449,9 +449,8 @@ document.getElementById("originCity").textContent =
 
 document.getElementById("destinationCity").textContent =
     shipment.destination || shipment.route || "Destination";
-    let progress = shipment.progress || 0;
+    let progress = shipment.progress || 50;
     document.querySelector(".plane").style.left = progress + "%";
-document.getElementById("plane").style.left = progress + "%";
     let bar = document.getElementById("progressBar");
     bar.style.width = progress + "%";
     bar.textContent = progress + "%";
@@ -480,16 +479,6 @@ if (shipment.history && shipment.history.trim() !== "") {
     </div>
     `;
     }
-
-    document.getElementById("timeline").innerHTML = `
-        <div class="timeline-item">
-            <strong>${shipment.status}</strong><br>
-            📍 ${shipment.location}<br>
-            🚚 Progress: ${progress}%<br>
-            📅 Delivery: ${shipment.delivery}
-        </div>
-    `;
-}
 
 </script>
 
