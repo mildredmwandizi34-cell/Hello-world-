@@ -245,7 +245,11 @@ shipment.sender = document.getElementById("senderUpdate").value;
 shipment.receiver = document.getElementById("receiverUpdate").value;
 shipment.package = document.getElementById("packageUpdate").value;
 shipment.weight = document.getElementById("weightUpdate").value;
-shipment.service = document.getElementById("serviceUpdate").value;
+let serviceInput = document.getElementById("serviceUpdate");
+
+if (serviceInput) {
+    shipment.service = serviceInput.value;
+}
 
 shipment.history += `
 <div class="timeline-item">
