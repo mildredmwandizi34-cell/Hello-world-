@@ -241,17 +241,19 @@ switch (shipment.status) {
         icon = "📌";
 }
 
-shipment.history += `
-<br>${icon} ${shipment.status}
-<br>&nbsp;&nbsp;&nbsp;📍 ${shipment.location}
-<br>&nbsp;&nbsp;&nbsp;🕒 ${time}
-`;
 shipment.sender = document.getElementById("senderUpdate").value;
 shipment.receiver = document.getElementById("receiverUpdate").value;
 shipment.package = document.getElementById("packageUpdate").value;
 shipment.weight = document.getElementById("weightUpdate").value;
 shipment.service = document.getElementById("serviceUpdate").value;
-shipment.history = document.getElementById("historyUpdate").value + shipment.history;
+
+shipment.history += `
+<div class="timeline-item">
+    ${icon} <strong>${shipment.status}</strong><br>
+    📍 ${shipment.location}<br>
+    🕒 ${time}
+</div>
+`;
 saveShipments();
 
 loadShipments();
