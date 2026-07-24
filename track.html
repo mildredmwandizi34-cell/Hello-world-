@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="style.css">
 
 <style>
-
+    
 body{
     margin:0;
     font-family:Arial,Helvetica,sans-serif;
@@ -40,7 +40,8 @@ body{
 .navbar a{
     color:#fff;
     text-decoration:none;
-    padding:16px 20px;
+    padding:15px 20px;
+    transition:.3s;
 }
 
 .navbar a:hover{
@@ -50,14 +51,20 @@ body{
 .container{
     width:95%;
     max-width:1000px;
-    margin:40px auto;
+    margin:35px auto;
 }
 
 .card{
     background:#fff;
-    border-radius:10px;
+    border-radius:15px;
     padding:25px;
-    box-shadow:0 4px 12px rgba(0,0,0,.1);
+    margin-bottom:25px;
+    box-shadow:0 5px 18px rgba(0,0,0,.12);
+}
+
+.card h2{
+    text-align:center;
+    color:#0b4ea2;
     margin-bottom:25px;
 }
 
@@ -66,334 +73,374 @@ input{
     padding:15px;
     font-size:18px;
     border:1px solid #ccc;
-    border-radius:6px;
+    border-radius:8px;
     box-sizing:border-box;
 }
 
 button{
     width:100%;
     margin-top:15px;
-    padding:15px;
-    background:#ff9800;
-    color:white;
+    padding:16px;
     border:none;
-    border-radius:6px;
+    border-radius:8px;
+    background:#ff9800;
+    color:#fff;
     font-size:18px;
     cursor:pointer;
+    transition:.3s;
 }
 
 button:hover{
     background:#e68900;
 }
 
+/* Progress Bar */
+
 .progress{
     width:100%;
-    height:28px;
+    height:30px;
     background:#ddd;
-    border-radius:20px;
+    border-radius:30px;
     overflow:hidden;
 }
 
 .progress-bar{
     width:0%;
-    height:28px;
+    height:100%;
     background:#28a745;
     color:#fff;
     text-align:center;
-    line-height:28px;
+    line-height:30px;
     font-weight:bold;
-    transition:.5s;
+    transition:width .8s;
+}
+
+/* Shipment History */
+
+#history{
+    margin-top:20px;
 }
 
 .timeline-item{
+    position:relative;
+    padding-left:65px;
+    margin-bottom:30px;
     border-left:4px solid #0b4ea2;
-    padding-left:15px;
-    margin-bottom:15px;
+    margin-left:20px;
 }
 
-footer{
+.timeline-icon{
+    position:absolute;
+    left:-20px;
+    top:0;
+    width:36px;
+    height:36px;
+    border-radius:50%;
     background:#0b4ea2;
     color:#fff;
-    text-align:center;
-    padding:20px;
-    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:18px;
+    box-shadow:0 3px 8px rgba(0,0,0,.2);
 }
-    .route-tracker{
+
+.timeline-title{
+    font-size:20px;
+    font-weight:bold;
+    color:#0b4ea2;
+}
+
+.timeline-location{
+    margin-top:8px;
+    color:#666;
+}
+
+.timeline-time{
+    margin-top:6px;
+    color:#999;
+    font-size:14px;
+}
+
+/* Route */
+
+.route-tracker{
     display:flex;
     align-items:center;
     justify-content:center;
     gap:20px;
-    margin-top:30px;
 }
 
 .route-city{
-    width:150px;
+    width:140px;
     text-align:center;
+    font-size:18px;
     color:#0b4ea2;
-    font-size:20px;
     font-weight:bold;
 }
 
 .route-line{
-    position:relative;
     flex:1;
     height:8px;
-    background:#d9d9d9;
-    border-radius:30px;
-    overflow:hidden;
+    background:#ddd;
+    border-radius:20px;
+    position:relative;
 }
 
 .route-progress{
-    width:100%;
+    width:0%;
     height:100%;
     background:linear-gradient(to right,#0b4ea2,#00c853);
+    border-radius:20px;
+    transition:width .8s;
 }
 
 .plane{
     position:absolute;
     top:-16px;
     left:0%;
-    font-size:32px;
-    transition:left 1s ease;
+    font-size:28px;
+    transition:left .8s;
 }
 
-@keyframes flyPlane{
-
-0%{
-left:0;
+.route-status{
+    text-align:center;
+    margin-top:25px;
+    font-size:18px;
 }
 
-100%{
-left:calc(100% - 35px);
+p{
+    line-height:1.8;
+    font-size:18px;
 }
 
-}
-/* DHL / FedEx Style Timeline */
-
-#history{
-    position:relative;
-    margin-top:20px;
+strong{
+    color:#0b4ea2;
 }
 
-.timeline-item{
-    position:relative;
-    padding:0 0 30px 55px;
-    border-left:4px solid #0b4ea2;
-    margin-left:20px;
-}
-
-.timeline-item:last-child{
-    border-left:none;
-}
-
-.timeline-icon{
-    position:absolute;
-    left:-18px;
-    top:0;
-    width:32px;
-    height:32px;
+footer{
     background:#0b4ea2;
     color:#fff;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:16px;
-    box-shadow:0 3px 8px rgba(0,0,0,.25);
+    text-align:center;
+    padding:25px;
+    margin-top:40px;
 }
 
-.timeline-title{
-    font-size:18px;
-    font-weight:bold;
-    color:#0b4ea2;
-    margin-bottom:8px;
+@media(max-width:768px){
+
+.route-tracker{
+    flex-direction:column;
 }
 
-.timeline-location{
-    color:#666;
-    margin-bottom:5px;
+.route-line{
+    width:100%;
 }
 
-.timeline-time{
-    color:#999;
-    font-size:14px;
+.route-city{
+    width:100%;
+}
+
+.card{
+    padding:20px;
+}
+
+p{
+    font-size:17px;
+}
+
     }
 </style>
 
 </head>
-
 <body>
 
 <header class="header">
 
-<img src="image/file_00000000fb107243823fd30bcb45f00f.png" class="logo">
+    <img src="image/file_00000000fb107243823fd30bcb45f00f.png" class="logo">
 
-<h1>Track Your Shipment</h1>
+    <h1>Track Your Shipment</h1>
 
-<p>Fast • Secure • Reliable Worldwide Delivery</p>
+    <p>Fast • Secure • Reliable Worldwide Delivery</p>
 
 </header>
 
 <nav class="navbar">
 
-<a href="index.html">Home</a>
-
-<a href="about.html">About</a>
-
-<a href="services.html">Services</a>
-
-<a href="create-shipment.html">Create Shipment</a>
-
-<a href="track.html">Track Shipment</a>
-
-<a href="contact.html">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="create-shipment.html">Create Shipment</a>
+    <a href="track.html">Track Shipment</a>
+    <a href="contact.html">Contact</a>
 
 </nav>
 
 <div class="container">
-<div class="card">
 
-<h2>Shipment Tracking</h2>
+    <!-- Search -->
+    <div class="card">
 
-<input
-type="text"
-id="trackingNumber"
-placeholder="Enter Tracking Number">
+        <h2>Shipment Tracking</h2>
 
-<button onclick="alert('Button works'); trackShipment();">
-Track Shipment
-</button>
+        <input
+            type="text"
+            id="trackingNumber"
+            placeholder="Enter Tracking Number">
 
-</div>
-
-<div id="result" style="display:none;">
-
-<div class="card">
-
-<h2>Shipment Status</h2>
-
-<p><strong>Status:</strong> <span id="status"></span></p>
-
-<p><strong>Current Location:</strong> <span id="location"></span></p>
-
-<p><strong>Estimated Delivery:</strong> <span id="delivery"></span></p>
-
-<p><strong>Route:</strong> <span id="route"></span></p>
-
-</div>
-
-<div class="card">
-
-<h2>Shipment Progress</h2>
-
-<div class="progress">
-
-<div id="progressBar" class="progress-bar">
-0%
-</div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>Shipment Details</h2>
-
-<p><strong>Tracking Number:</strong> <span id="trackingDisplay"></span></p>
-
-<p><strong>Sender:</strong> <span id="sender"></span></p>
-
-<p><strong>Receiver:</strong> <span id="receiver"></span></p>
-
-<p><strong>Package:</strong> <span id="package"></span></p>
-
-<p><strong>Weight:</strong> <span id="weight"></span></p>
-
-<p><strong>Shipping Service:</strong> <span id="service"></span></p>
-
-</div>
-
-<div class="card">
-
-<h2>Live Vehicle Information</h2>
-
-<p><strong>Vehicle ID:</strong> TRK-204</p>
-
-<p><strong>Driver:</strong> Daniel Carter</p>
-
-<p><strong>Vehicle:</strong> Mercedes-Benz Actros</p>
-
-<p><strong>Current Speed:</strong> 78 km/h</p>
-
-<p><strong>Fuel Level:</strong> 82%</p>
-
-<p><strong>Current Destination:</strong> <span id="vehicleDestination"></span></p>
-
-<p><strong>Estimated Arrival:</strong> 1 Hour 15 Minutes</p>
-
-</div>
-
-<div class="card">
-
-<h2>Shipment History</h2>
-
-<div id="history"></div>
-
-</div>
-
-<div class="card">
-
-<h2>🌍 Live Shipment Route</h2>
-
-<div class="route-tracker">
-
-<div class="route-city">
-🇬🇧
-<br>
-<strong id="originCity">London</strong>
-</div>
-
-<div class="route-line">
-
-<div class="route-progress"></div>
-
-<div class="plane">✈️</div>
-
-</div>
-
-<div class="route-city">
-🇨🇷
-<br>
-<strong id="destinationCity">Costa Rica</strong>
-</div>
-
-</div>
-
-<p style="text-align:center;margin-top:20px;font-size:18px;">
-Current Status:
-<strong id="statusRoute">In Transit</strong>
-</p>
-
-</div>
-
-</div>
-
-</div>
-
+        <button onclick="trackShipment()">
+            Track Shipment
+        </button>
 
     </div>
-    <footer>
 
-<p><strong>American Global Logistics</strong></p>
+    <!-- Results -->
+    <div id="result" style="display:none;">
 
-<p>Fast • Secure • Reliable Worldwide Shipping</p>
+        <!-- Status -->
+        <div class="card">
 
-<p>&copy; 2026 American Global Logistics. All Rights Reserved.</p>
+            <h2>Shipment Status</h2>
+
+            <p><strong>Status:</strong> <span id="status"></span></p>
+
+            <p><strong>Current Location:</strong> <span id="location"></span></p>
+
+            <p><strong>Estimated Delivery:</strong> <span id="delivery"></span></p>
+
+            <p><strong>Route:</strong> <span id="route"></span></p>
+
+        </div>
+
+        <!-- Progress -->
+        <div class="card">
+
+            <h2>Shipment Progress</h2>
+
+            <div class="progress">
+
+                <div id="progressBar" class="progress-bar">
+                    0%
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Shipment Details -->
+        <div class="card">
+
+            <h2>Shipment Details</h2>
+
+            <p><strong>Tracking Number:</strong> <span id="trackingDisplay"></span></p>
+
+            <p><strong>Sender:</strong> <span id="sender"></span></p>
+
+            <p><strong>Receiver:</strong> <span id="receiver"></span></p>
+
+            <p><strong>Package:</strong> <span id="package"></span></p>
+
+            <p><strong>Weight:</strong> <span id="weight"></span></p>
+
+            <p><strong>Shipping Service:</strong> <span id="service"></span></p>
+
+        </div>
+
+        <!-- Vehicle -->
+        <div class="card">
+
+            <h2>Live Vehicle Information</h2>
+
+            <p><strong>Vehicle ID:</strong> TRK-204</p>
+
+            <p><strong>Driver:</strong> Daniel Carter</p>
+
+            <p><strong>Vehicle:</strong> Mercedes-Benz Actros</p>
+
+            <p><strong>Current Speed:</strong> 78 km/h</p>
+
+            <p><strong>Fuel Level:</strong> 82%</p>
+
+            <p><strong>Current Destination:</strong>
+                <span id="vehicleDestination"></span>
+            </p>
+
+            <p><strong>Estimated Arrival:</strong> 1 Hour 15 Minutes</p>
+
+        </div>
+
+        <!-- Shipment History -->
+        <div class="card">
+
+            <h2>Shipment History</h2>
+
+            <div id="history"></div>
+
+        </div>
+
+        <!-- Live Route -->
+        <div class="card">
+
+            <h2>🌍 Live Shipment Route</h2>
+
+            <div class="route-tracker">
+
+                <div class="route-city">
+
+                    <div>📍</div>
+
+                    <strong id="originCity">
+                        Warehouse
+                    </strong>
+
+                </div>
+
+                <div class="route-line">
+
+                    <div id="routeProgress" class="route-progress"></div>
+
+                    <div class="plane">
+                        ✈️
+                    </div>
+
+                </div>
+
+                <div class="route-city">
+
+                    <div>🏁</div>
+
+                    <strong id="destinationCity">
+                        Destination
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <p class="route-status">
+
+                Current Status:
+
+                <strong id="statusRoute"></strong>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+
+    <p><strong>American Global Logistics</strong></p>
+
+    <p>Fast • Secure • Reliable Worldwide Shipping</p>
+
+    <p>&copy; 2026 American Global Logistics. All Rights Reserved.</p>
 
 </footer>
 
-<script>
+    </body>
 
 function trackShipment() {
 
@@ -406,8 +453,8 @@ function trackShipment() {
 
     let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-    let shipment = shipments.find(function (s) {
-        return String(s.tracking).trim().toUpperCase() === tracking;
+    let shipment = shipments.find(function(s) {
+        return String(s.tracking).toUpperCase() === tracking;
     });
 
     if (!shipment) {
@@ -419,64 +466,178 @@ function trackShipment() {
     // Show results
     document.getElementById("result").style.display = "block";
 
-    // Shipment Status
-    document.getElementById("trackingDisplay").textContent = shipment.tracking || "";
+    // Status
     document.getElementById("status").textContent = shipment.status || "";
     document.getElementById("location").textContent = shipment.location || "";
     document.getElementById("delivery").textContent = shipment.delivery || "";
     document.getElementById("route").textContent = shipment.route || "";
 
-    // Shipment Details
+    // Details
+    document.getElementById("trackingDisplay").textContent = shipment.tracking || "";
     document.getElementById("sender").textContent = shipment.sender || "";
     document.getElementById("receiver").textContent = shipment.receiver || "";
     document.getElementById("package").textContent = shipment.package || "";
     document.getElementById("weight").textContent = shipment.weight || "";
     document.getElementById("service").textContent = shipment.service || "";
-
-    // Vehicle
     document.getElementById("vehicleDestination").textContent = shipment.location || "";
 
+    // Progress
+    let progress = Number(shipment.progress) || 0;
+
+    let bar = document.getElementById("progressBar");
+    bar.style.width = progress + "%";
+    bar.innerHTML = progress + "%";
+
     // Route
+    let origin = "Warehouse";
+    let destination = "Destination";
+
     if (shipment.route && shipment.route.includes("→")) {
+
         let cities = shipment.route.split("→");
-        document.getElementById("originCity").textContent = cities[0].trim();
-        document.getElementById("destinationCity").textContent = cities[1].trim();
-    } else {
-        document.getElementById("originCity").textContent = shipment.origin || "Warehouse";
-        document.getElementById("destinationCity").textContent = shipment.destination || "Destination";
+
+        origin = cities[0].trim();
+        destination = cities[1].trim();
+
     }
 
-    document.getElementById("statusRoute").textContent = shipment.status || "";
+    document.getElementById("originCity").textContent = origin;
+    document.getElementById("destinationCity").textContent = destination;
+    document.getElementById("statusRoute").textContent = shipment.status;
+
+    document.getElementById("routeProgress").style.width = progress + "%";
+
+    document.querySelector(".plane").style.left = progress + "%";
+
+    // Shipment History
+    let history = document.getElementById("history");
+
+    if (shipment.history && shipment.history.trim() !== "") {
+
+        history.innerHTML = shipment.history;
+
+    } else {
+
+        history.innerHTML = `
+        <div class="timeline-item">
+
+            <div class="timeline-icon">📦</div>
+
+            <div class="timeline-title">
+                Shipment Created
+            </div>
+
+            <div class="timeline-location">
+                📍 ${shipment.location || ""}
+            </div>
+
+            <div class="timeline-time">
+                🕒 ${new Date().toLocaleString()}
+            </div>
+
+        </div>
+        `;
+
+
+    }
+
+}
+    <script>
+
+function trackShipment() {
+
+    let tracking = document.getElementById("trackingNumber").value.trim().toUpperCase();
+
+    if (tracking === "") {
+        alert("Please enter a tracking number.");
+        return;
+    }
+
+    let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+
+    let shipment = shipments.find(function(s) {
+        return s.tracking.toUpperCase() === tracking;
+    });
+
+    if (!shipment) {
+        alert("Tracking number not found!");
+        document.getElementById("result").style.display = "none";
+        return;
+    }
+
+    document.getElementById("result").style.display = "block";
+
+    // Shipment Status
+    document.getElementById("trackingDisplay").textContent = shipment.tracking;
+    document.getElementById("status").textContent = shipment.status;
+    document.getElementById("location").textContent = shipment.location;
+    document.getElementById("delivery").textContent = shipment.delivery;
+
+    // Details
+    document.getElementById("sender").textContent = shipment.sender;
+    document.getElementById("receiver").textContent = shipment.receiver;
+    document.getElementById("package").textContent = shipment.package;
+    document.getElementById("weight").textContent = shipment.weight;
+    document.getElementById("service").textContent = shipment.service;
+
+    // Route
+    document.getElementById("originCity").textContent =
+        shipment.origin || "Warehouse";
+
+    document.getElementById("destinationCity").textContent =
+        shipment.destination || "Destination";
+
+    document.getElementById("statusRoute").textContent = shipment.status;
+
+    // Vehicle
+    document.getElementById("vehicleDestination").textContent =
+        shipment.location;
 
     // Progress Bar
     let progress = shipment.progress || 0;
 
     let bar = document.getElementById("progressBar");
     bar.style.width = progress + "%";
-    bar.textContent = progress + "%";
+    bar.innerHTML = progress + "%";
 
+    // Plane Position
     let plane = document.querySelector(".plane");
+
     if (plane) {
         plane.style.left = progress + "%";
     }
 
     // Shipment History
-    let history = document.getElementById("history");
+    if (shipment.history && shipment.history !== "") {
 
-    if (shipment.history && shipment.history.trim() !== "") {
-        history.innerHTML = shipment.history;
+        document.getElementById("history").innerHTML =
+            shipment.history;
+
     } else {
-        history.innerHTML = `
+
+        document.getElementById("history").innerHTML = `
             <div class="timeline-item">
+
                 <div class="timeline-icon">📦</div>
-                <div class="timeline-title">Shipment Created</div>
-                <div class="timeline-location">📍 ${shipment.location || "Warehouse"}</div>
-                <div class="timeline-time">🕒 ${new Date().toLocaleString()}</div>
+
+                <div class="timeline-title">
+                    Shipment Created
+                </div>
+
+                <div class="timeline-location">
+                    📍 ${shipment.location}
+                </div>
+
+                <div class="timeline-time">
+                    🕒 ${new Date().toLocaleString()}
+                </div>
+
             </div>
         `;
-    }
 
     }
+
+}
 
 </script>
 
