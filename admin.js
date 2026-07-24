@@ -253,9 +253,23 @@ if (serviceInput) {
 
 shipment.history += `
 <div class="timeline-item">
-    ${icon} <strong>${shipment.status}</strong><br>
-    📍 ${shipment.location}<br>
-    🕒 ${time}
+
+    <div class="timeline-icon">
+        ${icon}
+    </div>
+
+    <div class="timeline-title">
+        ${shipment.status}
+    </div>
+
+    <div class="timeline-location">
+        📍 ${shipment.location}
+    </div>
+
+    <div class="timeline-time">
+        🕒 ${time}
+    </div>
+
 </div>
 `;
 saveShipments();
