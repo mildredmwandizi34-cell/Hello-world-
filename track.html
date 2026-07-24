@@ -395,89 +395,87 @@ Current Status:
 
 <script>
 
-function trackShipment(){
+function trackShipment() {
 
     let tracking = document.getElementById("trackingNumber").value.trim().toUpperCase();
 
-    if(tracking === ""){
+    if (tracking === "") {
         alert("Please enter a tracking number.");
         return;
     }
 
     let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-console.log(shipments);
-alert(JSON.stringify(shipments));
+    let shipment = shipments.find(function (s) {
+        return String(s.tracking).trim().toUpperCase() === tracking;
+    });
 
-let shipment = shipments.find(function(s){
-    return s.tracking.toUpperCase() === tracking;
-});
+    if (!shipment) {
+        alert("Tracking number not found!");
+        document.getElementById("result").style.display = "none";
+        return;
+    }
 
-if(!shipment){
-    alert("Tracking number not found!");
-    document.getElementById("result").style.display = "none";
-    return;
-}
-
-console.log(shipment);
-alert("Current Status: " + shipment.status);
-
+    // Show results
     document.getElementById("result").style.display = "block";
 
-    document.getElementById("trackingDisplay").textContent = shipment.tracking;
-    document.getElementById("status").textContent = shipment.status;
-    document.getElementById("location").textContent = shipment.location;
-    document.getElementById("delivery").textContent = shipment.delivery;
-    document.getElementById("route").textContent = shipment.route;
-let cities = shipment.route.split("→");
+    // Shipment Status
+    document.getElementById("trackingDisplay").textContent = shipment.tracking || "";
+    document.getElementById("status").textContent = shipment.status || "";
+    document.getElementById("location").textContent = shipment.location || "";
+    document.getElementById("delivery").textContent = shipment.delivery || "";
+    document.getElementById("route").textContent = shipment.route || "";
 
-if (cities.length === 2) {
-    document.getElementById("originCity").textContent = cities[0].trim();
-    document.getElementById("destinationCity").textContent = cities[1].trim();
-}
-    document.getElementById("sender").textContent = shipment.sender;
-    document.getElementById("receiver").textContent = shipment.receiver;
-    document.getElementById("package").textContent = shipment.package;
-    document.getElementById("weight").textContent = shipment.weight;
-    document.getElementById("service").textContent = shipment.service;
-document.getElementById("originCity").textContent = shipment.origin;
-document.getElementById("destinationCity").textContent = shipment.destination;
-document.getElementById("statusRoute").textContent = shipment.status;
-    document.getElementById("vehicleDestination").textContent = shipment.location;
-document.getElementById("originCity").textContent =
-    shipment.origin || "Warehouse";
+    // Shipment Details
+    document.getElementById("sender").textContent = shipment.sender || "";
+    document.getElementById("receiver").textContent = shipment.receiver || "";
+    document.getElementById("package").textContent = shipment.package || "";
+    document.getElementById("weight").textContent = shipment.weight || "";
+    document.getElementById("service").textContent = shipment.service || "";
 
-document.getElementById("destinationCity").textContent =
-    shipment.destination || shipment.route || "Destination";
-    let progress = shipment.progress || 50;
-    document.querySelector(".plane").style.left = progress + "%";
+    // Vehicle
+    document.getElementById("vehicleDestination").textContent = shipment.location || "";
+
+    // Route
+    if (shipment.route && shipment.route.includes("→")) {
+        let cities = shipment.route.split("→");
+        document.getElementById("originCity").textContent = cities[0].trim();
+        document.getElementById("destinationCity").textContent = cities[1].trim();
+    } else {
+        document.getElementById("originCity").textContent = shipment.origin || "Warehouse";
+        document.getElementById("destinationCity").textContent = shipment.destination || "Destination";
+    }
+
+    document.getElementById("statusRoute").textContent = shipment.status || "";
+
+    // Progress Bar
+    let progress = shipment.progress || 0;
+
     let bar = document.getElementById("progressBar");
     bar.style.width = progress + "%";
     bar.textContent = progress + "%";
 
-if (shipment.history && shipment.history.trim() !== "") {
+    let plane = document.querySelector(".plane");
+    if (plane) {
+        plane.style.left = progress + "%";
+    }
 
-    document.getElementById("history").innerHTML = shipment.history;
+    // Shipment History
+    let history = document.getElementById("history");
 
-} else {
+    if (shipment.history && shipment.history.trim() !== "") {
+        history.innerHTML = shipment.history;
+    } else {
+        history.innerHTML = `
+            <div class="timeline-item">
+                <div class="timeline-icon">📦</div>
+                <div class="timeline-title">Shipment Created</div>
+                <div class="timeline-location">📍 ${shipment.location || "Warehouse"}</div>
+                <div class="timeline-time">🕒 ${new Date().toLocaleString()}</div>
+            </div>
+        `;
+    }
 
-    document.getElementById("history").innerHTML = `
-    <div class="timeline-item">
-
-        <div class="timeline-icon">📦</div>
-
-        <div class="timeline-title">Shipment Created</div>
-
-        <div class="timeline-location">
-            📍 ${shipment.location}
-        </div>
-
-        <div class="timeline-time">
-            🕒 ${new Date().toLocaleString()}
-        </div>
-
-    </div>
-    `;
     }
 
 </script>
