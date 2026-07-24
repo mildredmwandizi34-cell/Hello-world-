@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <head>
 
 <meta charset="UTF-8">
@@ -418,22 +420,11 @@ p{
         <!-- Live Route -->
         <div class="card">
 
-<h2>🗺️ Live Shipment Map</h2>
+<h2>🌍 Live Shipment Map</h2>
 
-<div style="width:100%;height:450px;border-radius:12px;overflow:hidden;">
+<div id="map" style="height:450px;border-radius:10px;"></div>
 
-<iframe
-id="shipmentMap"
-width="100%"
-height="450"
-style="border:0;"
-loading="lazy"
-allowfullscreen
-referrerpolicy="no-referrer-when-downgrade"
-src="https://www.google.com/maps?q=London&output=embed">
-</iframe>
-
-</div>
+        </div>
 
         </div>
 
@@ -682,7 +673,53 @@ encodeURIComponent(mapLocation) +
     // Vehicle
     document.getElementById("vehicleDestination").textContent =
         shipment.location;
+// Coordinates for cities
+const locations = {
+    "London": [51.5074, -0.1278],
+    "Costa Rica": [9.7489, -83.7534],
+    "New York": [40.7128, -74.0060],
+    "Los Angeles": [34.0522, -118.2437],
+    "Toronto": [43.6532, -79.3832],
+    "Dubai": [25.2048, 55.2708],
+    "Nairobi": [-1.2921, 36.8219]
+};
 
+let start = locations[shipment.origin];
+let end = locations[shipment.destination];
+
+if(start && end){
+
+    if(window.map){
+        window.map.remove();
+    }
+
+    window.map = L.map('map').setView(start,3);
+
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            attribution:'© OpenStreetMap'
+        }
+    ).addTo(window.map);
+
+    L.marker(start)
+        .addTo(window.map)
+        .bindPopup("Origin: " + shipment.origin);
+
+    L.marker(end)
+        .addTo(window.map)
+        .bindPopup("Destination: " + shipment.destination);
+
+    L.polyline(
+        [start,end],
+        {
+            color:'blue',
+            weight:5
+        }
+    ).addTo(window.map);
+
+    window.map.fitBounds([start,end]);
+        }
     // Progress Bar
     let progress = shipment.progress || 0;
 
