@@ -569,10 +569,10 @@ class="progress-bar">
 <!-- Leaflet JS -->
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-let shipmentMap;  
     
 <script>  
+
+let shipmentMap;     
 function trackShipment() {
 
     let tracking = document.getElementById("trackingNumber").value.trim().toUpperCase();
@@ -734,7 +734,9 @@ if (start && end) {
 
     shipmentMap.fitBounds([start, end]);
     }
+
+    }
 </script>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 </body>
 </html>
