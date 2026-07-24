@@ -168,7 +168,56 @@ left:calc(100% - 35px);
 }
 
 }
+/* DHL / FedEx Style Timeline */
 
+#history{
+    position:relative;
+    margin-top:20px;
+}
+
+.timeline-item{
+    position:relative;
+    padding:0 0 30px 55px;
+    border-left:4px solid #0b4ea2;
+    margin-left:20px;
+}
+
+.timeline-item:last-child{
+    border-left:none;
+}
+
+.timeline-icon{
+    position:absolute;
+    left:-18px;
+    top:0;
+    width:32px;
+    height:32px;
+    background:#0b4ea2;
+    color:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    box-shadow:0 3px 8px rgba(0,0,0,.25);
+}
+
+.timeline-title{
+    font-size:18px;
+    font-weight:bold;
+    color:#0b4ea2;
+    margin-bottom:8px;
+}
+
+.timeline-location{
+    color:#666;
+    margin-bottom:5px;
+}
+
+.timeline-time{
+    color:#999;
+    font-size:14px;
+    }
 </style>
 
 </head>
@@ -406,40 +455,34 @@ document.getElementById("plane").style.left = progress + "%";
     let bar = document.getElementById("progressBar");
     bar.style.width = progress + "%";
     bar.textContent = progress + "%";
-let historyHTML = "";
 
 if (shipment.history) {
 
-    let events = shipment.history.split("<br>");
-
-    events.forEach(function(event) {
-
-        if(event.trim() !== ""){
-
-            historyHTML += `
-            <div class="timeline-item">
-                ${event}
-            </div>
-            `;
-
-        }
-
-    });
+    document.getElementById("history").innerHTML = shipment.history;
 
 } else {
 
-    historyHTML = `
+    document.getElementById("history").innerHTML = `
     <div class="timeline-item">
-        📦 Shipment Created<br>
-        📍 ${shipment.location}<br>
-        🕒 ${new Date().toLocaleString()}
+
+        <div class="timeline-icon">📦</div>
+
+        <div class="timeline-title">
+            Shipment Created
+        </div>
+
+        <div class="timeline-location">
+            📍 ${shipment.location}
+        </div>
+
+        <div class="timeline-time">
+            🕒 ${new Date().toLocaleString()}
+        </div>
+
     </div>
     `;
 
-}
-
-document.getElementById("history").innerHTML = historyHTML;
-
+    }
     document.getElementById("timeline").innerHTML = `
         <div class="timeline-item">
             <strong>${shipment.status}</strong><br>
