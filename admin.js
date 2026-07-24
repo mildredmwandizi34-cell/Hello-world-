@@ -246,7 +246,12 @@ shipment.history += `
 <br>&nbsp;&nbsp;&nbsp;📍 ${shipment.location}
 <br>&nbsp;&nbsp;&nbsp;🕒 ${time}
 `;
-
+shipment.sender = document.getElementById("senderUpdate").value;
+shipment.receiver = document.getElementById("receiverUpdate").value;
+shipment.package = document.getElementById("packageUpdate").value;
+shipment.weight = document.getElementById("weightUpdate").value;
+shipment.service = document.getElementById("serviceUpdate").value;
+shipment.history = document.getElementById("historyUpdate").value + shipment.history;
 saveShipments();
 
 loadShipments();
