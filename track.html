@@ -418,6 +418,25 @@ p{
         <!-- Live Route -->
         <div class="card">
 
+<h2>🗺️ Live Shipment Map</h2>
+
+<div style="width:100%;height:450px;border-radius:12px;overflow:hidden;">
+
+<iframe
+id="shipmentMap"
+width="100%"
+height="450"
+style="border:0;"
+loading="lazy"
+allowfullscreen
+referrerpolicy="no-referrer-when-downgrade"
+src="https://www.google.com/maps?q=London&output=embed">
+</iframe>
+
+</div>
+
+        </div>
+
             <h2>🌍 Live Shipment Route</h2>
 
             <div class="route-tracker">
@@ -654,7 +673,12 @@ function trackShipment() {
         shipment.destination || "Destination";
 
     document.getElementById("statusRoute").textContent = shipment.status;
+let mapLocation = shipment.location || shipment.destination || shipment.route;
 
+document.getElementById("shipmentMap").src =
+"https://www.google.com/maps?q=" +
+encodeURIComponent(mapLocation) +
+"&output=embed";
     // Vehicle
     document.getElementById("vehicleDestination").textContent =
         shipment.location;
