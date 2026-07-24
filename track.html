@@ -456,7 +456,7 @@ document.getElementById("plane").style.left = progress + "%";
     bar.style.width = progress + "%";
     bar.textContent = progress + "%";
 
-if (shipment.history) {
+if (shipment.history && shipment.history.trim() !== "") {
 
     document.getElementById("history").innerHTML = shipment.history;
 
@@ -467,9 +467,7 @@ if (shipment.history) {
 
         <div class="timeline-icon">📦</div>
 
-        <div class="timeline-title">
-            Shipment Created
-        </div>
+        <div class="timeline-title">Shipment Created</div>
 
         <div class="timeline-location">
             📍 ${shipment.location}
@@ -481,8 +479,8 @@ if (shipment.history) {
 
     </div>
     `;
-
     }
+
     document.getElementById("timeline").innerHTML = `
         <div class="timeline-item">
             <strong>${shipment.status}</strong><br>
