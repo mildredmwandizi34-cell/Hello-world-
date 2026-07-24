@@ -189,12 +189,12 @@ color:#888;
 /* Map */
 
 #map{
-height:500px;
-width:100%;
-border-radius:12px;
-overflow:hidden;
-border:2px solid #0b4ea2;
-}
+    width:100%;
+    height:500px;
+    border-radius:12px;
+    border:2px solid #0b4ea2;
+    overflow:hidden;
+    }
 
 /* Shipment Status Badges */
 
@@ -695,7 +695,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(shipmentMap);
 
-// Example coordinates
+// World locations
 let coordinates = {
     "New York": [40.7128, -74.0060],
     "London": [51.5074, -0.1278],
@@ -703,7 +703,7 @@ let coordinates = {
     "Dubai": [25.2048, 55.2708],
     "Nairobi": [-1.2864, 36.8172],
     "Los Angeles": [34.0522, -118.2437],
-    "Toronto": [43.6532, -79.3832]
+    "Guatemala": [43.6532, -79.3832]
 };
 
 let start = coordinates[shipment.origin];
@@ -711,18 +711,26 @@ let end = coordinates[shipment.destination];
 
 if (start && end) {
 
-    L.marker(start).addTo(shipmentMap)
-        .bindPopup("Origin: " + shipment.origin);
+    // Origin marker
+    L.marker(start)
+        .addTo(shipmentMap)
+        .bindPopup("📦 Origin<br><strong>" + shipment.origin + "</strong>");
 
-    L.marker(end).addTo(shipmentMap)
-        .bindPopup("Destination: " + shipment.destination);
+    // Destination marker
+    L.marker(end)
+        .addTo(shipmentMap)
+        .bindPopup("🏁 Destination<br><strong>" + shipment.destination + "</strong>");
 
+    // Shipment route
     L.polyline([start, end], {
         color: "#0b4ea2",
-        weight: 4
+        weight: 5
     }).addTo(shipmentMap);
 
-    shipmentMap.fitBounds([start, end]);
+    shipmentMap.fitBounds([start, end], {
+        padding: [50, 50]
+    });
+
     }
 
     }
