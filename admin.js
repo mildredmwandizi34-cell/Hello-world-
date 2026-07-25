@@ -632,3 +632,21 @@ function animateVehicle(origin, destination) {
     }, 100);
 
         }
+// ======================================================
+// PAGE INITIALIZATION
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Load shipment table
+    loadShipments();
+
+    // Update dashboard cards
+    updateDashboard();
+
+    // Initialize interactive map
+    initializeMap();
+
+    console.log("American Global Logistics Admin Dashboard Ready");
+
+});
