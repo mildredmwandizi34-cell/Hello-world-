@@ -9,7 +9,10 @@ let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
 // Currently selected shipment
 let currentShipmentIndex = -1;
-
+let adminMap;
+let routeLine;
+let originMarker;
+let destinationMarker;
 // Save shipments
 function saveShipments() {
     localStorage.setItem("shipments", JSON.stringify(shipments));
@@ -330,8 +333,15 @@ function deleteCurrentShipment(){
 // Page Load
 // -------------------------------
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
 
     loadShipments();
+
+    // Create the map
+    adminMap = L.map("adminMap").setView([20, 0], 2);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(adminMap);
 
 });
