@@ -112,7 +112,11 @@ document.getElementById("progressUpdate").value = shipment.progress || 0;
 document.getElementById("senderUpdate").value = shipment.sender || "";
 
 document.getElementById("receiverUpdate").value = shipment.receiver || "";
+document.getElementById("originUpdate").value =
+    shipment.origin || "";
 
+document.getElementById("destinationUpdate").value =
+    shipment.destination || "";
 document.getElementById("packageUpdate").value = shipment.package || "";
 
 document.getElementById("weightUpdate").value = shipment.weight || "";
@@ -243,6 +247,11 @@ switch (shipment.status) {
 
 shipment.sender = document.getElementById("senderUpdate").value;
 shipment.receiver = document.getElementById("receiverUpdate").value;
+shipment.origin =
+    document.getElementById("originUpdate").value;
+
+shipment.destination =
+    document.getElementById("destinationUpdate").value;    
 shipment.package = document.getElementById("packageUpdate").value;
 shipment.weight = document.getElementById("weightUpdate").value;
 let serviceInput = document.getElementById("serviceUpdate");
