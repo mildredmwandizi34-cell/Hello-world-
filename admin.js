@@ -391,6 +391,8 @@ function updateShipment() {
 
     document.getElementById("routeUpdate").value =
         shipment.route;
+    drawRoute(shipment.origin, shipment.destination);
+    animateVehicle(shipment.origin, shipment.destination);
 
     // ----------------------------
     // Automatic Progress
@@ -582,5 +584,51 @@ function drawRoute(origin, destination) {
     movingVehicle = L.marker(start, {
         icon: vehicleIcon
     }).addTo(adminMap);
+
+        }
+// ======================================================
+// ANIMATE VEHICLE
+// ======================================================
+
+function animateVehicle(origin, destination) {
+
+    if (!cities[origin] || !cities[destination]) {
+        return;
+    }
+
+    let start = cities[origin];
+    let end = cities[destination];
+
+    if (movingVehicle) {
+        adminMap.removeLayer(movingVehicle);
+    }
+
+    movingVehicle = L.marker(start, {
+        icon: vehicleIcon
+    }).addTo(adminMap);
+
+    let progress = 0;
+
+    let animation = setInterval(function () {
+
+        progress += 0.01;
+
+        if (progress >= 1) {
+
+            clearInterval(animation);
+
+            movingVehicle.setLatLng(end);
+
+            return;
+
+        }
+
+        let lat = start[0] + (end[0] - start[0]) * progress;
+
+        let lng = start[1] + (end[1] - start[1]) * progress;
+
+        movingVehicle.setLatLng([lat, lng]);
+
+    }, 100);
 
         }
