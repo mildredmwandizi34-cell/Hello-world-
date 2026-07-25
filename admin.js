@@ -13,6 +13,17 @@ let adminMap;
 let routeLine;
 let originMarker;
 let destinationMarker;
+let cities = {
+    "New York": [40.7128, -74.0060],
+    "London": [51.5074, -0.1278],
+    "Los Angeles": [34.0522, -118.2437],
+    "Dubai": [25.2048, 55.2708],
+    "Nairobi": [-1.2864, 36.8172],
+    "Costa Rica": [9.7489, -83.7534],
+    "Guatemala": [14.6349, -90.5069]
+};
+
+let selectingOrigin = true;
 // Save shipments
 function saveShipments() {
     localStorage.setItem("shipments", JSON.stringify(shipments));
@@ -343,5 +354,63 @@ document.addEventListener("DOMContentLoaded", function () {
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap contributors"
     }).addTo(adminMap);
+Object.keys(cities).forEach(function(city){
 
+    let marker = L.marker(cities[city]).addTo(adminMap);
+
+    marker.bindPopup(city);
+
+    marker.on("click", function(){
+
+        if(selectingOrigin){
+
+            document.getElementById("originUpdate").value = city;
+
+            if(originMarker){
+                adminMap.removeLayer(originMarker);
+            }
+
+            originMarker = L.marker(cities[city]).addTo(adminMap);
+
+            selectingOrigin = false;
+
+            alert("Origin selected: " + city);
+
+        }else{
+
+            document.getElementById("destinationUpdate").value = city;
+
+            if(destinationMarker){
+                adminMap.removeLayer(destinationMarker);
+            }
+
+            destinationMarker = L.marker(cities[city]).addTo(adminMap);
+
+            if(routeLine){
+                adminMap.removeLayer(routeLine);
+            }
+
+            routeLine = L.polyline([
+                cities[
+                    document.getElementById("originUpdate").value
+                ],
+                cities[city]
+            ],{
+                color:"#0b4ea2",
+                weight:5
+            }).addTo(adminMap);
+
+            document.getElementById("routeUpdate").value =
+                document.getElementById("originUpdate").value +
+                " → " + city;
+
+            selectingOrigin = true;
+
+            alert("Destination selected: " + city);
+
+        }
+
+    });
+
+});
 });
