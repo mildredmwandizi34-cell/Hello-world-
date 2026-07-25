@@ -12,7 +12,8 @@
 
 <link rel="stylesheet"
 href="https://unpkg.com/leaflet/dist/leaflet.css">
-
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet.awesome-markers@2.0.5/dist/leaflet.awesome-markers.css">
 </head>
 
 <style>
@@ -721,15 +722,45 @@ if (start && end) {
         .addTo(shipmentMap)
         .bindPopup("🏁 Destination<br><strong>" + shipment.destination + "</strong>");
 
-    // Shipment route
-    L.polyline([start, end], {
-        color: "#0b4ea2",
-        weight: 5
-    }).addTo(shipmentMap);
+// Shipment route
+L.polyline([start, end], {
+    color: "#0b4ea2",
+    weight: 5
+}).addTo(shipmentMap);
 
-    shipmentMap.fitBounds([start, end], {
-        padding: [50, 50]
-    });
+// Create the moving vehicle
+let vehicle = L.marker(start, {
+    icon: L.AwesomeMarkers.icon({
+        icon: "truck",
+        prefix: "fa",
+        markerColor: "orange"
+    })
+}).addTo(shipmentMap);
+
+// Animate the vehicle
+let progress = 0;
+
+let animation = setInterval(function () {
+
+    progress += 0.01;
+
+    if (progress >= 1) {
+        clearInterval(animation);
+        vehicle.setLatLng(end);
+        return;
+    }
+
+    let lat = start[0] + (end[0] - start[0]) * progress;
+    let lng = start[1] + (end[1] - start[1]) * progress;
+
+    vehicle.setLatLng([lat, lng]);
+
+}, 100);
+
+// Fit map to route
+shipmentMap.fitBounds([start, end], {
+    padding: [50, 50]
+});
 
     }
 
