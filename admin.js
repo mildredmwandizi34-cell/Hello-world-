@@ -32,7 +32,29 @@ const truckMarker = L.AwesomeMarkers.icon({
     prefix: "fa",
     markerColor: "orange"
 });
+let progress = 0;
 
+let animation = setInterval(function () {
+
+    progress += 0.01;
+
+    if (progress >= 1) {
+
+        clearInterval(animation);
+
+        movingVehicle.setLatLng(end);
+
+        return;
+
+    }
+
+    let lat = start[0] + (end[0] - start[0]) * progress;
+
+    let lng = start[1] + (end[1] - start[1]) * progress;
+
+    movingVehicle.setLatLng([lat, lng]);
+
+}, 100);
 const destinationMarker = L.AwesomeMarkers.icon({
     icon: "location-dot",
     prefix: "fa",
@@ -42,6 +64,13 @@ let adminMap;
 let routeLine;
 let originMarker;
 let destinationMarker;
+let movingVehicle = null;
+const vehicleMarker = L.AwesomeMarkers.icon({
+    icon: "plane",
+    prefix: "fa",
+    markerColor: "blue"
+});
+
 let cities = {
 
     // North America
@@ -541,7 +570,16 @@ let marker = L.marker(cities[city], {
                 color:"#0b4ea2",
                 weight:5
             }).addTo(adminMap);
+let start = cities[document.getElementById("originUpdate").value];
+let end = cities[city];
 
+if (movingVehicle) {
+    adminMap.removeLayer(movingVehicle);
+}
+
+movingVehicle = L.marker(start, {
+    icon: vehicleMarker
+}).addTo(adminMap);
             document.getElementById("routeUpdate").value =
                 document.getElementById("originUpdate").value +
                 " → " + city;
