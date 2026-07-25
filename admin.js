@@ -81,7 +81,33 @@ let cities = {
     "Melbourne": [-37.8136, 144.9631],
     "Auckland": [-36.8509, 174.7645]
 };
+const warehouseIcon = L.icon({
+    iconUrl: "image/warehouse.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -30]
+});
 
+const airportIcon = L.icon({
+    iconUrl: "image/airport.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -30]
+});
+
+const seaportIcon = L.icon({
+    iconUrl: "image/seaport.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -30]
+});
+
+const truckIcon = L.icon({
+    iconUrl: "image/truck-terminal.png",
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -30]
+});
 let selectingOrigin = true;
 // Save shipments
 function saveShipments() {
@@ -415,7 +441,37 @@ document.addEventListener("DOMContentLoaded", function () {
     }).addTo(adminMap);
     Object.keys(cities).forEach(function(city){
 
-    let marker = L.marker(cities[city]).addTo(adminMap);
+    let icon = airportIcon;
+
+if (
+    city === "Dubai" ||
+    city === "Singapore" ||
+    city === "London" ||
+    city === "New York" ||
+    city === "Tokyo"
+){
+    icon = airportIcon;
+}
+else if(
+    city === "Los Angeles" ||
+    city === "Rotterdam" ||
+    city === "Panama City"
+){
+    icon = seaportIcon;
+}
+else if(
+    city === "Nairobi" ||
+    city === "Johannesburg"
+){
+    icon = truckIcon;
+}
+else{
+    icon = warehouseIcon;
+}
+
+let marker = L.marker(cities[city], {
+    icon: icon
+}).addTo(adminMap);
 
     marker.bindPopup("<strong>" + city + "</strong>");
 
