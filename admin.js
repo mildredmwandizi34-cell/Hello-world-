@@ -413,4 +413,3 @@ Object.keys(cities).forEach(function(city){
     });
 
 });
-});
