@@ -231,33 +231,35 @@ id="progressUpdate"
 min="0"
 max="100"
 readonly>
-<label>Sender</label>
+<label><strong>Receiver</strong></label>
+<input type="text" id="receiverUpdate">
 
-<input
-type="text"
-id="senderUpdate">
-
-<label>Receiver</label>
-
-<input
-type="text"
-id="receiverUpdate">
 <label><strong>Origin City</strong></label>
-<input type="text" id="originUpdate" placeholder="e.g. London">
+<select id="originUpdate">
+    <option value="">Select Origin</option>
+    <option>New York</option>
+    <option>London</option>
+    <option>Los Angeles</option>
+    <option>Guatemala</option>
+    <option>Dubai</option>
+    <option>Nairobi</option>
+    <option>Costa Rica</option>
+</select>
 
 <label><strong>Destination City</strong></label>
-<input type="text" id="destinationUpdate" placeholder="e.g. Costa Rica">
-<label>Package</label>
+<select id="destinationUpdate">
+    <option value="">Select Destination</option>
+    <option>New York</option>
+    <option>London</option>
+    <option>Los Angeles</option>
+    <option>Guatemala</option>
+    <option>Dubai</option>
+    <option>Nairobi</option>
+    <option>Costa Rica</option>
+</select>
 
-<input
-type="text"
-id="packageUpdate">
-
-<label>Weight</label>
-
-<input
-type="text"
-id="weightUpdate">
+<label><strong>Package</strong></label>
+<input type="text" id="packageUpdate">
 
 <label>Shipping Service</label>
 
