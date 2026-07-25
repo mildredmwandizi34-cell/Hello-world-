@@ -146,3 +146,384 @@ const cities = {
     "Auckland":[-36.8509,174.7645]
 
 };
+// ======================================================
+// INITIALIZE ADMIN MAP
+// ======================================================
+
+function initializeMap() {
+
+    adminMap = L.map("adminMap").setView([20, 0], 2);
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution: "&copy; OpenStreetMap contributors",
+            maxZoom: 18
+        }
+    ).addTo(adminMap);
+
+    // Add all logistics hubs
+    Object.keys(cities).forEach(function(city){
+
+        let marker = L.marker(cities[city], {
+            icon: warehouseIcon
+        }).addTo(adminMap);
+
+        marker.bindPopup("<strong>" + city + "</strong>");
+
+        marker.on("click", function(){
+
+            // ---------- Select Origin ----------
+            if(selectingOrigin){
+
+                document.getElementById("originUpdate").value = city;
+
+                if(originMarker){
+                    adminMap.removeLayer(originMarker);
+                }
+
+                originMarker = L.marker(cities[city], {
+                    icon: warehouseIcon
+                }).addTo(adminMap);
+
+                selectingOrigin = false;
+
+                alert("Origin selected: " + city);
+
+            }
+
+            // ---------- Select Destination ----------
+            else{
+
+                document.getElementById("destinationUpdate").value = city;
+
+                if(destinationMarker){
+                    adminMap.removeLayer(destinationMarker);
+                }
+
+                destinationMarker = L.marker(cities[city], {
+                    icon: destinationIcon
+                }).addTo(adminMap);
+
+                document.getElementById("routeUpdate").value =
+                    document.getElementById("originUpdate").value +
+                    " → " +
+                    city;
+
+                selectingOrigin = true;
+
+                alert("Destination selected: " + city);
+
+            }
+
+        });
+
+    });
+
+    }
+// ======================================================
+// SAVE SHIPMENTS
+// ======================================================
+
+function saveShipments() {
+    localStorage.setItem("shipments", JSON.stringify(shipments));
+}
+
+// ======================================================
+// DASHBOARD STATISTICS
+// ======================================================
+
+function updateDashboard() {
+
+    document.getElementById("totalShipments").textContent = shipments.length;
+
+    let inTransit = shipments.filter(s => s.status === "In Transit").length;
+    let delivered = shipments.filter(s => s.status === "Delivered").length;
+    let awaiting = shipments.filter(s => s.status === "Awaiting Pickup").length;
+
+    document.getElementById("inTransit").textContent = inTransit;
+    document.getElementById("delivered").textContent = delivered;
+    document.getElementById("awaiting").textContent = awaiting;
+
+}
+
+// ======================================================
+// LOAD SHIPMENT TABLE
+// ======================================================
+
+function loadShipments() {
+
+    let table = document.getElementById("shipmentTable");
+
+    if (!table) return;
+
+    table.innerHTML = "";
+
+    shipments.forEach(function(shipment){
+
+        table.innerHTML += `
+        <tr>
+
+            <td>${shipment.tracking}</td>
+
+            <td>${shipment.sender}</td>
+
+            <td>${shipment.receiver}</td>
+
+            <td>${shipment.status}</td>
+
+            <td>${shipment.progress}%</td>
+
+        </tr>
+        `;
+
+    });
+
+    updateDashboard();
+
+}
+// ======================================================
+// LOAD SHIPMENT
+// ======================================================
+
+function loadShipment() {
+
+    let tracking = document.getElementById("trackingSearch")
+        .value
+        .trim()
+        .toUpperCase();
+
+    if (tracking === "") {
+        alert("Please enter a tracking number.");
+        return;
+    }
+
+    currentShipmentIndex = shipments.findIndex(function(shipment) {
+        return shipment.tracking.toUpperCase() === tracking;
+    });
+
+    if (currentShipmentIndex === -1) {
+        alert("Shipment not found.");
+        return;
+    }
+
+    let shipment = shipments[currentShipmentIndex];
+
+    document.getElementById("statusUpdate").value =
+        shipment.status || "";
+
+    document.getElementById("locationUpdate").value =
+        shipment.location || "";
+
+    document.getElementById("deliveryUpdate").value =
+        shipment.delivery || "";
+
+    document.getElementById("routeUpdate").value =
+        shipment.route || "";
+
+    document.getElementById("progressUpdate").value =
+        shipment.progress || 0;
+
+    document.getElementById("senderUpdate").value =
+        shipment.sender || "";
+
+    document.getElementById("receiverUpdate").value =
+        shipment.receiver || "";
+
+    document.getElementById("originUpdate").value =
+        shipment.origin || "";
+
+    document.getElementById("destinationUpdate").value =
+        shipment.destination || "";
+
+    document.getElementById("packageUpdate").value =
+        shipment.package || "";
+
+    document.getElementById("weightUpdate").value =
+        shipment.weight || "";
+
+    document.getElementById("serviceUpdate").value =
+        shipment.service || "Air Freight";
+
+    document.getElementById("historyUpdate").value =
+        shipment.history || "";
+
+    alert("Shipment loaded successfully.");
+
+}
+// ======================================================
+// UPDATE SHIPMENT
+// ======================================================
+
+function updateShipment() {
+
+    if (currentShipmentIndex === -1) {
+        alert("Please load a shipment first.");
+        return;
+    }
+
+    let shipment = shipments[currentShipmentIndex];
+
+    // ----------------------------
+    // Read form values
+    // ----------------------------
+
+    shipment.status = document.getElementById("statusUpdate").value;
+    shipment.location = document.getElementById("locationUpdate").value;
+    shipment.delivery = document.getElementById("deliveryUpdate").value;
+
+    shipment.sender = document.getElementById("senderUpdate").value;
+    shipment.receiver = document.getElementById("receiverUpdate").value;
+
+    shipment.origin = document.getElementById("originUpdate").value;
+    shipment.destination = document.getElementById("destinationUpdate").value;
+
+    shipment.package = document.getElementById("packageUpdate").value;
+    shipment.weight = document.getElementById("weightUpdate").value;
+
+    shipment.service = document.getElementById("serviceUpdate").value;
+
+    // ----------------------------
+    // Generate Route
+    // ----------------------------
+
+    shipment.route = shipment.origin + " → " + shipment.destination;
+
+    document.getElementById("routeUpdate").value =
+        shipment.route;
+
+    // ----------------------------
+    // Automatic Progress
+    // ----------------------------
+
+    switch (shipment.status) {
+
+        case "Shipment Created":
+            shipment.progress = 5;
+            break;
+
+        case "Awaiting Pickup":
+            shipment.progress = 10;
+            break;
+
+        case "Picked Up":
+            shipment.progress = 25;
+            break;
+
+        case "In Transit":
+            shipment.progress = 50;
+            break;
+
+        case "Customs Cleared":
+            shipment.progress = 70;
+            break;
+
+        case "Arrived at Destination Hub":
+            shipment.progress = 85;
+            break;
+
+        case "Out for Delivery":
+            shipment.progress = 95;
+            break;
+
+        case "Delivered":
+            shipment.progress = 100;
+            break;
+
+        default:
+            shipment.progress = 0;
+
+    }
+
+    document.getElementById("progressUpdate").value =
+        shipment.progress;
+
+    // ----------------------------
+    // Shipment History
+    // ----------------------------
+
+    if (!shipment.history) {
+        shipment.history = "";
+    }
+
+    let time = new Date().toLocaleString();
+
+    shipment.history +=
+        "• " +
+        shipment.status +
+        " - " +
+        shipment.location +
+        " (" +
+        time +
+        ")\n";
+
+    document.getElementById("historyUpdate").value =
+        shipment.history;
+
+    // ----------------------------
+    // Save Changes
+    // ----------------------------
+
+    shipments[currentShipmentIndex] = shipment;
+
+    saveShipments();
+
+    loadShipments();
+
+    updateDashboard();
+
+    alert("Shipment updated successfully.");
+
+        }
+// ======================================================
+// DELETE CURRENT SHIPMENT
+// ======================================================
+
+function deleteCurrentShipment() {
+
+    if (currentShipmentIndex === -1) {
+        alert("Please load a shipment first.");
+        return;
+    }
+
+    let confirmDelete = confirm(
+        "Are you sure you want to delete this shipment?"
+    );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    shipments.splice(currentShipmentIndex, 1);
+
+    saveShipments();
+
+    currentShipmentIndex = -1;
+
+    loadShipments();
+
+    updateDashboard();
+
+    // Clear the form
+
+    document.getElementById("trackingSearch").value = "";
+
+    document.getElementById("statusUpdate").value = "Shipment Created";
+    document.getElementById("locationUpdate").value = "";
+    document.getElementById("deliveryUpdate").value = "";
+    document.getElementById("routeUpdate").value = "";
+    document.getElementById("progressUpdate").value = 0;
+
+    document.getElementById("senderUpdate").value = "";
+    document.getElementById("receiverUpdate").value = "";
+    document.getElementById("originUpdate").value = "";
+    document.getElementById("destinationUpdate").value = "";
+
+    document.getElementById("packageUpdate").value = "";
+    document.getElementById("weightUpdate").value = "";
+    document.getElementById("serviceUpdate").value = "Air Freight";
+    document.getElementById("historyUpdate").value = "";
+
+    alert("Shipment deleted successfully.");
+
+}
