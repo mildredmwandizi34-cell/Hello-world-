@@ -251,7 +251,13 @@ shipment.origin =
     document.getElementById("originUpdate").value;
 
 shipment.destination =
-    document.getElementById("destinationUpdate").value;    
+    document.getElementById("destinationUpdate").value; 
+    shipment.origin = document.getElementById("originUpdate").value;
+shipment.destination = document.getElementById("destinationUpdate").value;
+
+shipment.route = shipment.origin + " → " + shipment.destination;
+
+document.getElementById("routeUpdate").value = shipment.route;
 shipment.package = document.getElementById("packageUpdate").value;
 shipment.weight = document.getElementById("weightUpdate").value;
 let serviceInput = document.getElementById("serviceUpdate");
