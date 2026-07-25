@@ -103,7 +103,13 @@ textarea{
 .update-box{
     margin-top:40px;
 }
-
+#adminMap{
+    width:100%;
+    height:550px;
+    border-radius:12px;
+    border:2px solid #0b4ea2;
+    margin-top:20px;
+    }
 </style>
 
 </head>
@@ -303,7 +309,19 @@ onclick="deleteCurrentShipment()">
 </div>
 
 <h2 style="margin-top:40px;">All Shipments</h2>
+<div class="card">
 
+<h2>🌍 Interactive Route Editor</h2>
+
+<p>
+Click one city to select the <strong>Origin</strong>,
+then click another city to select the
+<strong>Destination</strong>.
+</p>
+
+<div id="adminMap"></div>
+
+</div>
 <div class="card">
 
 <table
