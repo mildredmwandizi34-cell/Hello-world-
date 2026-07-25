@@ -413,6 +413,63 @@ document.addEventListener("DOMContentLoaded", function () {
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; OpenStreetMap contributors"
     }).addTo(adminMap);
+    Object.keys(cities).forEach(function(city){
+
+    let marker = L.marker(cities[city]).addTo(adminMap);
+
+    marker.bindPopup("<strong>" + city + "</strong>");
+
+    marker.on("click", function(){
+
+        if(selectingOrigin){
+
+            document.getElementById("originUpdate").value = city;
+
+            if(originMarker){
+                adminMap.removeLayer(originMarker);
+            }
+
+            originMarker = L.marker(cities[city]).addTo(adminMap);
+
+            selectingOrigin = false;
+
+            alert("Origin selected: " + city);
+
+        }else{
+
+            document.getElementById("destinationUpdate").value = city;
+
+            if(destinationMarker){
+                adminMap.removeLayer(destinationMarker);
+            }
+
+            destinationMarker = L.marker(cities[city]).addTo(adminMap);
+
+            if(routeLine){
+                adminMap.removeLayer(routeLine);
+            }
+
+            routeLine = L.polyline([
+                cities[document.getElementById("originUpdate").value],
+                cities[city]
+            ],{
+                color:"#0b4ea2",
+                weight:5
+            }).addTo(adminMap);
+
+            document.getElementById("routeUpdate").value =
+                document.getElementById("originUpdate").value +
+                " → " + city;
+
+            selectingOrigin = true;
+
+            alert("Destination selected: " + city);
+
+        }
+
+    });
+
+});
 Object.keys(cities).forEach(function(city){
 
     let marker = L.marker(cities[city]).addTo(adminMap);
