@@ -9,6 +9,35 @@ let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
 // Currently selected shipment
 let currentShipmentIndex = -1;
+const airportMarker = L.AwesomeMarkers.icon({
+    icon: "plane",
+    prefix: "fa",
+    markerColor: "blue"
+});
+
+const warehouseMarker = L.AwesomeMarkers.icon({
+    icon: "warehouse",
+    prefix: "fa",
+    markerColor: "green"
+});
+
+const seaportMarker = L.AwesomeMarkers.icon({
+    icon: "ship",
+    prefix: "fa",
+    markerColor: "cadetblue"
+});
+
+const truckMarker = L.AwesomeMarkers.icon({
+    icon: "truck",
+    prefix: "fa",
+    markerColor: "orange"
+});
+
+const destinationMarker = L.AwesomeMarkers.icon({
+    icon: "location-dot",
+    prefix: "fa",
+    markerColor: "red"
+});
 let adminMap;
 let routeLine;
 let originMarker;
