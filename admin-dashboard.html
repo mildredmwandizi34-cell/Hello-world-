@@ -219,10 +219,10 @@ type="text"
 id="deliveryUpdate">
 
 <label>Route</label>
-
 <input
 type="text"
-id="routeUpdate">
+id="routeUpdate"
+readonly>
 
 <label>Progress (%)</label>
 <input
@@ -231,6 +231,8 @@ id="progressUpdate"
 min="0"
 max="100"
 readonly>
+    <label><strong>Sender</strong></label>
+<input type="text" id="senderUpdate">
 <label><strong>Receiver</strong></label>
 <input type="text" id="receiverUpdate">
 
@@ -260,7 +262,8 @@ readonly>
 
 <label><strong>Package</strong></label>
 <input type="text" id="packageUpdate">
-
+<label><strong>Weight (kg)</strong></label>
+<input type="text" id="weightUpdate">
 <label>Shipping Service</label>
 
 <select id="serviceUpdate">
