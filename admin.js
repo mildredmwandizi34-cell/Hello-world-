@@ -527,3 +527,60 @@ function deleteCurrentShipment() {
     alert("Shipment deleted successfully.");
 
 }
+// ======================================================
+// DRAW SHIPMENT ROUTE
+// ======================================================
+
+function drawRoute(origin, destination) {
+
+    if (!cities[origin] || !cities[destination]) {
+        return;
+    }
+
+    // Remove old route
+    if (routeLine) {
+        adminMap.removeLayer(routeLine);
+    }
+
+    if (originMarker) {
+        adminMap.removeLayer(originMarker);
+    }
+
+    if (destinationMarker) {
+        adminMap.removeLayer(destinationMarker);
+    }
+
+    if (movingVehicle) {
+        adminMap.removeLayer(movingVehicle);
+    }
+
+    let start = cities[origin];
+    let end = cities[destination];
+
+    // Origin marker
+    originMarker = L.marker(start, {
+        icon: warehouseIcon
+    }).addTo(adminMap);
+
+    // Destination marker
+    destinationMarker = L.marker(end, {
+        icon: destinationIcon
+    }).addTo(adminMap);
+
+    // Route line
+    routeLine = L.polyline(
+        [start, end],
+        {
+            color: "#0b4ea2",
+            weight: 5
+        }
+    ).addTo(adminMap);
+
+    adminMap.fitBounds(routeLine.getBounds());
+
+    // Vehicle starts at origin
+    movingVehicle = L.marker(start, {
+        icon: vehicleIcon
+    }).addTo(adminMap);
+
+        }
