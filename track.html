@@ -729,12 +729,29 @@ L.polyline([start, end], {
 }).addTo(shipmentMap);
 
 // Create the moving vehicle
+    // Select vehicle icon based on shipping service
+let vehicleEmoji = "🚚";
+
+if (shipment.service === "Air Freight") {
+    vehicleEmoji = "✈️";
+}
+else if (shipment.service === "Ocean Freight") {
+    vehicleEmoji = "🚢";
+}
+else if (shipment.service === "Road Transport") {
+    vehicleEmoji = "🚛";
+}
+else if (shipment.service === "Express Delivery") {
+    vehicleEmoji = "🚚";
+}
+
+// Create moving vehicle
 let vehicle = L.marker(start, {
     icon: L.divIcon({
         className: "",
-        html: "<div style='font-size:32px;'>🚚</div>",
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
+        html: "<div style='font-size:34px;'>" + vehicleEmoji + "</div>",
+        iconSize: [34, 34],
+        iconAnchor: [17, 17]
     })
 }).addTo(shipmentMap);
 
