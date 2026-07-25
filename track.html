@@ -730,10 +730,11 @@ L.polyline([start, end], {
 
 // Create the moving vehicle
 let vehicle = L.marker(start, {
-    icon: L.AwesomeMarkers.icon({
-        icon: "truck",
-        prefix: "fa",
-        markerColor: "orange"
+    icon: L.divIcon({
+        className: "",
+        html: "<div style='font-size:32px;'>🚚</div>",
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
     })
 }).addTo(shipmentMap);
 
