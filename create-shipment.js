@@ -46,11 +46,74 @@ document.getElementById("shipmentForm").addEventListener("submit", function(e){
 
     localStorage.setItem("shipments", JSON.stringify(shipments));
 
-    alert(
-        "Shipment Created Successfully!\n\nTracking Number: " +
-        tracking
-    );
+// Show the receipt
+document.getElementById("receipt").style.display = "block";
 
-    this.reset();
+document.getElementById("receiptContent").innerHTML = `
 
-});
+<h2 style="text-align:center;color:#0b4ea2;font-size:34px;">
+${shipment.tracking}
+</h2>
+
+<table style="width:100%;border-collapse:collapse;">
+
+<tr>
+<td><strong>Sender</strong></td>
+<td>${shipment.sender}</td>
+</tr>
+
+<tr>
+<td><strong>Receiver</strong></td>
+<td>${shipment.receiver}</td>
+</tr>
+
+<tr>
+<td><strong>Package</strong></td>
+<td>${shipment.package}</td>
+</tr>
+
+<tr>
+<td><strong>Weight</strong></td>
+<td>${shipment.weight}</td>
+</tr>
+
+<tr>
+<td><strong>Shipping Service</strong></td>
+<td>${shipment.service}</td>
+</tr>
+
+<tr>
+<td><strong>Origin</strong></td>
+<td>${shipment.origin || "Not Assigned"}</td>
+</tr>
+
+<tr>
+<td><strong>Destination</strong></td>
+<td>${shipment.destination || "Not Assigned"}</td>
+</tr>
+
+<tr>
+<td><strong>Status</strong></td>
+<td>${shipment.status}</td>
+</tr>
+
+<tr>
+<td><strong>Created On</strong></td>
+<td>${new Date().toLocaleString()}</td>
+</tr>
+
+</table>
+
+<hr>
+
+<p style="text-align:center;color:#666;">
+Thank you for choosing
+<strong>American Global Logistics</strong>.
+Please keep this receipt for tracking and future reference.
+</p>
+
+`;
+
+alert("Shipment Created Successfully!");
+
+this.reset();
