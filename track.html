@@ -800,9 +800,13 @@ let vehicle = L.marker(start, {
         iconAnchor: [17, 17]
     })
 }).addTo(shipmentMap);
+    let currentLat = start[0] + (end[0] - start[0]) * progress;
+let currentLng = start[1] + (end[1] - start[1]) * progress;
+
+vehicle.setLatLng([currentLat, currentLng]);
 
 // Animate the vehicle
-let progress = 0;
+let progress = shipment.currentProgress || 0;
 
 let animation = setInterval(function () {
 
@@ -827,6 +831,18 @@ switch (shipment.service) {
 }
 
 progress += speed;
+    shipment.currentProgress = progress;
+
+shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+
+let index = shipments.findIndex(function(item){
+    return item.tracking === shipment.tracking;
+});
+
+if(index !== -1){
+    shipments[index] = shipment;
+    localStorage.setItem("shipments", JSON.stringify(shipments));
+    }
 
     if (progress >= 1) {
         clearInterval(animation);
