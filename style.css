@@ -579,4 +579,27 @@ transition:.3s;
 background:#083b80;
 
 }
+/* ==========================
+   PREMIUM SERVICE CARDS
+========================== */
+
+.card{
+    transition:0.3s ease;
+    border-top:5px solid #0b4ea2;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 15px 35px rgba(0,0,0,.15);
+}
+
+.card h3{
+    text-align:center;
+    color:#0b4ea2;
+}
+
+.card p{
+    text-align:center;
+    line-height:1.8;
+   }
 
