@@ -235,6 +235,22 @@ This document serves as official proof that the shipment has been registered wit
 </p>
 
 `;
+    <hr>
+
+<div style="
+text-align:center;
+font-size:12px;
+color:#777;
+line-height:1.8;
+margin-top:20px;">
+
+American Global Logistics<br>
+
+Worldwide Freight • Air • Ocean • Road • Express Delivery<br>
+
+© 2026 American Global Logistics. All Rights Reserved.
+
+</div>
 // Generate QR Code
 document.getElementById("qrcode").innerHTML = "";
 
