@@ -7,6 +7,8 @@
 
     <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
 <body>
@@ -208,7 +210,28 @@ Warehousing
 
     </div>
 </section>
+<section class="section">
 
+<div class="container">
+
+<h2 class="section-title">Meet Our Global Network</h2>
+
+<p style="text-align:center;max-width:800px;margin:0 auto 40px;">
+American Global Logistics connects businesses and customers through a worldwide transportation network spanning air, ocean, and road freight.
+</p>
+
+<div id="homeMap"
+style="
+width:100%;
+height:550px;
+border-radius:12px;
+border:2px solid #0b4ea2;
+">
+</div>
+
+</div>
+
+</section>
 <section class="stats">
 
     <div class="container">
@@ -310,7 +333,7 @@ window.location.href =
 encodeURIComponent(tracking);
 
 }
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </script>
 </body>
     </html>
