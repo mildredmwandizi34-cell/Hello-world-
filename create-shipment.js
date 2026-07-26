@@ -70,15 +70,29 @@ font-size:18px;
 color:#555;">
 Official Shipment Receipt
 </p>
+<p style="text-align:center;font-size:14px;color:#555;line-height:1.6;">
 
+Website: www.americangloballogistics.com<br>
+
+Email: support@americangloballogistics.com<br>
+
+Phone: +1 (800) 555-2040
+Phone: +506 71542765
+Phone: +57 3123615392
+Phone: +504 98241362
+</p>
+
+<hr>
 <div style="
 background:#0b4ea2;
 color:white;
-padding:15px;
-border-radius:8px;
-font-size:30px;
+padding:18px;
+font-size:32px;
 font-weight:bold;
-letter-spacing:2px;">
+text-align:center;
+border-radius:8px;
+letter-spacing:3px;
+margin:25px 0;">
 
 ${shipment.tracking}
 
