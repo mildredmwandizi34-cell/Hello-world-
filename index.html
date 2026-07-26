@@ -313,6 +313,8 @@ border:2px solid #0b4ea2;
     </p>
 
 </footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
 
 function trackFromHome(){
@@ -333,7 +335,80 @@ window.location.href =
 encodeURIComponent(tracking);
 
 }
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-</script>
+
+
+// GLOBAL NETWORK MAP
+
+let homeMap = L.map("homeMap").setView([20,0],2);
+
+
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{
+attribution:"© OpenStreetMap"
+}
+).addTo(homeMap);
+
+
+
+let offices = {
+
+"New York":[40.7128,-74.0060],
+
+"London":[51.5074,-0.1278],
+
+"Dubai":[25.2048,55.2708],
+
+"Singapore":[1.3521,103.8198],
+
+"Tokyo":[35.6762,139.6503]
+
+};
+
+
+
+let routes = [
+
+["New York","London"],
+
+["London","Dubai"],
+
+["Dubai","Singapore"],
+
+["Singapore","Tokyo"]
+
+];
+
+
+
+Object.keys(offices).forEach(function(city){
+
+L.marker(offices[city])
+.addTo(homeMap)
+.bindPopup(
+"<b>American Global Logistics</b><br>"+city+" Hub"
+);
+
+});
+
+
+
+routes.forEach(function(route){
+
+L.polyline(
+[
+offices[route[0]],
+offices[route[1]]
+],
+{
+color:"#0b4ea2",
+weight:4
+}
+).addTo(homeMap);
+
+});
+
+
+    </script>
 </body>
     </html>
