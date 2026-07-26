@@ -649,7 +649,47 @@ function trackShipment() {
     document.getElementById("service").textContent = shipment.service || "";
 
     document.getElementById("vehicleDestination").textContent = shipment.location || "";
+// Update live vehicle information automatically
+if (shipment.service === "Air Freight") {
 
+    document.getElementById("vehicleId").innerHTML = "FL-" + shipment.tracking.slice(-4);
+    document.getElementById("driver").innerHTML = "Captain James Wilson";
+    document.getElementById("vehicleType").innerHTML = "Boeing 777 Freighter";
+    document.getElementById("speed").innerHTML = "890 km/h";
+    document.getElementById("fuel").innerHTML = "91%";
+    document.getElementById("eta").innerHTML = "3 Hours";
+
+}
+else if (shipment.service === "Ocean Freight") {
+
+    document.getElementById("vehicleId").innerHTML = "MV-" + shipment.tracking.slice(-4);
+    document.getElementById("driver").innerHTML = "Captain Michael Brown";
+    document.getElementById("vehicleType").innerHTML = "Container Cargo Ship";
+    document.getElementById("speed").innerHTML = "32 km/h";
+    document.getElementById("fuel").innerHTML = "76%";
+    document.getElementById("eta").innerHTML = "6 Days";
+
+}
+else if (shipment.service === "Road Transport") {
+
+    document.getElementById("vehicleId").innerHTML = "TRK-" + shipment.tracking.slice(-4);
+    document.getElementById("driver").innerHTML = "Daniel Carter";
+    document.getElementById("vehicleType").innerHTML = "Mercedes-Benz Actros";
+    document.getElementById("speed").innerHTML = "78 km/h";
+    document.getElementById("fuel").innerHTML = "82%";
+    document.getElementById("eta").innerHTML = "1 Hour 15 Minutes";
+
+}
+else {
+
+    document.getElementById("vehicleId").innerHTML = "VAN-" + shipment.tracking.slice(-4);
+    document.getElementById("driver").innerHTML = "Kevin Adams";
+    document.getElementById("vehicleType").innerHTML = "Mercedes Sprinter";
+    document.getElementById("speed").innerHTML = "95 km/h";
+    document.getElementById("fuel").innerHTML = "88%";
+    document.getElementById("eta").innerHTML = "45 Minutes";
+
+    }
     /* Progress Bar */
 
     let progress = Number(shipment.progress) || 0;
@@ -710,7 +750,7 @@ let coordinates = {
     "Dubai": [25.2048, 55.2708],
     "Nairobi": [-1.2864, 36.8172],
     "Los Angeles": [34.0522, -118.2437],
-    "Guatemala": [43.6532, -79.3832]
+    "Guatemala": [14.6349, -90.5069]
 };
 
 let start = coordinates[shipment.origin];
