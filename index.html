@@ -41,18 +41,51 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 <div class="hero-overlay">
 
-<img src="image/file_00000000fb107243823fd30bcb45f00f.png"
-class="hero-logo">
+<img
+src="image/file_00000000fb107243823fd30bcb45f00f.png"
+class="hero-logo"
+alt="American Global Logistics Logo">
 
 <h1>Worldwide Freight & Logistics</h1>
 
 <p>
-Fast • Secure • Reliable Shipping Solutions
+Fast • Secure • Reliable Shipping Solutions Across the Globe
 </p>
 
+<div style="display:flex;gap:15px;flex-wrap:wrap;justify-content:center;">
+
 <a href="track.html" class="hero-btn">
-Track Your Shipment
+<i class="fa-solid fa-location-dot"></i>
+Track Shipment
 </a>
+
+<a href="services.html" class="hero-btn">
+<i class="fa-solid fa-box"></i>
+Our Services
+</a>
+
+</div>
+
+<br><br>
+
+<div class="track-home">
+
+<h3 style="margin-top:0;">Track Your Shipment</h3>
+
+<input
+type="text"
+id="homeTracking"
+placeholder="Enter Tracking Number">
+
+<button onclick="trackFromHome()">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+Track Now
+
+</button>
+
+</div>
 
 </div>
 
@@ -183,6 +216,27 @@ Track Your Shipment
     </p>
 
 </footer>
+<script>
 
+function trackFromHome(){
+
+let tracking =
+document.getElementById("homeTracking").value.trim();
+
+if(tracking===""){
+
+alert("Please enter a tracking number.");
+
+return;
+
+}
+
+window.location.href =
+"track.html?tracking=" +
+encodeURIComponent(tracking);
+
+}
+
+</script>
 </body>
     </html>
