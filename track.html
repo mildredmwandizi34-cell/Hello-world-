@@ -760,7 +760,27 @@ let progress = 0;
 
 let animation = setInterval(function () {
 
-    progress += 0.01;
+    let speed = 0.003;
+
+switch (shipment.service) {
+    case "Air Freight":
+        speed = 0.008;
+        break;
+
+    case "Express Delivery":
+        speed = 0.005;
+        break;
+
+    case "Road Transport":
+        speed = 0.003;
+        break;
+
+    case "Ocean Freight":
+        speed = 0.0015;
+        break;
+}
+
+progress += speed;
 
     if (progress >= 1) {
         clearInterval(animation);
@@ -773,7 +793,7 @@ let animation = setInterval(function () {
 
     vehicle.setLatLng([lat, lng]);
 
-}, 100);
+}, 30);
 
 // Fit map to route
 shipmentMap.fitBounds([start, end], {
