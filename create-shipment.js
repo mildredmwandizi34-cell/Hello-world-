@@ -184,6 +184,56 @@ Thank you for choosing
 
 </p>
 
+<hr style="margin-top:35px;">
+
+<table style="width:100%;margin-top:20px;">
+
+<tr>
+
+<td style="text-align:left;">
+
+<strong>Authorised By</strong><br><br>
+
+_________________________<br>
+
+American Global Logistics
+
+</td>
+
+<td style="text-align:right;">
+
+<div style="
+width:120px;
+height:120px;
+border:2px dashed #0b4ea2;
+border-radius:50%;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+color:#0b4ea2;
+font-weight:bold;
+font-size:14px;">
+
+AGL<br>OFFICIAL<br>STAMP
+
+</div>
+
+</td>
+
+</tr>
+
+</table>
+
+<p style="
+margin-top:30px;
+text-align:center;
+font-size:13px;
+color:#777;">
+
+This document serves as official proof that the shipment has been registered with American Global Logistics.
+
+</p>
+
 `;
 // Generate QR Code
 document.getElementById("qrcode").innerHTML = "";
