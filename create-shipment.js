@@ -50,6 +50,14 @@ document.getElementById("shipmentForm").addEventListener("submit", function(e){
 document.getElementById("receipt").style.display = "block";
 
 document.getElementById("receiptContent").innerHTML = `
+// Generate QR Code
+document.getElementById("qrcode").innerHTML = "";
+
+new QRCode(document.getElementById("qrcode"), {
+    text: shipment.tracking,
+    width: 140,
+    height: 140
+});
 
 <h2 style="text-align:center;color:#0b4ea2;font-size:34px;">
 ${shipment.tracking}
@@ -105,7 +113,9 @@ ${shipment.tracking}
 </table>
 
 <hr>
-
+<div style="text-align:center;margin:25px 0;">
+    <div id="qrcode"></div>
+</div>
 <p style="text-align:center;color:#666;">
 Thank you for choosing
 <strong>American Global Logistics</strong>.
