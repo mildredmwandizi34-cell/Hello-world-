@@ -50,6 +50,127 @@ document.getElementById("shipmentForm").addEventListener("submit", function(e){
 document.getElementById("receipt").style.display = "block";
 
 document.getElementById("receiptContent").innerHTML = `
+
+<div style="text-align:center;">
+
+<img
+src="image/file_00000000fb107243823fd30bcb45f00f.png"
+style="width:90px;margin-bottom:10px;">
+
+<h2 style="
+margin:0;
+color:#0b4ea2;
+font-size:30px;">
+American Global Logistics
+</h2>
+
+<p style="
+margin:5px 0 20px;
+font-size:18px;
+color:#555;">
+Official Shipment Receipt
+</p>
+
+<div style="
+background:#0b4ea2;
+color:white;
+padding:15px;
+border-radius:8px;
+font-size:30px;
+font-weight:bold;
+letter-spacing:2px;">
+
+${shipment.tracking}
+
+</div>
+
+</div>
+
+<table style="
+width:100%;
+margin-top:25px;
+border-collapse:collapse;
+font-size:16px;">
+
+<tr>
+<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Sender</strong></td>
+<td style="padding:12px;border:1px solid #ddd;">${shipment.sender}</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Receiver</strong></td>
+<td style="padding:12px;border:1px solid #ddd;">${shipment.receiver}</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Package</strong></td>
+<td style="padding:12px;border:1px solid #ddd;">${shipment.package}</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Weight</strong></td>
+<td style="padding:12px;border:1px solid #ddd;">${shipment.weight}</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Shipping Service</strong></td>
+<td style="padding:12px;border:1px solid #ddd;">${shipment.service}</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Origin</strong></td>
+<td style="padding:12px;border:1px solid #ddd;">${shipment.origin || "Pending Assignment"}</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Destination</strong></td>
+<td style="padding:12px;border:1px solid #ddd;">${shipment.destination || "Pending Assignment"}</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Status</strong></td>
+<td style="padding:12px;border:1px solid #ddd;color:#0b4ea2;font-weight:bold;">
+${shipment.status}
+</td>
+</tr>
+
+<tr>
+<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Date Created</strong></td>
+<td style="padding:12px;border:1px solid #ddd;">
+${new Date().toLocaleString()}
+</td>
+</tr>
+
+</table>
+
+<div style="text-align:center;margin-top:30px;">
+
+<div id="qrcode"></div>
+
+<p style="
+margin-top:15px;
+color:#777;
+font-size:14px;">
+
+Scan this QR code to identify this shipment.
+
+</p>
+
+</div>
+
+<hr style="margin:30px 0;">
+
+<p style="
+text-align:center;
+font-size:15px;
+color:#666;">
+
+Thank you for choosing
+<strong>American Global Logistics</strong>.
+
+</p>
+
+`;
 // Generate QR Code
 document.getElementById("qrcode").innerHTML = "";
 
