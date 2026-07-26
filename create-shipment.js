@@ -16,7 +16,7 @@ document.getElementById("shipmentForm").addEventListener("submit", function(e){
         weight: document.getElementById("weight").value + " kg",
 
         // Shipping Details
-        service: "Air Freight",
+        service: document.getElementById("service").value,
 
         origin: "",
         destination: "",
