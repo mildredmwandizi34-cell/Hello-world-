@@ -6,6 +6,8 @@
 <title>Contact Us | American Global Logistics</title>
 
 <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
 <body>
@@ -202,6 +204,14 @@ style="width:100%;border-radius:10px;">
 
 </section>
 
+    <h2 class="section-title">Our Office Location</h2>
+
+<div class="card">
+
+    <div id="officeMap" style="height:400px;border-radius:10px;"></div>
+
+    </div>
+
 <footer>
 
 <p><strong>American Global Logistics</strong></p>
@@ -213,6 +223,31 @@ style="width:100%;border-radius:10px;">
 </p>
 
 </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+let officeMap = L.map('officeMap').setView([40.7484, -73.9857], 13);
+
+
+L.tileLayer(
+'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+{
+    attribution:'© OpenStreetMap contributors'
+}
+).addTo(officeMap);
+
+
+let officeMarker = L.marker([40.7484, -73.9857])
+.addTo(officeMap)
+.bindPopup(
+"<b>American Global Logistics</b><br>Headquarters<br>New York, USA"
+)
+.openPopup();
+
+
+</script>
 
 </body>
     </html>
