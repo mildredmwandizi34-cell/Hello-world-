@@ -448,6 +448,41 @@ let adminName = localStorage.getItem("adminName");
 document.getElementById("adminName").textContent = adminName || "Administrator";
 
     </script>
+
+    <script>
+
+let inactivityTimer;
+
+
+function resetTimer(){
+
+clearTimeout(inactivityTimer);
+
+
+inactivityTimer = setTimeout(function(){
+
+alert("Session expired. Please login again.");
+
+localStorage.removeItem("adminLoggedIn");
+
+window.location.href="admin-login.html";
+
+
+}, 15 * 60 * 1000);
+
+}
+
+
+document.onmousemove = resetTimer;
+
+document.onkeypress = resetTimer;
+
+document.onclick = resetTimer;
+
+resetTimer();
+
+
+    </script>
     
 </body>
 
