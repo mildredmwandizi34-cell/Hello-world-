@@ -105,6 +105,7 @@ required
 style="width:100%;padding:15px;margin-bottom:20px;"></textarea>
 
 <button
+type="submit"
 class="btn-primary"
 style="border:none;padding:15px 30px;cursor:pointer;">
 Send Message
@@ -248,6 +249,49 @@ let officeMarker = L.marker([40.7484, -73.9857])
 
 
 </script>
+
+    <script>
+
+document.getElementById("contactForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+
+    let message = {
+
+        name: document.querySelector('input[placeholder="Full Name"]').value,
+
+        email: document.querySelector('input[placeholder="Email Address"]').value,
+
+        phone: document.querySelector('input[placeholder="Phone Number"]').value,
+
+        subject: document.querySelector('input[placeholder="Subject"]').value,
+
+        message: document.querySelector('textarea').value,
+
+        date: new Date().toLocaleString()
+
+    };
+
+
+    let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
+
+
+    messages.push(message);
+
+
+    localStorage.setItem("contactMessages", JSON.stringify(messages));
+
+
+    alert("Thank you! Your message has been sent successfully.");
+
+    
+    document.getElementById("contactForm").reset();
+
+
+});
+
+    </script>
 
 </body>
     </html>
