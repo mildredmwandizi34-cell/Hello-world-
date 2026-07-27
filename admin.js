@@ -640,6 +640,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Load shipment table
     loadShipments();
+    loadMessages();
 
     // Update dashboard cards
     updateDashboard();
