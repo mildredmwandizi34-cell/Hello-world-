@@ -807,31 +807,35 @@ transform:scale(1);
     font-size:14px;
 }
 
-/* Global Network */
+/* Global Logistics Network */
 
 .partners{
-    background:#ffffff;
+    background:#fff;
 }
 
 .partner-logos{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-    gap:30px;
-    align-items:center;
-    justify-items:center;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:25px;
     margin-top:40px;
 }
 
-.partner-logos img{
-    width:120px;
-    max-width:100%;
-    filter:grayscale(100%);
-    opacity:.75;
+.partner-item{
+    background:#f8f9fc;
+    border-radius:12px;
+    padding:30px 20px;
+    text-align:center;
+    font-size:48px;
     transition:.3s;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
 }
 
-.partner-logos img:hover{
-    filter:none;
-    opacity:1;
-    transform:scale(1.08);
-   }
+.partner-item:hover{
+    transform:translateY(-8px);
+}
+
+.partner-item h4{
+    margin-top:15px;
+    color:#0b4ea2;
+    font-size:18px;
+}
