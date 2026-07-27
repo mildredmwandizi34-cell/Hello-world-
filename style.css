@@ -754,3 +754,8 @@ transform:scale(1);
 }
 
 }
+
+.network-button{
+    text-align:center;
+    margin-top:40px;
+}
