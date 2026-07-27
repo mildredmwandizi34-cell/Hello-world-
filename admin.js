@@ -752,3 +752,54 @@ updateDashboard();
 }
 
 }
+
+// =========================
+// Admin Activity Log
+// =========================
+
+function addActivity(activity){
+
+    let logs = JSON.parse(localStorage.getItem("adminActivity")) || [];
+
+    logs.unshift({
+
+        date: new Date().toLocaleString(),
+
+        activity: activity
+
+    });
+
+    localStorage.setItem("adminActivity", JSON.stringify(logs));
+
+    loadActivity();
+
+}
+
+
+function loadActivity(){
+
+    let logs = JSON.parse(localStorage.getItem("adminActivity")) || [];
+
+    let table = document.getElementById("activityTable");
+
+    if(!table) return;
+
+    table.innerHTML = "";
+
+    logs.forEach(function(log){
+
+        table.innerHTML += `
+
+        <tr>
+
+            <td>${log.date}</td>
+
+            <td>${log.activity}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
