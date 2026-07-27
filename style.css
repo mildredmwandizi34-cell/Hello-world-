@@ -806,3 +806,32 @@ transform:scale(1);
     color:#777;
     font-size:14px;
 }
+
+/* Global Network */
+
+.partners{
+    background:#ffffff;
+}
+
+.partner-logos{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:30px;
+    align-items:center;
+    justify-items:center;
+    margin-top:40px;
+}
+
+.partner-logos img{
+    width:120px;
+    max-width:100%;
+    filter:grayscale(100%);
+    opacity:.75;
+    transition:.3s;
+}
+
+.partner-logos img:hover{
+    filter:none;
+    opacity:1;
+    transform:scale(1.08);
+   }
