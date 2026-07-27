@@ -650,3 +650,78 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("American Global Logistics Admin Dashboard Ready");
 
 });
+
+// Load Customer Messages
+
+function loadMessages(){
+
+    let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
+
+    let table = document.getElementById("messageTable");
+
+
+    if(!table){
+        return;
+    }
+
+
+    table.innerHTML = "";
+
+
+    messages.forEach(function(message,index){
+
+
+        let row = `
+
+        <tr>
+
+            <td>${message.name}</td>
+
+            <td>${message.email}</td>
+
+            <td>${message.phone}</td>
+
+            <td>${message.subject}</td>
+
+            <td>${message.message}</td>
+
+            <td>${message.date}</td>
+
+            <td>
+                <button onclick="deleteMessage(${index})">
+                Delete
+                </button>
+            </td>
+
+        </tr>
+
+        `;
+
+
+        table.innerHTML += row;
+
+
+    });
+
+
+}
+
+
+
+function deleteMessage(index){
+
+    let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
+
+
+    messages.splice(index,1);
+
+
+    localStorage.setItem(
+        "contactMessages",
+        JSON.stringify(messages)
+    );
+
+
+    loadMessages();
+
+}
