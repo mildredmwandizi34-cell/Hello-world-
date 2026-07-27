@@ -58,17 +58,24 @@ Login
 
 function loginAdmin(){
 
-let user=document.getElementById("username").value;
+let user = document.getElementById("username").value;
 
-let pass=document.getElementById("password").value;
+let pass = document.getElementById("password").value;
 
-if(user==="admin" && pass==="AGL2026"){
 
-window.location.href="admin-dashboard.html";
+if(user === "admin" && pass === "AGL2026"){
+
+    localStorage.setItem(
+        "adminLoggedIn",
+        "true"
+    );
+
+    window.location.href="admin-dashboard.html";
+
 
 }else{
 
-alert("Invalid username or password.");
+    alert("Invalid username or password.");
 
 }
 
