@@ -148,6 +148,7 @@ Welcome, <strong id="adminName"></strong>
 <a href="manage-shipments.html">Manage Shipments</a>
 
 <a href="#" onclick="logoutAdmin()">Logout</a>
+<a href="#" onclick="changePassword()">Change Password</a>
 
 </nav>
 
@@ -481,6 +482,24 @@ document.onclick = resetTimer;
 
 resetTimer();
 
+
+    </script>
+
+    <script>
+
+function changePassword(){
+
+let newPassword = prompt("Enter your new password:");
+
+if(newPassword){
+
+localStorage.setItem("adminPassword", newPassword);
+
+alert("Password changed successfully.");
+
+}
+
+}
 
     </script>
     
