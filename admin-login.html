@@ -35,11 +35,27 @@ id="username"
 placeholder="Username"
 style="width:100%;padding:15px;margin-bottom:15px;">
 
+<div style="position:relative;">
+
 <input
 type="password"
 id="password"
 placeholder="Password"
-style="width:100%;padding:15px;margin-bottom:20px;">
+style="width:100%;padding:15px;padding-right:80px;margin-bottom:20px;">
+
+<button
+type="button"
+onclick="togglePassword()"
+style="
+position:absolute;
+right:10px;
+top:8px;
+padding:8px;
+cursor:pointer;">
+Show
+</button>
+
+</div>
 
 <button
 class="btn-primary"
@@ -78,6 +94,22 @@ else{
 
 }
 
+    function togglePassword(){
+
+let password = document.getElementById("password");
+
+if(password.type === "password"){
+
+    password.type = "text";
+
+}else{
+
+    password.type = "password";
+
+}
+
+    }
+    
 </script>
 </body>
 </html>
