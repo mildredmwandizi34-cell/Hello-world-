@@ -131,7 +131,9 @@ class="logo">
 
 <h1>American Global Logistics</h1>
 
-<p>Administration Dashboard</p>
+<p>
+Welcome, <strong id="adminName"></strong>
+</p>
 
 </header>
 
@@ -436,6 +438,14 @@ localStorage.removeItem("adminLoggedIn");
 window.location.href="admin-login.html";
 
 }
+
+    </script>
+
+    <script>
+
+let adminName = localStorage.getItem("adminName");
+
+document.getElementById("adminName").textContent = adminName || "Administrator";
 
     </script>
     
