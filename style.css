@@ -959,3 +959,14 @@ footer{
 .footer-column ul li a:hover{
     text-decoration:underline;
    }
+
+/* About */
+
+.about-text{
+    max-width:900px;
+    margin:auto;
+    text-align:center;
+    font-size:18px;
+    line-height:1.9;
+    color:#555;
+}
