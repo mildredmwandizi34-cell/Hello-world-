@@ -245,6 +245,10 @@ function updateDashboard() {
     document.getElementById("delivered").textContent = delivered;
     document.getElementById("awaiting").textContent = awaiting;
 
+    let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
+
+document.getElementById("totalMessages").innerHTML = messages.length;
+
 }
 
 // ======================================================
@@ -660,7 +664,17 @@ function loadMessages(){
 
     let table = document.getElementById("messageTable");
 
+let alertBox = document.getElementById("newMessageAlert");
 
+if(messages.length > 0){
+
+    alertBox.innerHTML = "🔔 New customer enquiries!";
+
+}else{
+
+    alertBox.innerHTML = "";
+
+}
     if(!table){
         return;
     }
@@ -689,10 +703,17 @@ function loadMessages(){
             <td>${message.date}</td>
 
             <td>
-                <button onclick="deleteMessage(${index})">
-                Delete
-                </button>
-            </td>
+
+<a href="mailto:${message.email}?subject=Reply from American Global Logistics"
+style="background:#0b4ea2;color:white;padding:8px 12px;border-radius:5px;text-decoration:none;display:inline-block;margin-bottom:5px;">
+📧 Reply
+</a>
+
+<button onclick="deleteMessage(${index})">
+🗑 Delete
+</button>
+
+</td>
 
         </tr>
 
@@ -708,21 +729,26 @@ function loadMessages(){
 }
 
 
-
 function deleteMessage(index){
 
-    let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
+let confirmDelete = confirm(
+"Are you sure you want to delete this message?"
+);
 
+if(confirmDelete){
 
-    messages.splice(index,1);
+let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
 
+messages.splice(index,1);
 
-    localStorage.setItem(
-        "contactMessages",
-        JSON.stringify(messages)
-    );
+localStorage.setItem(
+"contactMessages",
+JSON.stringify(messages)
+);
 
+loadMessages();
+updateDashboard();
 
-    loadMessages();
+}
 
 }
