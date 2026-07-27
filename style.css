@@ -991,3 +991,44 @@ footer{
     font-size:16px;
     font-weight:600;
 }
+
+/* Customer Messages */
+
+.dashboard-section{
+    margin-top:40px;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.dashboard-section h2{
+    color:#0b4ea2;
+    margin-bottom:20px;
+}
+
+.shipment-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.shipment-table th{
+    background:#0b4ea2;
+    color:white;
+    padding:12px;
+}
+
+.shipment-table td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+.shipment-table button{
+    background:#d32f2f;
+    color:white;
+    border:none;
+    padding:8px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
