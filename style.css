@@ -1041,3 +1041,37 @@ footer{
     font-size:14px;
     cursor:pointer;
    }
+
+@media print {
+
+    body{
+        margin:0;
+        padding:0;
+        background:#fff;
+    }
+
+    nav,
+    .navbar,
+    form,
+    button:not(.print-btn),
+    .header p,
+    footer{
+        display:none !important;
+    }
+
+    #receipt{
+        display:block !important;
+        page-break-inside:avoid;
+        break-inside:avoid;
+    }
+
+    #receipt *{
+        page-break-inside:avoid;
+        break-inside:avoid;
+    }
+
+    table{
+        page-break-inside:avoid;
+    }
+
+}
