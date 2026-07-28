@@ -11,28 +11,35 @@
 
 @media print {
 
-    button,
+    body{
+        margin:0;
+        padding:0;
+        background:#fff;
+    }
+
     nav,
     .navbar,
     form,
-    .header p {
-
-        display: none !important;
-
+    button:not(.print-btn),
+    .header p,
+    footer{
+        display:none !important;
     }
 
-    body {
-
-        background: white;
-
+    #receipt{
+        display:block !important;
+        page-break-inside:avoid;
+        break-inside:avoid;
     }
 
-    #receipt {
-
-        display: block !important;
-
+    #receipt *{
+        page-break-inside:avoid;
+        break-inside:avoid;
     }
 
+    table{
+        page-break-inside:avoid;
+    }
 }
 
 </style>
@@ -221,7 +228,7 @@ document.getElementById("receipt").innerHTML = `
 
     <div style="text-align:center;">
         <img src="image/file_00000000fb107243823fd30bcb45f00f.png" alt="AGL Logo" style="height:80px;">
-        <h2 style="color:#0b4ea2;margin:10px 0;">American Global Logistics</h2>
+       <h2 style="margin:5px 0;font-size:30px;letter-spacing:2px;">American Global Logistics</h2>
         <p>Shipment Creation Receipt</p>
     </div>
 
