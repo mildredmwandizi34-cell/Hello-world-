@@ -461,90 +461,10 @@ cursor:pointer;
 </p>
 
 </footer>
-<script>
-document.getElementById("shipmentForm").addEventListener("submit", function(e){
-    e.preventDefault();
-
-    let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
-
-    let shipment = {
-
-    tracking: "AGL" + Math.floor(100000 + Math.random() * 900000),
-
-    receiptNumber: "RCP-" + Date.now(),
-
-    referenceNumber: document.getElementById("referenceNumber").value,
-
-    customerReference: document.getElementById("customerReference").value,
-
-    senderName: document.getElementById("senderName").value,
-    senderCompany: document.getElementById("senderCompany").value,
-    senderAddress: document.getElementById("senderAddress").value,
-    senderCity: document.getElementById("senderCity").value,
-    senderCountry: document.getElementById("senderCountry").value,
-    senderPhone: document.getElementById("senderPhone").value,
-    senderEmail: document.getElementById("senderEmail").value,
-
-    receiverName: document.getElementById("receiverName").value,
-    receiverCompany: document.getElementById("receiverCompany").value,
-    receiverAddress: document.getElementById("receiverAddress").value,
-    receiverCity: document.getElementById("receiverCity").value,
-    receiverCountry: document.getElementById("receiverCountry").value,
-    receiverPhone: document.getElementById("receiverPhone").value,
-    receiverEmail: document.getElementById("receiverEmail").value,
-
-    package: document.getElementById("package").value,
-    packageType: document.getElementById("packageType").value,
-    pieces: document.getElementById("pieces").value,
-
-    weight: document.getElementById("weight").value + " kg",
-
-    dimensions: document.getElementById("dimensions").value,
-
-    declaredValue: document.getElementById("declaredValue").value,
-
-    service: document.getElementById("service").value,
-
-    paymentStatus: document.getElementById("paymentStatus").value,
-
-    insurance: document.getElementById("insurance").value,
-
-    origin: document.getElementById("origin").value,
-
-    destination: document.getElementById("destination").value,
-
-    delivery: document.getElementById("deliveryDate").value,
-
-    instructions: document.getElementById("instructions").value,
-
-    shippingCost: document.getElementById("shippingCost").value,
-
-    tax: document.getElementById("tax").value,
-
-    discount: document.getElementById("discount").value,
-
-    totalAmount: document.getElementById("totalAmount").value,
-
-    senderSignature: document.getElementById("senderSignature").value,
-
-    authorizedOfficer: document.getElementById("authorizedOfficer").value,
-
-    barcode: document.getElementById("trackingBarcode").value,
-
-    status: "Shipment Created",
-
-    location: "American Global Logistics Warehouse",
-
-    route: "To Be Assigned",
-
-    progress: 5,
-
-    history: `✔ Shipment Created - American Global Logistics Warehouse (${new Date().toLocaleString()})`
-
-};
-    
-</script>
-
-    
-    </body>
+ 
+<script src="create-shipment.js"></script>
+</body>
 </html>
+
+
+  
