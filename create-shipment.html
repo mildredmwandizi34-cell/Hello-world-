@@ -193,13 +193,153 @@ style="width:100%;padding:15px;margin-bottom:15px;">
 
 </div>
 
-<h3>Shipment Details</h3>
-<input type="text" id="origin" placeholder="Origin" style="width:100%;padding:15px;margin-bottom:15px;">
+<h2 class="section-title">Shipment Details</h2>
 
-<input type="text" id="destination" placeholder="Destination" style="width:100%;padding:15px;margin-bottom:15px;">
-<input type="text" id="package" placeholder="Package Description" style="width:100%;padding:15px;margin-bottom:15px;">
+<div class="card">
 
-<input type="number" id="weight" placeholder="Weight (kg)" style="width:100%;padding:15px;margin-bottom:15px;">
+<h3>Shipment Information</h3>
+
+<input
+type="text"
+id="package"
+placeholder="Package Description"
+required
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="number"
+id="weight"
+placeholder="Weight (kg)"
+required
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="text"
+id="dimensions"
+placeholder="Dimensions (L × W × H)"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="number"
+id="declaredValue"
+placeholder="Declared Value (USD)"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<select
+id="service"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<option value="">Select Shipping Service</option>
+<option>Air Freight</option>
+<option>Ocean Freight</option>
+<option>Road Transport</option>
+<option>Express Delivery</option>
+
+</select>
+
+<select
+id="paymentStatus"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<option value="">Payment Status</option>
+<option>Paid</option>
+<option>Pending</option>
+<option>Cash on Delivery</option>
+
+</select>
+
+<select
+id="insurance"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<option value="">Insurance</option>
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<input
+type="text"
+id="origin"
+placeholder="Origin"
+required
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="text"
+id="destination"
+placeholder="Destination"
+required
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="date"
+id="deliveryDate"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<textarea
+id="instructions"
+placeholder="Special Instructions"
+rows="4"
+style="width:100%;padding:15px;margin-bottom:20px;"></textarea>
+
+</div>
+
+    <h2 class="section-title">Package Identification</h2>
+
+<div class="card">
+
+<h3>Package Information</h3>
+
+<input
+type="text"
+id="referenceNumber"
+placeholder="Reference Number (Optional)"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="text"
+id="customerReference"
+placeholder="Customer Reference"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<select
+id="packageType"
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<option value="">Package Type</option>
+
+<option>Documents</option>
+
+<option>Parcel</option>
+
+<option>Electronics</option>
+
+<option>Medical Supplies</option>
+
+<option>Fragile Goods</option>
+
+<option>Industrial Equipment</option>
+
+<option>Personal Effects</option>
+
+</select>
+
+<input
+type="number"
+id="pieces"
+placeholder="Number of Pieces"
+
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="text"
+id="trackingBarcode"
+placeholder="Barcode Number (Optional)"
+
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+</div>
 
 <select id="service" style="width:100%;padding:15px;margin-bottom:20px;">
     <option>Air Freight</option>
