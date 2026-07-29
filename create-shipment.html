@@ -137,18 +137,61 @@ style="width:100%;padding:15px;margin-bottom:15px;">
 
 </div>
 
-<h3>Receiver Details</h3>
+<h2 class="section-title">Receiver Information</h2>
+
+<div class="card">
+
+<h3>Personal Details</h3>
 
 <input
 type="text"
-id="receiver"
-placeholder="Receiver Full Name"
+id="receiverName"
+placeholder="Full Name"
 required
 style="width:100%;padding:15px;margin-bottom:15px;">
 
-<input type="text" placeholder="Receiver Address" required style="width:100%;padding:15px;margin-bottom:15px;">
+<input
+type="text"
+id="receiverCompany"
+placeholder="Company Name (Optional)"
+style="width:100%;padding:15px;margin-bottom:15px;">
 
-<input type="tel" placeholder="Receiver Phone Number" required style="width:100%;padding:15px;margin-bottom:15px;">
+<textarea
+id="receiverAddress"
+placeholder="Full Address"
+rows="3"
+required
+style="width:100%;padding:15px;margin-bottom:15px;"></textarea>
+
+<input
+type="text"
+id="receiverCity"
+placeholder="City"
+required
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="text"
+id="receiverCountry"
+placeholder="Country"
+required
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="tel"
+id="receiverPhone"
+placeholder="Phone Number"
+required
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+<input
+type="email"
+id="receiverEmail"
+placeholder="Email Address"
+required
+style="width:100%;padding:15px;margin-bottom:15px;">
+
+</div>
 
 <h3>Shipment Details</h3>
 <input type="text" id="origin" placeholder="Origin" style="width:100%;padding:15px;margin-bottom:15px;">
