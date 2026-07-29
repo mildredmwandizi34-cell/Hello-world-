@@ -176,7 +176,6 @@ SHIPMENT RECEIPT
 </div>
 
 </div>
-`;
     
 <hr style="margin:25px 0;">
 
@@ -474,3 +473,8 @@ Email: support@americangloballogistics.com<br>
 Website: www.americangloballogistics.com
 
 </div>
+    `;
+
+this.reset();
+
+    }
