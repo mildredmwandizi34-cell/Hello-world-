@@ -1,330 +1,407 @@
-document.getElementById("shipmentForm").addEventListener("submit", function(e){
+// ===========================================
+// American Global Logistics
+// Create Shipment System
+// ===========================================
 
-    e.preventDefault();
+// Load saved shipments
+let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-    let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+// Wait until the page is fully loaded
+document.addEventListener("DOMContentLoaded", function () {
 
-    let tracking = "AGL" + Math.floor(100000 + Math.random() * 900000);
+    const shipmentForm = document.getElementById("shipmentForm");
 
-    let shipment = {
+    if (!shipmentForm) {
+        console.error("Shipment form not found.");
+        return;
+    }
 
-        // Basic Information
-        tracking: tracking,
-        sender: document.getElementById("sender").value,
-        receiver: document.getElementById("receiver").value,
-        package: document.getElementById("package").value,
-        weight: document.getElementById("weight").value + " kg",
+    shipmentForm.addEventListener("submit", createShipment);
 
-        // Shipping Details
-        service: document.getElementById("service").value,
+});
 
-        origin: "",
-        destination: "",
+// ===========================================
+// Create Shipment
+// ===========================================
 
-        route: "",
+function createShipment (event) {
 
-        // Shipment Status
-        status: "Shipment Created",
-        progress: 5,
+    event.preventDefault();
 
-        // Tracking
-        location: "American Global Logistics Warehouse",
+// Generate IDs
+const trackingNumber = "AGL" + Math.floor(100000 + Math.random() * 900000);
+const receiptNumber = "RCP-" + Date.now();
 
-        vehicle: "Waiting for Dispatch",
+// Build the shipment object
+const shipment = {
 
-        delivery: "Pending",
+    tracking: trackingNumber,
+    receiptNumber: receiptNumber,
 
-        // Shipment History
-        history:
-            "📦 Shipment Created<br>" +
-            "📍 American Global Logistics Warehouse<br>" +
-            "🕒 " + new Date().toLocaleString()
+    referenceNumber: document.getElementById("referenceNumber").value,
+    customerReference: document.getElementById("customerReference").value,
 
-    };
+    // Sender
+    senderName: document.getElementById("senderName").value,
+    senderCompany: document.getElementById("senderCompany").value,
+    senderAddress: document.getElementById("senderAddress").value,
+    senderCity: document.getElementById("senderCity").value,
+    senderCountry: document.getElementById("senderCountry").value,
+    senderPhone: document.getElementById("senderPhone").value,
+    senderEmail: document.getElementById("senderEmail").value,
 
-    shipments.push(shipment);
+    // Receiver
+    receiverName: document.getElementById("receiverName").value,
+    receiverCompany: document.getElementById("receiverCompany").value,
+    receiverAddress: document.getElementById("receiverAddress").value,
+    receiverCity: document.getElementById("receiverCity").value,
+    receiverCountry: document.getElementById("receiverCountry").value,
+    receiverPhone: document.getElementById("receiverPhone").value,
+    receiverEmail: document.getElementById("receiverEmail").value,
 
-    localStorage.setItem("shipments", JSON.stringify(shipments));
+    // Shipment
+    package: document.getElementById("package").value,
+    packageType: document.getElementById("packageType").value,
+    pieces: document.getElementById("pieces").value,
+    weight: document.getElementById("weight").value + " kg",
+    dimensions: document.getElementById("dimensions").value,
+    declaredValue: document.getElementById("declaredValue").value,
+    service: document.getElementById("service").value,
+    paymentStatus: document.getElementById("paymentStatus").value,
+    insurance: document.getElementById("insurance").value,
+    origin: document.getElementById("origin").value,
+    destination: document.getElementById("destination").value,
+    delivery: document.getElementById("deliveryDate").value,
+    instructions: document.getElementById("instructions").value,
 
-// Show the receipt
+    // Charges
+    shippingCost: document.getElementById("shippingCost").value,
+    tax: document.getElementById("tax").value,
+    discount: document.getElementById("discount").value,
+    totalAmount: document.getElementById("totalAmount").value,
+
+    // Signatures
+    senderSignature: document.getElementById("senderSignature").value,
+    authorizedOfficer: document.getElementById("authorizedOfficer").value,
+
+    // Barcode
+    barcode: document.getElementById("trackingBarcode").value,
+
+    // Tracking
+    status: "Shipment Created",
+    location: "American Global Logistics Warehouse",
+    route: "To Be Assigned",
+    progress: 5,
+
+    history: [
+        {
+            date: new Date().toLocaleString(),
+            status: "Shipment Created",
+            location: "American Global Logistics Warehouse"
+        }
+    ]
+
+};
+
+    // Save shipment
+shipments.push(shipment);
+
+// Save to localStorage
+localStorage.setItem("shipments", JSON.stringify(shipments));
+
+// Show the receipt area
 document.getElementById("receipt").style.display = "block";
+
+    // Display the receipt
 
 document.getElementById("receiptContent").innerHTML = `
 
-<div style="text-align:center;">
+<div style="background:#ffffff;
+border:2px solid #0b4ea2;
+border-radius:12px;
+padding:35px;
+font-family:Arial,sans-serif;
+max-width:900px;
+margin:auto;
+box-shadow:0 8px 20px rgba(0,0,0,.15);">
 
-<img
-src="image/file_00000000fb107243823fd30bcb45f00f.png"
-style="width:90px;margin-bottom:10px;">
+<div style="display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:3px solid #0b4ea2;
+padding-bottom:20px;">
 
-<h2 style="
-margin:0;
-color:#0b4ea2;
-font-size:30px;">
+<div>
+
+<img src="image/file_00000000fb107243823fd30bcb45f00f.png"
+style="height:80px;">
+
+<h2 style="margin:8px 0;color:#0b4ea2;">
 American Global Logistics
 </h2>
 
-<p style="
-margin:5px 0 20px;
-font-size:18px;
-color:#555;">
-Official Shipment Receipt
-</p>
-<p style="text-align:center;font-size:14px;color:#555;line-height:1.6;">
-
-Website: www.americangloballogistics.com<br>
-
-Email: support@americangloballogistics.com<br>
-
-Phone: +1 (800) 555-2040
-Phone: +506 71542765
-Phone: +57 3123615392
-Phone: +504 98241362
+<p style="margin:0;">
+Reliable Worldwide Shipping Solutions
 </p>
 
-<hr>
-<div style="
-background:#0b4ea2;
-color:white;
-padding:18px;
-font-size:32px;
-font-weight:bold;
-text-align:center;
-border-radius:8px;
-letter-spacing:3px;
-margin:25px 0;">
+</div>
 
-${shipment.tracking}
+<div style="text-align:right;">
+
+<h3 style="margin:0;">
+SHIPMENT RECEIPT
+</h3>
+
+<p><strong>Tracking:</strong> ${shipment.tracking}</p>
+
+<p><strong>Receipt No:</strong> ${shipment.receiptNumber}</p>
+
+<p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
 
 </div>
 
 </div>
+`;
+    
+<hr style="margin:25px 0;">
+
+<div style="display:flex;gap:20px;margin-bottom:25px;">
+
+    <div style="flex:1;border:1px solid #d9d9d9;border-radius:8px;padding:20px;">
+
+        <h3 style="margin-top:0;color:#0b4ea2;">
+            Sender Information
+        </h3>
+
+        <p><strong>Name:</strong> ${shipment.senderName}</p>
+
+        <p><strong>Company:</strong> ${shipment.senderCompany || "-"}</p>
+
+        <p><strong>Address:</strong><br>
+        ${shipment.senderAddress}</p>
+
+        <p>${shipment.senderCity}, ${shipment.senderCountry}</p>
+
+        <p><strong>Phone:</strong> ${shipment.senderPhone}</p>
+
+        <p><strong>Email:</strong> ${shipment.senderEmail}</p>
+
+    </div>
+
+    <div style="flex:1;border:1px solid #d9d9d9;border-radius:8px;padding:20px;">
+
+        <h3 style="margin-top:0;color:#0b4ea2;">
+            Receiver Information
+        </h3>
+
+        <p><strong>Name:</strong> ${shipment.receiverName}</p>
+
+        <p><strong>Company:</strong> ${shipment.receiverCompany || "-"}</p>
+
+        <p><strong>Address:</strong><br>
+        ${shipment.receiverAddress}</p>
+
+        <p>${shipment.receiverCity}, ${shipment.receiverCountry}</p>
+
+        <p><strong>Phone:</strong> ${shipment.receiverPhone}</p>
+
+        <p><strong>Email:</strong> ${shipment.receiverEmail}</p>
+
+    </div>
+
+</div>
+
+    <hr style="margin:25px 0;">
+
+<h3 style="color:#0b4ea2;margin-bottom:15px;">
+Shipment Details
+</h3>
 
 <table style="
 width:100%;
-margin-top:25px;
 border-collapse:collapse;
-font-size:16px;">
+margin-bottom:25px;
+">
 
-<tr>
-<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Sender</strong></td>
-<td style="padding:12px;border:1px solid #ddd;">${shipment.sender}</td>
+<tr style="background:#0b4ea2;color:#fff;">
+
+<th style="padding:12px;text-align:left;">Field</th>
+
+<th style="padding:12px;text-align:left;">Information</th>
+
 </tr>
 
 <tr>
-<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Receiver</strong></td>
-<td style="padding:12px;border:1px solid #ddd;">${shipment.receiver}</td>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Package Description</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.package}</td>
 </tr>
 
 <tr>
-<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Package</strong></td>
-<td style="padding:12px;border:1px solid #ddd;">${shipment.package}</td>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Package Type</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.packageType}</td>
 </tr>
 
 <tr>
-<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Weight</strong></td>
-<td style="padding:12px;border:1px solid #ddd;">${shipment.weight}</td>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Pieces</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.pieces}</td>
 </tr>
 
 <tr>
-<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Shipping Service</strong></td>
-<td style="padding:12px;border:1px solid #ddd;">${shipment.service}</td>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Weight</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.weight}</td>
 </tr>
 
 <tr>
-<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Origin</strong></td>
-<td style="padding:12px;border:1px solid #ddd;">${shipment.origin || "Pending Assignment"}</td>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Dimensions</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.dimensions}</td>
 </tr>
 
 <tr>
-<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Destination</strong></td>
-<td style="padding:12px;border:1px solid #ddd;">${shipment.destination || "Pending Assignment"}</td>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Declared Value</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.declaredValue}</td>
 </tr>
 
 <tr>
-<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Status</strong></td>
-<td style="padding:12px;border:1px solid #ddd;color:#0b4ea2;font-weight:bold;">
-${shipment.status}
-</td>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Shipping Service</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.service}</td>
 </tr>
 
 <tr>
-<td style="padding:12px;border:1px solid #ddd;background:#f5f8fc;"><strong>Date Created</strong></td>
-<td style="padding:12px;border:1px solid #ddd;">
-${new Date().toLocaleString()}
-</td>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Payment Status</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.paymentStatus}</td>
+</tr>
+
+<tr>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Insurance</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.insurance}</td>
+</tr>
+
+<tr>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Origin</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.origin}</td>
+</tr>
+
+<tr>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Destination</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.destination}</td>
+</tr>
+
+<tr>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Estimated Delivery</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.delivery}</td>
+</tr>
+
+<tr>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Current Status</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.status}</td>
+</tr>
+
+<tr>
+<td style="padding:10px;border:1px solid #ddd;"><strong>Current Location</strong></td>
+<td style="padding:10px;border:1px solid #ddd;">${shipment.location}</td>
 </tr>
 
 </table>
-
-<div style="text-align:center;margin-top:30px;">
-
-<div id="qrcode"></div>
-
-<p style="
-margin-top:15px;
-color:#777;
-font-size:14px;">
-
-Scan this QR code to identify this shipment.
-
-</p>
-
-</div>
 
 <hr style="margin:30px 0;">
 
-<p style="
-text-align:center;
-font-size:15px;
-color:#666;">
+<h3 style="color:#0b4ea2;margin-bottom:20px;">
+Authorization & Verification
+</h3>
 
-Thank you for choosing
-<strong>American Global Logistics</strong>.
+<div style="display:flex;justify-content:space-between;gap:30px;align-items:flex-end;">
 
-</p>
+    <!-- Sender Signature -->
+    <div style="width:30%;text-align:center;">
 
-<hr style="margin-top:35px;">
+        <div style="
+        font-family:'Brush Script MT','Segoe Script','Lucida Handwriting',cursive;
+        font-size:38px;
+        color:#1b4fa3;
+        transform:rotate(-4deg);
+        letter-spacing:1px;
+        margin-bottom:8px;
+        text-shadow:0 1px 1px rgba(0,0,0,.15);
+        ">
+        ${shipment.senderSignature}
+        </div>
 
-<table style="width:100%;margin-top:20px;">
+        <div style="border-top:1px solid #000;padding-top:6px;">
+            Sender Signature
+        </div>
 
-<tr>
+    </div>
 
-<td style="text-align:left;">
+    <!-- AGL Officer Signature -->
+    <div style="width:30%;text-align:center;">
 
-<strong>Authorised By</strong><br><br>
+        <div style="
+        font-family:'Brush Script MT','Segoe Script','Lucida Handwriting',cursive;
+        font-size:36px;
+        color:#003c8f;
+        transform:rotate(-2deg);
+        margin-bottom:8px;
+        text-shadow:0 1px 1px rgba(0,0,0,.15);
+        ">
+        ${shipment.authorizedOfficer}
+        </div>
 
-_________________________<br>
+        <div style="border-top:1px solid #000;padding-top:6px;">
+            Authorized AGL Officer
+        </div>
 
-American Global Logistics
+    </div>
 
-</td>
+    <!-- Company Stamp -->
+    <div style="width:30%;text-align:center;">
 
-<td style="text-align:right;">
+        <div style="
+        display:inline-block;
+        border:4px solid #0b4ea2;
+        color:#0b4ea2;
+        padding:18px 26px;
+        font-weight:bold;
+        border-radius:10px;
+        transform:rotate(-8deg);
+        font-size:15px;
+        line-height:1.5;
+        text-transform:uppercase;
+        ">
 
-<div style="
-width:120px;
-height:120px;
-border:2px dashed #0b4ea2;
-border-radius:50%;
-display:inline-flex;
-align-items:center;
-justify-content:center;
-color:#0b4ea2;
-font-weight:bold;
-font-size:14px;">
+        AMERICAN GLOBAL<br>
+        LOGISTICS
 
-AGL<br>OFFICIAL<br>STAMP
+        <hr style="border:1px solid #0b4ea2;margin:8px 0;">
+
+        ✔ AUTHORIZED
+
+        <hr style="border:1px solid #0b4ea2;margin:8px 0;">
+
+        LONDON HQ
+
+        </div>
+
+        <div style="margin-top:10px;">
+            Official Company Stamp
+        </div>
+
+    </div>
 
 </div>
 
-</td>
+<hr style="margin:35px 0;">
 
-</tr>
+<div style="text-align:center;color:#666;font-size:14px;">
 
-</table>
+This document is electronically generated by
+<strong>American Global Logistics</strong> and serves as proof of shipment creation.
 
-<p style="
-margin-top:30px;
-text-align:center;
-font-size:13px;
-color:#777;">
+<br><br>
 
-This document serves as official proof that the shipment has been registered with American Global Logistics.
+Customer Support: support@americangloballogistics.com
 
-</p>
+<br>
 
-`;
-    <hr>
-
-<div style="
-text-align:center;
-font-size:12px;
-color:#777;
-line-height:1.8;
-margin-top:20px;">
-
-American Global Logistics<br>
-
-Worldwide Freight • Air • Ocean • Road • Express Delivery<br>
-
-© 2026 American Global Logistics. All Rights Reserved.
+www.americangloballogistics.com
 
 </div>
-// Generate QR Code
-document.getElementById("qrcode").innerHTML = "";
-
-new QRCode(document.getElementById("qrcode"), {
-    text: shipment.tracking,
-    width: 140,
-    height: 140
-});
-
-<h2 style="text-align:center;color:#0b4ea2;font-size:34px;">
-${shipment.tracking}
-</h2>
-
-<table style="width:100%;border-collapse:collapse;">
-
-<tr>
-<td><strong>Sender</strong></td>
-<td>${shipment.sender}</td>
-</tr>
-
-<tr>
-<td><strong>Receiver</strong></td>
-<td>${shipment.receiver}</td>
-</tr>
-
-<tr>
-<td><strong>Package</strong></td>
-<td>${shipment.package}</td>
-</tr>
-
-<tr>
-<td><strong>Weight</strong></td>
-<td>${shipment.weight}</td>
-</tr>
-
-<tr>
-<td><strong>Shipping Service</strong></td>
-<td>${shipment.service}</td>
-</tr>
-
-<tr>
-<td><strong>Origin</strong></td>
-<td>${shipment.origin || "Not Assigned"}</td>
-</tr>
-
-<tr>
-<td><strong>Destination</strong></td>
-<td>${shipment.destination || "Not Assigned"}</td>
-</tr>
-
-<tr>
-<td><strong>Status</strong></td>
-<td>${shipment.status}</td>
-</tr>
-
-<tr>
-<td><strong>Created On</strong></td>
-<td>${new Date().toLocaleString()}</td>
-</tr>
-
-</table>
-
-<hr>
-<div style="text-align:center;margin:25px 0;">
-    <div id="qrcode"></div>
-</div>
-<p style="text-align:center;color:#666;">
-Thank you for choosing
-<strong>American Global Logistics</strong>.
-Please keep this receipt for tracking and future reference.
-</p>
-
-`;
-
-alert("Shipment Created Successfully!");
-
-this.reset();
