@@ -44,3 +44,32 @@ class="logo">
 <a href="contact.html">Contact</a>
 
 </nav>
+
+  <section class="section">
+
+    <div class="container">
+
+        <h2 class="section-title">Reprint Shipment Receipt</h2>
+
+        <div class="card">
+
+            <input
+                type="text"
+                id="receiptTracking"
+                placeholder="Enter Tracking Number"
+                style="width:100%;padding:15px;margin-bottom:20px;">
+
+            <button
+                onclick="printReceipt()"
+                class="btn-primary"
+                style="width:100%;border:none;padding:15px;cursor:pointer;">
+                🔍 Find Receipt
+            </button>
+
+        </div>
+
+        <div id="receipt" style="display:none;margin-top:30px;"></div>
+
+    </div>
+
+              </section>
