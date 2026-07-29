@@ -468,97 +468,81 @@ document.getElementById("shipmentForm").addEventListener("submit", function(e){
     let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
     let shipment = {
+
     tracking: "AGL" + Math.floor(100000 + Math.random() * 900000),
 
-    sender: document.getElementById("sender").value,
-    receiver: document.getElementById("receiver").value,
-    origin: document.getElementById("origin").value,
-destination: document.getElementById("destination").value,
+    receiptNumber: "RCP-" + Date.now(),
+
+    referenceNumber: document.getElementById("referenceNumber").value,
+
+    customerReference: document.getElementById("customerReference").value,
+
+    senderName: document.getElementById("senderName").value,
+    senderCompany: document.getElementById("senderCompany").value,
+    senderAddress: document.getElementById("senderAddress").value,
+    senderCity: document.getElementById("senderCity").value,
+    senderCountry: document.getElementById("senderCountry").value,
+    senderPhone: document.getElementById("senderPhone").value,
+    senderEmail: document.getElementById("senderEmail").value,
+
+    receiverName: document.getElementById("receiverName").value,
+    receiverCompany: document.getElementById("receiverCompany").value,
+    receiverAddress: document.getElementById("receiverAddress").value,
+    receiverCity: document.getElementById("receiverCity").value,
+    receiverCountry: document.getElementById("receiverCountry").value,
+    receiverPhone: document.getElementById("receiverPhone").value,
+    receiverEmail: document.getElementById("receiverEmail").value,
+
     package: document.getElementById("package").value,
+    packageType: document.getElementById("packageType").value,
+    pieces: document.getElementById("pieces").value,
+
     weight: document.getElementById("weight").value + " kg",
 
+    dimensions: document.getElementById("dimensions").value,
+
+    declaredValue: document.getElementById("declaredValue").value,
+
+    service: document.getElementById("service").value,
+
+    paymentStatus: document.getElementById("paymentStatus").value,
+
+    insurance: document.getElementById("insurance").value,
+
+    origin: document.getElementById("origin").value,
+
+    destination: document.getElementById("destination").value,
+
+    delivery: document.getElementById("deliveryDate").value,
+
+    instructions: document.getElementById("instructions").value,
+
+    shippingCost: document.getElementById("shippingCost").value,
+
+    tax: document.getElementById("tax").value,
+
+    discount: document.getElementById("discount").value,
+
+    totalAmount: document.getElementById("totalAmount").value,
+
+    senderSignature: document.getElementById("senderSignature").value,
+
+    authorizedOfficer: document.getElementById("authorizedOfficer").value,
+
+    barcode: document.getElementById("trackingBarcode").value,
+
     status: "Shipment Created",
+
     location: "American Global Logistics Warehouse",
-    delivery: "Pending",
+
     route: "To Be Assigned",
-    service: "Air Freight",
 
     progress: 5,
 
     history: `✔ Shipment Created - American Global Logistics Warehouse (${new Date().toLocaleString()})`
+
 };
-
-    shipments.push(shipment);
-    localStorage.setItem("shipments", JSON.stringify(shipments));
-
-    document.getElementById("receipt").style.display = "block";
-
-document.getElementById("receipt").innerHTML = `
-<div style="max-width:700px;margin:auto;background:#fff;border:2px solid #0b4ea2;border-radius:10px;padding:30px;box-shadow:0 5px 15px rgba(0,0,0,0.2);font-family:Arial,sans-serif;">
-
-    <div style="text-align:center;">
-        <img src="image/file_00000000fb107243823fd30bcb45f00f.png" alt="AGL Logo" style="height:80px;">
-       <h2 style="margin:5px 0;font-size:30px;letter-spacing:2px;">American Global Logistics</h2>
-        <p>Shipment Creation Receipt</p>
-    </div>
-
-    <hr>
-
-    <div style="text-align:center;background:#0b4ea2;color:#fff;padding:20px;border-radius:8px;margin:25px 0;">
-        <p style="margin:0;font-size:18px;">TRACKING NUMBER</p>
-        <h1 style="margin:10px 0;font-size:42px;letter-spacing:4px;">
-            ${shipment.tracking}
-        </h1>
-    </div>
-
-    <table style="width:100%;border-collapse:collapse;">
-        <tr>
-            <td><strong>Sender</strong></td>
-            <td>${shipment.sender}</td>
-        </tr>
-        <tr>
-            <td><strong>Receiver</strong></td>
-            <td>${shipment.receiver}</td>
-        </tr>
-        <tr>
-            <td><strong>Package</strong></td>
-            <td>${shipment.package}</td>
-        </tr>
-        <tr>
-            <td><strong>Weight</strong></td>
-            <td>${shipment.weight}</td>
-        </tr>
-        <tr>
-            <td><strong>Status</strong></td>
-            <td>${shipment.status}</td>
-        </tr>
-        <tr>
-            <td><strong>Current Location</strong></td>
-            <td>${shipment.location}</td>
-        </tr>
-        <tr>
-            <td><strong>Estimated Delivery</strong></td>
-            <td>${shipment.delivery}</td>
-        </tr>
-    </table>
-
-    <hr>
-
-    <p style="text-align:center;color:#666;">
-        Keep this tracking number safe. Use it on the <strong>Track Shipment</strong> page to monitor your shipment.
-    </p>
-
-    <div style="text-align:center;margin-top:25px;">
-        <button onclick="window.print()" style="background:#0b4ea2;color:white;border:none;padding:15px 35px;border-radius:6px;font-size:16px;cursor:pointer;">
-            🖨 Print Receipt
-        </button>
-    </div>
-
-</div>
-`;
-
-this.reset();
-});
+    
 </script>
 
     
