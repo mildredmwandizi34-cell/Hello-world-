@@ -111,27 +111,53 @@ if (typeof JsBarcode !== "undefined") {
     set("documentNo", receiptNo);
     set("issueDate", today);
 
-    // QR Code
-    if (typeof QRCode !== "undefined") {
+    // =========================
+// Generate QR Code
+// =========================
 
-        QRCode.toCanvas(
-            shipment.tracking,
-            {
-                width: 120,
-                margin: 1
-            },
-            function (err, canvas) {
+const qrContainer = document.getElementById("qrcode");
 
-                if (!err) {
-                    document.getElementById("qrcode").appendChild(canvas);
-                }
+if (qrContainer) {
+
+    qrContainer.innerHTML = "";
+
+    QRCode.toCanvas(
+
+        shipment.tracking,
+
+        {
+
+            width:140,
+
+            margin:2,
+
+            color:{
+
+                dark:"#0b4ea2",
+
+                light:"#ffffff"
 
             }
-        );
 
-    }
+        },
 
-});
+        function(error, canvas){
+
+            if(error){
+
+                console.error(error);
+
+                return;
+
+            }
+
+            qrContainer.appendChild(canvas);
+
+        }
+
+    );
+
+}
 
 // ==========================================
 // Print Receipt
