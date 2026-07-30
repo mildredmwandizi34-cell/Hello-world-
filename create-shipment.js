@@ -475,6 +475,6 @@ Website: www.americangloballogistics.com
 </div>
     `;
 
-this.reset();
+event.target.reset();
 
     }
