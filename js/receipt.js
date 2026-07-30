@@ -49,6 +49,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Header
     set("trackingNumber", shipment.tracking);
+    // Generate barcode
+if (typeof JsBarcode !== "undefined") {
+
+    JsBarcode("#barcode", shipment.tracking, {
+
+        format: "CODE128",
+
+        lineColor: "#000",
+
+        width: 2,
+
+        height: 60,
+
+        displayValue: true,
+
+        fontSize: 16,
+
+        margin: 8
+
+    });
+
+        }
     set("receiptNumber", receiptNo);
     set("receiptDate", today);
 
