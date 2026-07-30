@@ -865,14 +865,27 @@ shipmentMap.fitBounds([start, end], {
     }
 
     }
-    // Automatically track shipment from homepage
-const params = new URLSearchParams(window.location.search);
-const tracking = params.get("tracking");
 
-if (tracking) {
-    document.getElementById("trackingNumber").value = tracking.toUpperCase();
-    trackShipment();
+    // ======================================
+// Automatically track shipment from QR Code
+// ======================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const params = new URLSearchParams(window.location.search);
+
+    const tracking = params.get("tracking");
+
+    if (tracking) {
+
+        document.getElementById("trackingNumber").value = tracking;
+
+        trackShipment();
+
     }
+
+});
+    
 </script>
 
 </body>
