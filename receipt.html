@@ -1,92 +1,349 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reprint Shipment Receipt | American Global Logistics</title>
+<title>Shipment Receipt | American Global Logistics</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/receipt.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 </head>
 
 <body>
 
-<header class="header">
+<div class="receipt-container">
 
-<img src="image/file_00000000fb107243823fd30bcb45f00f.png"
-alt="AGL Logo"
-class="logo">
+<!--================ HEADER ================-->
 
-<h1>Shipment Receipt</h1>
+<div class="receipt-header">
 
-<p>Reprint your shipment receipt anytime</p>
+<div class="company">
 
-</header>
+<img src="images/logo.png" class="logo">
 
-<nav class="navbar">
+<div>
 
-<a href="index.html">Home</a>
+<h1>American Global Logistics</h1>
 
-<a href="about.html">About</a>
+<p>Reliable Worldwide Shipping Solutions</p>
 
-<a href="services.html">Services</a>
+<p class="small">
+Worldwide Freight • Air • Ocean • Road • Express
+</p>
 
-<a href="create-shipment.html">Create Shipment</a>
+</div>
 
-<a href="track.html">Track Shipment</a>
+</div>
 
-<a href="receipt.html" class="active">Receipt</a>
+<div class="receipt-title">
 
-<a href="contact.html">Contact</a>
+<h2>SHIPMENT RECEIPT</h2>
 
-</nav>
+<p><strong>Tracking:</strong>
+<span id="trackingNumber"></span></p>
 
-  <section class="section">
+<p><strong>Receipt No:</strong>
+<span id="receiptNumber"></span></p>
 
-    <div class="container">
+<p><strong>Date:</strong>
+<span id="receiptDate"></span></p>
 
-        <h2 class="section-title">Reprint Shipment Receipt</h2>
+</div>
 
-        <div class="card">
+</div>
 
-            <input
-                type="text"
-                id="receiptTracking"
-                placeholder="Enter Tracking Number"
-                style="width:100%;padding:15px;margin-bottom:20px;">
+<hr>
 
-            <button
-                onclick="printReceipt()"
-                class="btn-primary"
-                style="width:100%;border:none;padding:15px;cursor:pointer;">
-                🔍 Find Receipt
-            </button>
+<!--================ SENDER + RECEIVER ================-->
 
-        </div>
+<div class="info-grid">
 
-        <div id="receipt" style="display:none;margin-top:30px;"></div>
+<div class="card">
 
-    </div>
+<h3>Sender Information</h3>
 
-  </section>
-  
-  <footer>
+<p><strong>Name</strong></p>
 
-    <p><strong>American Global Logistics</strong></p>
+<p id="senderName"></p>
 
-    <p>Reliable Worldwide Shipping Solutions</p>
+<p><strong>Company</strong></p>
 
-    <p style="margin-top:15px;">
-        © 2026 American Global Logistics. All Rights Reserved.
-    </p>
+<p id="senderCompany"></p>
 
-</footer>
+<p><strong>Address</strong></p>
 
-<script src="receipt.js"></script>
+<p id="senderAddress"></p>
+
+<p><strong>Phone</strong></p>
+
+<p id="senderPhone"></p>
+
+<p><strong>Email</strong></p>
+
+<p id="senderEmail"></p>
+
+</div>
+
+<div class="card">
+
+<h3>Receiver Information</h3>
+
+<p><strong>Name</strong></p>
+
+<p id="receiverName"></p>
+
+<p><strong>Company</strong></p>
+
+<p id="receiverCompany"></p>
+
+<p><strong>Address</strong></p>
+
+<p id="receiverAddress"></p>
+
+<p><strong>Phone</strong></p>
+
+<p id="receiverPhone"></p>
+
+<p><strong>Email</strong></p>
+
+<p id="receiverEmail"></p>
+
+</div>
+
+</div>
+
+<!--================ SHIPMENT TABLE ================-->
+
+<h2 class="section-title">
+Shipment Details
+</h2>
+
+<table class="details-table">
+
+<tr>
+
+<th>Field</th>
+
+<th>Information</th>
+
+</tr>
+
+<tr>
+
+<td>Package Description</td>
+
+<td id="description"></td>
+
+</tr>
+
+<tr>
+
+<td>Package Type</td>
+
+<td id="packageType"></td>
+
+</tr>
+
+<tr>
+
+<td>Pieces</td>
+
+<td id="pieces"></td>
+
+</tr>
+
+<tr>
+
+<td>Weight</td>
+
+<td id="weight"></td>
+
+</tr>
+
+<tr>
+
+<td>Dimensions</td>
+
+<td id="dimensions"></td>
+
+</tr>
+
+<tr>
+
+<td>Declared Value</td>
+
+<td id="value"></td>
+
+</tr>
+
+<tr>
+
+<td>Shipping Service</td>
+
+<td id="service"></td>
+
+</tr>
+
+<tr>
+
+<td>Insurance</td>
+
+<td id="insurance"></td>
+
+</tr>
+
+<tr>
+
+<td>Payment Status</td>
+
+<td id="payment"></td>
+
+</tr>
+
+<tr>
+
+<td>Origin</td>
+
+<td id="origin"></td>
+
+</tr>
+
+<tr>
+
+<td>Destination</td>
+
+<td id="destination"></td>
+
+</tr>
+
+<tr>
+
+<td>Estimated Delivery</td>
+
+<td id="delivery"></td>
+
+</tr>
+
+<tr>
+
+<td>Current Status</td>
+
+<td id="status"></td>
+
+</tr>
+
+<tr>
+
+<td>Current Location</td>
+
+<td id="location"></td>
+
+</tr>
+
+</table>
+
+<!--================ AUTHORIZATION ================-->
+
+<h2 class="section-title">
+Authorization & Verification
+</h2>
+
+<div class="signature-area">
+
+<div>
+
+<img src="images/sender-signature.png" class="signature">
+
+<p class="line"></p>
+
+<h4>Sender Signature</h4>
+
+<p id="senderSignature"></p>
+
+</div>
+
+<div>
+
+<img src="images/agl-officer-signature.png" class="signature">
+
+<p class="line"></p>
+
+<h4>Authorized Officer</h4>
+
+<p>American Global Logistics</p>
+
+</div>
+
+<div>
+
+<img src="images/agl-authorized-stamp.png"
+class="stamp">
+
+</div>
+
+</div>
+
+<!--================ QR CODE ================-->
+
+<div class="bottom">
+
+<div>
+
+<p><strong>Document No:</strong>
+
+<span id="documentNo"></span>
+
+</p>
+
+<p><strong>Issue Date:</strong>
+
+<span id="issueDate"></span>
+
+</p>
+
+</div>
+
+<div id="qrcode"></div>
+
+</div>
+
+<!--================ FOOTER ================-->
+
+<div class="footer">
+
+<h3>American Global Logistics</h3>
+
+<p>
+
+Reliable Worldwide Shipping Solutions
+
+</p>
+
+<p>
+
+Email:
+support@americangloballogistics.com
+
+</p>
+
+<p>
+
+Website:
+www.americangloballogistics.com
+
+</p>
+
+</div>
+
+</div>
+
+<script src="js/receipt.js"></script>
 
 </body>
-</html>
+  </html>
