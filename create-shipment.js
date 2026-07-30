@@ -109,12 +109,11 @@ shipments.push(shipment);
 // Save to localStorage
 localStorage.setItem("shipments", JSON.stringify(shipments));
 
-// Show the receipt area
-document.getElementById("receipt").style.display = "block";
+// Reset the form
+event.target.reset();
 
-    // Display the receipt
-
-document.getElementById("receiptContent").innerHTML = `
+// Open the professional receipt
+window.location.href = "receipt.html?tracking=" + shipment.tracking;
 
 <div style="background:#ffffff;
 border:2px solid #0b4ea2;
