@@ -147,7 +147,7 @@ if (qrContainer) {
 
         }
     );
-
+    
 }
 
 // ==========================================
@@ -159,3 +159,39 @@ function printReceipt() {
     window.print();
 
               }
+
+ //==============================
+// Payment Stamp
+//==============================
+
+const stamp = document.getElementById("paymentStamp");
+
+if (stamp) {
+
+    const status = (shipment.paymentStatus || "").toLowerCase();
+
+    stamp.className = "stamp";
+
+    if (status === "paid") {
+
+        stamp.classList.add("paid");
+        stamp.textContent = "PAID";
+
+    } else if (status === "received") {
+
+        stamp.classList.add("received");
+        stamp.textContent = "RECEIVED";
+
+    } else if (status === "pending") {
+
+        stamp.classList.add("pending");
+        stamp.textContent = "PENDING";
+
+    } else {
+
+        stamp.classList.add("unpaid");
+        stamp.textContent = "UNPAID";
+
+    }
+
+}                         
