@@ -582,3 +582,87 @@ font-weight:bold;
 color:#0b4ea2;
 
    }
+
+/*==============================
+  Payment Stamp
+==============================*/
+
+.payment-stamp{
+
+margin-top:20px;
+
+display:flex;
+
+justify-content:flex-end;
+
+}
+
+.stamp{
+
+padding:12px 30px;
+
+font-size:30px;
+
+font-weight:bold;
+
+border:4px solid;
+
+border-radius:10px;
+
+transform:rotate(-8deg);
+
+letter-spacing:3px;
+
+text-transform:uppercase;
+
+display:inline-block;
+
+}
+
+/* Paid */
+
+.stamp.paid{
+
+color:#0b4ea2;
+
+border-color:#0b4ea2;
+
+background:rgba(11,78,162,.05);
+
+}
+
+/* Received */
+
+.stamp.received{
+
+color:#0b4ea2;
+
+border-color:#0b4ea2;
+
+background:rgba(11,78,162,.05);
+
+}
+
+/* Pending */
+
+.stamp.pending{
+
+color:#d98c00;
+
+border-color:#d98c00;
+
+background:rgba(255,193,7,.10);
+
+}
+
+/* Unpaid */
+
+.stamp.unpaid{
+
+color:#c62828;
+
+border-color:#c62828;
+
+background:rgba(255,0,0,.08);
+
+}
