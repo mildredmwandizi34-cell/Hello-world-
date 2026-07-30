@@ -1092,3 +1092,21 @@ footer{
         width: 100%;
     }
 }
+
+#receipt{
+    position: relative;
+}
+
+.receipt-stamp{
+    position: absolute;
+    right: 40px;
+    bottom: 120px;
+    opacity: 0.22;
+    transform: rotate(-18deg);
+    pointer-events: none;
+}
+
+.receipt-stamp img{
+    width: 160px;
+    height: 160px;
+}
