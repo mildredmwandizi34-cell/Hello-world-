@@ -121,40 +121,31 @@ if (qrContainer) {
 
     qrContainer.innerHTML = "";
 
+    // Tracking URL
+    const trackingURL =
+        "https://www.americangloballogistics.com/track.html?tracking=" +
+        shipment.tracking;
+
     QRCode.toCanvas(
-
-        shipment.tracking,
-
+        trackingURL,
         {
-
-            width:140,
-
-            margin:2,
-
-            color:{
-
-                dark:"#0b4ea2",
-
-                light:"#ffffff"
-
+            width: 140,
+            margin: 2,
+            color: {
+                dark: "#0b4ea2",
+                light: "#ffffff"
             }
-
         },
+        function (error, canvas) {
 
-        function(error, canvas){
-
-            if(error){
-
+            if (error) {
                 console.error(error);
-
                 return;
-
             }
 
             qrContainer.appendChild(canvas);
 
         }
-
     );
 
 }
