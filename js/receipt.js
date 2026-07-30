@@ -194,4 +194,33 @@ if (stamp) {
 
     }
 
-}                         
+}  
+    
+// ==============================
+// Verification Code
+// ==============================
+
+const verifyElement = document.getElementById("verificationCode");
+
+if (verifyElement) {
+
+    let verification = shipment.verificationCode;
+
+    if (!verification) {
+
+        verification =
+            "AGL-" +
+            Math.random()
+                .toString(36)
+                .substring(2, 10)
+                .toUpperCase();
+
+        shipment.verificationCode = verification;
+
+        localStorage.setItem("shipments", JSON.stringify(shipments));
+
+    }
+
+    verifyElement.textContent = verification;
+
+}
