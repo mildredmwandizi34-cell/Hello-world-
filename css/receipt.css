@@ -18,23 +18,25 @@ color:#333;
 
 .receipt-container{
 
-max-width:900px;
+width:190mm;
+
+min-height:277mm;
 
 margin:auto;
 
+padding:10mm;
+
 background:#fff;
 
-padding:45px;
+border:2px solid #0b4ea2;
 
-border-radius:12px;
-
-box-shadow:0 15px 40px rgba(0,0,0,.15);
-
-border-top:8px solid #0b4ea2;
+border-radius:8px;
 
 position:relative;
 
 overflow:hidden;
+
+box-shadow:0 5px 18px rgba(0,0,0,.12);
 
 }
 
@@ -382,41 +384,76 @@ margin-bottom:10px;
 
 }
 
-/* Print */
+@page{
+
+size:A4 portrait;
+
+margin:10mm;
+
+}
 
 @media print{
 
+html,
 body{
 
-background:#fff;
+width:210mm;
+
+height:297mm;
+
+margin:0;
 
 padding:0;
+
+background:white;
 
 }
 
 .receipt-container{
 
+width:190mm;
+
+min-height:277mm;
+
+margin:0 auto;
+
+padding:10mm;
+
 box-shadow:none;
 
-border-radius:0;
-
-margin:0;
-
-max-width:100%;
-
-border-top:6px solid #0b4ea2;
+border:2px solid #0b4ea2;
 
 page-break-inside:avoid;
 
-}
-
-button{
-
-display:none;
+break-inside:avoid;
 
 }
 
+body *{
+
+visibility:hidden;
+
 }
+
+.receipt-container,
+.receipt-container *{
+
+visibility:visible;
+
+}
+
+.receipt-container{
+
+position:absolute;
+
+top:0;
+
+left:0;
+
+}
+
+}
+
 
 /* Mobile */
 
@@ -478,7 +515,7 @@ width:70px;
 
 }
 
-  }
+}
 
 /* Barcode */
 
@@ -504,7 +541,7 @@ width:100%;
 
 height:70px;
 
-   }
+}
 
 /* QR Code */
 
