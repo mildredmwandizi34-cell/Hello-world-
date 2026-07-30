@@ -583,6 +583,20 @@ color:#0b4ea2;
 
    }
 
+.qr-note{
+
+display:block;
+
+margin-top:6px;
+
+font-size:11px;
+
+color:#666;
+
+line-height:1.4;
+
+   }
+
 /*==============================
   Payment Stamp
 ==============================*/
