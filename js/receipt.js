@@ -27,10 +27,9 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Shipment not found.");
         return;
     }
-
     console.log(shipments);
 console.log(tracking);
-console.log(shipment);
+alert(JSON.stringify(shipment));
 
     // Helper function
     function set(id, value) {
