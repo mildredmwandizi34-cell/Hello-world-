@@ -28,6 +28,10 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    console.log(shipments);
+console.log(tracking);
+console.log(shipment);
+
     // Helper function
     function set(id, value) {
         const el = document.getElementById(id);
