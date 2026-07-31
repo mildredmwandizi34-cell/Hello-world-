@@ -37,10 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Receipt number
-    const receiptNo = shipment.receiptNo ||
-        "RCP-" + Date.now();
-
-    shipment.receiptNo = receiptNo;
+    const receiptNo = shipment.receiptNumber || "RCP-" + Date.now();
+shipment.receiptNumber = receiptNo;
 
     localStorage.setItem("shipments", JSON.stringify(shipments));
 
@@ -75,26 +73,26 @@ if (typeof JsBarcode !== "undefined") {
     set("receiptDate", today);
 
     // Sender
-    set("senderName", shipment.sender);
+    set("senderName", shipment.senderName);
     set("senderCompany", shipment.senderCompany);
     set("senderAddress", shipment.senderAddress);
     set("senderPhone", shipment.senderPhone);
     set("senderEmail", shipment.senderEmail);
 
     // Receiver
-    set("receiverName", shipment.receiver);
+    set("receiverName", shipment.receiverName);
     set("receiverCompany", shipment.receiverCompany);
     set("receiverAddress", shipment.receiverAddress);
     set("receiverPhone", shipment.receiverPhone);
     set("receiverEmail", shipment.receiverEmail);
 
     // Shipment Details
-    set("description", shipment.description);
-    set("packageType", shipment.package);
+    set("description", shipment.package);
+    set("packageType", shipment.packageType);
     set("pieces", shipment.pieces);
     set("weight", shipment.weight);
     set("dimensions", shipment.dimensions);
-    set("value", shipment.value);
+    set("value", shipment.declaredValue);
     set("service", shipment.service);
     set("insurance", shipment.insurance);
     set("payment", shipment.paymentStatus);
@@ -105,7 +103,7 @@ if (typeof JsBarcode !== "undefined") {
     set("location", shipment.location);
 
     // Signature
-    set("senderSignature", shipment.sender);
+    set("senderSignature", shipment.senderName);
 
     // Footer
     set("documentNo", receiptNo);
@@ -224,3 +222,4 @@ if (verifyElement) {
     verifyElement.textContent = verification;
 
 }
+}); // End of DOMContentLoaded
