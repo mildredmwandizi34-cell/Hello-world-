@@ -32,7 +32,7 @@ a{
 /* Images */
 
 img{
-    max-width:30%;
+    max-width:100%;
     display:block;
 }
 
@@ -54,7 +54,7 @@ img{
 }
 
 .logo{
-    width: 220px;
+    width: 270px;
     height: auto;
     display: block;
     margin: 20px auto;
