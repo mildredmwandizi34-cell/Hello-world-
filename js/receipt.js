@@ -103,7 +103,7 @@ if (typeof JsBarcode !== "undefined") {
     set("location", shipment.location);
 
     // Signature
-    set("senderSignature", shipment.senderName);
+    set("senderSignature", shipment.senderSignature);
 
     // Footer
     set("documentNo", receiptNo);
