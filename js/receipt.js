@@ -37,8 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Receipt number
-    const receiptNo = shipment.receiptNumber || "RCP-" + Date.now();
-shipment.receiptNumber = receiptNo;
+   const receiptNo = shipment.receiptNumber ||
+    "RCP-" + Date.now();
+
+shipment.receiptNumber = receiptNo; 
 
     localStorage.setItem("shipments", JSON.stringify(shipments));
 
