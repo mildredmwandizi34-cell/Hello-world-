@@ -401,3 +401,77 @@ gap:15px;
 }
 
    }
+
+.signature-card{
+
+text-align:center;
+
+flex:1;
+
+padding:20px;
+
+}
+
+.signature-card img{
+
+height:90px;
+
+object-fit:contain;
+
+}
+
+.signature-line{
+
+width:180px;
+
+height:2px;
+
+background:#222;
+
+margin:15px auto;
+
+}
+
+.signature-card h4{
+
+margin-top:10px;
+
+color:#0b4ea2;
+
+font-size:18px;
+
+}
+
+.signature-card small{
+
+color:#666;
+
+}
+
+.seal{
+
+height:140px !important;
+
+animation:sealPop .6s ease;
+
+}
+
+@keyframes sealPop{
+
+0%{
+
+transform:scale(.5);
+
+opacity:0;
+
+}
+
+100%{
+
+transform:scale(1);
+
+opacity:1;
+
+}
+
+}
