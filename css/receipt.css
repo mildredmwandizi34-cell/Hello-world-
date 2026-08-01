@@ -390,3 +390,38 @@ body{
 }
 
    }
+
+.timeline{
+    margin:40px 0;
+}
+
+.timeline-box{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:25px;
+    gap:10px;
+}
+
+.step{
+    flex:1;
+    text-align:center;
+    color:#999;
+    font-weight:bold;
+}
+
+.circle{
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#ccc;
+    margin:0 auto 12px;
+}
+
+.step.complete{
+    color:#0b4ea2;
+}
+
+.step.complete .circle{
+    background:#0b4ea2;
+}
