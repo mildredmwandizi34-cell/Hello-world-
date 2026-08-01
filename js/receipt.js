@@ -106,6 +106,10 @@ if (typeof JsBarcode !== "undefined") {
     set("delivery", shipment.delivery);
     set("status", shipment.status);
     set("location", shipment.location);
+    set("shippingCost", shipment.shippingCost);
+    set("tax", shipment.tax);
+    set("discount", shipment.discount);
+    set("totalAmount", shipment.totalAmount);
 
     // Signature
     set("senderSignature", shipment.senderSignature);
