@@ -115,6 +115,78 @@
 
     </section>
 
+    <section class="charges">
+
+<h2>Charges Summary</h2>
+
+<table>
+
+<tr>
+<td>Shipping Cost</td>
+<td id="shippingCost"></td>
+</tr>
+
+<tr>
+<td>Tax</td>
+<td id="tax"></td>
+</tr>
+
+<tr>
+<td>Discount</td>
+<td id="discount"></td>
+</tr>
+
+<tr class="total">
+<td>Total Amount</td>
+<td id="totalAmount"></td>
+</tr>
+
+</table>
+
+    </section>
+
+    <section class="timeline">
+
+<h2>Shipment Progress</h2>
+
+<div class="timeline-box">
+
+<div class="step complete">
+
+<div class="circle"></div>
+
+Shipment Created
+
+</div>
+
+<div class="step">
+
+<div class="circle"></div>
+
+Picked Up
+
+</div>
+
+<div class="step">
+
+<div class="circle"></div>
+
+In Transit
+
+</div>
+
+<div class="step">
+
+<div class="circle"></div>
+
+Delivered
+
+</div>
+
+</div>
+
+    </section>
+
     <!-- SECURITY -->
     <section class="security">
 
@@ -127,6 +199,22 @@
         </div>
 
         <div id="qrcode"></div>
+
+    </section>
+
+    <section class="verification-note">
+
+<h3>American Global Logistics Verification</h3>
+
+<p>
+
+This shipment receipt is digitally verified by the
+American Global Logistics Verification System.
+
+The barcode, QR Code, tracking number and verification
+code are unique to this shipment.
+
+</p>
 
     </section>
 
@@ -169,6 +257,22 @@
         <small>American Global Logistics</small>
 
     </div>
+
+    </section>
+
+    <section class="receipt-actions">
+
+<button onclick="printReceipt()">
+
+🖨 Print Receipt
+
+</button>
+
+<button onclick="window.location.href='track.html?tracking='+document.getElementById('trackingNumber').textContent">
+
+📦 Track Shipment
+
+</button>
 
     </section>
 
