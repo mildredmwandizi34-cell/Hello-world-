@@ -276,6 +276,18 @@ code are unique to this shipment.
 
     </section>
 
+    <section class="receipt-actions">
+
+<button onclick="window.print()">
+🖨 Print Receipt
+</button>
+
+<button onclick="window.location.href='track.html?tracking='+document.getElementById('trackingNumber').textContent">
+📦 Track Shipment
+</button>
+
+    </section>
+
     <!-- FOOTER -->
     <footer>
 
