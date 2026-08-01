@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -7,440 +8,179 @@
 
 <title>Shipment Receipt | American Global Logistics</title>
 
+<link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/receipt.css">
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 </head>
 
 <body>
 
-<div class="receipt-container">
+<div class="receipt">
 
-<!--================ HEADER ================-->
+    <!-- HEADER -->
+    <header class="receipt-header">
 
-<div class="receipt-header">
+        <div class="company">
 
-<div class="company">
+            <img src="images/logo.png" class="logo">
 
-<img src="image/agl-logo.png" class="logo">
+            <div>
 
-<div>
+                <h1>American Global Logistics</h1>
 
-<h1>American Global Logistics</h1>
+                <p>Reliable Worldwide Shipping Solutions</p>
 
-<p>Reliable Worldwide Shipping Solutions</p>
-
-<p class="small">
-Worldwide Freight • Air • Ocean • Road • Express
-</p>
-
-</div>
-
-</div>
-
-<div class="receipt-title">
-
-<h2>SHIPMENT RECEIPT</h2>
-
-<p><strong>Tracking:</strong>
-<span id="trackingNumber"></span></p>
-
-  <div class="barcode-box">
-
-<svg id="barcode"></svg>
-
-    <div class="payment-stamp">
-
-    <div id="paymentStamp" class="stamp paid">
-        PAID
-    </div>
-
-</div>
-
-  </div>
-
-<p><strong>Receipt No:</strong>
-<span id="receiptNumber"></span></p>
-
-<p><strong>Date:</strong>
-<span id="receiptDate"></span></p>
-
-</div>
-
-</div>
-
-<hr>
-
-<!--================ SENDER + RECEIVER ================-->
-
-<div class="info-grid">
-
-<div class="card">
-
-<h3>Sender Information</h3>
-
-<p><strong>Name</strong></p>
-
-<p id="senderName"></p>
-
-<p><strong>Company</strong></p>
-
-<p id="senderCompany"></p>
-
-<p><strong>Address</strong></p>
-
-<p id="senderAddress"></p>
-
-<p><strong>Phone</strong></p>
-
-<p id="senderPhone"></p>
-
-<p><strong>Email</strong></p>
-
-<p id="senderEmail"></p>
-
-</div>
-
-<div class="card">
-
-<h3>Receiver Information</h3>
-
-<p><strong>Name</strong></p>
-
-<p id="receiverName"></p>
-
-<p><strong>Company</strong></p>
-
-<p id="receiverCompany"></p>
-
-<p><strong>Address</strong></p>
-
-<p id="receiverAddress"></p>
-
-<p><strong>Phone</strong></p>
-
-<p id="receiverPhone"></p>
-
-<p><strong>Email</strong></p>
-
-<p id="receiverEmail"></p>
-
-</div>
-
-</div>
-
-<!--================ SHIPMENT TABLE ================-->
-
-<h2 class="section-title">
-Shipment Details
-</h2>
-
-<table class="details-table">
-
-<tr>
-
-<th>Field</th>
-
-<th>Information</th>
-
-</tr>
-
-<tr>
-
-<td>Package Description</td>
-
-<td id="description"></td>
-
-</tr>
-
-<tr>
-
-<td>Package Type</td>
-
-<td id="packageType"></td>
-
-</tr>
-
-<tr>
-
-<td>Pieces</td>
-
-<td id="pieces"></td>
-
-</tr>
-
-<tr>
-
-<td>Weight</td>
-
-<td id="weight"></td>
-
-</tr>
-
-<tr>
-
-<td>Dimensions</td>
-
-<td id="dimensions"></td>
-
-</tr>
-
-<tr>
-
-<td>Declared Value</td>
-
-<td id="value"></td>
-
-</tr>
-
-<tr>
-
-<td>Shipping Service</td>
-
-<td id="service"></td>
-
-</tr>
-
-<tr>
-
-<td>Insurance</td>
-
-<td id="insurance"></td>
-
-</tr>
-
-<tr>
-
-<td>Payment Status</td>
-
-<td id="payment"></td>
-
-</tr>
-
-<tr>
-
-<td>Origin</td>
-
-<td id="origin"></td>
-
-</tr>
-
-<tr>
-
-<td>Destination</td>
-
-<td id="destination"></td>
-
-</tr>
-
-<tr>
-
-<td>Estimated Delivery</td>
-
-<td id="delivery"></td>
-
-</tr>
-
-<tr>
-
-<td>Current Status</td>
-
-<td id="status"></td>
-
-</tr>
-
-<tr>
-
-<td>Current Location</td>
-
-<td id="location"></td>
-
-</tr>
-
-</table>
-
-  <div class="security-strip">
-
-    <div class="security-left">
-
-        <h3>Security Verification</h3>
-
-        <p>
-            This shipment receipt is protected by the American Global
-            Logistics Verification System.
-        </p>
-
-        <p>
-            Verify online using the tracking number or scan the QR code.
-        </p>
-
-    </div>
-
-    <div class="security-right">
-
-        <div class="verify-label">
-            Verification Code
-        </div>
-
-        <div id="verificationCode" class="verify-code">
-            AGL-00000000
-        </div>
-
-    </div>
-
-</div>
-
-<!--================ AUTHORIZATION ================-->
-
-<h2 class="section-title">
-Authorization & Verification
-</h2>
-
-<div class="signature-area">
-
-<div>
-
-<img src="image/sender-signature.png" class="signature">
-
-<p class="line"></p>
-
-<h4>Sender Signature</h4>
-
-<p id="senderSignature"></p>
-
-</div>
-
-<div>
-
-<img src="image/agl-officer-signature.png" class="signature">
-
-<p class="line"></p>
-
-<h4>Authorized Officer</h4>
-
-  <div class="agl-seal">
-
-    <div class="seal-outer">
-
-        <div class="seal-inner">
-
-            <div class="seal-company">
-                AMERICAN
-            </div>
-
-            <div class="seal-company">
-                GLOBAL
-            </div>
-
-            <div class="seal-company">
-                LOGISTICS
-            </div>
-
-            <div class="seal-check">✓</div>
-
-            <div class="seal-text">
-                OFFICIALLY VERIFIED
-            </div>
-
-            <div class="seal-year">
-                EST. 2026
             </div>
 
         </div>
 
-    </div>
+        <div class="receipt-title">
 
-  </div>
+            <h2>SHIPMENT RECEIPT</h2>
 
-  <div class="receipt-stamp">
-    <img src="image/agl-official-seal.png" alt="Official Verified Seal">
-  </div>
-  
-<p>American Global Logistics</p>
+            <p><strong>Tracking:</strong> <span id="trackingNumber"></span></p>
 
-</div>
+            <p><strong>Receipt No:</strong> <span id="receiptNumber"></span></p>
 
-<div>
+            <p><strong>Date:</strong> <span id="receiptDate"></span></p>
 
-<img src="image/agl-authorized-stamp.png"
-class="stamp">
+        </div>
 
-</div>
+    </header>
 
-</div>
+    <!-- BARCODE -->
+    <section class="barcode-section">
 
-<!--================ QR CODE ================-->
+        <svg id="barcode"></svg>
 
-<div class="bottom">
+        <div id="paymentStamp"></div>
 
-<div>
+    </section>
 
-<p><strong>Document No:</strong>
+    <!-- SENDER / RECEIVER -->
+    <section class="people">
 
-<span id="documentNo"></span>
+        <div class="card">
 
-</p>
+            <h3>Sender Information</h3>
 
-<p><strong>Issue Date:</strong>
+            <p><b>Name:</b> <span id="senderName"></span></p>
+            <p><b>Company:</b> <span id="senderCompany"></span></p>
+            <p><b>Address:</b> <span id="senderAddress"></span></p>
+            <p><b>Phone:</b> <span id="senderPhone"></span></p>
+            <p><b>Email:</b> <span id="senderEmail"></span></p>
 
-<span id="issueDate"></span>
+        </div>
 
-</p>
+        <div class="card">
 
-</div>
+            <h3>Receiver Information</h3>
 
-<div class="qr-box">
+            <p><b>Name:</b> <span id="receiverName"></span></p>
+            <p><b>Company:</b> <span id="receiverCompany"></span></p>
+            <p><b>Address:</b> <span id="receiverAddress"></span></p>
+            <p><b>Phone:</b> <span id="receiverPhone"></span></p>
+            <p><b>Email:</b> <span id="receiverEmail"></span></p>
 
-    <div id="qrcode"></div>
+        </div>
 
-    <p class="qr-text">
+    </section>
 
-Scan to Track Shipment
+    <!-- SHIPMENT DETAILS -->
+    <section class="details">
 
-</p>
+        <h2>Shipment Details</h2>
 
-<small class="qr-note">
+        <table>
 
-Opens the official American Global Logistics tracking page
+            <tr><td>Package</td><td id="description"></td></tr>
+            <tr><td>Package Type</td><td id="packageType"></td></tr>
+            <tr><td>Pieces</td><td id="pieces"></td></tr>
+            <tr><td>Weight</td><td id="weight"></td></tr>
+            <tr><td>Dimensions</td><td id="dimensions"></td></tr>
+            <tr><td>Declared Value</td><td id="value"></td></tr>
+            <tr><td>Service</td><td id="service"></td></tr>
+            <tr><td>Insurance</td><td id="insurance"></td></tr>
+            <tr><td>Payment</td><td id="payment"></td></tr>
+            <tr><td>Origin</td><td id="origin"></td></tr>
+            <tr><td>Destination</td><td id="destination"></td></tr>
+            <tr><td>Delivery</td><td id="delivery"></td></tr>
+            <tr><td>Status</td><td id="status"></td></tr>
+            <tr><td>Location</td><td id="location"></td></tr>
 
-</small>
+        </table>
 
-</div>
+    </section>
 
-</div>
+    <!-- SECURITY -->
+    <section class="security">
 
-<!--================ FOOTER ================-->
+        <div>
 
-<div class="footer">
+            <h3>Verification Code</h3>
 
-<h3>American Global Logistics</h3>
+            <h2 id="verificationCode"></h2>
 
-<p>
+        </div>
 
-Reliable Worldwide Shipping Solutions
+        <div id="qrcode"></div>
 
-</p>
+    </section>
 
-<p>
+    <!-- AUTHORIZATION -->
+    <section class="authorization">
 
-Email:
-support@americangloballogistics.com
+        <div>
 
-</p>
+            <img id="senderSignatureImage"
+                 src="images/sender-signature.png">
 
-<p>
+            <p>Sender Signature</p>
 
-Website:
-www.americangloballogistics.com
+        </div>
 
-</p>
+        <div>
 
-</div>
+            <img id="officerSignatureImage"
+                 src="images/officer-signature.png">
+
+            <p>Authorized Officer</p>
+
+        </div>
+
+        <div>
+
+            <img src="images/agl-seal.png">
+
+            <p>Official Verified Seal</p>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div>
+
+            <strong>Document No:</strong>
+
+            <span id="documentNo"></span>
+
+        </div>
+
+        <div>
+
+            <strong>Issue Date:</strong>
+
+            <span id="issueDate"></span>
+
+        </div>
+
+    </footer>
 
 </div>
 
