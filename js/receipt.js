@@ -231,4 +231,27 @@ if (verifyElement) {
     verifyElement.textContent = verification;
 
 }
+    // ==============================
+// Shipment Progress Timeline
+// ==============================
+
+const steps = document.querySelectorAll(".timeline .step");
+
+const statusOrder = [
+    "Shipment Created",
+    "Picked Up",
+    "In Transit",
+    "Delivered"
+];
+
+const currentIndex = statusOrder.indexOf(shipment.status);
+
+steps.forEach((step, index) => {
+    if (index <= currentIndex) {
+        step.classList.add("complete");
+    } else {
+        step.classList.remove("complete");
+    }
+});
+    
 }); // End of DOMContentLoaded
