@@ -47,6 +47,10 @@
 
             <p><strong>Date:</strong> <span id="receiptDate"></span></p>
 
+            <p><strong>Shipment ID:</strong>
+            <span id="shipmentId"></span>
+            </p>
+
         </div>
 
     </header>
@@ -56,7 +60,7 @@
 
         <svg id="barcode"></svg>
 
-        <div id="paymentStamp"></div>
+        <div class="payment-badge" id="paymentStamp"></div>
 
     </section>
 
@@ -89,6 +93,36 @@
 
     </section>
 
+    <section class="summary">
+
+<h2>Shipment Summary</h2>
+
+<div class="summary-grid">
+
+<div>
+<strong>Tracking Number</strong>
+<p id="summaryTracking"></p>
+</div>
+
+<div>
+<strong>Status</strong>
+<p id="summaryStatus"></p>
+</div>
+
+<div>
+<strong>Current Location</strong>
+<p id="summaryLocation"></p>
+</div>
+
+<div>
+<strong>Estimated Delivery</strong>
+<p id="summaryDelivery"></p>
+</div>
+
+</div>
+
+    </section>
+
     <!-- SHIPMENT DETAILS -->
     <section class="details">
 
@@ -110,8 +144,30 @@
             <tr><td>Delivery</td><td id="delivery"></td></tr>
             <tr><td>Status</td><td id="status"></td></tr>
             <tr><td>Location</td><td id="location"></td></tr>
+            <tr>
+<td>Reference Number</td>
+<td id="reference"></td>
+</tr>
+
+<tr>
+<td>Customer Reference</td>
+<td id="customerReference"></td>
+</tr>
+
+<tr>
+<td>Barcode Number</td>
+<td id="barcodeNumber"></td>
+</tr>
 
         </table>
+
+    </section>
+
+    <section class="instructions">
+
+<h2>Special Instructions</h2>
+
+<p id="instructions"></p>
 
     </section>
 
@@ -155,35 +211,37 @@
 
 <div class="circle"></div>
 
+<div class="step" id="stepCreated">
+
+<div class="circle"></div>
+
 Shipment Created
 
 </div>
 
-<div class="step">
+    <div class="step" id="stepPicked">
 
 <div class="circle"></div>
 
 Picked Up
 
-</div>
+    </div>
 
-<div class="step">
+    <div class="step" id="stepTransit">
 
 <div class="circle"></div>
 
 In Transit
 
-</div>
+    </div>
 
-<div class="step">
+    <div class="step" id="stepDelivered">
 
 <div class="circle"></div>
 
 Delivered
 
-</div>
-
-</div>
+    </div>
 
     </section>
 
@@ -199,6 +257,15 @@ Delivered
         </div>
 
         <div id="qrcode"></div>
+
+        <p>
+
+Verification Status:
+<strong style="color:green;">
+✓ VERIFIED
+</strong>
+
+        </p>
 
     </section>
 
