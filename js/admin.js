@@ -270,9 +270,8 @@ function loadShipments() {
 
             <td>${shipment.tracking}</td>
 
-            <td>${shipment.sender}</td>
-
-            <td>${shipment.receiver}</td>
+            <td>${shipment.senderName}</td>
+            <td>${shipment.receiverName}</td>
 
             <td>${shipment.status}</td>
 
@@ -329,10 +328,10 @@ function loadShipment() {
         shipment.progress || 0;
 
     document.getElementById("senderUpdate").value =
-        shipment.sender || "";
+        shipment.senderName || "";
 
     document.getElementById("receiverUpdate").value =
-        shipment.receiver || "";
+        shipment.receiverName || "";
 
     document.getElementById("originUpdate").value =
         shipment.origin || "";
@@ -376,8 +375,11 @@ function updateShipment() {
     shipment.location = document.getElementById("locationUpdate").value;
     shipment.delivery = document.getElementById("deliveryUpdate").value;
 
-    shipment.sender = document.getElementById("senderUpdate").value;
-    shipment.receiver = document.getElementById("receiverUpdate").value;
+    shipment.senderName =
+    document.getElementById("senderUpdate").value;
+
+    shipment.receiverName =
+    document.getElementById("receiverUpdate").value;
 
     shipment.origin = document.getElementById("originUpdate").value;
     shipment.destination = document.getElementById("destinationUpdate").value;
