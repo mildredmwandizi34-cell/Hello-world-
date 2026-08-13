@@ -806,3 +806,75 @@ function loadActivity(){
     });
 
       }
+
+// ===========================================
+// LIVE SHIPMENT STATISTICS - V4
+// ===========================================
+
+function updateLiveStatistics() {
+
+    // Get the latest shipment data
+    shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+
+    let total = shipments.length;
+    let inTransit = 0;
+    let delivered = 0;
+    let awaiting = 0;
+
+    shipments.forEach(function (shipment) {
+
+        const status = (shipment.status || "").toLowerCase();
+
+        if (status === "delivered") {
+            delivered++;
+        }
+
+        else if (
+            status === "in transit" ||
+            status === "customs cleared" ||
+            status === "arrived at destination hub" ||
+            status === "out for delivery"
+        ) {
+            inTransit++;
+        }
+
+        else if (
+            status === "awaiting pickup" ||
+            status === "shipment created" ||
+            status === "picked up"
+        ) {
+            awaiting++;
+        }
+
+    });
+
+    // Update dashboard numbers
+    const totalElement = document.getElementById("totalShipments");
+    const transitElement = document.getElementById("inTransit");
+    const deliveredElement = document.getElementById("delivered");
+    const awaitingElement = document.getElementById("awaiting");
+
+    if (totalElement) {
+        totalElement.textContent = total;
+    }
+
+    if (transitElement) {
+        transitElement.textContent = inTransit;
+    }
+
+    if (deliveredElement) {
+        deliveredElement.textContent = delivered;
+    }
+
+    if (awaitingElement) {
+        awaitingElement.textContent = awaiting;
+
+        // Initial statistics update
+updateLiveStatistics();
+
+// Keep statistics synchronized with localStorage
+window.addEventListener("storage", function () {
+    updateLiveStatistics();
+});
+    }
+    }
