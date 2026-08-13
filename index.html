@@ -51,55 +51,93 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <div class="hero-overlay">
 
-<img
-src="image/agl-logo.png"
-class="hero-logo"
-alt="American Global Logistics Logo">
-
-<h1>Worldwide Freight & Logistics</h1>
+<h1>Request a Shipping Quote</h1>
 
 <p>
-Fast • Secure • Reliable Shipping Solutions Across the Globe
+Receive a professional shipping estimate from our logistics specialists.
 </p>
-
-<div style="display:flex;gap:15px;flex-wrap:wrap;justify-content:center;">
-
-<a href="track.html" class="hero-btn">
-<i class="fa-solid fa-location-dot"></i>
-Track Shipment
-</a>
-
-<a href="services.html" class="hero-btn">
-<i class="fa-solid fa-box"></i>
-Our Services
-</a>
-
-</div>
-
-<br><br>
-
-<div class="track-home">
-
-<h3 style="margin-top:0;">Track Your Shipment</h3>
-
-<input
-type="text"
-id="homeTracking"
-placeholder="Enter Tracking Number">
-
-<button onclick="trackFromHome()">
-
-<i class="fa-solid fa-magnifying-glass"></i>
-
-Track Now
-
-</button>
-
-</div>
 
 </div>
 
 </section>
+
+  <section class="section">
+
+<div class="container">
+
+<h2 class="section-title">
+Free Shipping Quote
+</h2>
+
+<form id="quoteForm">
+
+<input
+type="text"
+placeholder="Full Name"
+required>
+
+<input
+type="email"
+placeholder="Email Address"
+required>
+
+<input
+type="tel"
+placeholder="Phone Number">
+
+<input
+type="text"
+placeholder="Origin Country"
+required>
+
+<input
+type="text"
+placeholder="Destination Country"
+required>
+
+<select required>
+
+<option value="">
+Select Shipping Method
+</option>
+
+<option>
+Air Freight
+</option>
+
+<option>
+Ocean Freight
+</option>
+
+<option>
+Road Transport
+</option>
+
+<option>
+Express Delivery
+</option>
+
+</select>
+
+<input
+type="number"
+placeholder="Weight (kg)"
+required>
+
+<textarea
+placeholder="Describe your shipment"></textarea>
+
+<button type="submit" class="quote-btn">
+
+Request Quote
+
+</button>
+
+</form>
+
+</div>
+
+  </section>  
     
 <section class="section">
 
