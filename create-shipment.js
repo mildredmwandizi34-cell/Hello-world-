@@ -121,4 +121,5 @@ localStorage.setItem("shipments", JSON.stringify(shipments));
 localStorage.setItem("shipment", JSON.stringify(shipment));
 
 // Open receipt
-window.location.href = "receipt.html";
+window.location.href =
+"receipt.html?tracking=" + shipment.trackingNumber;
