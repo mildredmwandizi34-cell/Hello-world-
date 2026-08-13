@@ -35,10 +35,18 @@ const receiptNumber = "RCP-" + Date.now();
 // Build the shipment object
 const shipment = {
 
-    tracking: trackingNumber,
+    trackingNumber: trackingNumber,
+tracking: trackingNumber,
     receiptNumber: receiptNumber,
+    receiptDate: new Date().toLocaleDateString(),
+documentNo: "DOC-" + Math.floor(100000 + Math.random() * 900000),
+issueDate: new Date().toLocaleDateString(),
+verificationCode: Math.random().toString(36).substring(2,10).toUpperCase(),
+shipmentId: "SHP-" + Date.now(),
+createdTime: new Date().toLocaleString(),
+barcodeNumber: trackingNumber,
 
-    referenceNumber: document.getElementById("referenceNumber").value,
+    reference: document.getElementById("reference").value,
     customerReference: document.getElementById("customerReference").value,
 
     // Sender
@@ -60,14 +68,14 @@ const shipment = {
     receiverEmail: document.getElementById("receiverEmail").value,
 
     // Shipment
-    package: document.getElementById("package").value,
-    packageType: document.getElementById("packageType").value,
+    description: document.getElementById("description").value,
+    descriptionType: document.getElementById("descriptionType").value,
     pieces: document.getElementById("pieces").value,
     weight: document.getElementById("weight").value + " kg",
     dimensions: document.getElementById("dimensions").value,
-    declaredValue: document.getElementById("declaredValue").value,
+    Value: document.getElementById("Value").value,
     service: document.getElementById("service").value,
-    paymentStatus: document.getElementById("paymentStatus").value,
+    payment: document.getElementById("payment").value,
     insurance: document.getElementById("insurance").value,
     origin: document.getElementById("origin").value,
     destination: document.getElementById("destination").value,
