@@ -106,12 +106,11 @@ const shipment = {
     // Save shipment
 shipments.push(shipment);
 
-// Save to localStorage
+// Save all shipments
 localStorage.setItem("shipments", JSON.stringify(shipments));
 
-// Reset the form
-event.target.reset();
+// Save the latest shipment for receipt.html
+localStorage.setItem("shipment", JSON.stringify(shipment));
 
-// Open the professional receipt
-window.location.href = "receipt.html?tracking=" + shipment.tracking;
-}
+// Open receipt
+window.location.href = "receipt.html";
