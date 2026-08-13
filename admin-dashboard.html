@@ -2,535 +2,146 @@
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Admin Dashboard | American Global Logistics</title>
 
-<link rel="stylesheet" href="style.css">
-    
-<link
-rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet"
-href="https://unpkg.com/leaflet.awesome-markers@2.0.5/dist/leaflet.awesome-markers.css">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<style>
-
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f7fb;
-}
-
-.header{
-    background:#0b4ea2;
-    color:white;
-    text-align:center;
-    padding:25px;
-}
-
-.logo{
-    width:90px;
-    margin-bottom:10px;
-}
-
-.navbar{
-    background:#083b80;
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-}
-
-.navbar a{
-    color:white;
-    text-decoration:none;
-    padding:16px 20px;
-}
-
-.navbar a:hover{
-    background:#0b4ea2;
-}
-
-.container{
-    width:95%;
-    max-width:1200px;
-    margin:auto;
-    padding:25px;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
-
-.card{
-    background:white;
-    border-radius:10px;
-    padding:20px;
-    box-shadow:0 4px 12px rgba(0,0,0,.1);
-}
-
-.card h3{
-    margin-top:0;
-    color:#0b4ea2;
-}
-
-.btn-primary{
-    background:#0b4ea2;
-    color:white;
-    border:none;
-    padding:12px 22px;
-    border-radius:6px;
-    cursor:pointer;
-    font-size:16px;
-}
-
-.btn-primary:hover{
-    background:#083b80;
-}
-
-input,
-select,
-textarea{
-    width:100%;
-    padding:12px;
-    margin:8px 0 18px;
-    border:1px solid #ccc;
-    border-radius:6px;
-    box-sizing:border-box;
-}
-
-textarea{
-    min-height:120px;
-}
-
-.update-box{
-    margin-top:40px;
-}
-#adminMap{
-    width:100%;
-    height:550px;
-    border-radius:12px;
-    border:2px solid #0b4ea2;
-    margin-top:20px;
-    }
-</style>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
 
 </head>
 
-<body onload="checkAdminLogin()">
+<body>
 
-<header class="header">
+<header class="admin-header">
 
-<img src="image/file_00000000fb107243823fd30bcb45f00f.png"
-class="logo">
+    <div class="header-left">
 
-<h1>American Global Logistics</h1>
+        <img src="image/agl-logo.png" class="logo" alt="AGL Logo">
 
-<p>
-Welcome, <strong id="adminName"></strong>
-</p>
+        <div>
 
-</header>
+            <h1>American Global Logistics</h1>
+            <p>Shipment Management Dashboard</p>
 
-<nav class="navbar">
-
-<a href="index.html">Website</a>
-
-<a href="create-shipment.html">Create Shipment</a>
-
-<a href="track.html">Track Shipment</a>
-
-<a href="manage-shipments.html">Manage Shipments</a>
-
-<a href="#" onclick="logoutAdmin()">Logout</a>
-<a href="#" onclick="changePassword()">Change Password</a>
-
-</nav>
-
-<div class="container">
-
-<h2>Dashboard Overview</h2>
-
-<div class="cards">
-
-<div class="card">
-<h3>Total Shipments</h3>
-<h1 id="totalShipments">0</h1>
-</div>
-
-<div class="card">
-<h3>In Transit</h3>
-<h1 id="inTransit">0</h1>
-</div>
-
-<div class="card">
-<h3>Delivered</h3>
-<h1 id="delivered">0</h1>
-</div>
-
-<div class="card">
-<h3>Awaiting Pickup</h3>
-<h1 id="awaiting">0</h1>
-</div>
-
-    <div class="card">
-
-<h3>💬 Customer Messages</h3>
-
-<h1 id="totalMessages">0</h1>
-
-<p id="newMessageAlert" style="color:red;font-weight:bold;"></p>
+        </div>
 
     </div>
 
-</div>
+    <div class="header-right">
 
-<div class="card update-box">
+        <button id="logoutBtn">Logout</button>
 
-<h2>Load Shipment</h2>
+    </div>
 
-<input
-type="text"
-id="trackingSearch"
-placeholder="Enter Tracking Number">
+</header>
 
-<button
-class="btn-primary"
-onclick="loadShipment()">
+<main class="dashboard">
 
-Load Shipment
+    <!-- Statistics -->
+    <section class="stats-grid">
 
-</button>
+        <div class="stat-card">
+            <h2 id="totalShipments">0</h2>
+            <p>Total Shipments</p>
+        </div>
 
-<hr>
+        <div class="stat-card">
+            <h2 id="createdShipments">0</h2>
+            <p>Created</p>
+        </div>
+
+        <div class="stat-card">
+            <h2 id="transitShipments">0</h2>
+            <p>In Transit</p>
+        </div>
+
+        <div class="stat-card">
+            <h2 id="deliveredShipments">0</h2>
+            <p>Delivered</p>
+        </div>
+
+    </section>
+
+    <!-- Search -->
+    <section class="search-panel">
+
+        <input
+            type="text"
+            id="searchShipment"
+            placeholder="Search by tracking number, sender or receiver">
+
+    </section>
+
+    <!-- Shipment Table -->
+    <section class="table-section">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Tracking</th>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="shipmentTable">
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+</main>
+
+<!-- Edit Shipment -->
+<section id="editPanel" class="edit-panel">
 
 <h2>Edit Shipment</h2>
 
-<label>Status</label>
-    
-<select id="statusUpdate">
+<input id="editTracking" placeholder="Tracking Number" readonly>
 
-<option>Shipment Created</option>
+<input id="editStatus" placeholder="Shipment Status">
 
-<option>Awaiting Pickup</option>
+<input id="editLocation" placeholder="Current Location">
 
-<option>Picked Up</option>
-
-<option>In Transit</option>
-
-<option>Customs Cleared</option>
-
-<option>Arrived at Destination Hub</option>
-
-<option>Out for Delivery</option>
-
-<option>Delivered</option>
-
-</select>
-
-<label>Current Location</label>
-
-<input
-type="text"
-id="locationUpdate">
-    
-<label>Delivery Date</label>
-
-<input
-type="text"
-id="deliveryUpdate">
-
-<label>Route</label>
-<input
-type="text"
-id="routeUpdate"
-readonly>
-
-<label>Progress (%)</label>
-<input
-type="number"
-id="progressUpdate"
-min="0"
-max="100"
-readonly>
-    <label><strong>Sender</strong></label>
-<input type="text" id="senderUpdate">
-<label><strong>Receiver</strong></label>
-<input type="text" id="receiverUpdate">
-
-<label><strong>Origin City</strong></label>
-<select id="originUpdate">
-    <option value="">Select Origin</option>
-    <option>New York</option>
-    <option>London</option>
-    <option>Los Angeles</option>
-    <option>Guatemala</option>
-    <option>Dubai</option>
-    <option>Nairobi</option>
-    <option>Costa Rica</option>
-</select>
-
-<label><strong>Destination City</strong></label>
-<select id="destinationUpdate">
-    <option value="">Select Destination</option>
-    <option>New York</option>
-    <option>London</option>
-    <option>Los Angeles</option>
-    <option>Guatemala</option>
-    <option>Dubai</option>
-    <option>Nairobi</option>
-    <option>Costa Rica</option>
-</select>
-
-<label><strong>Package</strong></label>
-<input type="text" id="packageUpdate">
-<label><strong>Weight (kg)</strong></label>
-<input type="text" id="weightUpdate">
-<label>Shipping Service</label>
-
-<select id="serviceUpdate">
-
-<option>Air Freight</option>
-<option>Ocean Freight</option>
-<option>Road Transport</option>
-<option>Express Delivery</option>
-
-</select>
-
-<label>Shipment History</label>
+<input type="date" id="editDelivery">
 
 <textarea
-id="historyUpdate"></textarea>
+id="editInstructions"
+placeholder="Special Instructions"></textarea>
 
-<div style="margin-top:20px;display:flex;gap:15px;flex-wrap:wrap;">
+<div class="button-group">
 
-<button
-class="btn-primary"
-onclick="updateShipment()">
-
-💾 Save Changes
-
+<button id="saveShipment">
+Save Changes
 </button>
 
-<button
-style="background:#d32f2f;color:white;border:none;padding:12px 25px;border-radius:6px;cursor:pointer;"
-onclick="deleteCurrentShipment()">
+<button id="viewReceipt">
+Open Receipt
+</button>
 
-🗑 Delete Shipment
-
+<button id="deleteShipment">
+Delete Shipment
 </button>
 
 </div>
-
-</div>
-
-<h2 style="margin-top:40px;">All Shipments</h2>
-<div class="card">
-
-<h2>🌍 Interactive Route Editor</h2>
-
-<p>
-Click one city to select the <strong>Origin</strong>,
-then click another city to select the
-<strong>Destination</strong>.
-</p>
-
-<div id="adminMap"></div>
-
-</div>
-<div class="card">
-
-<table
-style="width:100%;border-collapse:collapse;">
-
-<thead>
-
-<tr style="background:#0b4ea2;color:white;">
-
-<th style="padding:12px;">Tracking</th>
-
-<th style="padding:12px;">Sender</th>
-
-<th style="padding:12px;">Receiver</th>
-
-<th style="padding:12px;">Status</th>
-
-<th style="padding:12px;">Progress</th>
-
-</tr>
-
-</thead>
-
-<tbody id="shipmentTable">
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-    
-    <!-- Customer Messages -->
-
-<section class="dashboard-section">
-
-    <h2>Customer Messages</h2>
-
-    <table class="shipment-table">
-
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Subject</th>
-                <th>Message</th>
-                <th>Date</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-
-        <tbody id="messageTable">
-
-        </tbody>
-
-    </table>
 
 </section>
 
-  <!-- Admin Activity Log -->
+<script src="js/admin.js"></script>
 
-<section class="dashboard-section">
-
-    <h2>📋 Admin Activity Log</h2>
-
-    <table class="shipment-table">
-
-        <thead>
-
-            <tr>
-
-                <th>Date & Time</th>
-
-                <th>Activity</th>
-
-            </tr>
-
-        </thead>
-
-        <tbody id="activityTable">
-
-        </tbody>
-
-    </table>
-
-</section>  
-
-<link
-rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.awesome-markers@2.0.5/dist/leaflet.awesome-markers.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
- <script src="admin.js"></script>
-    
-<script>
-
-function checkAdminLogin(){
-
-let loggedIn = localStorage.getItem("adminLoggedIn");
-
-
-if(loggedIn !== "true"){
-
-window.location.href="admin-login.html";
-
-}
-
-}
-
-</script>
-
-    <script>
-
-function logoutAdmin(){
-
-localStorage.removeItem("adminLoggedIn");
-
-window.location.href="admin-login.html";
-
-}
-
-    </script>
-
-    <script>
-
-let adminName = localStorage.getItem("adminName");
-
-document.getElementById("adminName").textContent = adminName || "Administrator";
-
-    </script>
-
-    <script>
-
-let inactivityTimer;
-
-
-function resetTimer(){
-
-clearTimeout(inactivityTimer);
-
-
-inactivityTimer = setTimeout(function(){
-
-alert("Session expired. Please login again.");
-
-localStorage.removeItem("adminLoggedIn");
-
-window.location.href="admin-login.html";
-
-
-}, 15 * 60 * 1000);
-
-}
-
-
-document.onmousemove = resetTimer;
-
-document.onkeypress = resetTimer;
-
-document.onclick = resetTimer;
-
-resetTimer();
-
-
-    </script>
-
-    <script>
-
-function changePassword(){
-
-let newPassword = prompt("Enter your new password:");
-
-if(newPassword){
-
-localStorage.setItem("adminPassword", newPassword);
-
-alert("Password changed successfully.");
-
-}
-
-}
-
-    </script>
-    
 </body>
 
-</html>
+    </html>
