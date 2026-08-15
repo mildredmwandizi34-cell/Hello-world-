@@ -323,22 +323,6 @@ function editShipment(index){
 
         }
 
-   function newShipment(){
-
-    currentShipmentIndex = -1;
-
-    document.getElementById("editTracking").value = "";
-    document.getElementById("editStatus").value = "Shipment Created";
-    document.getElementById("editLocation").value = "";
-    document.getElementById("editDelivery").value = "";
-    document.getElementById("editInstructions").value = "";
-
-    document.getElementById("editPanel").scrollIntoView({
-        behavior:"smooth"
-    });
-
-}
-
 // ======================================================
 // NEW SHIPMENT
 // ======================================================
