@@ -318,6 +318,22 @@ function editShipment(index){
 
         }
 
+   function newShipment(){
+
+    currentShipmentIndex = -1;
+
+    document.getElementById("editTracking").value = "";
+    document.getElementById("editStatus").value = "Shipment Created";
+    document.getElementById("editLocation").value = "";
+    document.getElementById("editDelivery").value = "";
+    document.getElementById("editInstructions").value = "";
+
+    document.getElementById("editPanel").scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
 // ======================================================
 // UPDATE SHIPMENT
 // ======================================================
@@ -455,17 +471,27 @@ function updateShipment() {
     // Save Changes
     // ----------------------------
 
+    const shipment = {
+    tracking: document.getElementById("editTracking").value,
+    status: document.getElementById("editStatus").value,
+    location: document.getElementById("editLocation").value,
+    delivery: document.getElementById("editDelivery").value,
+    instructions: document.getElementById("editInstructions").value
+};
+
+if(currentShipmentIndex === -1){
+    shipments.push(shipment);
+}else{
     shipments[currentShipmentIndex] = shipment;
+}
 
-    saveShipments();
+saveShipments();
+loadShipments();
 
-    loadShipments();
+alert(currentShipmentIndex === -1
+    ? "New shipment created successfully!"
+    : "Shipment updated successfully!");
 
-    updateDashboard();
-
-    alert("Shipment updated successfully.");
-
-        }
 // ======================================================
 // DELETE CURRENT SHIPMENT
 // ======================================================
