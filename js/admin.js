@@ -870,4 +870,4 @@ window.addEventListener("storage", function () {
 });
     }
     }
-
+    loadShipments();
