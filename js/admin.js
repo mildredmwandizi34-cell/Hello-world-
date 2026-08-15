@@ -335,7 +335,7 @@ function editShipment(index){
 }
 
 // ======================================================
-// CREATE NEW SHIPMENT
+// NEW SHIPMENT
 // ======================================================
 
 function newShipment() {
@@ -343,32 +343,30 @@ function newShipment() {
     currentShipmentIndex = -1;
 
     const tracking =
-        "AGL" +
-        Date.now().toString().slice(-8);
+        "AGL-" +
+        new Date().getFullYear() +
+        "-" +
+        Math.floor(100000 + Math.random() * 900000);
 
     document.getElementById("trackingSearch").value = tracking;
 
     document.getElementById("senderUpdate").value = "";
     document.getElementById("receiverUpdate").value = "";
-
     document.getElementById("statusUpdate").value = "Shipment Created";
     document.getElementById("locationUpdate").value = "";
-
     document.getElementById("deliveryUpdate").value = "";
     document.getElementById("routeUpdate").value = "";
     document.getElementById("progressUpdate").value = 0;
-
     document.getElementById("originUpdate").value = "";
     document.getElementById("destinationUpdate").value = "";
-
     document.getElementById("packageUpdate").value = "";
     document.getElementById("weightUpdate").value = "";
     document.getElementById("serviceUpdate").value = "Air Freight";
-
     document.getElementById("historyUpdate").value = "";
 
-    alert("New shipment started.\nTracking Number: " + tracking);
+    alert("New tracking number created:\n" + tracking);
 }
+
 // ======================================================
 // UPDATE SHIPMENT
 // ======================================================
