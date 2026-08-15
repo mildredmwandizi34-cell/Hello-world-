@@ -253,7 +253,7 @@ document.getElementById("totalMessages").innerHTML = messages.length;
 
 
 // ======================================================
-// LOAD SHIPMENT
+// LOAD SHIPMENT TABLE
 // ======================================================
 
 function loadShipments() {
@@ -266,19 +266,23 @@ function loadShipments() {
 
     table.innerHTML = "";
 
-    shipments.forEach(function(shipment, index){
+    shipments.forEach(function (shipment, index) {
 
         table.innerHTML += `
         <tr>
-            <td>${shipment.tracking || ""}</td>
-            <td>${shipment.senderName || ""}</td>
-            <td>${shipment.receiverName || ""}</td>
-            <td>${shipment.status || ""}</td>
-            <td>${shipment.location || ""}</td>
+            <td>${shipment.tracking}</td>
+            <td>${shipment.senderName}</td>
+            <td>${shipment.receiverName}</td>
+            <td>${shipment.status}</td>
+            <td>${shipment.progress}%</td>
 
             <td>
                 <button onclick="editShipment(${index})">
                     Edit
+                </button>
+
+                <button onclick="deleteShipment(${index})">
+                    Delete
                 </button>
             </td>
         </tr>
@@ -287,6 +291,7 @@ function loadShipments() {
     });
 
     updateDashboard();
+
 }
 
 function editShipment(index){
