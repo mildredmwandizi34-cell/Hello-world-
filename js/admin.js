@@ -251,40 +251,7 @@ document.getElementById("totalMessages").innerHTML = messages.length;
 
 }
 
-// ======================================================
-// LOAD SHIPMENT TABLE
-// ======================================================
 
-function loadShipments() {
-
-    let table = document.getElementById("shipmentTable");
-
-    if (!table) return;
-
-    table.innerHTML = "";
-
-    shipments.forEach(function(shipment){
-
-        table.innerHTML += `
-        <tr>
-
-            <td>${shipment.tracking}</td>
-
-            <td>${shipment.senderName}</td>
-            <td>${shipment.receiverName}</td>
-
-            <td>${shipment.status}</td>
-
-            <td>${shipment.progress}%</td>
-
-        </tr>
-        `;
-
-    });
-
-    updateDashboard();
-
-}
 // ======================================================
 // LOAD SHIPMENT
 // ======================================================
@@ -303,32 +270,53 @@ function loadShipments() {
 
         table.innerHTML += `
         <tr>
-
-            <td>${shipment.tracking}</td>
-
-            <td>${shipment.senderName}</td>
-
-            <td>${shipment.receiverName}</td>
-
-            <td>${shipment.status}</td>
-
-            <td>${shipment.location || "-"}</td>
+            <td>${shipment.tracking || ""}</td>
+            <td>${shipment.senderName || ""}</td>
+            <td>${shipment.receiverName || ""}</td>
+            <td>${shipment.status || ""}</td>
+            <td>${shipment.location || ""}</td>
 
             <td>
-                <button class="action-btn edit"
-                    onclick="editShipment(${index})">
+                <button onclick="editShipment(${index})">
                     Edit
                 </button>
             </td>
-
         </tr>
         `;
 
     });
 
     updateDashboard();
+}
 
-                      }
+function editShipment(index){
+
+    currentShipmentIndex = index;
+
+    let shipment = shipments[index];
+
+    document.getElementById("editTracking").value =
+        shipment.tracking || "";
+
+    document.getElementById("editStatus").value =
+        shipment.status || "";
+
+    document.getElementById("editLocation").value =
+        shipment.location || "";
+
+    document.getElementById("editDelivery").value =
+        shipment.delivery || "";
+
+    document.getElementById("editInstructions").value =
+        shipment.instructions || "";
+
+    // Scroll to the edit form
+    document.getElementById("editPanel")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+        }
 
 // ======================================================
 // UPDATE SHIPMENT
@@ -337,11 +325,30 @@ function loadShipments() {
 function updateShipment() {
 
     if (currentShipmentIndex === -1) {
-        alert("Please load a shipment first.");
+        alert("Please select a shipment first.");
         return;
     }
 
-    let shipment = shipments[currentShipmentIndex];
+    shipments[currentShipmentIndex].tracking =
+        document.getElementById("editTracking").value;
+
+    shipments[currentShipmentIndex].status =
+        document.getElementById("editStatus").value;
+
+    shipments[currentShipmentIndex].location =
+        document.getElementById("editLocation").value;
+
+    shipments[currentShipmentIndex].delivery =
+        document.getElementById("editDelivery").value;
+
+    shipments[currentShipmentIndex].instructions =
+        document.getElementById("editInstructions").value;
+
+    saveShipments();
+    loadShipments();
+
+    alert("Shipment updated successfully!");
+}
 
     // ----------------------------
     // Read form values
@@ -463,10 +470,10 @@ function updateShipment() {
 // DELETE CURRENT SHIPMENT
 // ======================================================
 
-function deleteCurrentShipment() {
+function deleteShipment() {
 
     if (currentShipmentIndex === -1) {
-        alert("Please load a shipment first.");
+        alert("Please select a shipment first.");
         return;
     }
 
@@ -486,7 +493,16 @@ function deleteCurrentShipment() {
 
     loadShipments();
 
-    updateDashboard();
+    // Clear the edit form
+    document.getElementById("editTracking").value = "";
+    document.getElementById("editStatus").value = "";
+    document.getElementById("editLocation").value = "";
+    document.getElementById("editDelivery").value = "";
+    document.getElementById("editInstructions").value = "";
+
+    alert("Shipment deleted successfully!");
+
+}
 
     // Clear the form
 
