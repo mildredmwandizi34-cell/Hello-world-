@@ -551,3 +551,18 @@ text-align:left;
 .header-right button:hover{
     background:#c62828;
 }
+
+.header-right button{
+    background:#e53935;
+    color:#fff;
+    border:none;
+    padding:12px 22px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.header-right button:hover{
+    background:#c62828;
+}
