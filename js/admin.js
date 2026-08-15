@@ -942,15 +942,18 @@ function updateLiveStatistics() {
     }
 
     if (awaitingElement) {
-        awaitingElement.textContent = awaiting;
+    awaitingElement.textContent = awaiting;
+}
 
-        // Initial statistics update
+} // End updateLiveStatistics()
+
+
+// Initial statistics update
 updateLiveStatistics();
 
-// Keep statistics synchronized with localStorage
+// Keep statistics synchronized
 window.addEventListener("storage", function () {
     updateLiveStatistics();
 });
-    }
-    }
-    loadShipments();
+
+loadShipments();
