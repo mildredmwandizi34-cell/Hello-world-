@@ -566,3 +566,18 @@ text-align:left;
 .header-right button:hover{
     background:#c62828;
 }
+
+#newShipmentBtn{
+    background:#28a745;
+    color:#fff;
+    border:none;
+    padding:12px 22px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.3s;
+}
+
+#newShipmentBtn:hover{
+    background:#218838;
+}
