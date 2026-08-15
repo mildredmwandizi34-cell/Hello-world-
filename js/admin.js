@@ -289,71 +289,47 @@ function loadShipments() {
 // LOAD SHIPMENT
 // ======================================================
 
-function loadShipment() {
+function loadShipments() {
 
-    let tracking = document.getElementById("trackingSearch")
-        .value
-        .trim()
-        .toUpperCase();
+    shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
-    if (tracking === "") {
-        alert("Please enter a tracking number.");
-        return;
-    }
+    let table = document.getElementById("shipmentTable");
 
-    currentShipmentIndex = shipments.findIndex(function(shipment) {
-        return shipment.tracking.toUpperCase() === tracking;
+    if (!table) return;
+
+    table.innerHTML = "";
+
+    shipments.forEach(function(shipment, index){
+
+        table.innerHTML += `
+        <tr>
+
+            <td>${shipment.tracking}</td>
+
+            <td>${shipment.senderName}</td>
+
+            <td>${shipment.receiverName}</td>
+
+            <td>${shipment.status}</td>
+
+            <td>${shipment.location || "-"}</td>
+
+            <td>
+                <button class="action-btn edit"
+                    onclick="editShipment(${index})">
+                    Edit
+                </button>
+            </td>
+
+        </tr>
+        `;
+
     });
 
-    if (currentShipmentIndex === -1) {
-        alert("Shipment not found.");
-        return;
-    }
+    updateDashboard();
 
-    let shipment = shipments[currentShipmentIndex];
+                      }
 
-    document.getElementById("statusUpdate").value =
-        shipment.status || "";
-
-    document.getElementById("locationUpdate").value =
-        shipment.location || "";
-
-    document.getElementById("deliveryUpdate").value =
-        shipment.delivery || "";
-
-    document.getElementById("routeUpdate").value =
-        shipment.route || "";
-
-    document.getElementById("progressUpdate").value =
-        shipment.progress || 0;
-
-    document.getElementById("senderUpdate").value =
-        shipment.senderName || "";
-
-    document.getElementById("receiverUpdate").value =
-        shipment.receiverName || "";
-
-    document.getElementById("originUpdate").value =
-        shipment.origin || "";
-
-    document.getElementById("destinationUpdate").value =
-        shipment.destination || "";
-
-    document.getElementById("packageUpdate").value =
-        shipment.package || "";
-
-    document.getElementById("weightUpdate").value =
-        shipment.weight || "";
-
-    document.getElementById("serviceUpdate").value =
-        shipment.service || "Air Freight";
-
-    document.getElementById("historyUpdate").value =
-        shipment.history || "";
-
-    alert("Shipment loaded successfully.");
-
-}
 // ======================================================
 // UPDATE SHIPMENT
 // ======================================================
