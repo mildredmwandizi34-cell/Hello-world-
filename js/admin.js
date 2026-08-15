@@ -335,15 +335,69 @@ function editShipment(index){
 }
 
 // ======================================================
+// CREATE NEW SHIPMENT
+// ======================================================
+
+function newShipment() {
+
+    currentShipmentIndex = -1;
+
+    const tracking =
+        "AGL" +
+        Date.now().toString().slice(-8);
+
+    document.getElementById("trackingSearch").value = tracking;
+
+    document.getElementById("senderUpdate").value = "";
+    document.getElementById("receiverUpdate").value = "";
+
+    document.getElementById("statusUpdate").value = "Shipment Created";
+    document.getElementById("locationUpdate").value = "";
+
+    document.getElementById("deliveryUpdate").value = "";
+    document.getElementById("routeUpdate").value = "";
+    document.getElementById("progressUpdate").value = 0;
+
+    document.getElementById("originUpdate").value = "";
+    document.getElementById("destinationUpdate").value = "";
+
+    document.getElementById("packageUpdate").value = "";
+    document.getElementById("weightUpdate").value = "";
+    document.getElementById("serviceUpdate").value = "Air Freight";
+
+    document.getElementById("historyUpdate").value = "";
+
+    alert("New shipment started.\nTracking Number: " + tracking);
+}
+// ======================================================
 // UPDATE SHIPMENT
 // ======================================================
 
 function updateShipment() {
 
-    if (currentShipmentIndex === -1) {
-        alert("Please select a shipment first.");
-        return;
-    }
+    // Create a new shipment if none is selected
+if (currentShipmentIndex === -1) {
+
+    currentShipmentIndex = shipments.length;
+
+    shipments.push({
+        tracking: document.getElementById("trackingSearch").value,
+        senderName: "",
+        receiverName: "",
+        status: "Shipment Created",
+        location: "",
+        delivery: "",
+        route: "",
+        progress: 0,
+        origin: "",
+        destination: "",
+        package: "",
+        weight: "",
+        service: "Air Freight",
+        history: ""
+    });
+
+}
 
     shipments[currentShipmentIndex].tracking =
         document.getElementById("editTracking").value;
