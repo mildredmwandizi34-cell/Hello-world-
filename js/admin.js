@@ -879,36 +879,3 @@ window.addEventListener("storage", function () {
     }
     }
 
-const shipmentTable = document.getElementById("shipmentTable");
-
-function loadShipments() {
-
-    const shipments =
-        JSON.parse(localStorage.getItem("shipments")) || [];
-
-    shipmentTable.innerHTML = "";
-
-    shipments.forEach((shipment, index) => {
-
-        shipmentTable.innerHTML += `
-            <tr>
-                <td>${shipment.tracking}</td>
-                <td>${shipment.sender}</td>
-                <td>${shipment.receiver}</td>
-                <td>${shipment.status}</td>
-                <td>${shipment.location}</td>
-
-                <td>
-                    <button onclick="editShipment(${index})">
-                        Edit
-                    </button>
-                </td>
-            </tr>
-        `;
-
-    });
-
-    loadShipments();
-    
-
-}
