@@ -259,3 +259,60 @@ function editShipment(index){
 }
 
 }
+
+// ======================================================
+// SAVE SHIPMENT
+// ======================================================
+
+function saveShipment(){
+
+    // Creating a new shipment
+    if(currentShipmentIndex === -1){
+
+        shipments.push({
+
+            tracking: document.getElementById("editTracking").value,
+
+            senderName: "",
+
+            receiverName: "",
+
+            status: document.getElementById("editStatus").value,
+
+            location: document.getElementById("editLocation").value,
+
+            delivery: document.getElementById("editDelivery").value,
+
+            instructions: document.getElementById("editInstructions").value
+
+        });
+
+    }
+
+    // Updating an existing shipment
+    else{
+
+        shipments[currentShipmentIndex].tracking =
+            document.getElementById("editTracking").value;
+
+        shipments[currentShipmentIndex].status =
+            document.getElementById("editStatus").value;
+
+        shipments[currentShipmentIndex].location =
+            document.getElementById("editLocation").value;
+
+        shipments[currentShipmentIndex].delivery =
+            document.getElementById("editDelivery").value;
+
+        shipments[currentShipmentIndex].instructions =
+            document.getElementById("editInstructions").value;
+
+    }
+
+    saveShipments();
+
+    loadShipments();
+
+    alert("Shipment saved successfully.");
+
+}
