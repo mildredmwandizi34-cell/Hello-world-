@@ -251,6 +251,127 @@ document.getElementById("totalMessages").innerHTML = messages.length;
 
 }
 
+// ==========================================
+// CUSTOMER MESSAGES
+// ==========================================
+
+let customerMessages =
+    JSON.parse(localStorage.getItem("customerMessages")) || [];
+
+
+function loadCustomerMessages() {
+
+    const container =
+        document.getElementById("customerMessages");
+
+    const count =
+        document.getElementById("messageCount");
+
+    if (!container) return;
+
+    if (count) {
+        count.textContent = customerMessages.length;
+    }
+
+    if (customerMessages.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-messages">
+                <div class="empty-icon">💬</div>
+                <h3>No Customer Messages</h3>
+                <p>Customer messages will appear here.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = customerMessages.map((message, index) => `
+
+        <div class="message-card">
+
+            <div class="message-header">
+
+                <div>
+                    <div class="message-name">
+                        ${message.name || "Customer"}
+                    </div>
+
+                    <div class="message-email">
+                        ${message.email || "No email provided"}
+                    </div>
+                </div>
+
+                <div class="message-date">
+                    ${message.date || ""}
+                </div>
+
+            </div>
+
+            <div class="message-text">
+                ${message.message || ""}
+            </div>
+
+            <div class="message-actions">
+
+                <button
+                    class="message-btn reply-message"
+                    onclick="replyToCustomer(${index})">
+                    Reply
+                </button>
+
+                <button
+                    class="message-btn delete-message"
+                    onclick="deleteCustomerMessage(${index})">
+                    Delete
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+}
+
+
+// ==========================================
+// DELETE CUSTOMER MESSAGE
+// ==========================================
+
+function deleteCustomerMessage(index) {
+
+    if (!confirm("Delete this customer message?")) {
+        return;
+    }
+
+    customerMessages.splice(index, 1);
+
+    localStorage.setItem(
+        "customerMessages",
+        JSON.stringify(customerMessages)
+    );
+
+    loadCustomerMessages();
+}
+
+
+// ==========================================
+// REPLY TO CUSTOMER
+// ==========================================
+
+function replyToCustomer(index) {
+
+    const message = customerMessages[index];
+
+    if (!message || !message.email) {
+        alert("Customer email address is not available.");
+        return;
+    }
+
+    window.location.href =
+        "mailto:" + message.email +
+        "?subject=American Global Logistics - Customer Support";
+}
 
 // ======================================================
 // LOAD SHIPMENT TABLE
@@ -705,7 +826,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Load shipment table
     loadShipments();
-loadMessages();
+loadCustomerMessages();
 loadActivity();
 
     // Update dashboard cards
