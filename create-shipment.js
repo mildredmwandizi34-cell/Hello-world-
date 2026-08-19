@@ -117,6 +117,22 @@ shipments.push(shipment);
 // Save all shipments
 localStorage.setItem("shipments", JSON.stringify(shipments));
 
+    let activities =
+    JSON.parse(localStorage.getItem("activityLog")) || [];
+
+activities.unshift({
+    message: `Shipment ${shipment.tracking} was created`,
+    icon: "📦",
+    time: new Date().toLocaleString()
+});
+
+activities = activities.slice(0, 50);
+
+localStorage.setItem(
+    "activityLog",
+    JSON.stringify(activities)
+);
+
 // Save the latest shipment for receipt.html
 localStorage.setItem("shipment", JSON.stringify(shipment));
 
