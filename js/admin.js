@@ -347,12 +347,18 @@ function deleteCustomerMessage(index) {
     customerMessages.splice(index, 1);
 
     localStorage.setItem(
-        "customerMessages",
-        JSON.stringify(customerMessages)
-    );
+    "contactMessages",
+    JSON.stringify(messages)
+);
 
-    loadCustomerMessages();
-}
+loadCustomerMessages();
+
+updateDashboard();
+
+addActivity(
+    "A customer message was deleted",
+    "💬"
+);
 
 
 // ==========================================
@@ -610,7 +616,10 @@ if (currentShipmentIndex === -1) {
     saveShipments();
     loadShipments();
 
-    alert("Shipment updated successfully!");
+    addActivity(
+    `Shipment ${shipments[currentShipmentIndex].tracking} was updated`,
+    "✏️"
+);
 }
 
     // ----------------------------
