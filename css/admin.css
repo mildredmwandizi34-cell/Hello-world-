@@ -679,3 +679,60 @@ text-align:left;
     border-radius: 50%;
     font-weight: bold;
 }
+
+/* ==========================================
+   DASHBOARD ACTIVITY LOG
+========================================== */
+
+.activity-log {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 16px;
+    background: #ffffff;
+    border-radius: 10px;
+    border-left: 4px solid #0b4ea2;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #eaf2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.activity-content {
+    flex: 1;
+}
+
+.activity-message {
+    font-weight: 600;
+    color: #12345b;
+    margin-bottom: 5px;
+}
+
+.activity-time {
+    font-size: 12px;
+    color: #888;
+}
+
+.empty-activity {
+    text-align: center;
+    padding: 40px 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    color: #777;
+}
