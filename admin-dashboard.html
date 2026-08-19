@@ -78,10 +78,11 @@
     <!-- Search -->
     <section class="search-box">
 
-        <input
-            type="text"
-            id="searchShipment"
-            placeholder="Search by tracking number, sender or receiver">
+    <input
+    type="text"
+    id="searchShipment"
+    placeholder="Search by tracking number, sender or receiver"
+    onkeyup="searchShipments()">
 
     </section>
 
@@ -114,6 +115,33 @@
     </section>
 
 </main>
+
+    <!-- ==========================================
+     CUSTOMER MESSAGES
+========================================== -->
+
+<section class="dashboard-section">
+
+    <div class="section-header">
+        <div>
+            <h2>Customer Messages</h2>
+            <p>View and manage messages received from customers.</p>
+        </div>
+
+        <span id="messageCount" class="message-count">0</span>
+    </div>
+
+    <div id="customerMessages" class="customer-messages">
+
+        <div class="empty-messages">
+            <div class="empty-icon">💬</div>
+            <h3>No Customer Messages</h3>
+            <p>Customer messages will appear here.</p>
+        </div>
+
+    </div>
+
+</section>
 
 <!-- Edit Shipment -->
 <section id="editPanel" class="edit-panel">
