@@ -464,6 +464,57 @@ function loadActivity() {
     `).join("");
 }
 
+    // ======================================================
+// AUTOMATIC LOCAL STORAGE SYNCHRONIZATION
+// ======================================================
+
+function syncDashboard() {
+
+    // Reload shipments
+    shipments =
+        JSON.parse(localStorage.getItem("shipments")) || [];
+
+    // Refresh shipment table
+    loadShipments();
+
+    // Refresh dashboard statistics
+    updateDashboard();
+
+    // Refresh customer messages
+    loadCustomerMessages();
+
+    // Refresh activity log
+    loadActivity();
+}
+    
+    // ======================================================
+// LISTEN FOR STORAGE CHANGES
+// ======================================================
+
+window.addEventListener("storage", function (event) {
+
+    if (
+        event.key === "shipments" ||
+        event.key === "contactMessages" ||
+        event.key === "activityLog"
+    ) {
+
+        syncDashboard();
+
+    }
+
+});
+
+    // ======================================================
+// DASHBOARD AUTO REFRESH
+// ======================================================
+
+setInterval(function () {
+
+    syncDashboard();
+
+}, 5000);
+    
 // ======================================================
 // LOAD SHIPMENT TABLE
 // ======================================================
