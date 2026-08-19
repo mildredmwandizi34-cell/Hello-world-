@@ -743,28 +743,28 @@ alert(currentShipmentIndex === -1
 // DELETE CURRENT SHIPMENT
 // ======================================================
 
-function deleteShipment() {
+function deleteShipment(index) {
 
-    if (currentShipmentIndex === -1) {
-        alert("Please select a shipment first.");
-        return;
-    }
+    const deletedShipment = shipments[index];
 
-    let confirmDelete = confirm(
-        "Are you sure you want to delete this shipment?"
-    );
+    if (!deletedShipment) return;
 
-    if (!confirmDelete) {
-        return;
-    }
+    const tracking =
+        deletedShipment.tracking || "Unknown shipment";
 
-    shipments.splice(currentShipmentIndex, 1);
+    shipments.splice(index, 1);
 
     saveShipments();
 
-    currentShipmentIndex = -1;
-
     loadShipments();
+
+    updateDashboard();
+
+    addActivity(
+        `Shipment ${tracking} was deleted`,
+        "🗑️"
+    );
+}
 
     // Clear the edit form
     document.getElementById("editTracking").value = "";
