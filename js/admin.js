@@ -1148,7 +1148,4 @@ window.addEventListener("storage", function () {
 
 loadShipments();
 
-addActivity(
-    "Admin Dashboard loaded successfully",
-    "🚀"
-);
+
