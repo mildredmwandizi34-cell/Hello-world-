@@ -374,6 +374,91 @@ function replyToCustomer(index) {
 }
 
 // ======================================================
+// DASHBOARD ACTIVITY LOG
+// ======================================================
+
+let activityLog =
+    JSON.parse(localStorage.getItem("activityLog")) || [];
+
+
+// ======================================================
+// ADD ACTIVITY
+// ======================================================
+
+function addActivity(message, icon = "📋") {
+
+    activityLog.unshift({
+
+        message: message,
+
+        icon: icon,
+
+        time: new Date().toLocaleString()
+
+    });
+
+    // Keep only the latest 50 activities
+    activityLog = activityLog.slice(0, 50);
+
+    localStorage.setItem(
+        "activityLog",
+        JSON.stringify(activityLog)
+    );
+
+    loadActivity();
+}
+
+
+// ======================================================
+// LOAD ACTIVITY
+// ======================================================
+
+function loadActivity() {
+
+    const container =
+        document.getElementById("activityLog");
+
+    if (!container) return;
+
+    if (activityLog.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-activity">
+                <div class="empty-icon">📋</div>
+                <h3>No Recent Activity</h3>
+                <p>Dashboard activity will appear here.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = activityLog.map(activity => `
+
+        <div class="activity-item">
+
+            <div class="activity-icon">
+                ${activity.icon || "📋"}
+            </div>
+
+            <div class="activity-content">
+
+                <div class="activity-message">
+                    ${activity.message}
+                </div>
+
+                <div class="activity-time">
+                    ${activity.time}
+                </div>
+
+            </div>
+
+        </div>
+
+    `).join("");
+}
+
+// ======================================================
 // LOAD SHIPMENT TABLE
 // ======================================================
 
