@@ -236,6 +236,12 @@ function editShipment(index){
     document.getElementById("editTracking").value =
         shipment.tracking || "";
 
+    document.getElementById("editSender").value =
+    shipment.senderName || "";
+
+document.getElementById("editReceiver").value =
+    shipment.receiverName || "";
+
     document.getElementById("editStatus").value =
         shipment.status || "Shipment Created";
 
@@ -273,9 +279,9 @@ function saveShipment(){
 
             tracking: document.getElementById("editTracking").value,
 
-            senderName: "",
+            senderName: document.getElementById("editSender").value,
 
-            receiverName: "",
+            receiverName: document.getElementById("editReceiver").value,
 
             status: document.getElementById("editStatus").value,
 
@@ -294,6 +300,12 @@ function saveShipment(){
 
         shipments[currentShipmentIndex].tracking =
             document.getElementById("editTracking").value;
+
+        shipments[currentShipmentIndex].senderName =
+           document.getElementById("editSender").value;
+
+       shipments[currentShipmentIndex].receiverName =
+           document.getElementById("editReceiver").value;
 
         shipments[currentShipmentIndex].status =
             document.getElementById("editStatus").value;
@@ -314,5 +326,47 @@ function saveShipment(){
     loadShipments();
 
     alert("Shipment saved successfully.");
+
+}
+
+// ======================================================
+// DELETE SHIPMENT
+// ======================================================
+
+function deleteShipment(index){
+
+    shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+
+    if(!confirm("Are you sure you want to delete this shipment?")){
+        return;
+    }
+
+    shipments.splice(index, 1);
+
+    saveShipments();
+
+    loadShipments();
+
+    currentShipmentIndex = -1;
+
+    alert("Shipment deleted successfully.");
+
+}
+
+// ======================================================
+// DELETE CURRENT SHIPMENT
+// ======================================================
+
+function deleteCurrentShipment(){
+
+    if(currentShipmentIndex === -1){
+
+        alert("Please select a shipment first.");
+
+        return;
+
+    }
+
+    deleteShipment(currentShipmentIndex);
 
 }
