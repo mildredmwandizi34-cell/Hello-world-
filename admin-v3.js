@@ -370,3 +370,79 @@ function deleteCurrentShipment(){
     deleteShipment(currentShipmentIndex);
 
 }
+
+// ======================================================
+// SEARCH SHIPMENTS
+// ======================================================
+
+function searchShipments(){
+
+    const search = document
+        .getElementById("searchShipment")
+        .value
+        .toLowerCase()
+        .trim();
+
+    shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+
+    const table = document.getElementById("shipmentTable");
+
+    table.innerHTML = "";
+
+    shipments.forEach(function(shipment, index){
+
+        const text = (
+            (shipment.tracking || "") +
+            " " +
+            (shipment.senderName || "") +
+            " " +
+            (shipment.receiverName || "") +
+            " " +
+            (shipment.status || "") +
+            " " +
+            (shipment.location || "")
+        ).toLowerCase();
+
+        if(text.includes(search)){
+
+            table.innerHTML += `
+            <tr>
+
+                <td>${shipment.tracking}</td>
+
+                <td>${shipment.senderName}</td>
+
+                <td>${shipment.receiverName}</td>
+
+                <td>
+                    <span class="status">
+                        ${shipment.status}
+                    </span>
+                </td>
+
+                <td>${shipment.location}</td>
+
+                <td>
+
+                    <button
+                        class="action-btn edit"
+                        onclick="editShipment(${index})">
+                        Edit
+                    </button>
+
+                    <button
+                        class="action-btn delete"
+                        onclick="deleteShipment(${index})">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+            `;
+
+        }
+
+    });
+
+}
