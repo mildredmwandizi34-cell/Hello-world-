@@ -138,4 +138,6 @@ localStorage.setItem("shipment", JSON.stringify(shipment));
 
 // Open receipt
 window.location.href =
-"receipt.html?tracking=" + shipment.trackingNumber;}
+"receipt.html?tracking=" + shipment.trackingNumber;
+
+}
