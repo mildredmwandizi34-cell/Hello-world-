@@ -1,4 +1,4 @@
-// ======================================================
+========================================================
 // American Global Logistics
 // Admin Dashboard v2.0
 // ======================================================
@@ -521,9 +521,11 @@ setInterval(function () {
 
 function loadShipments() {
 
-    shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+    shipments =
+        JSON.parse(localStorage.getItem("shipments")) || [];
 
-    let table = document.getElementById("shipmentTable");
+    const table =
+        document.getElementById("shipmentTable");
 
     if (!table) return;
 
@@ -533,13 +535,19 @@ function loadShipments() {
 
         table.innerHTML += `
         <tr>
-            <td>${shipment.tracking}</td>
-            <td>${shipment.senderName}</td>
-            <td>${shipment.receiverName}</td>
-            <td>${shipment.status}</td>
-            <td>${shipment.progress}%</td>
+
+            <td>${shipment.tracking || ""}</td>
+
+            <td>${shipment.senderName || ""}</td>
+
+            <td>${shipment.receiverName || ""}</td>
+
+            <td>${shipment.status || ""}</td>
+
+            <td>${shipment.location || ""}</td>
 
             <td>
+
                 <button onclick="editShipment(${index})">
                     Edit
                 </button>
@@ -547,24 +555,41 @@ function loadShipments() {
                 <button onclick="deleteShipment(${index})">
                     Delete
                 </button>
+
             </td>
+
         </tr>
         `;
 
     });
 
     updateDashboard();
-
 }
 
-function editShipment(index){
+
+// ======================================================
+// EDIT / LOAD SHIPMENT
+// ======================================================
+
+function editShipment(index) {
+
+    if (!shipments[index]) {
+        alert("Shipment not found.");
+        return;
+    }
 
     currentShipmentIndex = index;
 
-    let shipment = shipments[index];
+    const shipment = shipments[index];
 
     document.getElementById("editTracking").value =
         shipment.tracking || "";
+
+    document.getElementById("editSender").value =
+        shipment.senderName || "";
+
+    document.getElementById("editReceiver").value =
+        shipment.receiverName || "";
 
     document.getElementById("editStatus").value =
         shipment.status || "";
@@ -578,13 +603,22 @@ function editShipment(index){
     document.getElementById("editInstructions").value =
         shipment.instructions || "";
 
-    // Scroll to the edit form
-    document.getElementById("editPanel")
-        .scrollIntoView({
-            behavior: "smooth"
+    const panel =
+        document.getElementById("editPanel");
+
+    if (panel) {
+
+        panel.style.display = "block";
+
+        panel.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
         });
 
-        }
+    }
+
+}
+
 
 // ======================================================
 // NEW SHIPMENT
@@ -594,121 +628,65 @@ function newShipment() {
 
     currentShipmentIndex = -1;
 
-    const tracking =
-        "AGL-" +
-        new Date().getFullYear() +
-        "-" +
-        Math.floor(100000 + Math.random() * 900000);
+    window.location.href =
+        "create-shipment.html";
 
-    document.getElementById("trackingSearch").value = tracking;
-
-    document.getElementById("senderUpdate").value = "";
-    document.getElementById("receiverUpdate").value = "";
-    document.getElementById("statusUpdate").value = "Shipment Created";
-    document.getElementById("locationUpdate").value = "";
-    document.getElementById("deliveryUpdate").value = "";
-    document.getElementById("routeUpdate").value = "";
-    document.getElementById("progressUpdate").value = 0;
-    document.getElementById("originUpdate").value = "";
-    document.getElementById("destinationUpdate").value = "";
-    document.getElementById("packageUpdate").value = "";
-    document.getElementById("weightUpdate").value = "";
-    document.getElementById("serviceUpdate").value = "Air Freight";
-    document.getElementById("historyUpdate").value = "";
-
-    alert("New tracking number created:\n" + tracking);
 }
+
 
 // ======================================================
-// UPDATE SHIPMENT
+// SAVE CURRENT SHIPMENT
 // ======================================================
 
-function updateShipment() {
+function saveShipment() {
 
-    // Create a new shipment if none is selected
-if (currentShipmentIndex === -1) {
+    if (currentShipmentIndex === -1) {
 
-    currentShipmentIndex = shipments.length;
+        alert("Please load a shipment before saving changes.");
 
-    shipments.push({
-        tracking: document.getElementById("trackingSearch").value,
-        senderName: "",
-        receiverName: "",
-        status: "Shipment Created",
-        location: "",
-        delivery: "",
-        route: "",
-        progress: 0,
-        origin: "",
-        destination: "",
-        package: "",
-        weight: "",
-        service: "Air Freight",
-        history: ""
-    });
+        return;
+    }
 
-}
+    const shipment =
+        shipments[currentShipmentIndex];
 
-    shipments[currentShipmentIndex].tracking =
-        document.getElementById("editTracking").value;
+    if (!shipment) {
 
-    shipments[currentShipmentIndex].status =
-        document.getElementById("editStatus").value;
+        alert("Shipment could not be found.");
 
-    shipments[currentShipmentIndex].location =
-        document.getElementById("editLocation").value;
+        return;
+    }
 
-    shipments[currentShipmentIndex].delivery =
-        document.getElementById("editDelivery").value;
 
-    shipments[currentShipmentIndex].instructions =
-        document.getElementById("editInstructions").value;
+    // ------------------------------
+    // Read edit form values
+    // ------------------------------
 
-    saveShipments();
-    loadShipments();
-
-    addActivity(
-    `Shipment ${shipments[currentShipmentIndex].tracking} was updated`,
-    "✏️"
-);
-}
-
-    // ----------------------------
-    // Read form values
-    // ----------------------------
-
-    shipment.status = document.getElementById("statusUpdate").value;
-    shipment.location = document.getElementById("locationUpdate").value;
-    shipment.delivery = document.getElementById("deliveryUpdate").value;
+    shipment.tracking =
+        document.getElementById("editTracking").value.trim();
 
     shipment.senderName =
-    document.getElementById("senderUpdate").value;
+        document.getElementById("editSender").value.trim();
 
     shipment.receiverName =
-    document.getElementById("receiverUpdate").value;
+        document.getElementById("editReceiver").value.trim();
 
-    shipment.origin = document.getElementById("originUpdate").value;
-    shipment.destination = document.getElementById("destinationUpdate").value;
+    shipment.status =
+        document.getElementById("editStatus").value.trim();
 
-    shipment.package = document.getElementById("packageUpdate").value;
-    shipment.weight = document.getElementById("weightUpdate").value;
+    shipment.location =
+        document.getElementById("editLocation").value.trim();
 
-    shipment.service = document.getElementById("serviceUpdate").value;
+    shipment.delivery =
+        document.getElementById("editDelivery").value;
 
-    // ----------------------------
-    // Generate Route
-    // ----------------------------
+    shipment.instructions =
+        document.getElementById("editInstructions").value.trim();
 
-    shipment.route = shipment.origin + " → " + shipment.destination;
 
-    document.getElementById("routeUpdate").value =
-        shipment.route;
-    drawRoute(shipment.origin, shipment.destination);
-    animateVehicle(shipment.origin, shipment.destination);
-
-    // ----------------------------
-    // Automatic Progress
-    // ----------------------------
+    // ------------------------------
+    // Automatic progress
+    // ------------------------------
 
     switch (shipment.status) {
 
@@ -745,22 +723,21 @@ if (currentShipmentIndex === -1) {
             break;
 
         default:
-            shipment.progress = 0;
-
+            shipment.progress =
+                shipment.progress || 0;
     }
 
-    document.getElementById("progressUpdate").value =
-        shipment.progress;
 
-    // ----------------------------
-    // Shipment History
-    // ----------------------------
+    // ------------------------------
+    // Update shipment history
+    // ------------------------------
 
     if (!shipment.history) {
         shipment.history = "";
     }
 
-    let time = new Date().toLocaleString();
+    const time =
+        new Date().toLocaleString();
 
     shipment.history +=
         "• " +
@@ -771,441 +748,241 @@ if (currentShipmentIndex === -1) {
         time +
         ")\n";
 
-    document.getElementById("historyUpdate").value =
-        shipment.history;
 
-    // ----------------------------
-    // Save Changes
-    // ----------------------------
+    // ------------------------------
+    // Save to Local Storage
+    // ------------------------------
 
-    const shipment = {
-    tracking: document.getElementById("editTracking").value,
-    status: document.getElementById("editStatus").value,
-    location: document.getElementById("editLocation").value,
-    delivery: document.getElementById("editDelivery").value,
-    instructions: document.getElementById("editInstructions").value
-};
+    saveShipments();
 
-if(currentShipmentIndex === -1){
-    shipments.push(shipment);
-}else{
-    shipments[currentShipmentIndex] = shipment;
+
+    // ------------------------------
+    // Refresh dashboard
+    // ------------------------------
+
+    loadShipments();
+
+    updateDashboard();
+
+
+    // ------------------------------
+    // Activity Log
+    // ------------------------------
+
+    addActivity(
+        "Shipment " +
+        shipment.tracking +
+        " was updated",
+        "✏️"
+    );
+
+
+    alert(
+        "Shipment " +
+        shipment.tracking +
+        " updated successfully."
+    );
+
 }
 
-saveShipments();
-loadShipments();
-
-alert(currentShipmentIndex === -1
-    ? "New shipment created successfully!"
-    : "Shipment updated successfully!");
 
 // ======================================================
-// DELETE CURRENT SHIPMENT
+// DELETE SHIPMENT FROM TABLE
 // ======================================================
 
 function deleteShipment(index) {
 
-    const deletedShipment = shipments[index];
-
-    if (!deletedShipment) return;
+    if (!shipments[index]) {
+        alert("Shipment not found.");
+        return;
+    }
 
     const tracking =
-        deletedShipment.tracking || "Unknown shipment";
+        shipments[index].tracking || "this shipment";
+
+    if (
+        !confirm(
+            "Are you sure you want to delete " +
+            tracking +
+            "?"
+        )
+    ) {
+        return;
+    }
 
     shipments.splice(index, 1);
 
     saveShipments();
+
+    currentShipmentIndex = -1;
 
     loadShipments();
 
     updateDashboard();
 
     addActivity(
-        `Shipment ${tracking} was deleted`,
+        "Shipment " +
+        tracking +
+        " was deleted",
         "🗑️"
     );
-}
-
-    // Clear the edit form
-    document.getElementById("editTracking").value = "";
-    document.getElementById("editStatus").value = "";
-    document.getElementById("editLocation").value = "";
-    document.getElementById("editDelivery").value = "";
-    document.getElementById("editInstructions").value = "";
-
-    alert("Shipment deleted successfully!");
 
 }
 
-    // Clear the form
 
-    document.getElementById("trackingSearch").value = "";
-
-    document.getElementById("statusUpdate").value = "Shipment Created";
-    document.getElementById("locationUpdate").value = "";
-    document.getElementById("deliveryUpdate").value = "";
-    document.getElementById("routeUpdate").value = "";
-    document.getElementById("progressUpdate").value = 0;
-
-    document.getElementById("senderUpdate").value = "";
-    document.getElementById("receiverUpdate").value = "";
-    document.getElementById("originUpdate").value = "";
-    document.getElementById("destinationUpdate").value = "";
-
-    document.getElementById("packageUpdate").value = "";
-    document.getElementById("weightUpdate").value = "";
-    document.getElementById("serviceUpdate").value = "Air Freight";
-    document.getElementById("historyUpdate").value = "";
-
-    alert("Shipment deleted successfully.");
-
-}
 // ======================================================
-// DRAW SHIPMENT ROUTE
+// DELETE CURRENT SHIPMENT
 // ======================================================
 
-function drawRoute(origin, destination) {
+function deleteCurrentShipment() {
 
-    if (!cities[origin] || !cities[destination]) {
+    if (currentShipmentIndex === -1) {
+
+        alert(
+            "Please load a shipment before deleting it."
+        );
+
         return;
     }
 
-    // Remove old route
-    if (routeLine) {
-        adminMap.removeLayer(routeLine);
-    }
+    const tracking =
+        shipments[currentShipmentIndex].tracking ||
+        "this shipment";
 
-    if (originMarker) {
-        adminMap.removeLayer(originMarker);
-    }
-
-    if (destinationMarker) {
-        adminMap.removeLayer(destinationMarker);
-    }
-
-    if (movingVehicle) {
-        adminMap.removeLayer(movingVehicle);
-    }
-
-    let start = cities[origin];
-    let end = cities[destination];
-
-    // Origin marker
-    originMarker = L.marker(start, {
-        icon: warehouseIcon
-    }).addTo(adminMap);
-
-    // Destination marker
-    destinationMarker = L.marker(end, {
-        icon: destinationIcon
-    }).addTo(adminMap);
-
-    // Route line
-    routeLine = L.polyline(
-        [start, end],
-        {
-            color: "#0b4ea2",
-            weight: 5
-        }
-    ).addTo(adminMap);
-
-    adminMap.fitBounds(routeLine.getBounds());
-
-    // Vehicle starts at origin
-    movingVehicle = L.marker(start, {
-        icon: vehicleIcon
-    }).addTo(adminMap);
-
-        }
-// ======================================================
-// ANIMATE VEHICLE
-// ======================================================
-
-function animateVehicle(origin, destination) {
-
-    if (!cities[origin] || !cities[destination]) {
+    if (
+        !confirm(
+            "Are you sure you want to delete " +
+            tracking +
+            "?"
+        )
+    ) {
         return;
     }
 
-    let start = cities[origin];
-    let end = cities[destination];
+    shipments.splice(
+        currentShipmentIndex,
+        1
+    );
 
-    if (movingVehicle) {
-        adminMap.removeLayer(movingVehicle);
-    }
+    saveShipments();
 
-    movingVehicle = L.marker(start, {
-        icon: vehicleIcon
-    }).addTo(adminMap);
+    currentShipmentIndex = -1;
 
-    let progress = 0;
-
-    let animation = setInterval(function () {
-
-        progress += 0.01;
-
-        if (progress >= 1) {
-
-            clearInterval(animation);
-
-            movingVehicle.setLatLng(end);
-
-            return;
-
-        }
-
-        let lat = start[0] + (end[0] - start[0]) * progress;
-
-        let lng = start[1] + (end[1] - start[1]) * progress;
-
-        movingVehicle.setLatLng([lat, lng]);
-
-    }, 100);
-
-        }
-// ======================================================
-// PAGE INITIALIZATION
-// ======================================================
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    // Load shipment table
     loadShipments();
-loadCustomerMessages();
-loadActivity();
 
-    // Update dashboard cards
     updateDashboard();
 
-    // Initialize interactive map
-    initializeMap();
+    const panel =
+        document.getElementById("editPanel");
 
-    console.log("American Global Logistics Admin Dashboard Ready");
-
-});
-
-// Load Customer Messages
-
-function loadMessages(){
-
-    let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
-
-    let table = document.getElementById("messageTable");
-
-let alertBox = document.getElementById("newMessageAlert");
-
-if(messages.length > 0){
-
-    alertBox.innerHTML = "🔔 New customer enquiries!";
-
-}else{
-
-    alertBox.innerHTML = "";
-
-}
-    if(!table){
-        return;
+    if (panel) {
+        panel.style.display = "none";
     }
 
+    addActivity(
+        "Shipment " +
+        tracking +
+        " was deleted",
+        "🗑️"
+    );
+
+}
+
+
+// ======================================================
+// SEARCH SHIPMENTS
+// ======================================================
+
+function searchShipments() {
+
+    const input =
+        document.getElementById("searchShipment");
+
+    const table =
+        document.getElementById("shipmentTable");
+
+    if (!input || !table) return;
+
+    const search =
+        input.value.toLowerCase().trim();
 
     table.innerHTML = "";
 
+    shipments.forEach(function (shipment, index) {
 
-    messages.forEach(function(message,index){
+        const tracking =
+            (shipment.tracking || "").toLowerCase();
 
+        const sender =
+            (shipment.senderName || "").toLowerCase();
 
-        let row = `
+        const receiver =
+            (shipment.receiverName || "").toLowerCase();
 
-        <tr>
-
-            <td>${message.name}</td>
-
-            <td>${message.email}</td>
-
-            <td>${message.phone}</td>
-
-            <td>${message.subject}</td>
-
-            <td>${message.message}</td>
-
-            <td>${message.date}</td>
-
-            <td>
-
-<a href="mailto:${message.email}?subject=Reply from American Global Logistics"
-style="background:#0b4ea2;color:white;padding:8px 12px;border-radius:5px;text-decoration:none;display:inline-block;margin-bottom:5px;">
-📧 Reply
-</a>
-
-<button onclick="deleteMessage(${index})">
-🗑 Delete
-</button>
-
-</td>
-
-        </tr>
-
-        `;
-
-
-        table.innerHTML += row;
-
-
-    });
-
-
-}
-
-
-function deleteMessage(index){
-
-let confirmDelete = confirm(
-"Are you sure you want to delete this message?"
-);
-
-if(confirmDelete){
-
-let messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
-
-messages.splice(index,1);
-
-localStorage.setItem(
-"contactMessages",
-JSON.stringify(messages)
-);
-
-loadMessages();
-updateDashboard();
-
-}
-
-}
-
-// =========================
-// Admin Activity Log
-// =========================
-
-function addActivity(activity){
-
-    let logs = JSON.parse(localStorage.getItem("adminActivity")) || [];
-
-    logs.unshift({
-
-        date: new Date().toLocaleString(),
-
-        activity: activity
-
-    });
-
-    localStorage.setItem("adminActivity", JSON.stringify(logs));
-
-    loadActivity();
-
-}
-
-
-function loadActivity(){
-
-    let logs = JSON.parse(localStorage.getItem("adminActivity")) || [];
-
-    let table = document.getElementById("activityTable");
-
-    if(!table) return;
-
-    table.innerHTML = "";
-
-    logs.forEach(function(log){
-
-        table.innerHTML += `
-
-        <tr>
-
-            <td>${log.date}</td>
-
-            <td>${log.activity}</td>
-
-        </tr>
-
-        `;
-
-    });
-
-      }
-
-// ===========================================
-// LIVE SHIPMENT STATISTICS - V4
-// ===========================================
-
-function updateLiveStatistics() {
-
-    // Get the latest shipment data
-    shipments = JSON.parse(localStorage.getItem("shipments")) || [];
-
-    let total = shipments.length;
-    let inTransit = 0;
-    let delivered = 0;
-    let awaiting = 0;
-
-    shipments.forEach(function (shipment) {
-
-        const status = (shipment.status || "").toLowerCase();
-
-        if (status === "delivered") {
-            delivered++;
-        }
-
-        else if (
-            status === "in transit" ||
-            status === "customs cleared" ||
-            status === "arrived at destination hub" ||
-            status === "out for delivery"
+        if (
+            tracking.includes(search) ||
+            sender.includes(search) ||
+            receiver.includes(search)
         ) {
-            inTransit++;
-        }
 
-        else if (
-            status === "awaiting pickup" ||
-            status === "shipment created" ||
-            status === "picked up"
-        ) {
-            awaiting++;
+            table.innerHTML += `
+            <tr>
+
+                <td>${shipment.tracking || ""}</td>
+
+                <td>${shipment.senderName || ""}</td>
+
+                <td>${shipment.receiverName || ""}</td>
+
+                <td>${shipment.status || ""}</td>
+
+                <td>${shipment.location || ""}</td>
+
+                <td>
+
+                    <button onclick="editShipment(${index})">
+                        Edit
+                    </button>
+
+                    <button onclick="deleteShipment(${index})">
+                        Delete
+                    </button>
+
+                </td>
+
+            </tr>
+            `;
+
         }
 
     });
 
-    // Update dashboard numbers
-    const totalElement = document.getElementById("totalShipments");
-    const transitElement = document.getElementById("inTransit");
-    const deliveredElement = document.getElementById("delivered");
-    const awaitingElement = document.getElementById("awaiting");
-
-    if (totalElement) {
-        totalElement.textContent = total;
-    }
-
-    if (transitElement) {
-        transitElement.textContent = inTransit;
-    }
-
-    if (deliveredElement) {
-        deliveredElement.textContent = delivered;
-    }
-
-    if (awaitingElement) {
-    awaitingElement.textContent = awaiting;
 }
 
-} // End updateLiveStatistics()
 
+// ======================================================
+// INITIAL DASHBOARD LOAD
+// ======================================================
 
-// Initial statistics update
-updateLiveStatistics();
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-// Keep statistics synchronized
-window.addEventListener("storage", function () {
-    updateLiveStatistics();
-});
+        loadShipments();
 
-loadShipments();
+        updateDashboard();
 
+        loadCustomerMessages();
 
+        loadActivity();
+
+        const editPanel =
+            document.getElementById("editPanel");
+
+        if (editPanel) {
+            editPanel.style.display = "block";
+        }
+
+    }
+);
+                            
