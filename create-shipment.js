@@ -46,7 +46,7 @@ shipmentId: "SHP-" + Date.now(),
 createdTime: new Date().toLocaleString(),
 barcodeNumber: trackingNumber,
 
-    reference: document.getElementById("reference").value,
+    reference: document.getElementById("referenceNumber").value,
     customerReference: document.getElementById("customerReference").value,
 
     // Sender
@@ -68,14 +68,14 @@ barcodeNumber: trackingNumber,
     receiverEmail: document.getElementById("receiverEmail").value,
 
     // Shipment
-    description: document.getElementById("description").value,
-    descriptionType: document.getElementById("descriptionType").value,
+    description: document.getElementById("package").value,
+    descriptionType: document.getElementById("packageType").value,
     pieces: document.getElementById("pieces").value,
     weight: document.getElementById("weight").value + " kg",
     dimensions: document.getElementById("dimensions").value,
-    value: document.getElementById("value").value,
+    value: document.getElementById("declaredValue").value,
     service: document.getElementById("service").value,
-    payment: document.getElementById("payment").value,
+    payment: document.getElementById("paymentStatus").value,
     insurance: document.getElementById("insurance").value,
     origin: document.getElementById("origin").value,
     destination: document.getElementById("destination").value,
