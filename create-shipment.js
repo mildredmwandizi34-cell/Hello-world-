@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function createShipment (event) {
 
+    alert("Create Shipment button is working");
+
     event.preventDefault();
 
 // Generate IDs
