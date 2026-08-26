@@ -70,7 +70,7 @@ barcodeNumber: trackingNumber,
     receiverEmail: document.getElementById("receiverEmail").value,
 
     // Shipment
-    description: document.getElementById("package").value,
+    package: document.getElementById("package").value,
     descriptionType: document.getElementById("packageType").value,
     pieces: document.getElementById("pieces").value,
     weight: document.getElementById("weight").value + " kg",
