@@ -708,7 +708,11 @@ else {
 
     if (shipment.history && shipment.history.trim() !== "") {
 
-        history.innerHTML = shipment.history;
+     history:
+"📦 Shipment Created<br>" +
+"📍 American Global Logistics Warehouse<br>" +
+"🕒 " +
+new Date().toLocaleString()
 
     } else {
 
