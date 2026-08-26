@@ -212,9 +212,19 @@ if (stamp) {
 // -----------------------------
 if (document.getElementById("barcode")) {
 
-    JsBarcode("#barcode",
-        shipment.trackingNumber,
-        {
+    JsBarcode("#barcode", shipment.trackingNumber, {
+    format: "CODE128",
+    width: 2,
+    height: 60,
+    displayValue: true
+});
+
+JsBarcode("#barcodeLarge", shipment.trackingNumber, {
+    format: "CODE128",
+    width: 2,
+    height: 60,
+    displayValue: true
+});
             format: "CODE128",
             width: 2,
             height: 60,
