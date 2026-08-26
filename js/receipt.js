@@ -150,7 +150,9 @@ set("reference", shipment.reference);
 set("customerReference", shipment.customerReference);
 set("barcodeNumber", shipment.barcodeNumber || shipment.trackingNumber);
 set("createdTime", shipment.createdTime);
-set("instructions", shipment.instructions);
+set("instructionsTable", shipment.instructions);
+set("instructionsReference", shipment.instructions);
+set("instructionsText", shipment.instructions);
 
 // -----------------------------
 // Verification
