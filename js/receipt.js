@@ -156,7 +156,8 @@ set("instructions", shipment.instructions);
 // Verification
 // -----------------------------
 set("verificationCode", shipment.verificationCode);
-
+set("verificationCode", shipment.verificationCode);
+set("verificationCodeLarge", shipment.verificationCode);
 // -----------------------------
 // Footer
 // -----------------------------
