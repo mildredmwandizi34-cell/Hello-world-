@@ -638,9 +638,9 @@ function trackShipment() {
 
     document.getElementById("trackingDisplay").textContent = shipment.tracking || "";
 
-    document.getElementById("sender").textContent = shipment.sender || "";
-
-    document.getElementById("receiver").textContent = shipment.receiver || "";
+    document.getElementById("sender").textContent = shipment.senderName || "";
+    
+    document.getElementById("receiver").textContent = shipment.receiverName || "";
 
     document.getElementById("package").textContent = shipment.package || "";
 
@@ -694,11 +694,11 @@ else {
 
     let progress = Number(shipment.progress) || 0;
 
-    let bar = document.getElementById("progressBar");
+    let vehicleProgress = shipment.currentProgress || (shipment.progress / 100);
 
-    bar.style.width = progress + "%";
+    bar.style.width = vehicleprogress + "%";
 
-    bar.innerHTML = progress + "%";
+    bar.innerHTML = vehicleprogress + "%";
 
     /* Shipment History */
 
@@ -800,8 +800,8 @@ let vehicle = L.marker(start, {
         iconAnchor: [17, 17]
     })
 }).addTo(shipmentMap);
-    let currentLat = start[0] + (end[0] - start[0]) * progress;
-let currentLng = start[1] + (end[1] - start[1]) * progress;
+    let currentLat = start[0] + (end[0] - start[0]) * vehicleprogress;
+let currentLng = start[1] + (end[1] - start[1]) * vehicleprogress;
 
 vehicle.setLatLng([currentLat, currentLng]);
 
@@ -830,8 +830,8 @@ switch (shipment.service) {
         break;
 }
 
-progress += speed;
-    shipment.currentProgress = progress;
+vehicleprogress += speed;
+    shipment.currentProgress = vehicleprogress;
 
 shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
@@ -844,14 +844,14 @@ if(index !== -1){
     localStorage.setItem("shipments", JSON.stringify(shipments));
     }
 
-    if (progress >= 1) {
+    if (vehicleprogress >= 1) {
         clearInterval(animation);
         vehicle.setLatLng(end);
         return;
     }
 
-    let lat = start[0] + (end[0] - start[0]) * progress;
-    let lng = start[1] + (end[1] - start[1]) * progress;
+    let lat = start[0] + (end[0] - start[0]) * vehicleprogress;
+    let lng = start[1] + (end[1] - start[1]) * vehicleprogress;
 
     vehicle.setLatLng([lat, lng]);
 
