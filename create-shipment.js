@@ -100,7 +100,10 @@ barcodeNumber: trackingNumber,
     // Tracking
     status: "Shipment Created",
     location: "American Global Logistics Warehouse",
-    route: "To Be Assigned",
+    route:
+document.getElementById("origin").value +
+" → " +
+document.getElementById("destination").value,
     progress: 5,
 
     history: [
