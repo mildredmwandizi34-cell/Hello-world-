@@ -638,9 +638,11 @@ function trackShipment() {
 
     document.getElementById("trackingDisplay").textContent = shipment.tracking || "";
 
-    document.getElementById("sender").textContent = shipment.senderName || "";
+    document.getElementById("sender").textContent =
+    shipment.senderName || "";
     
-    document.getElementById("receiver").textContent = shipment.receiverName || "";
+    document.getElementById("receiver").textContent =
+    shipment.receiverName || "";
 
     document.getElementById("package").textContent = shipment.package || "";
 
