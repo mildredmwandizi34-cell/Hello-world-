@@ -420,3 +420,22 @@ function loadActivity(){
             <div class="empty-icon">📋</div>
 
             <h3>No Recent Activity</h
+
+           document
+.getElementById("viewReceipt")
+.addEventListener("click", function () {
+
+    if (currentShipmentIndex < 0) {
+        alert("Select a shipment first.");
+        return;
+    }
+
+    window.open(
+        "receipt.html?tracking=" +
+        shipments[currentShipmentIndex].tracking,
+        "_blank"
+    );
+
+}); 
+
+            
