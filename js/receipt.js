@@ -83,6 +83,7 @@ shipment.verificationCode =
 // -----------------------------
 set("trackingNumber", shipment.trackingNumber);
 set("receiptNumber", shipment.receiptNumber);
+set("receiptNumberBottom", shipment.receiptNumber);
 set("receiptDate", shipment.receiptDate);
 
 // -----------------------------
