@@ -285,3 +285,138 @@ function deleteCurrentShipment(){
         alert("
 
 });
+
+// ======================================================
+// PART 3 - CUSTOMER MESSAGES, ACTIVITY & AUTO REFRESH
+// ======================================================
+
+// ------------------------------------------------------
+// CUSTOMER MESSAGES
+// ------------------------------------------------------
+
+function loadCustomerMessages() {
+
+    customerMessages =
+        JSON.parse(localStorage.getItem("customerMessages")) || [];
+
+    const container =
+        document.getElementById("customerMessages");
+
+    const count =
+        document.getElementById("messageCount");
+
+    if (!container) return;
+
+    if (count)
+        count.textContent = customerMessages.length;
+
+    if (customerMessages.length === 0) {
+
+        container.innerHTML = `
+        <div class="empty-messages">
+            <div class="empty-icon">💬</div>
+            <h3>No Customer Messages</h3>
+            <p>Customer messages will appear here.</p>
+        </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = "";
+
+    customerMessages.forEach(function(message, index){
+
+        container.innerHTML += `
+
+        <div class="message-card">
+
+            <strong>${message.name || "Customer"}</strong><br>
+            ${message.email || ""}
+
+            <p style="margin:10px 0;">
+                ${message.message || ""}
+            </p>
+
+            <button onclick="replyToCustomer(${index})">
+                Reply
+            </button>
+
+            <button onclick="deleteCustomerMessage(${index})">
+                Delete
+            </button>
+
+        </div>
+
+        <hr>
+
+        `;
+
+    });
+
+}
+
+// ------------------------------------------------------
+// DELETE MESSAGE
+// ------------------------------------------------------
+
+function deleteCustomerMessage(index){
+
+    if(!confirm("Delete this message?"))
+        return;
+
+    customerMessages.splice(index,1);
+
+    saveMessages();
+
+    loadCustomerMessages();
+
+    updateDashboard();
+
+    addActivity(
+        "Customer message deleted",
+        "💬"
+    );
+
+}
+
+// ------------------------------------------------------
+// REPLY
+// ------------------------------------------------------
+
+function replyToCustomer(index){
+
+    const msg = customerMessages[index];
+
+    if(!msg || !msg.email){
+
+        alert("No email available.");
+
+        return;
+
+    }
+
+    window.location.href =
+        "mailto:" + msg.email;
+
+}
+
+// ------------------------------------------------------
+// ACTIVITY LOG
+// ------------------------------------------------------
+
+function loadActivity(){
+
+    const container =
+        document.getElementById("activityLog");
+
+    if(!container) return;
+
+    if(activityLog.length===0){
+
+        container.innerHTML=`
+        <div class="empty-activity">
+
+            <div class="empty-icon">📋</div>
+
+            <h3>No Recent Activity</h
