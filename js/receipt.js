@@ -99,6 +99,8 @@ set("summaryDelivery", shipment.delivery);
 set("senderName", shipment.senderName);
 set("senderCompany", shipment.senderCompany);
 set("senderAddress", shipment.senderAddress);
+set("senderCity", shipment.senderCity);
+set("senderCountry", shipment.senderCountry);
 set("senderPhone", shipment.senderPhone);
 set("senderEmail", shipment.senderEmail);
 
@@ -108,21 +110,23 @@ set("senderEmail", shipment.senderEmail);
 set("receiverName", shipment.receiverName);
 set("receiverCompany", shipment.receiverCompany);
 set("receiverAddress", shipment.receiverAddress);
+set("receiverCity", shipment.receiverCity);
+set("receiverCountry", shipment.receiverCountry);
 set("receiverPhone", shipment.receiverPhone);
 set("receiverEmail", shipment.receiverEmail);
 
 // -----------------------------
 // Shipment Details
 // -----------------------------
-set("description", shipment.description);
+set("package", shipment.description);
 set("packageType", shipment.packageType);
 set("pieces", shipment.pieces);
 set("weight", shipment.weight ? shipment.weight + " kg" : "-");
 set("dimensions", shipment.dimensions);
-set("value", shipment.value ? "$" + shipment.value : "-");
+set("declaredValue", shipment.value ? "$" + shipment.value : "-");
 set("service", shipment.service);
 set("insurance", shipment.insurance);
-set("payment", shipment.payment);
+set("paymentStatus", shipment.payment);
 set("origin", shipment.origin);
 set("destination", shipment.destination);
 set("delivery", shipment.delivery);
@@ -161,7 +165,8 @@ set("issueDate", shipment.issueDate);
 // -----------------------------
 // Sender Signature
 // -----------------------------
-set("senderSignature", shipment.senderName);
+set("senderSignature", shipment.senderSignature);
+set("authorizedOfficer", shipment.authorizedOfficer);
 
 // -----------------------------
 // Payment Stamp
