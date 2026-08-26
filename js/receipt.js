@@ -184,6 +184,13 @@ if (stamp) {
 
     stamp.className = "stamp";
 
+    const stampLarge = document.getElementById("paymentStampLarge");
+
+if (stampLarge) {
+    stampLarge.className = stamp.className;
+    stampLarge.textContent = stamp.textContent;
+}
+
     if (payment === "paid") {
 
         stamp.classList.add("paid");
