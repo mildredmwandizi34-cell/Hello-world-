@@ -761,16 +761,17 @@ else {
    SHIPMENT PROGRESS BAR
    ================================================== */
 
-let progress = Number(shipment.progress) || 0;
+let progress = Number(shipment.progress);
+
+if (isNaN(progress)) {
+    progress = 0;
+}
 
 let bar = document.getElementById("progressBar");
 
-if(bar){
-
+if (bar) {
     bar.style.width = progress + "%";
-
     bar.textContent = progress + "%";
-
     }
 
     /* ==================================================
