@@ -702,37 +702,70 @@ else {
 
     bar.innerHTML = vehicleprogress + "%";
 
-    /* Shipment History */
+    //* ==================================================
+   SHIPMENT HISTORY TIMELINE
+   ================================================== */
 
-    let history = document.getElementById("history");
+const historyContainer =
+    document.getElementById("history");
 
-    if (shipment.history && shipment.history.trim() !== "") {
+if(historyContainer){
 
-     history:
-"📦 Shipment Created<br>" +
-"📍 American Global Logistics Warehouse<br>" +
-"🕒 " +
-new Date().toLocaleString()
+    historyContainer.innerHTML = "";
 
-    } else {
+    let shipmentHistory = shipment.history || [];
 
-        history.innerHTML = `
+    // Make sure history is an array
+    if(!Array.isArray(shipmentHistory)){
+
+        shipmentHistory = [];
+
+    }
+
+    // If there is no history yet
+    if(shipmentHistory.length === 0){
+
+        shipmentHistory = [
+
+            {
+                status: "Shipment Created",
+                location: shipment.location || "Warehouse",
+                date: new Date().toLocaleString()
+            }
+
+        ];
+
+    }
+
+    shipmentHistory.forEach(function(item){
+
+        historyContainer.innerHTML += `
+
         <div class="timeline-item">
 
-            <div class="timeline-icon">📦</div>
+            <div class="timeline-icon">
+                📦
+            </div>
 
-            <div class="timeline-title">Shipment Created</div>
+            <div class="timeline-title">
+                ${item.status || "Shipment Update"}
+            </div>
 
             <div class="timeline-location">
-            📍 ${shipment.location || "Warehouse"}
+                📍 ${item.location || "Location unavailable"}
             </div>
 
             <div class="timeline-time">
-            🕒 ${new Date().toLocaleString()}
+                🕒 ${item.date || ""}
             </div>
 
-        </div>`;
-    }
+        </div>
+
+        `;
+
+    });
+
+}
 
     /* Map */
     
