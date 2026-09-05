@@ -399,35 +399,98 @@ Track Shipment
 
 <div id="result" style="display:none;">
 
-<!-- STATUS -->
 
-<div class="card">
+<!-- ==========================================
+     PREMIUM SHIPMENT STATUS
+========================================== -->
 
-<h2>Shipment Status</h2>
+<div class="card shipment-status-card">
 
-<p><strong>Status:</strong>
+    <div class="status-header">
 
-<span id="status"></span>
+        <div>
+            <span class="status-label">CURRENT SHIPMENT STATUS</span>
+            <h2>Shipment Status</h2>
+        </div>
 
-</p>
+        <div class="status-live">
+            <span class="live-dot"></span>
+            LIVE
+        </div>
 
-<p><strong>Current Location:</strong>
+    </div>
 
-<span id="location"></span>
+    <div class="main-status">
 
-</p>
+        <div class="status-icon">
+            📦
+        </div>
 
-<p><strong>Estimated Delivery:</strong>
+        <div class="status-main-content">
 
-<span id="delivery"></span>
+            <div id="status" class="status-value">
+                Shipment Created
+            </div>
 
-</p>
+            <p id="statusMessage">
+                Your shipment is being processed.
+            </p>
 
-<p><strong>Route:</strong>
+        </div>
 
-<span id="route"></span>
+    </div>
 
-</p>
+    <div class="status-info-grid">
+
+        <div class="status-info-box">
+
+            <span class="status-info-label">
+                📍 CURRENT LOCATION
+            </span>
+
+            <strong id="location">
+                —
+            </strong>
+
+        </div>
+
+        <div class="status-info-box">
+
+            <span class="status-info-label">
+                🏁 DESTINATION
+            </span>
+
+            <strong id="vehicleDestination">
+                —
+            </strong>
+
+        </div>
+
+        <div class="status-info-box">
+
+            <span class="status-info-label">
+                📅 ESTIMATED DELIVERY
+            </span>
+
+            <strong id="delivery">
+                —
+            </strong>
+
+        </div>
+
+        <div class="status-info-box">
+
+            <span class="status-info-label">
+                🛣️ SHIPPING ROUTE
+            </span>
+
+            <strong id="route">
+                —
+            </strong>
+
+        </div>
+
+    </div>
 
 </div>
 
