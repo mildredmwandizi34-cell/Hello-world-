@@ -566,13 +566,21 @@ class="progress-bar">
 <!-- Leaflet JS -->
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
-<script>  
 
-let shipmentMap;     
+ <script>
+
+let shipmentMap;
+
 function trackShipment() {
 
-    let tracking = document.getElementById("trackingNumber").value.trim().toUpperCase();
+    let trackingInput = document.getElementById("trackingNumber");
+
+    if (!trackingInput) {
+        console.error("Tracking input not found.");
+        return;
+    }
+
+    let tracking = trackingInput.value.trim().toUpperCase();
 
     if (tracking === "") {
         alert("Please enter a tracking number.");
@@ -582,18 +590,34 @@ function trackShipment() {
     let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
     let shipment = shipments.find(function(item) {
-        return item.tracking.toUpperCase() === tracking;
+
+        return String(item.tracking || "").toUpperCase() === tracking;
+
     });
 
     if (!shipment) {
+
         alert("Tracking number not found.");
-        document.getElementById("result").style.display = "none";
+
+        let result = document.getElementById("result");
+
+        if (result) {
+            result.style.display = "none";
+        }
+
         return;
     }
 
-    document.getElementById("result").style.display = "block";
+    let result = document.getElementById("result");
 
-    /* Status Badge */
+    if (result) {
+        result.style.display = "block";
+    }
+
+
+    /* ==================================================
+       STATUS BADGE
+       ================================================== */
 
     let badge = "";
 
@@ -607,12 +631,20 @@ function trackShipment() {
             badge = '<span class="badge pickup">📍 Awaiting Pickup</span>';
             break;
 
+        case "Picked Up":
+            badge = '<span class="badge pickup">📦 Picked Up</span>';
+            break;
+
         case "In Transit":
             badge = '<span class="badge transit">✈️ In Transit</span>';
             break;
 
         case "Customs Cleared":
             badge = '<span class="badge customs">🛃 Customs Cleared</span>';
+            break;
+
+        case "Arrived at Destination Hub":
+            badge = '<span class="badge customs">📍 Arrived at Destination Hub</span>';
             break;
 
         case "Out for Delivery":
@@ -624,13 +656,20 @@ function trackShipment() {
             break;
 
         default:
-            badge = shipment.status;
+            badge = shipment.status || "Unknown Status";
 
     }
 
-    document.getElementById("status").innerHTML = badge;
+    let statusElement = document.getElementById("status");
 
-        /* Shipment Progress */
+    if (statusElement) {
+        statusElement.innerHTML = badge;
+    }
+
+
+    /* ==================================================
+       SHIPMENT PROGRESS
+       ================================================== */
 
     let progress = 0;
 
@@ -670,405 +709,708 @@ function trackShipment() {
 
         default:
             progress = Number(shipment.progress) || 0;
+
     }
 
     let progressBar = document.getElementById("progressBar");
 
     if (progressBar) {
+
         progressBar.style.width = progress + "%";
         progressBar.textContent = progress + "%";
-    }
-
-    /* ==================================================
-   DYNAMIC STATUS PROGRESS LIST
-   ================================================== */
-
-const progressList =
-    document.getElementById("progressList");
-
-if(progressList){
-
-    const statusSteps = [
-
-        "Shipment Created",
-
-        "Awaiting Pickup",
-
-        "Picked Up",
-
-        "In Transit",
-
-        "Customs Cleared",
-
-        "Arrived at Destination Hub",
-
-        "Out for Delivery",
-
-        "Delivered"
-
-    ];
-
-    const currentStatusIndex =
-        statusSteps.indexOf(shipment.status);
-
-    progressList.innerHTML = "";
-
-    statusSteps.forEach(function(step,index){
-
-        let icon = "⬜";
-
-        if(index < currentStatusIndex){
-
-            icon = "✅";
-
-        }
-        else if(index === currentStatusIndex){
-
-            icon = "🟡";
-
-        }
-
-        progressList.innerHTML += `
-
-        <li>
-
-            ${icon} ${step}
-
-        </li>
-
-        `;
-
-    });
-
-}
-
-    document.getElementById("location").textContent = shipment.location || "";
-
-    document.getElementById("delivery").textContent = shipment.delivery || "";
-
-    document.getElementById("route").textContent = shipment.route || "";
-
-    document.getElementById("trackingDisplay").textContent = shipment.tracking || "";
-
-    document.getElementById("sender").textContent =
-    shipment.senderName || "";
-    
-    document.getElementById("receiver").textContent =
-    shipment.receiverName || "";
-
-    document.getElementById("package").textContent = shipment.package || "";
-
-    document.getElementById("weight").textContent = shipment.weight || "";
-
-    document.getElementById("service").textContent = shipment.service || "";
-
-    document.getElementById("vehicleDestination").textContent = shipment.location || "";
-// Update live vehicle information automatically
-if (shipment.service === "Air Freight") {
-
-    document.getElementById("vehicleId").innerHTML = "FL-" + shipment.tracking.slice(-4);
-    document.getElementById("driver").innerHTML = "Captain James Wilson";
-    document.getElementById("vehicleType").innerHTML = "Boeing 777 Freighter";
-    document.getElementById("speed").innerHTML = "890 km/h";
-    document.getElementById("fuel").innerHTML = "91%";
-    document.getElementById("eta").innerHTML = "3 Hours";
-
-}
-else if (shipment.service === "Ocean Freight") {
-
-    document.getElementById("vehicleId").innerHTML = "MV-" + shipment.tracking.slice(-4);
-    document.getElementById("driver").innerHTML = "Captain Michael Brown";
-    document.getElementById("vehicleType").innerHTML = "Container Cargo Ship";
-    document.getElementById("speed").innerHTML = "32 km/h";
-    document.getElementById("fuel").innerHTML = "76%";
-    document.getElementById("eta").innerHTML = "6 Days";
-
-}
-else if (shipment.service === "Road Transport") {
-
-    document.getElementById("vehicleId").innerHTML = "TRK-" + shipment.tracking.slice(-4);
-    document.getElementById("driver").innerHTML = "Daniel Carter";
-    document.getElementById("vehicleType").innerHTML = "Mercedes-Benz Actros";
-    document.getElementById("speed").innerHTML = "78 km/h";
-    document.getElementById("fuel").innerHTML = "82%";
-    document.getElementById("eta").innerHTML = "1 Hour 15 Minutes";
-
-}
-else {
-
-    document.getElementById("vehicleId").innerHTML = "VAN-" + shipment.tracking.slice(-4);
-    document.getElementById("driver").innerHTML = "Kevin Adams";
-    document.getElementById("vehicleType").innerHTML = "Mercedes Sprinter";
-    document.getElementById("speed").innerHTML = "95 km/h";
-    document.getElementById("fuel").innerHTML = "88%";
-    document.getElementById("eta").innerHTML = "45 Minutes";
-
-     }
-    
-}
-
-    
-    /* ==================================================
-   SHIPMENT PROGRESS BAR
-   ================================================== */
-
-let progress = Number(shipment.progress);
-
-if (isNaN(progress)) {
-    progress = 0;
-}
-
-let bar = document.getElementById("progressBar");
-
-if (bar) {
-    bar.style.width = progress + "%";
-    bar.textContent = progress + "%";
-    }
-
-    /* ==================================================
-   SHIPMENT HISTORY TIMELINE
-   ================================================== */
-
-const historyContainer =
-    document.getElementById("history");
-
-if(historyContainer){
-
-    historyContainer.innerHTML = "";
-
-    let shipmentHistory = shipment.history || [];
-
-    // Make sure history is an array
-    if(!Array.isArray(shipmentHistory)){
-
-        shipmentHistory = [];
 
     }
 
-    // If there is no history yet
-    if(shipmentHistory.length === 0){
 
-        shipmentHistory = [
+    /* ==================================================
+       DYNAMIC STATUS PROGRESS LIST
+       ================================================== */
 
-            {
-                status: "Shipment Created",
-                location: shipment.location || "Warehouse",
-                date: new Date().toLocaleString()
-            }
+    const progressList =
+        document.getElementById("progressList");
+
+    if (progressList) {
+
+        const statusSteps = [
+
+            "Shipment Created",
+            "Awaiting Pickup",
+            "Picked Up",
+            "In Transit",
+            "Customs Cleared",
+            "Arrived at Destination Hub",
+            "Out for Delivery",
+            "Delivered"
 
         ];
 
+        const currentStatusIndex =
+            statusSteps.indexOf(shipment.status);
+
+        progressList.innerHTML = "";
+
+        statusSteps.forEach(function(step, index) {
+
+            let icon = "⬜";
+
+            if (index < currentStatusIndex) {
+
+                icon = "✅";
+
+            }
+            else if (index === currentStatusIndex) {
+
+                icon = "🟡";
+
+            }
+
+            progressList.innerHTML += `
+
+                <li>
+                    ${icon} ${step}
+                </li>
+
+            `;
+
+        });
+
     }
 
-    shipmentHistory.forEach(function(item){
 
-        historyContainer.innerHTML += `
+    /* ==================================================
+       SHIPMENT DETAILS
+       ================================================== */
 
-        <div class="timeline-item">
+    let locationElement =
+        document.getElementById("location");
 
-            <div class="timeline-icon">
-                📦
-            </div>
-
-            <div class="timeline-title">
-                ${item.status || "Shipment Update"}
-            </div>
-
-            <div class="timeline-location">
-                📍 ${item.location || "Location unavailable"}
-            </div>
-
-            <div class="timeline-time">
-                🕒 ${item.date || ""}
-            </div>
-
-        </div>
-
-        `;
-
-    });
-
-}
-
-    /* Map */
-    
-if (shipmentMap) {
-    shipmentMap.remove();
-}
-
-// Create a new map
-shipmentMap = L.map('map').setView([20, 0], 2);
-
-// Load OpenStreetMap
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(shipmentMap);
-
-// World locations
-let coordinates = {
-    "New York": [40.7128, -74.0060],
-    "London": [51.5074, -0.1278],
-    "Costa Rica": [9.7489, -83.7534],
-    "Dubai": [25.2048, 55.2708],
-    "Nairobi": [-1.2864, 36.8172],
-    "Los Angeles": [34.0522, -118.2437],
-    "Guatemala": [14.6349, -90.5069]
-};
-
-let start = coordinates[shipment.origin];
-let end = coordinates[shipment.destination];
-
-if (start && end) {
-
-    // Origin marker
-    L.marker(start)
-        .addTo(shipmentMap)
-        .bindPopup("📦 Origin<br><strong>" + shipment.origin + "</strong>");
-
-    // Destination marker
-    L.marker(end)
-        .addTo(shipmentMap)
-        .bindPopup("🏁 Destination<br><strong>" + shipment.destination + "</strong>");
-
-// Shipment route
-L.polyline([start, end], {
-    color: "#0b4ea2",
-    weight: 5
-}).addTo(shipmentMap);
-
-// Create the moving vehicle
-    // Select vehicle icon based on shipping service
-let vehicleEmoji = "🚚";
-
-if (shipment.service === "Air Freight") {
-    vehicleEmoji = "✈️";
-}
-else if (shipment.service === "Ocean Freight") {
-    vehicleEmoji = "🚢";
-}
-else if (shipment.service === "Road Transport") {
-    vehicleEmoji = "🚛";
-}
-else if (shipment.service === "Express Delivery") {
-    vehicleEmoji = "🚚";
-}
-
-// Create moving vehicle
-let vehicle = L.marker(start, {
-    icon: L.divIcon({
-        className: "",
-        html: "<div style='font-size:34px;'>" + vehicleEmoji + "</div>",
-        iconSize: [34, 34],
-        iconAnchor: [17, 17]
-    })
-}).addTo(shipmentMap);
-
-    // ==================================================
-// MOVING VEHICLE POSITION
-// ==================================================
-
-let vehicleProgress =
-    Number(shipment.currentProgress) || (progress / 100);
-
-let currentLat =
-    start[0] + (end[0] - start[0]) * vehicleProgress;
-
-let currentLng =
-    start[1] + (end[1] - start[1]) * vehicleProgress;
-
-vehicle.setLatLng([
-    currentLat,
-    currentLng
-]);
-
-// Animate the vehicle
-
-let animation = setInterval(function () {
-
-    let speed = 0.003;
-
-switch (shipment.service) {
-    case "Air Freight":
-        speed = 0.008;
-        break;
-
-    case "Express Delivery":
-        speed = 0.005;
-        break;
-
-    case "Road Transport":
-        speed = 0.003;
-        break;
-
-    case "Ocean Freight":
-        speed = 0.0015;
-        break;
-}
-
-vehicleProgress += speed;
-
-shipment.currentProgress =
-    vehicleProgress;
-
-shipments = JSON.parse(localStorage.getItem("shipments")) || [];
-
-let index = shipments.findIndex(function(item){
-    return item.tracking === shipment.tracking;
-});
-
-if(index !== -1){
-    shipments[index] = shipment;
-    localStorage.setItem("shipments", JSON.stringify(shipments));
+    if (locationElement) {
+        locationElement.textContent =
+            shipment.location || "";
     }
 
-    if (vehicleProgress >= 1) {
-        clearInterval(animation);
-        vehicle.setLatLng(end);
+
+    let deliveryElement =
+        document.getElementById("delivery");
+
+    if (deliveryElement) {
+        deliveryElement.textContent =
+            shipment.delivery || "";
+    }
+
+
+    let routeElement =
+        document.getElementById("route");
+
+    if (routeElement) {
+        routeElement.textContent =
+            shipment.route || "";
+    }
+
+
+    let trackingDisplay =
+        document.getElementById("trackingDisplay");
+
+    if (trackingDisplay) {
+        trackingDisplay.textContent =
+            shipment.tracking || "";
+    }
+
+
+    let senderElement =
+        document.getElementById("sender");
+
+    if (senderElement) {
+        senderElement.textContent =
+            shipment.senderName || "";
+    }
+
+
+    let receiverElement =
+        document.getElementById("receiver");
+
+    if (receiverElement) {
+        receiverElement.textContent =
+            shipment.receiverName || "";
+    }
+
+
+    let packageElement =
+        document.getElementById("package");
+
+    if (packageElement) {
+        packageElement.textContent =
+            shipment.package || "";
+    }
+
+
+    let weightElement =
+        document.getElementById("weight");
+
+    if (weightElement) {
+        weightElement.textContent =
+            shipment.weight || "";
+    }
+
+
+    let serviceElement =
+        document.getElementById("service");
+
+    if (serviceElement) {
+        serviceElement.textContent =
+            shipment.service || "";
+    }
+
+
+    let vehicleDestination =
+        document.getElementById("vehicleDestination");
+
+    if (vehicleDestination) {
+        vehicleDestination.textContent =
+            shipment.location || "";
+    }
+
+
+    /* ==================================================
+       LIVE VEHICLE INFORMATION
+       ================================================== */
+
+    let vehicleId =
+        document.getElementById("vehicleId");
+
+    let driver =
+        document.getElementById("driver");
+
+    let vehicleType =
+        document.getElementById("vehicleType");
+
+    let speed =
+        document.getElementById("speed");
+
+    let fuel =
+        document.getElementById("fuel");
+
+    let eta =
+        document.getElementById("eta");
+
+
+    if (shipment.service === "Air Freight") {
+
+        if (vehicleId)
+            vehicleId.innerHTML =
+                "FL-" + String(shipment.tracking || "").slice(-4);
+
+        if (driver)
+            driver.innerHTML =
+                "Captain James Wilson";
+
+        if (vehicleType)
+            vehicleType.innerHTML =
+                "Boeing 777 Freighter";
+
+        if (speed)
+            speed.innerHTML =
+                "890 km/h";
+
+        if (fuel)
+            fuel.innerHTML =
+                "91%";
+
+        if (eta)
+            eta.innerHTML =
+                "3 Hours";
+
+    }
+
+    else if (shipment.service === "Ocean Freight") {
+
+        if (vehicleId)
+            vehicleId.innerHTML =
+                "MV-" + String(shipment.tracking || "").slice(-4);
+
+        if (driver)
+            driver.innerHTML =
+                "Captain Michael Brown";
+
+        if (vehicleType)
+            vehicleType.innerHTML =
+                "Container Cargo Ship";
+
+        if (speed)
+            speed.innerHTML =
+                "32 km/h";
+
+        if (fuel)
+            fuel.innerHTML =
+                "76%";
+
+        if (eta)
+            eta.innerHTML =
+                "6 Days";
+
+    }
+
+    else if (shipment.service === "Road Transport") {
+
+        if (vehicleId)
+            vehicleId.innerHTML =
+                "TRK-" + String(shipment.tracking || "").slice(-4);
+
+        if (driver)
+            driver.innerHTML =
+                "Daniel Carter";
+
+        if (vehicleType)
+            vehicleType.innerHTML =
+                "Mercedes-Benz Actros";
+
+        if (speed)
+            speed.innerHTML =
+                "78 km/h";
+
+        if (fuel)
+            fuel.innerHTML =
+                "82%";
+
+        if (eta)
+            eta.innerHTML =
+                "1 Hour 15 Minutes";
+
+    }
+
+    else {
+
+        if (vehicleId)
+            vehicleId.innerHTML =
+                "VAN-" + String(shipment.tracking || "").slice(-4);
+
+        if (driver)
+            driver.innerHTML =
+                "Kevin Adams";
+
+        if (vehicleType)
+            vehicleType.innerHTML =
+                "Mercedes Sprinter";
+
+        if (speed)
+            speed.innerHTML =
+                "95 km/h";
+
+        if (fuel)
+            fuel.innerHTML =
+                "88%";
+
+        if (eta)
+            eta.innerHTML =
+                "45 Minutes";
+
+    }
+
+
+    /* ==================================================
+       SHIPMENT HISTORY TIMELINE
+       ================================================== */
+
+    const historyContainer =
+        document.getElementById("history");
+
+    if (historyContainer) {
+
+        historyContainer.innerHTML = "";
+
+        let shipmentHistory =
+            shipment.history || [];
+
+        if (!Array.isArray(shipmentHistory)) {
+
+            shipmentHistory = [];
+
+        }
+
+        if (shipmentHistory.length === 0) {
+
+            shipmentHistory = [
+
+                {
+                    status: "Shipment Created",
+                    location:
+                        shipment.location || "Warehouse",
+                    date:
+                        new Date().toLocaleString()
+                }
+
+            ];
+
+        }
+
+        shipmentHistory.forEach(function(item) {
+
+            historyContainer.innerHTML += `
+
+                <div class="timeline-item">
+
+                    <div class="timeline-icon">
+                        📦
+                    </div>
+
+                    <div class="timeline-title">
+                        ${item.status || "Shipment Update"}
+                    </div>
+
+                    <div class="timeline-location">
+                        📍 ${item.location || "Location unavailable"}
+                    </div>
+
+                    <div class="timeline-time">
+                        🕒 ${item.date || ""}
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    /* ==================================================
+       MAP
+       ================================================== */
+
+    if (shipmentMap) {
+
+        shipmentMap.remove();
+
+    }
+
+    let mapElement =
+        document.getElementById("map");
+
+    if (!mapElement) {
+
+        console.warn("Map element not found.");
         return;
-    }
-
-    let lat =
-    start[0] +
-    (end[0] - start[0]) * vehicleProgress;
-
-let lng =
-    start[1] +
-    (end[1] - start[1]) * vehicleProgress;
-
-    vehicle.setLatLng([lat, lng]);
-
-}, 30);
-
-// Fit map to route
-shipmentMap.fitBounds([start, end], {
-    padding: [50, 50]
-});
 
     }
 
+    shipmentMap =
+        L.map("map").setView([20, 0], 2);
+
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution:
+                "&copy; OpenStreetMap contributors"
+        }
+    ).addTo(shipmentMap);
+
+
+    /* ==================================================
+       WORLD LOCATIONS
+       ================================================== */
+
+    let coordinates = {
+
+        "New York": [40.7128, -74.0060],
+
+        "London": [51.5074, -0.1278],
+
+        "Costa Rica": [9.7489, -83.7534],
+
+        "Dubai": [25.2048, 55.2708],
+
+        "Nairobi": [-1.2864, 36.8172],
+
+        "Los Angeles": [34.0522, -118.2437],
+
+        "Guatemala": [14.6349, -90.5069]
+
+    };
+
+
+    let start =
+        coordinates[shipment.origin];
+
+    let end =
+        coordinates[shipment.destination];
+
+
+    if (start && end) {
+
+
+        /* Origin */
+
+        L.marker(start)
+            .addTo(shipmentMap)
+            .bindPopup(
+                "📦 Origin<br><strong>" +
+                shipment.origin +
+                "</strong>"
+            );
+
+
+        /* Destination */
+
+        L.marker(end)
+            .addTo(shipmentMap)
+            .bindPopup(
+                "🏁 Destination<br><strong>" +
+                shipment.destination +
+                "</strong>"
+            );
+
+
+        /* Route */
+
+        L.polyline(
+            [start, end],
+            {
+                color: "#0b4ea2",
+                weight: 5
+            }
+        ).addTo(shipmentMap);
+
+
+        /* ==================================================
+           VEHICLE ICON
+           ================================================== */
+
+        let vehicleEmoji = "🚚";
+
+
+        if (shipment.service === "Air Freight") {
+
+            vehicleEmoji = "✈️";
+
+        }
+
+        else if (shipment.service === "Ocean Freight") {
+
+            vehicleEmoji = "🚢";
+
+        }
+
+        else if (shipment.service === "Road Transport") {
+
+            vehicleEmoji = "🚛";
+
+        }
+
+        else if (shipment.service === "Express Delivery") {
+
+            vehicleEmoji = "🚚";
+
+        }
+
+
+        /* Moving vehicle */
+
+        let vehicle =
+            L.marker(
+                start,
+                {
+
+                    icon: L.divIcon({
+
+                        className: "",
+
+                        html:
+                            "<div style='font-size:34px;'>" +
+                            vehicleEmoji +
+                            "</div>",
+
+                        iconSize: [34, 34],
+
+                        iconAnchor: [17, 17]
+
+                    })
+
+                }
+            ).addTo(shipmentMap);
+
+
+        /* ==================================================
+           MOVING VEHICLE POSITION
+           ================================================== */
+
+        let vehicleProgress =
+            Number(shipment.currentProgress) ||
+            (progress / 100);
+
+
+        let currentLat =
+            start[0] +
+            (end[0] - start[0]) *
+            vehicleProgress;
+
+
+        let currentLng =
+            start[1] +
+            (end[1] - start[1]) *
+            vehicleProgress;
+
+
+        vehicle.setLatLng([
+            currentLat,
+            currentLng
+        ]);
+
+
+        /* ==================================================
+           ANIMATE VEHICLE
+           ================================================== */
+
+        let animation =
+            setInterval(function() {
+
+                let animationSpeed = 0.003;
+
+
+                switch (shipment.service) {
+
+                    case "Air Freight":
+                        animationSpeed = 0.008;
+                        break;
+
+                    case "Express Delivery":
+                        animationSpeed = 0.005;
+                        break;
+
+                    case "Road Transport":
+                        animationSpeed = 0.003;
+                        break;
+
+                    case "Ocean Freight":
+                        animationSpeed = 0.0015;
+                        break;
+
+                }
+
+
+                vehicleProgress +=
+                    animationSpeed;
+
+
+                shipment.currentProgress =
+                    vehicleProgress;
+
+
+                /* Save vehicle position */
+
+                shipments =
+                    JSON.parse(
+                        localStorage.getItem("shipments")
+                    ) || [];
+
+
+                let index =
+                    shipments.findIndex(function(item) {
+
+                        return item.tracking ===
+                            shipment.tracking;
+
+                    });
+
+
+                if (index !== -1) {
+
+                    shipments[index] =
+                        shipment;
+
+                    localStorage.setItem(
+                        "shipments",
+                        JSON.stringify(shipments)
+                    );
+
+                }
+
+
+                if (vehicleProgress >= 1) {
+
+                    clearInterval(animation);
+
+                    vehicle.setLatLng(end);
+
+                    return;
+
+                }
+
+
+                let lat =
+                    start[0] +
+                    (end[0] - start[0]) *
+                    vehicleProgress;
+
+
+                let lng =
+                    start[1] +
+                    (end[1] - start[1]) *
+                    vehicleProgress;
+
+
+                vehicle.setLatLng([
+                    lat,
+                    lng
+                ]);
+
+            }, 30);
+
+
+        /* Fit map to route */
+
+        shipmentMap.fitBounds(
+            [start, end],
+            {
+                padding: [50, 50]
+            }
+        );
+
     }
 
-    // ======================================
-// Automatically track shipment from QR Code
-// ======================================
+}
 
-document.addEventListener("DOMContentLoaded", function () {
 
-    const params = new URLSearchParams(window.location.search);
+/* ==================================================
+   AUTOMATIC TRACKING FROM QR CODE
+   ================================================== */
 
-    const tracking = params.get("tracking");
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
 
-    if (tracking) {
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
 
-        document.getElementById("trackingNumber").value = tracking;
+        const tracking =
+            params.get("tracking");
 
-        trackShipment();
+
+        if (tracking) {
+
+            const trackingInput =
+                document.getElementById(
+                    "trackingNumber"
+                );
+
+            if (trackingInput) {
+
+                trackingInput.value =
+                    tracking;
+
+                trackShipment();
+
+            }
+
+        }
 
     }
+);
 
-});
+</script>   
     
-</script>
-
 </body>
 </html>
