@@ -1503,3 +1503,126 @@ background:#083b80;
     }
 
 }
+
+
+/* ==========================================
+   PREMIUM LIVE VEHICLE
+========================================== */
+
+.vehicle-card{
+    overflow:hidden;
+}
+
+.vehicle-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.vehicle-header h2{
+    margin:5px 0 0;
+    text-align:left;
+}
+
+.vehicle-label{
+    font-size:12px;
+    font-weight:bold;
+    color:#777;
+    letter-spacing:1px;
+}
+
+.vehicle-live{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    background:#e8f5e9;
+    color:#2e7d32;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.vehicle-main{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    background:#f4f8ff;
+    border-left:5px solid #0b4ea2;
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:18px;
+}
+
+.vehicle-icon{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#0b4ea2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+}
+
+.vehicle-small-label{
+    display:block;
+    font-size:11px;
+    color:#777;
+    font-weight:bold;
+    letter-spacing:.5px;
+    margin-bottom:4px;
+}
+
+.vehicle-main strong{
+    display:block;
+    font-size:21px;
+    color:#0b4ea2;
+}
+
+.vehicle-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.vehicle-info-box{
+    background:#f8f9fc;
+    border:1px solid #e5e9ef;
+    border-radius:10px;
+    padding:16px;
+}
+
+.vehicle-info-box span{
+    display:block;
+    font-size:11px;
+    color:#777;
+    font-weight:bold;
+    letter-spacing:.5px;
+    margin-bottom:7px;
+}
+
+.vehicle-info-box strong{
+    display:block;
+    color:#333;
+    font-size:16px;
+    word-break:break-word;
+}
+
+@media(max-width:600px){
+
+    .vehicle-header{
+        align-items:flex-start;
+    }
+
+    .vehicle-header h2{
+        font-size:21px;
+    }
+
+    .vehicle-grid{
+        grid-template-columns:1fr;
+    }
+
+}
