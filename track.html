@@ -762,7 +762,6 @@ function trackShipment() {
     });
 
     if (!shipment) {
-    const errorBox = document.getElementById("trackingError");
 
     if (errorBox) {
         errorBox.textContent =
@@ -771,16 +770,14 @@ function trackShipment() {
     }
 
     return;
-     }
+}
 
-        let result = document.getElementById("result");
+/* Show tracking result */
+let result = document.getElementById("result");
 
-        if (result) {
-            result.style.display = "none";
-        }
-
-        return;
-    }
+if (result) {
+    result.style.display = "block";
+}
 
 
     /* ==================================================
