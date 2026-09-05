@@ -761,12 +761,6 @@ function trackShipment() {
 
     });
 
-    const errorBox = document.getElementById("trackingError");
-
-if (errorBox) {
-    errorBox.style.display = "none";
-}
-
     if (!shipment) {
     const errorBox = document.getElementById("trackingError");
 
@@ -786,12 +780,6 @@ if (errorBox) {
         }
 
         return;
-    }
-
-    let result = document.getElementById("result");
-
-    if (result) {
-        result.style.display = "block";
     }
 
 
