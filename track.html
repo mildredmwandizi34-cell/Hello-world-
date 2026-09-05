@@ -604,37 +604,75 @@ class="progress-bar">
     </div>
 
 </div>
-<div class="card">
+<!-- ==========================================
+     LIVE VEHICLE INFORMATION
+========================================== -->
 
-<h2>Live Vehicle Information</h2>
+<div class="card vehicle-card">
 
-<p><strong>Vehicle ID:</strong>
-<span id="vehicleId"></span>
-</p>
+    <div class="vehicle-header">
 
-<p><strong>Driver:</strong>
-<span id="driver"></span>
-</p>
+        <div>
+            <span class="vehicle-label">LIVE TRANSPORT STATUS</span>
+            <h2>🚚 Vehicle Information</h2>
+        </div>
 
-<p><strong>Vehicle:</strong>
-<span id="vehicleType"></span>
-</p>
+        <div class="vehicle-live">
+            <span class="live-dot"></span>
+            ACTIVE
+        </div>
 
-<p><strong>Current Speed:</strong>
-<span id="speed"></span>
-</p>
+    </div>
 
-<p><strong>Fuel Level:</strong>
-<span id="fuel"></span>
-</p>
+    <div class="vehicle-main">
 
-<p><strong>Destination:</strong>
-<span id="vehicleDestination"></span>
-</p>
+        <div class="vehicle-icon">
+            🚚
+        </div>
 
-<p><strong>Estimated Arrival:</strong>
-<span id="eta"></span>
-</p>
+        <div>
+            <span class="vehicle-small-label">VEHICLE ID</span>
+
+            <strong id="vehicleId">
+                —
+            </strong>
+        </div>
+
+    </div>
+
+    <div class="vehicle-grid">
+
+        <div class="vehicle-info-box">
+            <span>DRIVER</span>
+            <strong id="driver">—</strong>
+        </div>
+
+        <div class="vehicle-info-box">
+            <span>VEHICLE</span>
+            <strong id="vehicleType">—</strong>
+        </div>
+
+        <div class="vehicle-info-box">
+            <span>CURRENT SPEED</span>
+            <strong id="speed">—</strong>
+        </div>
+
+        <div class="vehicle-info-box">
+            <span>FUEL LEVEL</span>
+            <strong id="fuel">—</strong>
+        </div>
+
+        <div class="vehicle-info-box">
+            <span>DESTINATION</span>
+            <strong id="vehicleDestination">—</strong>
+        </div>
+
+        <div class="vehicle-info-box">
+            <span>ESTIMATED ARRIVAL</span>
+            <strong id="eta">—</strong>
+        </div>
+
+    </div>
 
 </div>
 
