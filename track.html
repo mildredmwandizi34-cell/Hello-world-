@@ -630,6 +630,69 @@ function trackShipment() {
 
     document.getElementById("status").innerHTML = badge;
 
+    /* ==================================================
+   DYNAMIC STATUS PROGRESS LIST
+   ================================================== */
+
+const progressList =
+    document.getElementById("progressList");
+
+if(progressList){
+
+    const statusSteps = [
+
+        "Shipment Created",
+
+        "Awaiting Pickup",
+
+        "Picked Up",
+
+        "In Transit",
+
+        "Customs Cleared",
+
+        "Arrived at Destination Hub",
+
+        "Out for Delivery",
+
+        "Delivered"
+
+    ];
+
+    const currentStatusIndex =
+        statusSteps.indexOf(shipment.status);
+
+    progressList.innerHTML = "";
+
+    statusSteps.forEach(function(step,index){
+
+        let icon = "⬜";
+
+        if(index < currentStatusIndex){
+
+            icon = "✅";
+
+        }
+        else if(index === currentStatusIndex){
+
+            icon = "🟡";
+
+        }
+
+        progressList.innerHTML += `
+
+        <li>
+
+            ${icon} ${step}
+
+        </li>
+
+        `;
+
+    });
+
+}
+
     document.getElementById("location").textContent = shipment.location || "";
 
     document.getElementById("delivery").textContent = shipment.delivery || "";
