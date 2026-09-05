@@ -1208,3 +1208,138 @@ background:#083b80;
 
     transition: width 0.5s ease;
    }
+
+/* ==========================================
+   PREMIUM SHIPMENT STATUS
+========================================== */
+
+.shipment-status-card{
+    overflow:hidden;
+}
+
+.status-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.status-header h2{
+    margin:5px 0 0;
+    text-align:left;
+}
+
+.status-label{
+    font-size:12px;
+    font-weight:bold;
+    color:#777;
+    letter-spacing:1px;
+}
+
+.status-live{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    background:#e8f5e9;
+    color:#2e7d32;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.live-dot{
+    width:8px;
+    height:8px;
+    background:#28a745;
+    border-radius:50%;
+    animation:pulse 1.5s infinite;
+}
+
+.main-status{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    background:#f4f8ff;
+    border-radius:12px;
+    padding:20px;
+    border-left:5px solid #0b4ea2;
+    margin-bottom:20px;
+}
+
+.status-icon{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#0b4ea2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+    flex-shrink:0;
+}
+
+.status-value{
+    font-size:24px;
+    font-weight:bold;
+    color:#0b4ea2;
+}
+
+.status-main-content p{
+    margin:4px 0 0;
+    color:#666;
+    font-size:15px;
+}
+
+.status-info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.status-info-box{
+    background:#f8f9fc;
+    padding:16px;
+    border-radius:10px;
+    border:1px solid #e6eaf0;
+}
+
+.status-info-label{
+    display:block;
+    color:#777;
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:7px;
+    letter-spacing:.4px;
+}
+
+.status-info-box strong{
+    display:block;
+    color:#333;
+    font-size:16px;
+}
+
+@media(max-width:600px){
+
+    .status-header{
+        align-items:flex-start;
+    }
+
+    .status-header h2{
+        font-size:22px;
+    }
+
+    .main-status{
+        padding:16px;
+    }
+
+    .status-value{
+        font-size:20px;
+    }
+
+    .status-info-grid{
+        grid-template-columns:1fr;
+    }
+
+   }
