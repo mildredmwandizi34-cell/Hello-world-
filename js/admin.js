@@ -23,6 +23,37 @@ let currentShipmentIndex = -1;
 
 
 // ======================================================
+// SHIPMENT STATUS PROGRESS
+// ======================================================
+
+function getShipmentProgress(status){
+
+    const progressMap = {
+
+        "Shipment Created": 5,
+
+        "Awaiting Pickup": 15,
+
+        "Picked Up": 25,
+
+        "In Transit": 50,
+
+        "Customs Cleared": 65,
+
+        "Arrived at Destination Hub": 75,
+
+        "Out for Delivery": 90,
+
+        "Delivered": 100
+
+    };
+
+    return progressMap[status] || 0;
+
+}
+
+
+// ======================================================
 // SAVE FUNCTIONS
 // ======================================================
 
