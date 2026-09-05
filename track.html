@@ -921,13 +921,11 @@ function trackShipment() {
     }
 
 
-    let vehicleDestination =
-        document.getElementById("vehicleDestination");
+    let destinationElement = document.getElementById("destination");
 
-    if (vehicleDestination) {
-        vehicleDestination.textContent =
-            shipment.location || "";
-    }
+if (destinationElement) {
+    destinationElement.textContent = shipment.destination || "Destination Pending";
+}
 
 
     /* ==================================================
