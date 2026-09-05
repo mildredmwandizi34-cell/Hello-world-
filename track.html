@@ -630,6 +630,55 @@ function trackShipment() {
 
     document.getElementById("status").innerHTML = badge;
 
+        /* Shipment Progress */
+
+    let progress = 0;
+
+    switch (shipment.status) {
+
+        case "Shipment Created":
+            progress = 5;
+            break;
+
+        case "Awaiting Pickup":
+            progress = 15;
+            break;
+
+        case "Picked Up":
+            progress = 25;
+            break;
+
+        case "In Transit":
+            progress = 50;
+            break;
+
+        case "Customs Cleared":
+            progress = 65;
+            break;
+
+        case "Arrived at Destination Hub":
+            progress = 75;
+            break;
+
+        case "Out for Delivery":
+            progress = 90;
+            break;
+
+        case "Delivered":
+            progress = 100;
+            break;
+
+        default:
+            progress = Number(shipment.progress) || 0;
+    }
+
+    let progressBar = document.getElementById("progressBar");
+
+    if (progressBar) {
+        progressBar.style.width = progress + "%";
+        progressBar.textContent = progress + "%";
+    }
+
     /* ==================================================
    DYNAMIC STATUS PROGRESS LIST
    ================================================== */
