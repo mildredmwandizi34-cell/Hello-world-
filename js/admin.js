@@ -21,7 +21,7 @@ JSON.parse(localStorage.getItem("activityLog")) || [];
 
 let currentShipmentIndex = -1;
 
-
+ 
 // ======================================================
 // SHIPMENT STATUS PROGRESS
 // ======================================================
@@ -367,6 +367,9 @@ function saveShipment(){
 
     shipment.status =
         document.getElementById("editStatus").value;
+
+    shipment.progress =
+    getShipmentProgress(shipment.status);
 
     shipment.location =
         document.getElementById("editLocation").value;
