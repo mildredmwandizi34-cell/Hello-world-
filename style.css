@@ -1626,3 +1626,150 @@ background:#083b80;
     }
 
 }
+
+
+/* ==========================================
+   PREMIUM SHIPMENT HISTORY
+========================================== */
+
+.history-card{
+    overflow:hidden;
+}
+
+.history-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:8px;
+}
+
+.history-header h2{
+    margin:5px 0 0;
+    text-align:left;
+}
+
+.history-label{
+    font-size:12px;
+    font-weight:bold;
+    color:#777;
+    letter-spacing:1px;
+}
+
+.history-count{
+    background:#e8f5e9;
+    color:#2e7d32;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.history-description{
+    color:#666;
+    font-size:15px;
+    margin-bottom:25px !important;
+}
+
+.shipment-history{
+    position:relative;
+    padding-left:10px;
+}
+
+.shipment-history::before{
+    content:"";
+    position:absolute;
+    left:25px;
+    top:10px;
+    bottom:10px;
+    width:3px;
+    background:#dbe3ee;
+}
+
+.shipment-history .timeline-item{
+    position:relative;
+    display:block;
+    margin:0 0 25px;
+    padding:0 0 0 60px;
+    border-left:none;
+    animation:historySlide .5s ease both;
+}
+
+.shipment-history .timeline-item:last-child{
+    margin-bottom:0;
+}
+
+.shipment-history .timeline-icon{
+    position:absolute;
+    left:0;
+    top:0;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:#0b4ea2;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    border:4px solid #fff;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+    z-index:2;
+}
+
+.shipment-history .timeline-title{
+    background:#f4f8ff;
+    border-radius:10px 10px 0 0;
+    padding:12px 15px 5px;
+    font-size:17px;
+    font-weight:bold;
+    color:#0b4ea2;
+    margin:0;
+}
+
+.shipment-history .timeline-location{
+    background:#f4f8ff;
+    padding:2px 15px;
+    margin:0;
+    color:#555;
+    font-size:14px;
+}
+
+.shipment-history .timeline-time{
+    background:#f4f8ff;
+    border-radius:0 0 10px 10px;
+    padding:5px 15px 12px;
+    margin:0;
+    color:#888;
+    font-size:13px;
+}
+
+@keyframes historySlide{
+
+    from{
+        opacity:0;
+        transform:translateX(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .history-header{
+        align-items:flex-start;
+    }
+
+    .history-header h2{
+        font-size:21px;
+    }
+
+    .shipment-history .timeline-item{
+        padding-left:58px;
+    }
+
+}
