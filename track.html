@@ -558,11 +558,50 @@ class="progress-bar">
 
     
 <!-- VEHICLE -->
-<div class="card">
+ <!-- ==========================================
+     LIVE SHIPMENT MAP
+========================================== -->
 
-<h2>🌍 Live Shipment Map</h2>
+<div class="card live-map-card">
 
-<div id="map"></div>
+    <div class="map-header">
+
+        <div>
+            <span class="map-label">LIVE TRACKING</span>
+            <h2>🌍 Shipment Route</h2>
+        </div>
+
+        <div class="map-live">
+            <span class="live-dot"></span>
+            LIVE
+        </div>
+
+    </div>
+
+    <p class="map-description">
+        Follow your shipment's current route and destination in real time.
+    </p>
+
+    <div id="map"></div>
+
+    <div class="map-legend">
+
+        <div class="legend-item">
+            <span class="legend-dot origin-dot"></span>
+            Origin
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-dot route-dot"></span>
+            Shipment Route
+        </div>
+
+        <div class="legend-item">
+            <span class="legend-dot destination-dot"></span>
+            Destination
+        </div>
+
+    </div>
 
 </div>
 <div class="card">
