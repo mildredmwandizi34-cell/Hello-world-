@@ -376,23 +376,31 @@ class="logo">
 
 <div class="container">
 
-<!-- SEARCH -->
 
-<div class="card">
+    <!-- SEARCH -->
+<div class="card tracking-search-card">
+    <div class="tracking-search-header">
+        <div>
+            <span class="tracking-label">SHIPMENT TRACKING</span>
+            <h2>Track Your Shipment</h2>
+        </div>
+        <div class="tracking-icon">🔎</div>
+    </div>
 
-<h2>Shipment Tracking</h2>
+    <p class="tracking-description">
+        Enter your tracking number below to view the latest shipment status and location.
+    </p>
 
-<input
-type="text"
-id="trackingNumber"
-placeholder="Enter Tracking Number">
+    <input
+        type="text"
+        id="trackingNumber"
+        placeholder="e.g. AGL123456"
+        autocomplete="off"
+    >
 
-<button onclick="trackShipment()">
+    <button onclick="trackShipment()">Track Shipment</button>
 
-Track Shipment
-
-</button>
-
+    <div id="trackingError" class="tracking-error" style="display:none;"></div>
 </div>
 
 <!-- RESULTS -->
