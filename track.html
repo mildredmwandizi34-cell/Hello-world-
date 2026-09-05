@@ -736,9 +736,15 @@ function trackShipment() {
 
     let trackingInput = document.getElementById("trackingNumber");
 
-    if (!trackingInput) {
-        console.error("Tracking input not found.");
-        return;
+    if (tracking === "") {
+    const errorBox = document.getElementById("trackingError");
+
+    if (errorBox) {
+        errorBox.textContent = "Please enter a tracking number.";
+        errorBox.style.display = "block";
+    }
+
+    return;
     }
 
     let tracking = trackingInput.value.trim().toUpperCase();
@@ -756,9 +762,23 @@ function trackShipment() {
 
     });
 
-    if (!shipment) {
+    const errorBox = document.getElementById("trackingError");
 
-        alert("Tracking number not found.");
+if (errorBox) {
+    errorBox.style.display = "none";
+}
+
+    if (!shipment) {
+    const errorBox = document.getElementById("trackingError");
+
+    if (errorBox) {
+        errorBox.textContent =
+            "Tracking number not found. Please check the number and try again.";
+        errorBox.style.display = "block";
+    }
+
+    return;
+     }
 
         let result = document.getElementById("result");
 
