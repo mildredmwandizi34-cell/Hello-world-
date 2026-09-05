@@ -406,7 +406,134 @@ class="logo">
 
 <div id="result" style="display:none;">
 
+<div class="card" id="trackingDashboard">
 
+<h2>📦 Shipment Dashboard</h2>
+
+<div class="info-grid">
+
+<div class="info-box">
+<h4>Tracking Number</h4>
+<p id="dashboardTracking"></p>
+</div>
+
+<div class="info-box">
+<h4>Current Status</h4>
+<p id="dashboardStatus"></p>
+</div>
+
+<div class="info-box">
+<h4>Origin</h4>
+<p id="dashboardOrigin"></p>
+</div>
+
+<div class="info-box">
+<h4>Current Location</h4>
+<p id="dashboardLocation"></p>
+</div>
+
+<div class="info-box">
+<h4>Destination</h4>
+<p id="dashboardDestination"></p>
+</div>
+
+<div class="info-box">
+<h4>Estimated Delivery</h4>
+<p id="dashboardDelivery"></p>
+</div>
+
+<div class="info-box">
+<h4>Shipping Service</h4>
+<p id="dashboardService"></p>
+</div>
+
+<div class="info-box">
+<h4>Shipment Progress</h4>
+
+<div class="progress">
+<div class="progress-bar" id="dashboardProgress">
+0%
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Package Information -->
+
+<div class="card">
+
+<h2>📦 Package Information</h2>
+
+<div class="info-grid">
+
+<div class="info-box">
+<h4>Package Type</h4>
+<p id="packageType"></p>
+</div>
+
+<div class="info-box">
+<h4>Weight</h4>
+<p id="packageWeight"></p>
+</div>
+
+<div class="info-box">
+<h4>Dimensions</h4>
+<p id="dimensions"></p>
+</div>
+
+<div class="info-box">
+<h4>Declared Value</h4>
+<p id="declaredValue"></p>
+</div>
+
+<div class="info-box">
+<h4>Insurance</h4>
+<p id="insurance"></p>
+</div>
+
+<div class="info-box">
+<h4>Pieces</h4>
+<p id="pieces"></p>
+</div>
+
+</div>
+
+</div>
+
+<!-- Shipment Notification -->
+
+<div class="card">
+
+<h2>🔔 Latest Shipment Update</h2>
+
+<p id="shipmentNotification"></p>
+
+</div>
+
+<!-- Delivery Proof -->
+
+<div class="card" id="deliveryProofCard" style="display:none;">
+
+<h2>✅ Delivery Proof</h2>
+
+<p><strong>Recipient</strong>
+<span id="proofRecipient"></span></p>
+
+<p><strong>Date</strong>
+<span id="proofDate"></span></p>
+
+<p><strong>Time</strong>
+<span id="proofTime"></span></p>
+
+<p><strong>Signed By</strong>
+<span id="proofSignature"></span></p>
+
+</div>
+    
 <!-- ==========================================
      PREMIUM SHIPMENT STATUS
 ========================================== -->
@@ -885,6 +1012,133 @@ if (result) {
         progressBar.textContent = progress + "%";
 
     }
+
+    /* ==========================================
+   PROFESSIONAL TRACKING DASHBOARD
+========================================== */
+
+document.getElementById("dashboardTracking").textContent =
+    shipment.tracking || "";
+
+document.getElementById("dashboardStatus").innerHTML =
+    badge;
+
+document.getElementById("dashboardOrigin").textContent =
+    shipment.origin || "";
+
+document.getElementById("dashboardLocation").textContent =
+    shipment.location || "";
+
+document.getElementById("dashboardDestination").textContent =
+    shipment.destination || "";
+
+document.getElementById("dashboardDelivery").textContent =
+    shipment.delivery || "";
+
+document.getElementById("dashboardService").textContent =
+    shipment.service || "";
+
+/* Dashboard Progress */
+
+let dashboardProgress =
+    document.getElementById("dashboardProgress");
+
+if (dashboardProgress) {
+
+    dashboardProgress.style.width = progress + "%";
+    dashboardProgress.textContent = progress + "%";
+
+}
+
+/* Package Information */
+
+document.getElementById("packageType").textContent =
+    shipment.package || "General Cargo";
+
+document.getElementById("packageWeight").textContent =
+    shipment.weight || "N/A";
+
+document.getElementById("dimensions").textContent =
+    shipment.dimensions || "Not specified";
+
+document.getElementById("declaredValue").textContent =
+    shipment.value || "$0";
+
+document.getElementById("insurance").textContent =
+    shipment.insurance || "Standard";
+
+document.getElementById("pieces").textContent =
+    shipment.pieces || "1";
+
+/* Latest Notification */
+
+let notification =
+    "📦 Shipment is progressing normally.";
+
+switch (shipment.status) {
+
+    case "Shipment Created":
+        notification = "📦 Shipment has been created successfully.";
+        break;
+
+    case "Awaiting Pickup":
+        notification = "🚚 Shipment is awaiting pickup.";
+        break;
+
+    case "Picked Up":
+        notification = "📍 Shipment has been picked up.";
+        break;
+
+    case "In Transit":
+        notification = "✈️ Shipment is currently in transit.";
+        break;
+
+    case "Customs Cleared":
+        notification = "🛃 Shipment has cleared customs.";
+        break;
+
+    case "Arrived at Destination Hub":
+        notification = "🏢 Shipment has arrived at the destination hub.";
+        break;
+
+    case "Out for Delivery":
+        notification = "🚚 Shipment is out for delivery.";
+        break;
+
+    case "Delivered":
+        notification = "✅ Shipment has been delivered successfully.";
+        break;
+}
+
+document.getElementById("shipmentNotification").textContent =
+    notification;
+
+/* Delivery Proof */
+
+let proofCard =
+    document.getElementById("deliveryProofCard");
+
+if (shipment.status === "Delivered") {
+
+    proofCard.style.display = "block";
+
+    document.getElementById("proofRecipient").textContent =
+        shipment.receiverName || "";
+
+    document.getElementById("proofDate").textContent =
+        shipment.delivery || "";
+
+    document.getElementById("proofTime").textContent =
+        new Date().toLocaleTimeString();
+
+    document.getElementById("proofSignature").textContent =
+        shipment.receiverName || "Received";
+
+} else {
+
+    proofCard.style.display = "none";
+
+     }
 
 
     /* ==================================================
