@@ -692,15 +692,23 @@ else {
     document.getElementById("eta").innerHTML = "45 Minutes";
 
     }
-    /* Progress Bar */
 
-    let progress = Number(shipment.progress) || 0;
+    
+    //* ==================================================
+   SHIPMENT PROGRESS BAR
+   ================================================== */
 
-    let vehicleProgress = shipment.currentProgress || (shipment.progress / 100);
+let progress = Number(shipment.progress) || 0;
 
-    bar.style.width = vehicleprogress + "%";
+let bar = document.getElementById("progressBar");
 
-    bar.innerHTML = vehicleprogress + "%";
+if(bar){
+
+    bar.style.width = progress + "%";
+
+    bar.textContent = progress + "%";
+
+    }
 
     //* ==================================================
    SHIPMENT HISTORY TIMELINE
@@ -839,13 +847,26 @@ let vehicle = L.marker(start, {
         iconAnchor: [17, 17]
     })
 }).addTo(shipmentMap);
-    let currentLat = start[0] + (end[0] - start[0]) * vehicleprogress;
-let currentLng = start[1] + (end[1] - start[1]) * vehicleprogress;
 
-vehicle.setLatLng([currentLat, currentLng]);
+    // ==================================================
+// MOVING VEHICLE POSITION
+// ==================================================
+
+let vehicleProgress =
+    Number(shipment.currentProgress) || (progress / 100);
+
+let currentLat =
+    start[0] + (end[0] - start[0]) * vehicleProgress;
+
+let currentLng =
+    start[1] + (end[1] - start[1]) * vehicleProgress;
+
+vehicle.setLatLng([
+    currentLat,
+    currentLng
+]);
 
 // Animate the vehicle
-let progress = shipment.currentProgress || 0;
 
 let animation = setInterval(function () {
 
@@ -869,8 +890,10 @@ switch (shipment.service) {
         break;
 }
 
-vehicleprogress += speed;
-    shipment.currentProgress = vehicleprogress;
+vehicleProgress += speed;
+
+shipment.currentProgress =
+    vehicleProgress;
 
 shipments = JSON.parse(localStorage.getItem("shipments")) || [];
 
@@ -883,14 +906,19 @@ if(index !== -1){
     localStorage.setItem("shipments", JSON.stringify(shipments));
     }
 
-    if (vehicleprogress >= 1) {
+    if (vehicleProgress >= 1) {
         clearInterval(animation);
         vehicle.setLatLng(end);
         return;
     }
 
-    let lat = start[0] + (end[0] - start[0]) * vehicleprogress;
-    let lng = start[1] + (end[1] - start[1]) * vehicleprogress;
+    let lat =
+    start[0] +
+    (end[0] - start[0]) * vehicleProgress;
+
+let lng =
+    start[1] +
+    (end[1] - start[1]) * vehicleProgress;
 
     vehicle.setLatLng([lat, lng]);
 
