@@ -1343,3 +1343,50 @@ background:#083b80;
     }
 
    }
+
+/* ==========================================
+   PREMIUM SHIPMENT DETAILS
+========================================== */
+
+.details-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.detail-box{
+    background:#f8f9fc;
+    border:1px solid #e5e9ef;
+    border-radius:10px;
+    padding:16px;
+    transition:.3s;
+}
+
+.detail-box:hover{
+    transform:translateY(-3px);
+    box-shadow:0 6px 15px rgba(0,0,0,.08);
+}
+
+.detail-box span{
+    display:block;
+    font-size:11px;
+    font-weight:bold;
+    color:#777;
+    letter-spacing:.5px;
+    margin-bottom:7px;
+}
+
+.detail-box strong{
+    display:block;
+    color:#0b4ea2;
+    font-size:16px;
+    word-break:break-word;
+}
+
+@media(max-width:600px){
+
+    .details-grid{
+        grid-template-columns:1fr;
+    }
+
+}
