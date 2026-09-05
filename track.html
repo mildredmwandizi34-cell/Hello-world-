@@ -735,23 +735,22 @@ let shipmentMap;
 function trackShipment() {
 
     let trackingInput = document.getElementById("trackingNumber");
-
-    if (tracking === "") {
-    const errorBox = document.getElementById("trackingError");
-
-    if (errorBox) {
-        errorBox.textContent = "Please enter a tracking number.";
-        errorBox.style.display = "block";
-    }
-
-    return;
-    }
-
     let tracking = trackingInput.value.trim().toUpperCase();
 
+    const errorBox = document.getElementById("trackingError");
+
     if (tracking === "") {
-        alert("Please enter a tracking number.");
+
+        if (errorBox) {
+            errorBox.textContent = "Please enter a tracking number.";
+            errorBox.style.display = "block";
+        }
+
         return;
+    }
+
+    if (errorBox) {
+        errorBox.style.display = "none";
     }
 
     let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
