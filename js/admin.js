@@ -191,6 +191,20 @@ function loadShipments(){
     shipments =
     JSON.parse(localStorage.getItem("shipments")) || [];
 
+ // Update progress for all existing shipments
+shipments.forEach(function(shipment){
+
+    if(shipment.status){
+
+        shipment.progress =
+            getShipmentProgress(shipment.status);
+
+    }
+
+});
+
+saveShipments();
+
     const table =
     document.getElementById("shipmentTable");
 
@@ -370,6 +384,24 @@ function saveShipment(){
 
     shipment.progress =
     getShipmentProgress(shipment.status);
+
+ 
+ // Add status to shipment history
+if(!shipment.history){
+
+    shipment.history = [];
+
+}
+
+shipment.history.push({
+
+    status: shipment.status,
+
+    location: shipment.location,
+
+    date: new Date().toLocaleString()
+
+});
 
     shipment.location =
         document.getElementById("editLocation").value;
