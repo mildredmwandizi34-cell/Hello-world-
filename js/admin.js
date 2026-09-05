@@ -196,8 +196,29 @@ shipments.forEach(function(shipment){
 
     if(shipment.status){
 
+        // Update progress
         shipment.progress =
             getShipmentProgress(shipment.status);
+
+
+        // Create history for older shipments
+        if(!shipment.history){
+
+            shipment.history = [
+
+                {
+
+                    status: shipment.status,
+
+                    location: shipment.location || "",
+
+                    date: new Date().toLocaleString()
+
+                }
+
+            ];
+
+        }
 
     }
 
@@ -386,22 +407,33 @@ function saveShipment(){
     getShipmentProgress(shipment.status);
 
  
- // Add status to shipment history
+ // Add status to shipment history only when changed
 if(!shipment.history){
 
     shipment.history = [];
 
 }
 
-shipment.history.push({
+const lastHistory =
+    shipment.history[shipment.history.length - 1];
 
-    status: shipment.status,
+if(
+    !lastHistory ||
+    lastHistory.status !== shipment.status ||
+    lastHistory.location !== shipment.location
+){
 
-    location: shipment.location,
+    shipment.history.push({
 
-    date: new Date().toLocaleString()
+        status: shipment.status,
 
-});
+        location: shipment.location,
+
+        date: new Date().toLocaleString()
+
+    });
+
+}
 
     shipment.location =
         document.getElementById("editLocation").value;
