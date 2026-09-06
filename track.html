@@ -568,6 +568,34 @@ animation:pulse 2s infinite;">
     </div>
 
 </div>
+
+    <hr style="margin:15px 0;">
+
+<h3>📦 Shipment Information</h3>
+
+<div class="info-grid">
+
+    <div class="info-box">
+        <h4>Reference No.</h4>
+        <p id="infoReference"></p>
+    </div>
+
+    <div class="info-box">
+        <h4>Package Type</h4>
+        <p id="infoPackage"></p>
+    </div>
+
+    <div class="info-box">
+        <h4>Weight</h4>
+        <p id="infoWeight"></p>
+    </div>
+
+    <div class="info-box">
+        <h4>Shipping Service</h4>
+        <p id="infoService"></p>
+    </div>
+
+</div>
     
 </div>
 
@@ -1285,6 +1313,18 @@ document.getElementById("routeDestination").textContent =
 
 document.getElementById("routeETA").textContent =
     shipment.delivery || "Pending";
+
+ document.getElementById("infoReference").textContent =
+    shipment.tracking || "";
+
+document.getElementById("infoPackage").textContent =
+    shipment.package || "General Cargo";
+
+document.getElementById("infoWeight").textContent =
+    shipment.weight || "N/A";
+
+document.getElementById("infoService").textContent =
+    shipment.service || "Standard";
     
 /* Dashboard Progress */
 
