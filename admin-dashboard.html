@@ -3,153 +3,336 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Admin Dashboard | American Global Logistics</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/admin.css">
+    <title>
+        Admin Dashboard | American Global Logistics
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/admin.css"
+    >
 
 </head>
 
+
 <body>
+
+
+<!-- ==================================================
+     DASHBOARD HEADER
+================================================== -->
 
 <header class="dashboard-header">
 
     <div class="logo-area">
 
-        <img src="image/agl-logo.png" class="logo" alt="AGL Logo">
+        <img
+            src="image/agl-logo.png"
+            class="logo"
+            alt="American Global Logistics Logo"
+        >
 
         <div>
 
-            <h1>American Global Logistics</h1>
-            <p>Shipment Management Dashboard</p>
+            <h1>
+                American Global Logistics
+            </h1>
+
+            <p>
+                Shipment Management Dashboard
+            </p>
 
         </div>
 
     </div>
 
+
     <div class="header-right">
 
-        <button id="logoutBtn">Logout</button>
+        <button
+            type="button"
+            id="logoutBtn"
+        >
+            Logout
+        </button>
 
     </div>
 
 </header>
 
+
+
+<!-- ==================================================
+     MAIN DASHBOARD
+================================================== -->
+
 <main class="dashboard">
+
+
+    <!-- ==================================================
+         NAVIGATION
+    ================================================== -->
 
     <nav class="top-nav">
 
-<a href="dashboard.html">🏠 Dashboard</a>
+        <a href="admin-dashboard.html">
+            🏠 Dashboard
+        </a>
 
-<a href="create.html">📦 Create</a>
+        <a href="create-shipment.html">
+            📦 Create Shipment
+        </a>
 
-<a href="track.html">🔍 Track</a>
+        <a href="track.html">
+            🔍 Track Shipment
+        </a>
 
-<a href="messages.html">💬 Messages</a>
+        <a href="contact.html">
+            💬 Messages
+        </a>
 
     </nav>
 
+
+
+    <!-- ==================================================
+         DASHBOARD INTRO
+    ================================================== -->
+
     <section class="dashboard-overview">
 
-    <h2>📊 Logistics Dashboard</h2>
+        <h2>
+            📊 Logistics Dashboard
+        </h2>
 
-    <p>
-        Welcome to the American Global Logistics Control Center.
-        Monitor shipments, customer messages and recent activity from one place.
-    </p>
+        <p>
+            Welcome to the American Global Logistics
+            Control Center. Monitor shipments, customer
+            messages and recent activity from one place.
+        </p>
 
     </section>
 
-    <!-- Statistics -->
+
+
+    <!-- ==================================================
+         STATISTICS
+    ================================================== -->
+
     <section class="stats">
 
-    <div class="card">
-        <h3>Total Shipments</h3>
-        <h1 id="totalShipments">0</h1>
-        <small>All Shipments</small>
-    </div>
 
-    <div class="card">
-        <h3>Awaiting</h3>
-        <h1 id="awaiting">0</h1>
-        <small>Pending Pickup</small>
-    </div>
+        <div class="card">
 
-    <div class="card">
-        <h3>In Transit</h3>
-        <h1 id="inTransit">0</h1>
-        <small>Currently Moving</small>
-    </div>
+            <h3>
+                Total Shipments
+            </h3>
 
-    <div class="card">
-        <h3>Delivered</h3>
-        <h1 id="delivered">0</h1>
-        <small>Completed</small>
-    </div>
+            <h1 id="totalShipments">
+                0
+            </h1>
+
+            <small>
+                All Shipments
+            </small>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <h3>
+                Awaiting
+            </h3>
+
+            <h1 id="awaiting">
+                0
+            </h1>
+
+            <small>
+                Pending Pickup
+            </small>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <h3>
+                In Transit
+            </h3>
+
+            <h1 id="inTransit">
+                0
+            </h1>
+
+            <small>
+                Currently Moving
+            </small>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <h3>
+                Delivered
+            </h3>
+
+            <h1 id="delivered">
+                0
+            </h1>
+
+            <small>
+                Completed
+            </small>
+
+        </div>
+
 
     </section>
 
-    <!-- ==========================================
-     DASHBOARD ANALYTICS
-========================================== -->
 
-<section class="dashboard-section">
 
-    <div class="section-header">
+    <!-- ==================================================
+         DASHBOARD ANALYTICS
+    ================================================== -->
 
-        <div>
+    <section class="dashboard-section">
 
-            <h2>Shipment Analytics</h2>
 
-            <p>Overview of shipment performance.</p>
+        <div class="section-header">
 
-        </div>
+            <div>
 
-    </div>
+                <h2>
+                    Shipment Analytics
+                </h2>
 
-    <div class="analytics-grid">
+                <p>
+                    Overview of shipment performance.
+                </p>
 
-        <div class="chart-card">
-
-            <h3>Shipment Status</h3>
-
-            <canvas id="statusChart"></canvas>
+            </div>
 
         </div>
 
-        <div class="chart-card">
 
-            <h3>Shipping Services</h3>
 
-            <canvas id="serviceChart"></canvas>
+        <div class="analytics-grid">
+
+
+            <!-- STATUS CHART -->
+
+            <div class="chart-card">
+
+                <h3>
+                    Shipment Status
+                </h3>
+
+                <div
+                    class="chart-wrapper"
+                    style="
+                        position:relative;
+                        height:300px;
+                    "
+                >
+
+                    <canvas
+                        id="statusChart"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SERVICE CHART -->
+
+            <div class="chart-card">
+
+                <h3>
+                    Shipping Services
+                </h3>
+
+                <div
+                    class="chart-wrapper"
+                    style="
+                        position:relative;
+                        height:300px;
+                    "
+                >
+
+                    <canvas
+                        id="serviceChart"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
 
         </div>
 
-    </div>
+    </section>
 
-</section>
 
-        <section class="actions">
-    <button id="newShipmentBtn" onclick="newShipment()">
-        + New Shipment
-    </button>
-        </section>
 
-    <!-- Search -->
+    <!-- ==================================================
+         ACTIONS
+    ================================================== -->
+
+    <section class="actions">
+
+        <button
+            type="button"
+            id="newShipmentBtn"
+            onclick="newShipment()"
+        >
+            + New Shipment
+        </button>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         SEARCH
+    ================================================== -->
+
     <section class="search-box">
 
-    <input
-    type="text"
-    id="searchShipment"
-    placeholder="Search by tracking number, sender or receiver"
-    onkeyup="searchShipments()">
+        <input
+            type="text"
+            id="searchShipment"
+            placeholder="Search by tracking number, sender, receiver, status or location"
+            autocomplete="off"
+        >
 
     </section>
 
-    <!-- Shipment Table -->
+
+
+    <!-- ==================================================
+         SHIPMENT TABLE
+    ================================================== -->
+
     <section class="table-container">
 
         <table>
@@ -158,18 +341,38 @@
 
                 <tr>
 
-                    <th>Tracking</th>
-                    <th>Sender</th>
-                    <th>Receiver</th>
-                    <th>Status</th>
-                    <th>Location</th>
-                    <th>Actions</th>
+                    <th>
+                        Tracking
+                    </th>
+
+                    <th>
+                        Sender
+                    </th>
+
+                    <th>
+                        Receiver
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Location
+                    </th>
+
+                    <th>
+                        Actions
+                    </th>
 
                 </tr>
 
             </thead>
 
+
             <tbody id="shipmentTable">
+
+                <!-- Shipments loaded by admin.js -->
 
             </tbody>
 
@@ -177,101 +380,299 @@
 
     </section>
 
+
 </main>
 
-    <!-- ==========================================
+
+
+<!-- ==================================================
      CUSTOMER MESSAGES
-========================================== -->
+================================================== -->
 
 <section class="dashboard-section">
 
     <div class="section-header">
+
         <div>
-            <h2>Customer Messages</h2>
-            <p>View and manage messages received from customers.</p>
+
+            <h2>
+                Customer Messages
+            </h2>
+
+            <p>
+                View and manage messages received
+                from customers.
+            </p>
+
         </div>
 
-        <span id="messageCount" class="message-count">0</span>
+
+        <span
+            id="messageCount"
+            class="message-count"
+        >
+            0
+        </span>
+
     </div>
 
-    <div id="customerMessages" class="customer-messages">
+
+
+    <div
+        id="customerMessages"
+        class="customer-messages"
+    >
 
         <div class="empty-messages">
-            <div class="empty-icon">💬</div>
-            <h3>No Customer Messages</h3>
-            <p>Customer messages will appear here.</p>
+
+            <div class="empty-icon">
+                💬
+            </div>
+
+            <h3>
+                No Customer Messages
+            </h3>
+
+            <p>
+                Customer messages will appear here.
+            </p>
+
         </div>
 
     </div>
 
 </section>
 
-    <!-- ==========================================
-     DASHBOARD ACTIVITY LOG
-========================================== -->
+
+
+<!-- ==================================================
+     DASHBOARD ACTIVITY
+================================================== -->
 
 <section class="dashboard-section">
 
     <div class="section-header">
+
         <div>
-            <h2>Dashboard Activity</h2>
-            <p>Recent activity and updates across your logistics system.</p>
+
+            <h2>
+                Dashboard Activity
+            </h2>
+
+            <p>
+                Recent activity and updates across
+                your logistics system.
+            </p>
+
         </div>
+
     </div>
 
-    <div id="activityLog" class="activity-log">
+
+
+    <div
+        id="activityLog"
+        class="activity-log"
+    >
 
         <div class="empty-activity">
-            <div class="empty-icon">📋</div>
-            <h3>No Recent Activity</h3>
-            <p>Dashboard activity will appear here.</p>
+
+            <div class="empty-icon">
+                📋
+            </div>
+
+            <h3>
+                No Recent Activity
+            </h3>
+
+            <p>
+                Dashboard activity will appear here.
+            </p>
+
         </div>
 
     </div>
 
 </section>
-    
-<!-- Edit Shipment -->
-<section id="editPanel" class="edit-panel">
 
-<h2>Edit Shipment</h2>
 
-<input id="editTracking" placeholder="Tracking Number">
 
-<input id="editSender" placeholder="Sender Name">
+<!-- ==================================================
+     EDIT SHIPMENT
+================================================== -->
 
-<input id="editReceiver" placeholder="Receiver Name">
+<section
+    id="editPanel"
+    class="edit-panel"
+>
 
-<input id="editStatus" placeholder="Shipment Status">
 
-<input id="editLocation" placeholder="Current Location">
+    <h2>
+        Edit Shipment
+    </h2>
 
-<input type="date" id="editDelivery">
 
-<textarea
-id="editInstructions"
-placeholder="Special Instructions"></textarea>
 
-<div class="button-group">
+    <!-- TRACKING -->
 
-<button id="saveShipment" onclick="saveShipment()">
-    Save Changes
-</button>
+    <input
+        type="text"
+        id="editTracking"
+        placeholder="Tracking Number"
+    >
 
-<button id="viewReceipt">
-Open Receipt
-</button>
 
-<button id="deleteShipment" onclick="deleteCurrentShipment()">
-    Delete Shipment
-</button>
 
-</div>
+    <!-- SENDER -->
+
+    <input
+        type="text"
+        id="editSender"
+        placeholder="Sender Name"
+    >
+
+
+
+    <!-- RECEIVER -->
+
+    <input
+        type="text"
+        id="editReceiver"
+        placeholder="Receiver Name"
+    >
+
+
+
+    <!-- STATUS -->
+
+    <select id="editStatus">
+
+        <option value="">
+            Select Shipment Status
+        </option>
+
+        <option value="Shipment Created">
+            Shipment Created
+        </option>
+
+        <option value="Awaiting Pickup">
+            Awaiting Pickup
+        </option>
+
+        <option value="Picked Up">
+            Picked Up
+        </option>
+
+        <option value="In Transit">
+            In Transit
+        </option>
+
+        <option value="Customs Cleared">
+            Customs Cleared
+        </option>
+
+        <option value="Arrived at Destination Hub">
+            Arrived at Destination Hub
+        </option>
+
+        <option value="Out for Delivery">
+            Out for Delivery
+        </option>
+
+        <option value="Delivered">
+            Delivered
+        </option>
+
+    </select>
+
+
+
+    <!-- LOCATION -->
+
+    <input
+        type="text"
+        id="editLocation"
+        placeholder="Current Location"
+    >
+
+
+
+    <!-- DELIVERY -->
+
+    <input
+        type="date"
+        id="editDelivery"
+    >
+
+
+
+    <!-- INSTRUCTIONS -->
+
+    <textarea
+        id="editInstructions"
+        placeholder="Special Instructions"
+    ></textarea>
+
+
+
+    <!-- BUTTONS -->
+
+    <div class="button-group">
+
+
+        <button
+            type="button"
+            id="saveShipment"
+            onclick="saveShipment()"
+        >
+            Save Changes
+        </button>
+
+
+
+        <button
+            type="button"
+            id="viewReceipt"
+        >
+            Open Receipt
+        </button>
+
+
+
+        <button
+            type="button"
+            id="deleteShipment"
+            onclick="deleteCurrentShipment()"
+        >
+            Delete Shipment
+        </button>
+
+
+    </div>
+
 
 </section>
-    
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- <script src="js/admin.js"></script>
+
+
+
+<!-- ==================================================
+     CHART.JS
+================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+></script>
+
+
+
+<!-- ==================================================
+     ADMIN JAVASCRIPT
+================================================== -->
+
+<script
+    src="js/admin.js"
+></script>
+
 
 </body>
 
