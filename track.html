@@ -616,6 +616,14 @@ animation:pulse 2s infinite;">
     </button>
 
 </div>
+
+    <hr style="margin:20px 0;">
+
+<h3>🔔 Latest Notifications</h3>
+
+<div id="notifications" class="info-box">
+    Waiting for shipment updates...
+</div>
     
 </div>
 
@@ -1345,6 +1353,48 @@ document.getElementById("infoWeight").textContent =
 
 document.getElementById("infoService").textContent =
     shipment.service || "Standard";
+
+    let message = "";
+
+switch (shipment.status) {
+
+    case "Shipment Created":
+        message = "📦 Your shipment has been created and is awaiting processing.";
+        break;
+
+    case "Awaiting Pickup":
+        message = "🚚 A courier has been assigned for pickup.";
+        break;
+
+    case "Picked Up":
+        message = "📍 Your shipment has been picked up successfully.";
+        break;
+
+    case "In Transit":
+        message = "✈️ Your shipment is currently in transit.";
+        break;
+
+    case "Customs Cleared":
+        message = "🛃 Customs inspection has been completed successfully.";
+        break;
+
+    case "Arrived at Destination Hub":
+        message = "🏢 Your shipment has reached the destination hub.";
+        break;
+
+    case "Out for Delivery":
+        message = "🚛 Your shipment is out for delivery.";
+        break;
+
+    case "Delivered":
+        message = "✅ Your shipment has been delivered successfully.";
+        break;
+
+    default:
+        message = "ℹ️ Shipment status updated.";
+}
+
+document.getElementById("notifications").innerHTML = message;
     
 /* Dashboard Progress */
 
