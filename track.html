@@ -410,6 +410,23 @@ class="logo">
 
 <h2>📦 Shipment Dashboard</h2>
 
+<div style="text-align:center;margin-bottom:20px;">
+
+<span style="
+background:#28a745;
+color:white;
+padding:8px 18px;
+border-radius:25px;
+font-weight:bold;
+display:inline-block;
+animation:pulse 2s infinite;">
+
+🟢 LIVE TRACKING ACTIVE
+
+</span>
+
+</div>
+
 <div class="info-grid">
 
 <div class="info-box">
@@ -460,6 +477,25 @@ class="logo">
 
 </div>
 
+</div>
+
+    <div class="info-box">
+    <h4>🕒 Last Updated</h4>
+    <p id="lastUpdated"></p>
+</div>
+
+<div class="info-box">
+    <h4>🚚 Vehicle Status</h4>
+    <p id="vehicleStatus"></p>
+</div>
+
+<div class="info-box">
+    <h4>📦 Barcode</h4>
+    <p id="trackingBarcode"
+       style="font-family:'Courier New',monospace;
+              letter-spacing:3px;
+              font-size:20px;">
+    </p>
 </div>
 
 <!-- Package Information -->
@@ -1037,6 +1073,17 @@ document.getElementById("dashboardDelivery").textContent =
 
 document.getElementById("dashboardService").textContent =
     shipment.service || "";
+
+     document.getElementById("lastUpdated").textContent =
+    new Date().toLocaleString();
+
+document.getElementById("vehicleStatus").textContent =
+    shipment.status === "Delivered"
+        ? "🟢 Delivery Complete"
+        : "🟢 Vehicle Online";
+
+document.getElementById("trackingBarcode").textContent =
+    "|" + shipment.tracking + "|";
 
 /* Dashboard Progress */
 
