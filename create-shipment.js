@@ -32,6 +32,11 @@ function createShipment (event) {
 
 // Generate IDs
 const trackingNumber = "AGL" + Math.floor(100000 + Math.random() * 900000);
+    const barcodeField = document.getElementById("trackingBarcode");
+
+if (barcodeField) {
+    barcodeField.value = trackingNumber;
+}
 const receiptNumber = "RCP-" + Date.now();
 
 // Build the shipment object
