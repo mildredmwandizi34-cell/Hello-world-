@@ -1913,3 +1913,34 @@ background:#083b80;
 #deliveryProofCard h2{
     color:#28a745;
 }
+
+.dashboard-title{
+    color:#0b4ea2;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.info-box{
+    background:#fff;
+    border-left:5px solid #0b4ea2;
+    border-radius:12px;
+    padding:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.info-box:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.info-box h4{
+    color:#0b4ea2;
+    margin-bottom:10px;
+}
+
+.info-box p{
+    font-size:17px;
+    font-weight:600;
+    color:#333;
+}
