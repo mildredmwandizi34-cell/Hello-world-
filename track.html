@@ -403,7 +403,11 @@ class="logo">
 </div>
 
 <!-- RESULTS -->
-
+    
+<h2 class="dashboard-title">
+    
+    📊 Shipment Control Center
+</h2>
 <div id="result" style="display:none;">
 
 <div class="card" id="trackingDashboard">
@@ -1234,6 +1238,35 @@ document.getElementById("journeySteps").innerHTML = html;
 document.getElementById("statsProgress").textContent = progress + "%";
 
 document.getElementById("statsStatus").textContent = shipment.status;
+
+    const statsStatus = document.getElementById("statsStatus");
+
+if (statsStatus) {
+
+    let color = "#607d8b";
+
+    switch (shipment.status) {
+
+        case "In Transit":
+            color = "#2196f3";
+            break;
+
+        case "Customs Cleared":
+            color = "#9c27b0";
+            break;
+
+        case "Out for Delivery":
+            color = "#ff9800";
+            break;
+
+        case "Delivered":
+            color = "#28a745";
+            break;
+    }
+
+    statsStatus.style.color = color;
+    statsStatus.style.fontWeight = "bold";
+     }
 
 document.getElementById("statsLocation").textContent =
     shipment.location || "Unknown";
