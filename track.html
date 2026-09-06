@@ -614,6 +614,10 @@ animation:pulse 2s infinite;">
     <button onclick="copyTrackingNumber()" class="action-btn">
         📋 Copy Tracking Number
     </button>
+    
+    <button onclick="newSearch()" class="action-btn">
+    🔍 Track Another Shipment
+    </button>
 
 </div>
 
@@ -903,6 +907,7 @@ class="progress-bar">
     </div>
 
 </div>
+    
 <!-- ==========================================
      LIVE VEHICLE INFORMATION
 ========================================== -->
@@ -2161,6 +2166,21 @@ if (destinationElement) {
     alert("Tracking number copied successfully.");
      }
 
+     function newSearch() {
+
+    document.getElementById("trackingNumber").value = "";
+
+    document.getElementById("result").style.display = "none";
+
+    const errorBox = document.getElementById("trackingError");
+
+    if (errorBox) {
+        errorBox.style.display = "none";
+    }
+
+    document.getElementById("trackingNumber").focus();
+
+     }
 
 /* ==================================================
    AUTOMATIC TRACKING FROM QR CODE
