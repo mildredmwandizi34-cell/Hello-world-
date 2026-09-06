@@ -736,3 +736,28 @@ text-align:left;
     border-radius: 12px;
     color: #777;
 }
+
+/* ==========================================
+   PROFESSIONAL DASHBOARD HEADER
+========================================== */
+
+.dashboard-overview{
+    background:linear-gradient(135deg,#0b4ea2,#1565c0);
+    color:#fff;
+    padding:35px;
+    border-radius:16px;
+    margin:25px 0;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.dashboard-overview h2{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.dashboard-overview p{
+    font-size:17px;
+    line-height:1.8;
+    max-width:700px;
+    opacity:.95;
+}
