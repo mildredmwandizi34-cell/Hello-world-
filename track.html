@@ -508,6 +508,34 @@ animation:pulse 2s infinite;">
 <h3>🚚 Shipment Journey</h3>
 
 <ul id="journeySteps" style="list-style:none;padding:0;line-height:2;"></ul>  
+
+   <hr style="margin:15px 0;">
+
+<h3>📊 Shipment Statistics</h3>
+
+<div class="info-grid">
+
+    <div class="info-box">
+        <h4>Progress</h4>
+        <p id="statsProgress"></p>
+    </div>
+
+    <div class="info-box">
+        <h4>Current Status</h4>
+        <p id="statsStatus"></p>
+    </div>
+
+    <div class="info-box">
+        <h4>Current Location</h4>
+        <p id="statsLocation"></p>
+    </div>
+
+    <div class="info-box">
+        <h4>Shipping Method</h4>
+        <p id="statsService"></p>
+    </div>
+
+</div> 
     
 </div>
 
@@ -1174,7 +1202,17 @@ steps.forEach(function(step, index) {
 });
 
 document.getElementById("journeySteps").innerHTML = html;
-   
+    
+document.getElementById("statsProgress").textContent = progress + "%";
+
+document.getElementById("statsStatus").textContent = shipment.status;
+
+document.getElementById("statsLocation").textContent =
+    shipment.location || "Unknown";
+
+document.getElementById("statsService").textContent =
+    shipment.service || "Standard";
+    
 /* Dashboard Progress */
 
 let dashboardProgress =
