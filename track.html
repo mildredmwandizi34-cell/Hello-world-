@@ -496,6 +496,19 @@ animation:pulse 2s infinite;">
               letter-spacing:3px;
               font-size:20px;">
     </p>
+    
+    <hr style="margin:15px 0;">
+
+<h3>📈 Delivery Summary</h3>
+
+<p id="deliverySummary"></p>
+    
+  <hr style="margin:15px 0;">
+
+<h3>🚚 Shipment Journey</h3>
+
+<ul id="journeySteps" style="list-style:none;padding:0;line-height:2;"></ul>  
+    
 </div>
 
 <!-- Package Information -->
@@ -1131,6 +1144,36 @@ document.getElementById("deliverySummary").innerHTML =
 Remaining journey: <b>${remaining}%</b>.
 `;
 
+    const steps = [
+    "Shipment Created",
+    "Awaiting Pickup",
+    "Picked Up",
+    "In Transit",
+    "Customs Cleared",
+    "Arrived at Destination Hub",
+    "Out for Delivery",
+    "Delivered"
+];
+
+const current = steps.indexOf(shipment.status);
+
+let html = "";
+
+steps.forEach(function(step, index) {
+
+    let icon = "⏳";
+
+    if (index < current) {
+        icon = "✅";
+    } else if (index === current) {
+        icon = "🟢";
+    }
+
+    html += `<li>${icon} ${step}</li>`;
+
+});
+
+document.getElementById("journeySteps").innerHTML = html;
    
 /* Dashboard Progress */
 
