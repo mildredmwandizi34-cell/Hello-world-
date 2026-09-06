@@ -207,11 +207,7 @@ id="package"
 placeholder="Package Description"
 required>
 
-<input
-type="number"
-id="weight"
-placeholder="Weight (kg)"
-required>
+<input type="number" id="weight" oninput="calculateShippingCost()">
 
 <input
 type="text"
@@ -223,8 +219,7 @@ type="number"
 id="declaredValue"
 placeholder="Declared Value (USD)">
 
-<select
-id="service">
+<select id="service" onchange="calculateShippingCost()">
 
 <option value="">Select Shipping Service</option>
 <option>Air Freight</option>
@@ -335,10 +330,7 @@ placeholder="Barcode Number (Optional)">
 
 <input type="number" id="tax" placeholder="Tax / VAT (USD)" readonly>
 
-<input
-type="number"
-id="discount"
-placeholder="Discount (USD)">
+<input type="number" id="discount" oninput="calculateShippingCost()">
 
 <input type="number" id="totalAmount" placeholder="Total Amount (USD)" readonly>
 
