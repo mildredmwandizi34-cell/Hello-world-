@@ -1970,3 +1970,27 @@ background:#083b80;
     background:#083b80;
     transform:translateY(-2px);
 }
+
+.top-nav{
+display:flex;
+justify-content:space-around;
+align-items:center;
+background:#0b4ea2;
+padding:14px;
+border-radius:14px;
+margin:20px;
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.top-nav a{
+color:white;
+text-decoration:none;
+font-weight:600;
+font-size:15px;
+transition:.3s;
+}
+
+.top-nav a:hover{
+transform:scale(1.08);
+opacity:.9;
+}
