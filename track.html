@@ -2096,6 +2096,21 @@ if (destinationElement) {
 
 }
 
+     function copyTrackingNumber() {
+
+    const tracking =
+        document.getElementById("trackingDisplay").textContent;
+
+    if (!tracking) {
+        alert("No tracking number available.");
+        return;
+    }
+
+    navigator.clipboard.writeText(tracking);
+
+    alert("Tracking number copied successfully.");
+     }
+
 
 /* ==================================================
    AUTOMATIC TRACKING FROM QR CODE
