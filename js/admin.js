@@ -936,3 +936,152 @@ document.addEventListener("DOMContentLoaded",function(){
     updateDashboard();
 
 });
+
+/* ==========================================
+   DASHBOARD CHARTS
+========================================== */
+
+function loadDashboardCharts() {
+
+    const shipments =
+        JSON.parse(localStorage.getItem("shipments")) || [];
+
+    let statusCounts = {
+        Created: 0,
+        Transit: 0,
+        Delivered: 0,
+        Awaiting: 0
+    };
+
+    let serviceCounts = {
+        Air: 0,
+        Ocean: 0,
+        Road: 0,
+        Express: 0
+    };
+
+    shipments.forEach(function(shipment) {
+
+        switch (shipment.status) {
+
+            case "Shipment Created":
+                statusCounts.Created++;
+                break;
+
+            case "Awaiting Pickup":
+                statusCounts.Awaiting++;
+                break;
+
+            case "In Transit":
+                statusCounts.Transit++;
+                break;
+
+            case "Delivered":
+                statusCounts.Delivered++;
+                break;
+
+        }
+
+        switch (shipment.service) {
+
+            case "Air Freight":
+                serviceCounts.Air++;
+                break;
+
+            case "Ocean Freight":
+                serviceCounts.Ocean++;
+                break;
+
+            case "Road Transport":
+                serviceCounts.Road++;
+                break;
+
+            case "Express Delivery":
+                serviceCounts.Express++;
+                break;
+
+        }
+
+    });
+
+    new Chart(document.getElementById("statusChart"), {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: [
+                "Created",
+                "Awaiting",
+                "In Transit",
+                "Delivered"
+            ],
+
+            datasets: [{
+
+                data: [
+
+                    statusCounts.Created,
+                    statusCounts.Awaiting,
+                    statusCounts.Transit,
+                    statusCounts.Delivered
+
+                ]
+
+            }]
+
+        }
+
+    });
+
+    new Chart(document.getElementById("serviceChart"), {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+                "Air",
+                "Ocean",
+                "Road",
+                "Express"
+            ],
+
+            datasets: [{
+
+                label: "Shipments",
+
+                data: [
+
+                    serviceCounts.Air,
+                    serviceCounts.Ocean,
+                    serviceCounts.Road,
+                    serviceCounts.Express
+
+                ]
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+document.addEventListener("DOMContentLoaded", loadDashboardCharts);
