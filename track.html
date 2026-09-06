@@ -1084,7 +1084,54 @@ document.getElementById("vehicleStatus").textContent =
 
 document.getElementById("trackingBarcode").textContent =
     "|" + shipment.tracking + "|";
+    
+  /* Generate QR Code */
 
+const qrContainer = document.getElementById("qrcode");
+
+if (qrContainer) {
+
+    qrContainer.innerHTML = "";
+
+    new QRCode(qrContainer, {
+
+        text:
+            window.location.origin +
+            "/track.html?tracking=" +
+            shipment.tracking,
+
+        width:180,
+        height:180
+
+    });
+
+     }  
+    document.getElementById("lastUpdated").textContent =
+    new Date().toLocaleString();
+
+document.getElementById("vehicleStatus").textContent =
+    shipment.status === "Delivered"
+        ? "🟢 Delivery Complete"
+        : "🟢 Vehicle Online";
+
+document.getElementById("trackingBarcode").textContent =
+    "|" + shipment.tracking + "|";
+
+/* Delivery Summary */
+
+let remaining = 100 - progress;
+
+if (remaining < 0) {
+    remaining = 0;
+}
+
+document.getElementById("deliverySummary").innerHTML =
+`
+<b>${progress}%</b> of the shipment journey is complete.<br>
+Remaining journey: <b>${remaining}%</b>.
+`;
+
+   
 /* Dashboard Progress */
 
 let dashboardProgress =
