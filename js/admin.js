@@ -1,7 +1,7 @@
 // ======================================================
 // American Global Logistics
-// Admin Dashboard v4.0
-// Part 1 - Foundation & Dashboard
+// Admin Dashboard v4.1
+// Clean Complete Version
 // ======================================================
 
 "use strict";
@@ -11,53 +11,48 @@
 // ======================================================
 
 let shipments =
-JSON.parse(localStorage.getItem("shipments")) || [];
+    JSON.parse(localStorage.getItem("shipments")) || [];
 
 let customerMessages =
-JSON.parse(localStorage.getItem("customerMessages")) || [];
+    JSON.parse(localStorage.getItem("customerMessages")) || [];
 
 let activityLog =
-JSON.parse(localStorage.getItem("activityLog")) || [];
+    JSON.parse(localStorage.getItem("activityLog")) || [];
 
 let currentShipmentIndex = -1;
 
- 
+let statusChartInstance = null;
+let serviceChartInstance = null;
+
+
 // ======================================================
 // SHIPMENT STATUS PROGRESS
 // ======================================================
 
-function getShipmentProgress(status){
+function getShipmentProgress(status) {
 
     const progressMap = {
 
         "Shipment Created": 5,
-
         "Awaiting Pickup": 15,
-
         "Picked Up": 25,
-
         "In Transit": 50,
-
         "Customs Cleared": 65,
-
         "Arrived at Destination Hub": 75,
-
         "Out for Delivery": 90,
-
         "Delivered": 100
 
     };
 
     return progressMap[status] || 0;
-
 }
 
 
 // ======================================================
-// SAVE FUNCTIONS
+// STORAGE HELPERS
 // ======================================================
 
-function saveShipments(){
+function saveShipments() {
 
     localStorage.setItem(
         "shipments",
@@ -66,7 +61,8 @@ function saveShipments(){
 
 }
 
-function saveMessages(){
+
+function saveMessages() {
 
     localStorage.setItem(
         "customerMessages",
@@ -75,7 +71,8 @@ function saveMessages(){
 
 }
 
-function saveActivity(){
+
+function saveActivity() {
 
     localStorage.setItem(
         "activityLog",
@@ -86,10 +83,25 @@ function saveActivity(){
 
 
 // ======================================================
-// ACTIVITY
+// SAFE VALUE HELPER
 // ======================================================
 
-function addActivity(message, icon = "📦"){
+function safeValue(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value);
+
+}
+
+
+// ======================================================
+// ACTIVITY LOG
+// ======================================================
+
+function addActivity(message, icon = "📦") {
 
     activityLog.unshift({
 
@@ -99,9 +111,9 @@ function addActivity(message, icon = "📦"){
 
     });
 
-    if(activityLog.length > 50){
+    if (activityLog.length > 50) {
 
-        activityLog.pop();
+        activityLog = activityLog.slice(0, 50);
 
     }
 
@@ -116,68 +128,148 @@ function addActivity(message, icon = "📦"){
 // DASHBOARD STATISTICS
 // ======================================================
 
-function updateDashboard(){
+function updateDashboard() {
 
     const total =
-    document.getElementById("totalShipments");
+        document.getElementById("totalShipments");
 
     const awaiting =
-    document.getElementById("awaiting");
+        document.getElementById("awaiting");
 
     const transit =
-    document.getElementById("inTransit");
+        document.getElementById("inTransit");
 
     const delivered =
-    document.getElementById("delivered");
+        document.getElementById("delivered");
 
-    if(total){
+    if (total) {
 
-        total.textContent = shipments.length;
+        total.textContent =
+            shipments.length;
 
     }
 
-    if(awaiting){
+    if (awaiting) {
 
         awaiting.textContent =
-        shipments.filter(function(s){
+            shipments.filter(function (shipment) {
 
-            return s.status === "Awaiting Pickup";
+                return shipment.status === "Awaiting Pickup";
 
-        }).length;
+            }).length;
 
     }
 
-    if(transit){
+    if (transit) {
 
         transit.textContent =
-        shipments.filter(function(s){
+            shipments.filter(function (shipment) {
 
-            return s.status === "In Transit";
+                return shipment.status === "In Transit";
 
-        }).length;
+            }).length;
 
     }
 
-    if(delivered){
+    if (delivered) {
 
         delivered.textContent =
-        shipments.filter(function(s){
+            shipments.filter(function (shipment) {
 
-            return s.status === "Delivered";
+                return shipment.status === "Delivered";
 
-        }).length;
+            }).length;
 
     }
 
     const messageCount =
-    document.getElementById("messageCount");
+        document.getElementById("messageCount");
 
-    if(messageCount){
+    if (messageCount) {
 
         messageCount.textContent =
-        customerMessages.length;
+            customerMessages.length;
 
     }
+
+}
+
+
+// ======================================================
+// NORMALIZE EXISTING SHIPMENTS
+// ======================================================
+
+function normalizeShipments() {
+
+    shipments.forEach(function (shipment) {
+
+        if (!shipment) {
+            return;
+        }
+
+        // --------------------------------------------------
+        // Tracking
+        // --------------------------------------------------
+
+        if (!shipment.tracking &&
+            shipment.trackingNumber) {
+
+            shipment.tracking =
+                shipment.trackingNumber;
+
+        }
+
+
+        // --------------------------------------------------
+        // Progress
+        // --------------------------------------------------
+
+        if (shipment.status) {
+
+            shipment.progress =
+                getShipmentProgress(
+                    shipment.status
+                );
+
+        }
+
+
+        // --------------------------------------------------
+        // History
+        // --------------------------------------------------
+
+        if (!Array.isArray(shipment.history)) {
+
+            shipment.history = [];
+
+        }
+
+
+        // --------------------------------------------------
+        // Create initial history entry for old shipments
+        // --------------------------------------------------
+
+        if (
+            shipment.history.length === 0 &&
+            shipment.status
+        ) {
+
+            shipment.history.push({
+
+                status: shipment.status,
+
+                location:
+                    shipment.location || "",
+
+                date:
+                    shipment.createdAt ||
+                    new Date().toLocaleString()
+
+            });
+
+        }
+
+    });
 
 }
 
@@ -186,66 +278,47 @@ function updateDashboard(){
 // LOAD SHIPMENTS
 // ======================================================
 
-function loadShipments(){
+function loadShipments() {
 
     shipments =
-    JSON.parse(localStorage.getItem("shipments")) || [];
+        JSON.parse(
+            localStorage.getItem("shipments")
+        ) || [];
 
- // Update progress for all existing shipments
-shipments.forEach(function(shipment){
+    normalizeShipments();
 
-    if(shipment.status){
+    saveShipments();
 
-        // Update progress
-        shipment.progress =
-            getShipmentProgress(shipment.status);
+    const table =
+        document.getElementById("shipmentTable");
 
+    if (!table) {
 
-        // Create history for older shipments
-        if(!shipment.history){
+        updateDashboard();
 
-            shipment.history = [
-
-                {
-
-                    status: shipment.status,
-
-                    location: shipment.location || "",
-
-                    date: new Date().toLocaleString()
-
-                }
-
-            ];
-
-        }
+        return;
 
     }
 
-});
-
-saveShipments();
-
-    const table =
-    document.getElementById("shipmentTable");
-
-    if(!table) return;
-
     table.innerHTML = "";
 
-    if(shipments.length === 0){
+    if (shipments.length === 0) {
 
         table.innerHTML = `
-        <tr>
 
-            <td colspan="6"
-            style="text-align:center;padding:30px;">
+            <tr>
 
-                No Shipments Found
+                <td
+                    colspan="6"
+                    style="text-align:center;padding:30px;"
+                >
 
-            </td>
+                    No Shipments Found
 
-        </tr>
+                </td>
+
+            </tr>
+
         `;
 
         updateDashboard();
@@ -254,61 +327,79 @@ saveShipments();
 
     }
 
-    shipments.forEach(function(shipment,index){
+
+    shipments.forEach(function (shipment, index) {
+
+        const tracking =
+            safeValue(
+                shipment.tracking ||
+                shipment.trackingNumber
+            );
+
+        const sender =
+            safeValue(
+                shipment.senderName
+            );
+
+        const receiver =
+            safeValue(
+                shipment.receiverName
+            );
+
+        const status =
+            safeValue(
+                shipment.status
+            );
+
+        const location =
+            safeValue(
+                shipment.location
+            );
+
 
         table.innerHTML += `
 
-        <tr>
+            <tr>
 
-            <td>
+                <td>
+                    ${tracking}
+                </td>
 
-                ${shipment.tracking || shipment.trackingNumber}
+                <td>
+                    ${sender}
+                </td>
 
-            </td>
+                <td>
+                    ${receiver}
+                </td>
 
-            <td>
+                <td>
+                    ${status}
+                </td>
 
-                ${shipment.senderName || ""}
+                <td>
+                    ${location}
+                </td>
 
-            </td>
+                <td>
 
-            <td>
+                    <button
+                        type="button"
+                        onclick="editShipment(${index})"
+                    >
+                        Edit
+                    </button>
 
-                ${shipment.receiverName || ""}
+                    <button
+                        type="button"
+                        onclick="deleteShipment(${index})"
+                    >
+                        Delete
+                    </button>
 
-            </td>
+                </td>
 
-            <td>
-
-                ${shipment.status || ""}
-
-            </td>
-
-            <td>
-
-                ${shipment.location || ""}
-
-            </td>
-
-            <td>
-
-                <button
-                onclick="editShipment(${index})">
-
-                Edit
-
-                </button>
-
-                <button
-                onclick="deleteShipment(${index})">
-
-                Delete
-
-                </button>
-
-            </td>
-
-        </tr>
+            </tr>
 
         `;
 
@@ -323,65 +414,143 @@ saveShipments();
 // CREATE NEW SHIPMENT
 // ======================================================
 
-function newShipment(){
+function newShipment() {
 
     window.location.href =
-    "create-shipment.html";
+        "create-shipment.html";
 
 }
 
-// ======================================================
-// PART 2 - SHIPMENT MANAGEMENT
-// ======================================================
 
-// ------------------------------------------------------
+// ======================================================
 // EDIT SHIPMENT
-// ------------------------------------------------------
+// ======================================================
 
-function editShipment(index){
+function editShipment(index) {
+
+    if (
+        index < 0 ||
+        index >= shipments.length
+    ) {
+
+        return;
+
+    }
 
     currentShipmentIndex = index;
 
-    const shipment = shipments[index];
+    const shipment =
+        shipments[index];
 
-    if(!shipment) return;
+    if (!shipment) {
 
-    document.getElementById("editTracking").value =
-        shipment.tracking || shipment.trackingNumber || "";
+        return;
 
-    document.getElementById("editSender").value =
-        shipment.senderName || "";
+    }
 
-    document.getElementById("editReceiver").value =
-        shipment.receiverName || "";
 
-    document.getElementById("editStatus").value =
-        shipment.status || "";
+    const editTracking =
+        document.getElementById("editTracking");
 
-    document.getElementById("editLocation").value =
-        shipment.location || "";
+    const editSender =
+        document.getElementById("editSender");
 
-    document.getElementById("editDelivery").value =
-        shipment.delivery || "";
+    const editReceiver =
+        document.getElementById("editReceiver");
 
-    document.getElementById("editInstructions").value =
-        shipment.instructions || "";
+    const editStatus =
+        document.getElementById("editStatus");
 
-    document
-        .getElementById("editPanel")
-        .scrollIntoView({
-            behavior: "smooth"
+    const editLocation =
+        document.getElementById("editLocation");
+
+    const editDelivery =
+        document.getElementById("editDelivery");
+
+    const editInstructions =
+        document.getElementById("editInstructions");
+
+
+    if (editTracking) {
+
+        editTracking.value =
+            shipment.tracking ||
+            shipment.trackingNumber ||
+            "";
+
+    }
+
+    if (editSender) {
+
+        editSender.value =
+            shipment.senderName || "";
+
+    }
+
+    if (editReceiver) {
+
+        editReceiver.value =
+            shipment.receiverName || "";
+
+    }
+
+    if (editStatus) {
+
+        editStatus.value =
+            shipment.status || "";
+
+    }
+
+    if (editLocation) {
+
+        editLocation.value =
+            shipment.location || "";
+
+    }
+
+    if (editDelivery) {
+
+        editDelivery.value =
+            shipment.delivery || "";
+
+    }
+
+    if (editInstructions) {
+
+        editInstructions.value =
+            shipment.instructions || "";
+
+    }
+
+
+    const editPanel =
+        document.getElementById("editPanel");
+
+    if (editPanel) {
+
+        editPanel.scrollIntoView({
+
+            behavior: "smooth",
+
+            block: "start"
+
         });
+
+    }
 
 }
 
-// ------------------------------------------------------
-// SAVE SHIPMENT
-// ------------------------------------------------------
 
-function saveShipment(){
+// ======================================================
+// SAVE / UPDATE SHIPMENT
+// ======================================================
 
-    if(currentShipmentIndex < 0){
+function saveShipment() {
+
+    if (
+        currentShipmentIndex < 0 ||
+        currentShipmentIndex >= shipments.length
+    ) {
 
         alert("Please select a shipment first.");
 
@@ -389,222 +558,402 @@ function saveShipment(){
 
     }
 
-    const shipment = shipments[currentShipmentIndex];
 
-    shipment.tracking =
-        document.getElementById("editTracking").value;
+    const shipment =
+        shipments[currentShipmentIndex];
 
-    shipment.senderName =
-        document.getElementById("editSender").value;
+    if (!shipment) {
 
-    shipment.receiverName =
-        document.getElementById("editReceiver").value;
-
-    shipment.status =
-        document.getElementById("editStatus").value;
-
-    shipment.progress =
-    getShipmentProgress(shipment.status);
-
- 
- // Add status to shipment history only when changed
-if(!shipment.history){
-
-    shipment.history = [];
-
-}
-
-const lastHistory =
-    shipment.history[shipment.history.length - 1];
-
-if(
-    !lastHistory ||
-    lastHistory.status !== shipment.status ||
-    lastHistory.location !== shipment.location
-){
-
-    shipment.history.push({
-
-        status: shipment.status,
-
-        location: shipment.location,
-
-        date: new Date().toLocaleString()
-
-    });
-
-}
-
-    shipment.location =
-        document.getElementById("editLocation").value;
-
-    shipment.delivery =
-        document.getElementById("editDelivery").value;
-
-    shipment.instructions =
-        document.getElementById("editInstructions").value;
-
-    saveShipments();
-
-    loadShipments();
-
-    addActivity(
-        "Shipment updated",
-        "✏️"
-    );
-
-    alert("Shipment updated successfully.");
-
-}
-
-// ------------------------------------------------------
-// DELETE SHIPMENT
-// ------------------------------------------------------
-
-function deleteShipment(index){
-
-    if(!confirm("Delete this shipment?")){
+        alert("Shipment could not be found.");
 
         return;
 
     }
 
-    shipments.splice(index,1);
+
+    // --------------------------------------------------
+    // Read new values
+    // --------------------------------------------------
+
+    const editTracking =
+        document.getElementById("editTracking");
+
+    const editSender =
+        document.getElementById("editSender");
+
+    const editReceiver =
+        document.getElementById("editReceiver");
+
+    const editStatus =
+        document.getElementById("editStatus");
+
+    const editLocation =
+        document.getElementById("editLocation");
+
+    const editDelivery =
+        document.getElementById("editDelivery");
+
+    const editInstructions =
+        document.getElementById("editInstructions");
+
+
+    const oldStatus =
+        shipment.status || "";
+
+    const oldLocation =
+        shipment.location || "";
+
+
+    const newTracking =
+        editTracking ?
+        editTracking.value.trim() :
+        shipment.tracking || "";
+
+
+    const newSender =
+        editSender ?
+        editSender.value.trim() :
+        shipment.senderName || "";
+
+
+    const newReceiver =
+        editReceiver ?
+        editReceiver.value.trim() :
+        shipment.receiverName || "";
+
+
+    const newStatus =
+        editStatus ?
+        editStatus.value :
+        shipment.status || "";
+
+
+    const newLocation =
+        editLocation ?
+        editLocation.value.trim() :
+        shipment.location || "";
+
+
+    const newDelivery =
+        editDelivery ?
+        editDelivery.value.trim() :
+        shipment.delivery || "";
+
+
+    const newInstructions =
+        editInstructions ?
+        editInstructions.value.trim() :
+        shipment.instructions || "";
+
+
+    // --------------------------------------------------
+    // Update shipment
+    // --------------------------------------------------
+
+    shipment.tracking =
+        newTracking;
+
+    shipment.senderName =
+        newSender;
+
+    shipment.receiverName =
+        newReceiver;
+
+    shipment.status =
+        newStatus;
+
+    shipment.location =
+        newLocation;
+
+    shipment.delivery =
+        newDelivery;
+
+    shipment.instructions =
+        newInstructions;
+
+
+    // --------------------------------------------------
+    // Automatically update progress
+    // --------------------------------------------------
+
+    shipment.progress =
+        getShipmentProgress(
+            shipment.status
+        );
+
+
+    // --------------------------------------------------
+    // Ensure history exists
+    // --------------------------------------------------
+
+    if (!Array.isArray(shipment.history)) {
+
+        shipment.history = [];
+
+    }
+
+
+    // --------------------------------------------------
+    // Add history entry when status/location changes
+    // --------------------------------------------------
+
+    const lastHistory =
+        shipment.history[
+            shipment.history.length - 1
+        ];
+
+
+    const statusChanged =
+        oldStatus !== newStatus;
+
+    const locationChanged =
+        oldLocation !== newLocation;
+
+
+    if (
+        !lastHistory ||
+        statusChanged ||
+        locationChanged
+    ) {
+
+        shipment.history.push({
+
+            status:
+                shipment.status,
+
+            location:
+                shipment.location,
+
+            date:
+                new Date().toLocaleString()
+
+        });
+
+    }
+
+
+    // --------------------------------------------------
+    // Save
+    // --------------------------------------------------
 
     saveShipments();
 
     loadShipments();
-
-    addActivity(
-        "Shipment deleted",
-        "🗑️"
-    );
 
     updateDashboard();
 
+
+    // --------------------------------------------------
+    // Activity
+    // --------------------------------------------------
+
+    const tracking =
+        shipment.tracking ||
+        shipment.trackingNumber ||
+        "Unknown shipment";
+
+
+    addActivity(
+
+        "Shipment " +
+        tracking +
+        " updated",
+
+        "✏️"
+
+    );
+
+
+    alert(
+        "Shipment updated successfully."
+    );
+
 }
 
-// ------------------------------------------------------
+
+// ======================================================
+// DELETE SHIPMENT
+// ======================================================
+
+function deleteShipment(index) {
+
+    if (
+        index < 0 ||
+        index >= shipments.length
+    ) {
+
+        return;
+
+    }
+
+
+    const shipment =
+        shipments[index];
+
+    const tracking =
+        shipment ?
+        (
+            shipment.tracking ||
+            shipment.trackingNumber ||
+            "shipment"
+        ) :
+        "shipment";
+
+
+    if (
+        !confirm(
+            "Delete this shipment?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    shipments.splice(index, 1);
+
+
+    if (
+        currentShipmentIndex === index
+    ) {
+
+        currentShipmentIndex = -1;
+
+    }
+    else if (
+        currentShipmentIndex > index
+    ) {
+
+        currentShipmentIndex--;
+
+    }
+
+
+    saveShipments();
+
+    loadShipments();
+
+    updateDashboard();
+
+
+    addActivity(
+
+        "Shipment " +
+        tracking +
+        " deleted",
+
+        "🗑️"
+
+    );
+
+}
+
+
+// ======================================================
 // DELETE CURRENT SHIPMENT
-// ------------------------------------------------------
+// ======================================================
 
-function deleteCurrentShipment(){
+function deleteCurrentShipment() {
 
-    if(currentShipmentIndex < 0){
+    if (
+        currentShipmentIndex < 0 ||
+        currentShipmentIndex >= shipments.length
+    ) {
 
-        alert("Please load a shipment first.");
+        alert(
+            "Please load a shipment first."
+        );
 
         return;
 
     }
 
-    if(!confirm("Delete this shipment?")){
+
+    const shipment =
+        shipments[currentShipmentIndex];
+
+
+    const tracking =
+        shipment ?
+        (
+            shipment.tracking ||
+            shipment.trackingNumber ||
+            "shipment"
+        ) :
+        "shipment";
+
+
+    if (
+        !confirm(
+            "Delete this shipment?"
+        )
+    ) {
 
         return;
 
     }
 
-    shipments.splice(currentShipmentIndex,1);
+
+    shipments.splice(
+        currentShipmentIndex,
+        1
+    );
+
 
     currentShipmentIndex = -1;
 
+
     saveShipments();
 
     loadShipments();
 
     updateDashboard();
 
+
     addActivity(
-        "Shipment deleted",
+
+        "Shipment " +
+        tracking +
+        " deleted",
+
         "🗑️"
+
     );
 
-    document.getElementById("editTracking").value = "";
-    document.getElementById("editSender").value = "";
-    document.getElementById("editReceiver").value = "";
-    document.getElementById("editStatus").value = "";
-    document.getElementById("editLocation").value = "";
-    document.getElementById("editDelivery").value = "";
-    document.getElementById("editInstructions").value = "";
+
+    clearEditForm();
 
 }
 
-// ------------------------------------------------------
-// SEARCH SHIPMENTS
-// ------------------------------------------------------
 
-function searchShipments(){
+// ======================================================
+// CLEAR EDIT FORM
+// ======================================================
 
-    const keyword =
-        document
-        .getElementById("searchShipment")
-        .value
-        .toLowerCase();
+function clearEditForm() {
 
-    const table =
-        document.getElementById("shipmentTable");
+    const fields = [
 
-    table.innerHTML = "";
+        "editTracking",
+        "editSender",
+        "editReceiver",
+        "editStatus",
+        "editLocation",
+        "editDelivery",
+        "editInstructions"
 
-    shipments.forEach(function(shipment,index){
+    ];
 
-        const tracking =
-            (shipment.tracking || shipment.trackingNumber || "")
-            .toLowerCase();
 
-        const sender =
-            (shipment.senderName || "")
-            .toLowerCase();
+    fields.forEach(function (id) {
 
-        const receiver =
-            (shipment.receiverName || "")
-            .toLowerCase();
+        const element =
+            document.getElementById(id);
 
-        if(
+        if (element) {
 
-            tracking.includes(keyword) ||
-
-            sender.includes(keyword) ||
-
-            receiver.includes(keyword)
-
-        ){
-
-            table.innerHTML += `
-
-            <tr>
-
-                <td>${shipment.tracking || shipment.trackingNumber}</td>
-
-                <td>${shipment.senderName}</td>
-
-                <td>${shipment.receiverName}</td>
-
-                <td>${shipment.status}</td>
-
-                <td>${shipment.location}</td>
-
-                <td>
-
-                    <button
-                    onclick="editShipment(${index})">
-
-                    Edit
-
-                    </button>
-
-                    <button
-                    onclick="deleteShipment(${index})">
-
-                    Delete
-
-                    </button>
-
-                </td>
-
-            </tr>
-
-            `;
+            element.value = "";
 
         }
 
@@ -612,40 +961,249 @@ function searchShipments(){
 
 }
 
+
 // ======================================================
-// PART 3 - CUSTOMER MESSAGES
+// SEARCH SHIPMENTS
 // ======================================================
 
-function loadCustomerMessages(){
+function searchShipments() {
 
-    customerMessages =
-        JSON.parse(localStorage.getItem("customerMessages")) || [];
+    // Supports both IDs so older/newer HTML works
+    const searchInput =
+        document.getElementById(
+            "searchShipment"
+        ) ||
+        document.getElementById(
+            "searchInput"
+        );
 
-    const container =
-        document.getElementById("customerMessages");
 
-    const count =
-        document.getElementById("messageCount");
+    const table =
+        document.getElementById(
+            "shipmentTable"
+        );
 
-    if(!container) return;
 
-    if(count){
-        count.textContent = customerMessages.length;
+    if (!searchInput || !table) {
+
+        return;
+
     }
 
-    if(customerMessages.length === 0){
+
+    const keyword =
+        searchInput.value
+        .trim()
+        .toLowerCase();
+
+
+    table.innerHTML = "";
+
+
+    let found = false;
+
+
+    shipments.forEach(
+        function (shipment, index) {
+
+            const tracking =
+                safeValue(
+                    shipment.tracking ||
+                    shipment.trackingNumber
+                ).toLowerCase();
+
+
+            const sender =
+                safeValue(
+                    shipment.senderName
+                ).toLowerCase();
+
+
+            const receiver =
+                safeValue(
+                    shipment.receiverName
+                ).toLowerCase();
+
+
+            const status =
+                safeValue(
+                    shipment.status
+                ).toLowerCase();
+
+
+            const location =
+                safeValue(
+                    shipment.location
+                ).toLowerCase();
+
+
+            if (
+
+                tracking.includes(keyword) ||
+
+                sender.includes(keyword) ||
+
+                receiver.includes(keyword) ||
+
+                status.includes(keyword) ||
+
+                location.includes(keyword)
+
+            ) {
+
+                found = true;
+
+
+                table.innerHTML += `
+
+                    <tr>
+
+                        <td>
+                            ${safeValue(
+                                shipment.tracking ||
+                                shipment.trackingNumber
+                            )}
+                        </td>
+
+                        <td>
+                            ${safeValue(
+                                shipment.senderName
+                            )}
+                        </td>
+
+                        <td>
+                            ${safeValue(
+                                shipment.receiverName
+                            )}
+                        </td>
+
+                        <td>
+                            ${safeValue(
+                                shipment.status
+                            )}
+                        </td>
+
+                        <td>
+                            ${safeValue(
+                                shipment.location
+                            )}
+                        </td>
+
+                        <td>
+
+                            <button
+                                type="button"
+                                onclick="editShipment(${index})"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+
+                            type="button"
+                                onclick="deleteShipment(${index})"
+                            >
+                                Delete
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+
+        }
+    );
+
+
+    if (!found) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="6"
+                    style="text-align:center;padding:30px;"
+                >
+
+                    No matching shipments found.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+// ======================================================
+// CUSTOMER MESSAGES
+// ======================================================
+
+function loadCustomerMessages() {
+
+    customerMessages =
+        JSON.parse(
+            localStorage.getItem(
+                "customerMessages"
+            )
+        ) || [];
+
+
+    const container =
+        document.getElementById(
+            "customerMessages"
+        );
+
+
+    const count =
+        document.getElementById(
+            "messageCount"
+        );
+
+
+    if (count) {
+
+        count.textContent =
+            customerMessages.length;
+
+    }
+
+
+    if (!container) {
+
+        return;
+
+    }
+
+
+    if (
+        customerMessages.length === 0
+    ) {
 
         container.innerHTML = `
 
-        <div class="empty-messages">
+            <div class="empty-messages">
 
-            <div class="empty-icon">💬</div>
+                <div class="empty-icon">
+                    💬
+                </div>
 
-            <h3>No Customer Messages</h3>
+                <h3>
+                    No Customer Messages
+                </h3>
 
-            <p>Customer messages will appear here.</p>
+                <p>
+                    Customer messages will appear here.
+                </p>
 
-        </div>
+            </div>
 
         `;
 
@@ -653,45 +1211,62 @@ function loadCustomerMessages(){
 
     }
 
+
     container.innerHTML = "";
 
-    customerMessages.forEach(function(message,index){
 
-        container.innerHTML += `
+    customerMessages.forEach(
+        function (message, index) {
 
-        <div class="message-card">
+            container.innerHTML += `
 
-            <strong>${message.name || "Customer"}</strong><br>
+                <div class="message-card">
 
-            ${message.email || ""}
+                    <strong>
+                        ${safeValue(
+                            message.name ||
+                            "Customer"
+                        )}
+                    </strong>
 
-            <p style="margin:10px 0;">
+                    <br>
 
-                ${message.message || ""}
+                    ${safeValue(
+                        message.email
+                    )}
 
-            </p>
+                    <p
+                        style="margin:10px 0;"
+                    >
 
-            <button
-            onclick="replyToCustomer(${index})">
+                        ${safeValue(
+                            message.message
+                        )}
 
-                Reply
+                    </p>
 
-            </button>
+                    <button
+                        type="button"
+                        onclick="replyToCustomer(${index})"
+                    >
+                        Reply
+                    </button>
 
-            <button
-            onclick="deleteCustomerMessage(${index})">
+                    <button
+                        type="button"
+                        onclick="deleteCustomerMessage(${index})"
+                    >
+                        Delete
+                    </button>
 
-                Delete
+                </div>
 
-            </button>
+                <hr>
 
-        </div>
+            `;
 
-        <hr>
-
-        `;
-
-    });
+        }
+    );
 
 }
 
@@ -700,15 +1275,34 @@ function loadCustomerMessages(){
 // DELETE CUSTOMER MESSAGE
 // ======================================================
 
-function deleteCustomerMessage(index){
+function deleteCustomerMessage(index) {
 
-    if(!confirm("Delete this message?")){
+    if (
+        index < 0 ||
+        index >= customerMessages.length
+    ) {
 
         return;
 
     }
 
-    customerMessages.splice(index,1);
+
+    if (
+        !confirm(
+            "Delete this message?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    customerMessages.splice(
+        index,
+        1
+    );
+
 
     saveMessages();
 
@@ -716,73 +1310,101 @@ function deleteCustomerMessage(index){
 
     updateDashboard();
 
+
     addActivity(
+
         "Customer message deleted",
+
         "💬"
+
     );
 
 }
 
 
 // ======================================================
-// REPLY
+// REPLY TO CUSTOMER
 // ======================================================
 
-function replyToCustomer(index){
+function replyToCustomer(index) {
 
-    const msg = customerMessages[index];
+    const message =
+        customerMessages[index];
 
-    if(!msg){
+
+    if (!message) {
+
+        return;
+
+    }
+
+
+    if (!message.email) {
+
+        alert(
+            "Customer has no email address."
+        );
 
         return;
 
     }
 
-    if(!msg.email){
-
-        alert("Customer has no email address.");
-
-        return;
-
-    }
 
     window.location.href =
-        "mailto:" + msg.email;
+        "mailto:" +
+        message.email;
 
 }
 
 
 // ======================================================
-// ACTIVITY LOG
+// ACTIVITY LOG DISPLAY
 // ======================================================
 
-function loadActivity(){
+function loadActivity() {
 
     activityLog =
-        JSON.parse(localStorage.getItem("activityLog")) || [];
+        JSON.parse(
+            localStorage.getItem(
+                "activityLog"
+            )
+        ) || [];
+
 
     const container =
-        document.getElementById("activityLog");
+        document.getElementById(
+            "activityLog"
+        );
 
-    if(!container){
+
+    if (!container) {
 
         return;
 
     }
 
-    if(activityLog.length === 0){
+
+    if (
+        activityLog.length === 0
+    ) {
 
         container.innerHTML = `
 
-        <div class="empty-activity">
+            <div class="empty-activity">
 
-            <div class="empty-icon">📋</div>
+                <div class="empty-icon">
+                    📋
+                </div>
 
-            <h3>No Recent Activity</h3>
+                <h3>
+                    No Recent Activity
+                </h3>
 
-            <p>Dashboard activity will appear here.</p>
+                <p>
+                    Dashboard activity will appear here.
+                </p>
 
-        </div>
+            </div>
 
         `;
 
@@ -790,37 +1412,47 @@ function loadActivity(){
 
     }
 
+
     container.innerHTML = "";
 
-    activityLog.forEach(function(item){
 
-        container.innerHTML += `
+    activityLog.forEach(
+        function (item) {
 
-        <div class="activity-item">
+            container.innerHTML += `
 
-            <strong>
+                <div class="activity-item">
 
-                ${item.icon}
+                    <strong>
 
-                ${item.message}
+                        ${safeValue(
+                            item.icon
+                        )}
 
-            </strong>
+                        ${safeValue(
+                            item.message
+                        )}
 
-            <br>
+                    </strong>
 
-            <small>
+                    <br>
 
-                ${item.time}
+                    <small>
 
-            </small>
+                        ${safeValue(
+                            item.time
+                        )}
 
-        </div>
+                    </small>
 
-        <hr>
+                </div>
 
-        `;
+                <hr>
 
-    });
+            `;
+
+        }
+    );
 
 }
 
@@ -829,36 +1461,57 @@ function loadActivity(){
 // VIEW RECEIPT
 // ======================================================
 
-const receiptButton =
-document.getElementById("viewReceipt");
+function viewSelectedReceipt() {
 
-if(receiptButton){
+    if (
+        currentShipmentIndex < 0 ||
+        currentShipmentIndex >= shipments.length
+    ) {
 
-    receiptButton.addEventListener("click",function(){
-
-        if(currentShipmentIndex < 0){
-
-            alert("Please select a shipment first.");
-
-            return;
-
-        }
-
-        const shipment =
-            shipments[currentShipmentIndex];
-
-        window.open(
-
-            "receipt.html?tracking=" +
-
-            (shipment.tracking ||
-             shipment.trackingNumber),
-
-            "_blank"
-
+        alert(
+            "Please select a shipment first."
         );
 
-    });
+        return;
+
+    }
+
+
+    const shipment =
+        shipments[currentShipmentIndex];
+
+
+    if (!shipment) {
+
+        return;
+
+    }
+
+
+    const tracking =
+        shipment.tracking ||
+        shipment.trackingNumber;
+
+
+    if (!tracking) {
+
+        alert(
+            "This shipment has no tracking number."
+        );
+
+        return;
+
+    }
+
+
+    window.open(
+
+        "receipt.html?tracking=" +
+        encodeURIComponent(tracking),
+
+        "_blank"
+
+    );
 
 }
 
@@ -867,39 +1520,335 @@ if(receiptButton){
 // LOGOUT
 // ======================================================
 
-const logoutButton =
-document.getElementById("logoutBtn");
+function logoutAdmin() {
 
-if(logoutButton){
+    if (
+        confirm(
+            "Logout from dashboard?"
+        )
+    ) {
 
-    logoutButton.addEventListener("click",function(){
-
-        if(confirm("Logout from dashboard?")){
-
-            window.location.href =
+        window.location.href =
             "admin-login.html";
 
-        }
-
-    });
+    }
 
 }
 
 
 // ======================================================
-// AUTO REFRESH
+// DASHBOARD CHARTS
 // ======================================================
 
-setInterval(function(){
+function loadDashboardCharts() {
+
+    // Chart.js must exist
+    if (
+        typeof Chart === "undefined"
+    ) {
+
+        console.warn(
+            "Chart.js is not loaded."
+        );
+
+        return;
+
+    }
+
+
+    const statusCanvas =
+        document.getElementById(
+            "statusChart"
+        );
+
+
+    const serviceCanvas =
+        document.getElementById(
+            "serviceChart"
+        );
+
+
+    if (
+        !statusCanvas &&
+        !serviceCanvas
+    ) {
+
+        return;
+
+    }
+
+
+    const storedShipments =
+        JSON.parse(
+            localStorage.getItem(
+                "shipments"
+            )
+        ) || [];
+
+
+    let statusCounts = {
+
+        Created: 0,
+        Awaiting: 0,
+        Transit: 0,
+        Delivered: 0
+
+    };
+
+
+    let serviceCounts = {
+
+        Air: 0,
+        Ocean: 0,
+        Road: 0,
+        Express: 0
+
+    };
+
+
+    storedShipments.forEach(
+        function (shipment) {
+
+            switch (
+                shipment.status
+            ) {
+
+                case "Shipment Created":
+
+                    statusCounts.Created++;
+
+                    break;
+
+
+                case "Awaiting Pickup":
+
+                    statusCounts.Awaiting++;
+
+                    break;
+
+
+                case "In Transit":
+
+                    statusCounts.Transit++;
+
+                    break;
+
+
+                case "Delivered":
+
+                    statusCounts.Delivered++;
+
+                    break;
+
+            }
+
+
+            switch (
+                shipment.service
+            ) {
+
+                case "Air Freight":
+
+                    serviceCounts.Air++;
+
+                    break;
+
+
+                case "Ocean Freight":
+
+                    serviceCounts.Ocean++;
+
+                    break;
+
+
+                case "Road Transport":
+
+                    serviceCounts.Road++;
+
+                    break;
+
+
+                case "Express Delivery":
+
+                    serviceCounts.Express++;
+
+                    break;
+
+            }
+
+        }
+    );
+
+
+    // --------------------------------------------------
+    // Status Chart
+    // --------------------------------------------------
+
+    if (statusCanvas) {
+
+        if (statusChartInstance) {
+
+            statusChartInstance.destroy();
+
+        }
+
+
+        statusChartInstance =
+            new Chart(
+                statusCanvas,
+                {
+
+                    type: "doughnut",
+
+                    data: {
+
+                        labels: [
+
+                            "Created",
+                            "Awaiting",
+                            "In Transit",
+                            "Delivered"
+
+                        ],
+
+                        datasets: [{
+
+                            data: [
+
+                                statusCounts.Created,
+                                statusCounts.Awaiting,
+                                statusCounts.Transit,
+                                statusCounts.Delivered
+
+                            ]
+
+                        }]
+
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    // --------------------------------------------------
+    // Service Chart
+    // --------------------------------------------------
+
+    if (serviceCanvas) {
+
+        if (serviceChartInstance) {
+
+            serviceChartInstance.destroy();
+
+        }
+
+
+        serviceChartInstance =
+            new Chart(
+                serviceCanvas,
+                {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels: [
+
+                            "Air",
+                            "Ocean",
+                            "Road",
+                            "Express"
+
+                        ],
+
+                        datasets: [{
+
+                            label: "Shipments",
+
+                            data: [
+
+                                serviceCounts.Air,
+                                serviceCounts.Ocean,
+                                serviceCounts.Road,
+                                serviceCounts.Express
+
+                            ]
+
+                        }]
+
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        scales: {
+
+                            y: {
+
+                                beginAtZero: true,
+
+                                ticks: {
+
+                                    precision: 0
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+    }
+
+}
+
+
+// ======================================================
+// REFRESH EVERYTHING
+// ======================================================
+
+function refreshDashboard() {
 
     shipments =
-    JSON.parse(localStorage.getItem("shipments")) || [];
+        JSON.parse(
+            localStorage.getItem(
+                "shipments"
+            )
+        ) || [];
+
 
     customerMessages =
-    JSON.parse(localStorage.getItem("customerMessages")) || [];
+        JSON.parse(
+            localStorage.getItem(
+                "customerMessages"
+            )
+        ) || [];
+
 
     activityLog =
-    JSON.parse(localStorage.getItem("activityLog")) || [];
+        JSON.parse(
+            localStorage.getItem(
+                "activityLog"
+            )
+        ) || [];
+
 
     loadShipments();
 
@@ -909,179 +1858,167 @@ setInterval(function(){
 
     updateDashboard();
 
-},5000);
+}
+
+
+// ======================================================
+// SEARCH LISTENER
+// ======================================================
+
+function initializeSearch() {
+
+    const searchInput =
+        document.getElementById(
+            "searchShipment"
+        ) ||
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    if (!searchInput) {
+
+        return;
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        searchShipments
+    );
+
+}
+
+
+// ======================================================
+// RECEIPT BUTTON
+// ======================================================
+
+function initializeReceiptButton() {
+
+    const receiptButton =
+        document.getElementById(
+            "viewReceipt"
+        );
+
+
+    if (!receiptButton) {
+
+        return;
+
+    }
+
+
+    receiptButton.addEventListener(
+        "click",
+        viewSelectedReceipt
+    );
+
+}
+
+
+// ======================================================
+// LOGOUT BUTTON
+// ======================================================
+
+function initializeLogoutButton() {
+
+    const logoutButton =
+        document.getElementById(
+            "logoutBtn"
+        );
+
+
+    if (!logoutButton) {
+
+        return;
+
+    }
+
+
+    logoutButton.addEventListener(
+        "click",
+        logoutAdmin
+    );
+
+}
 
 
 // ======================================================
 // INITIALIZE DASHBOARD
 // ======================================================
 
-document.addEventListener("DOMContentLoaded",function(){
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    shipments =
-    JSON.parse(localStorage.getItem("shipments")) || [];
+        shipments =
+            JSON.parse(
+                localStorage.getItem(
+                    "shipments"
+                )
+            ) || [];
 
-    customerMessages =
-    JSON.parse(localStorage.getItem("customerMessages")) || [];
 
-    activityLog =
-    JSON.parse(localStorage.getItem("activityLog")) || [];
+        customerMessages =
+            JSON.parse(
+                localStorage.getItem(
+                    "customerMessages"
+                )
+            ) || [];
 
-    loadShipments();
 
-    loadCustomerMessages();
+        activityLog =
+            JSON.parse(
+                localStorage.getItem(
+                    "activityLog"
+                )
+            ) || [];
 
-    loadActivity();
 
-    updateDashboard();
+        normalizeShipments();
 
-});
+        saveShipments();
 
-/* ==========================================
-   DASHBOARD CHARTS
-========================================== */
 
-function loadDashboardCharts() {
+        loadShipments();
 
-    const shipments =
-        JSON.parse(localStorage.getItem("shipments")) || [];
+        loadCustomerMessages();
 
-    let statusCounts = {
-        Created: 0,
-        Transit: 0,
-        Delivered: 0,
-        Awaiting: 0
-    };
+        loadActivity();
 
-    let serviceCounts = {
-        Air: 0,
-        Ocean: 0,
-        Road: 0,
-        Express: 0
-    };
+        updateDashboard();
 
-    shipments.forEach(function(shipment) {
+        initializeSearch();
 
-        switch (shipment.status) {
+        initializeReceiptButton();
 
-            case "Shipment Created":
-                statusCounts.Created++;
-                break;
+        initializeLogoutButton();
 
-            case "Awaiting Pickup":
-                statusCounts.Awaiting++;
-                break;
+        loadDashboardCharts();
 
-            case "In Transit":
-                statusCounts.Transit++;
-                break;
+    }
+);
 
-            case "Delivered":
-                statusCounts.Delivered++;
-                break;
 
-        }
+// ======================================================
+// AUTOMATIC REFRESH
+// ======================================================
 
-        switch (shipment.service) {
+setInterval(
+    function () {
 
-            case "Air Freight":
-                serviceCounts.Air++;
-                break;
+        refreshDashboard();
 
-            case "Ocean Freight":
-                serviceCounts.Ocean++;
-                break;
+        // Refresh charts without creating duplicates
+        loadDashboardCharts();
 
-            case "Road Transport":
-                serviceCounts.Road++;
-                break;
+    },
+    5000
+);
 
-            case "Express Delivery":
-                serviceCounts.Express++;
-                break;
 
-        }
-
-    });
-
-    new Chart(document.getElementById("statusChart"), {
-
-        type: "doughnut",
-
-        data: {
-
-            labels: [
-                "Created",
-                "Awaiting",
-                "In Transit",
-                "Delivered"
-            ],
-
-            datasets: [{
-
-                data: [
-
-                    statusCounts.Created,
-                    statusCounts.Awaiting,
-                    statusCounts.Transit,
-                    statusCounts.Delivered
-
-                ]
-
-            }]
-
-        }
-
-    });
-
-    new Chart(document.getElementById("serviceChart"), {
-
-        type: "bar",
-
-        data: {
-
-            labels: [
-                "Air",
-                "Ocean",
-                "Road",
-                "Express"
-            ],
-
-            datasets: [{
-
-                label: "Shipments",
-
-                data: [
-
-                    serviceCounts.Air,
-                    serviceCounts.Ocean,
-                    serviceCounts.Road,
-                    serviceCounts.Express
-
-                ]
-
-            }]
-
-        },
-
-        options: {
-
-            responsive: true,
-
-            scales: {
-
-                y: {
-
-                    beginAtZero: true
-
-                }
-
-            }
-
-        }
-
-    });
-
-}
-
-document.addEventListener("DOMContentLoaded", loadDashboardCharts);
+// ======================================================
+// END OF ADMIN.JS
+// ======================================================
