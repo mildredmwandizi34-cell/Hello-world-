@@ -536,6 +536,34 @@ animation:pulse 2s infinite;">
     </div>
 
 </div> 
+
+    <hr style="margin:15px 0;">
+
+<h3>🌍 Route Summary</h3>
+
+<div class="info-grid">
+
+    <div class="info-box">
+        <h4>Origin</h4>
+        <p id="routeOrigin"></p>
+    </div>
+
+    <div class="info-box">
+        <h4>Current Location</h4>
+        <p id="routeCurrent"></p>
+    </div>
+
+    <div class="info-box">
+        <h4>Destination</h4>
+        <p id="routeDestination"></p>
+    </div>
+
+    <div class="info-box">
+        <h4>Estimated Delivery</h4>
+        <p id="routeETA"></p>
+    </div>
+
+</div>
     
 </div>
 
@@ -1212,6 +1240,18 @@ document.getElementById("statsLocation").textContent =
 
 document.getElementById("statsService").textContent =
     shipment.service || "Standard";
+
+    document.getElementById("routeOrigin").textContent =
+    shipment.origin || "Unknown";
+
+document.getElementById("routeCurrent").textContent =
+    shipment.location || "Unknown";
+
+document.getElementById("routeDestination").textContent =
+    shipment.destination || "Unknown";
+
+document.getElementById("routeETA").textContent =
+    shipment.delivery || "Pending";
     
 /* Dashboard Progress */
 
