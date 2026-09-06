@@ -232,14 +232,6 @@ JsBarcode("#barcodeLarge", shipment.trackingNumber, {
     height: 60,
     displayValue: true
 });
-            format: "CODE128",
-            width: 2,
-            height: 60,
-            displayValue: true
-        }
-    );
-
-}
 
 // -----------------------------
 // QR Code
@@ -311,3 +303,55 @@ switch ((shipment.status || "").toLowerCase()) {
 }
 
 console.log("Receipt loaded successfully.", shipment);
+
+/* ==========================================
+   SHIPMENT ROUTE MAP
+========================================== */
+
+const coordinates = {
+
+    "New York": [40.7128, -74.0060],
+    "London": [51.5074, -0.1278],
+    "Dubai": [25.2048, 55.2708],
+    "Nairobi": [-1.2864, 36.8172],
+    "Los Angeles": [34.0522, -118.2437],
+    "Costa Rica": [9.7489, -83.7534],
+    "Guatemala": [14.6349, -90.5069]
+
+};
+
+const start = coordinates[shipment.origin];
+const end = coordinates[shipment.destination];
+
+if (start && end && document.getElementById("receiptMap")) {
+
+    const map = L.map("receiptMap");
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution: "&copy; OpenStreetMap contributors"
+        }
+    ).addTo(map);
+
+    L.marker(start)
+        .addTo(map)
+        .bindPopup("Origin<br><strong>" + shipment.origin + "</strong>");
+
+    L.marker(end)
+        .addTo(map)
+        .bindPopup("Destination<br><strong>" + shipment.destination + "</strong>");
+
+    L.polyline(
+        [start, end],
+        {
+            color: "#0b4ea2",
+            weight: 5
+        }
+    ).addTo(map);
+
+    map.fitBounds([start, end], {
+        padding: [50, 50]
+    });
+
+}
