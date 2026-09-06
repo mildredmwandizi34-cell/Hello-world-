@@ -1944,3 +1944,29 @@ background:#083b80;
     font-weight:600;
     color:#333;
 }
+
+.dashboard-actions{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:20px;
+}
+
+.action-btn{
+    flex:1;
+    min-width:180px;
+    background:#0b4ea2;
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.action-btn:hover{
+    background:#083b80;
+    transform:translateY(-2px);
+}
