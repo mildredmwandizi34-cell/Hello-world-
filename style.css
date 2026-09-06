@@ -2024,3 +2024,47 @@ opacity:.9;
     margin-bottom:20px;
     color:#0b4ea2;
 }
+
+input,
+textarea,
+select{
+
+    width:100%;
+    padding:15px;
+    border:1px solid #d8d8d8;
+    border-radius:8px;
+    font-size:15px;
+    margin-bottom:15px;
+    transition:.3s;
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+    outline:none;
+    border-color:#0b4ea2;
+    box-shadow:0 0 8px rgba(11,78,162,.2);
+
+}
+
+button[type="submit"]{
+
+    background:#0b4ea2;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:16px;
+    font-size:17px;
+    font-weight:bold;
+    transition:.3s;
+
+}
+
+button[type="submit"]:hover{
+
+    background:#083a79;
+    transform:translateY(-2px);
+
+}
