@@ -761,3 +761,27 @@ text-align:left;
     max-width:700px;
     opacity:.95;
 }
+
+.analytics-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+    gap:20px;
+    margin:25px 0;
+}
+
+.chart-card{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.chart-card h3{
+    margin-bottom:20px;
+    color:#0b4ea2;
+}
+
+.chart-card canvas{
+    width:100%;
+    height:300px;
+}
