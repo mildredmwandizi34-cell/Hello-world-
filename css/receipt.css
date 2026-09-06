@@ -350,3 +350,15 @@ font-weight:bold;
 .charges .total td{
 border:none;
 }
+
+.route-map{
+    margin:35px 0;
+}
+
+#receiptMap{
+    width:100%;
+    height:420px;
+    border-radius:12px;
+    overflow:hidden;
+    border:1px solid #ddd;
+}
