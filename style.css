@@ -2068,3 +2068,32 @@ button[type="submit"]:hover{
     transform:translateY(-2px);
 
 }
+
+/* ======================================
+   TWO-COLUMN FORM LAYOUT
+====================================== */
+
+@media (min-width: 900px){
+
+    #shipmentForm{
+
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:25px;
+
+    }
+
+    #shipmentForm .section-title,
+    #shipmentForm button[type="submit"]{
+
+        grid-column:1 / -1;
+
+    }
+
+    #shipmentForm .card{
+
+        margin-bottom:0;
+
+    }
+
+}
