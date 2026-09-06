@@ -146,3 +146,51 @@ window.location.href =
 "receipt.html?tracking=" + shipment.trackingNumber;
 
 }
+
+function calculateShippingCost() {
+
+    const weight =
+        parseFloat(document.getElementById("weight").value) || 0;
+
+    const service =
+        document.getElementById("service").value;
+
+    const discount =
+        parseFloat(document.getElementById("discount").value) || 0;
+
+    let rate = 8;
+
+    switch(service){
+
+        case "Air Freight":
+            rate = 12;
+            break;
+
+        case "Ocean Freight":
+            rate = 5;
+            break;
+
+        case "Road Transport":
+            rate = 7;
+            break;
+
+        case "Express Delivery":
+            rate = 15;
+            break;
+
+    }
+
+    const shipping = weight * rate;
+    const tax = shipping * 0.16;
+    const total = shipping + tax - discount;
+
+    document.getElementById("shippingCost").value =
+        shipping.toFixed(2);
+
+    document.getElementById("tax").value =
+        tax.toFixed(2);
+
+    document.getElementById("totalAmount").value =
+        total.toFixed(2);
+
+}
