@@ -715,6 +715,13 @@ if (shouldAddHistory) {
 
 }
 
+    shipment.history = shipment.history.filter((item, index, array) => {
+    return index === array.findIndex(history =>
+        history.status === item.status &&
+        history.location === item.location
+    );
+});
+    
     // --------------------------------------------------
     // Save
     // --------------------------------------------------
