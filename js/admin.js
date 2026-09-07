@@ -697,9 +697,6 @@ function saveShipment() {
 // Add history entry only if status/location actually changed
 // --------------------------------------------------
 
-if (!Array.isArray(shipment.history)) {
-    shipment.history = [];
-}
 
 const lastHistory = shipment.history[shipment.history.length - 1];
 
