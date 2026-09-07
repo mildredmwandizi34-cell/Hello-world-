@@ -10,27 +10,40 @@ box-sizing:border-box;
 }
 
 body{
-background:#eef3f9;
-font-family:Arial,Helvetica,sans-serif;
-padding:40px 20px;
-color:#222;
+
+background:#edf3fa;
+
+font-family:
+"Segoe UI",
+Arial,
+sans-serif;
+
+padding:30px;
+
+color:#333;
+
+line-height:1.6;
+
 }
 
 .receipt{
 
-max-width:1100px;
+width:95%;
 
-margin:auto;
+max-width:1300px;
+
+margin:40px auto;
 
 background:#fff;
 
-border-radius:18px;
+border-radius:20px;
 
 overflow:hidden;
 
-box-shadow:0 12px 35px rgba(0,0,0,.15);
-
 position:relative;
+
+box-shadow:
+0 20px 60px rgba(0,0,0,.12);
 
 }
 
@@ -70,13 +83,20 @@ justify-content:space-between;
 
 align-items:center;
 
-padding:40px;
-
-border-bottom:5px solid #0b4ea2;
-
-gap:30px;
-
 flex-wrap:wrap;
+
+gap:35px;
+
+padding:45px;
+
+background:
+linear-gradient(
+135deg,
+#003366,
+#0b4ea2
+);
+
+color:white;
 
 }
 
@@ -98,43 +118,55 @@ width:95px;
 
 .company-info h1{
 
-color:#0b4ea2;
-
 font-size:34px;
 
+color:white;
+
 margin-bottom:8px;
+
+font-weight:700;
 
 }
 
 .company-info p{
 
-color:#555;
-
-font-size:17px;
+color:#eef6ff;
 
 }
 
 .company-info small{
 
-color:#777;
+color:#d5e7ff;
 
 }
 
 .receipt-info{
 
-min-width:320px;
+min-width:340px;
+
+background:white;
+
+color:#222;
+
+padding:25px;
+
+border-radius:16px;
+
+box-shadow:
+
+0 8px 24px rgba(0,0,0,.08);
 
 }
 
 .receipt-info h2{
 
-color:#0b4ea2;
+font-size:28px;
 
-font-size:30px;
+color:#003366;
 
 margin-bottom:20px;
 
-text-align:right;
+text-align:center;
 
 }
 
@@ -188,13 +220,23 @@ border-bottom:1px solid #ddd;
 
 background:white;
 
-padding:20px;
+padding:25px;
 
-border-radius:12px;
+border-radius:16px;
 
 text-align:center;
 
-box-shadow:0 5px 15px rgba(0,0,0,.06);
+transition:.3s;
+
+box-shadow:
+
+0 8px 24px rgba(0,0,0,.08);
+
+}
+
+.status-box:hover{
+
+transform:translateY(-5px);
 
 }
 
@@ -361,4 +403,160 @@ border:none;
     border-radius:12px;
     overflow:hidden;
     border:1px solid #ddd;
+}
+
+@media(max-width:768px){
+
+body{
+
+padding:10px;
+
+}
+
+.receipt{
+
+width:100%;
+
+margin:0;
+
+border-radius:0;
+
+}
+
+.receipt-header{
+
+padding:25px;
+
+flex-direction:column;
+
+text-align:center;
+
+}
+
+.company-info{
+
+flex-direction:column;
+
+}
+
+.company-logo{
+
+width:75px;
+
+}
+
+.receipt-info{
+
+width:100%;
+
+}
+
+.people{
+
+grid-template-columns:1fr;
+
+padding:20px;
+
+}
+
+.summary-card{
+
+grid-template-columns:1fr;
+
+padding:20px;
+
+}
+
+.receipt-status{
+
+grid-template-columns:1fr;
+
+padding:20px;
+
+}
+
+   /* ==========================================
+   SHIPMENT SUMMARY
+========================================== */
+
+.summary-card{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+
+gap:20px;
+
+padding:30px 40px;
+
+}
+
+.summary-box{
+
+background:white;
+
+padding:25px;
+
+border-left:6px solid #0b4ea2;
+
+border-radius:14px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.06);
+
+transition:.3s;
+
+}
+
+.summary-box:hover{
+
+transform:translateY(-4px);
+
+}
+
+.summary-box span{
+
+display:block;
+
+font-size:14px;
+
+color:#666;
+
+margin-bottom:10px;
+
+text-transform:uppercase;
+
+letter-spacing:1px;
+
+}
+
+.summary-box h3{
+
+font-size:24px;
+
+color:#003366;
+
+font-weight:700;
+
+word-break:break-word;
+
+}
+
+.details{
+
+padding:20px;
+
+}
+
+.charges{
+
+padding:20px;
+
+}
+
+#receiptMap{
+
+height:280px;
+
+}
+
 }
