@@ -188,20 +188,13 @@ set("authorizedOfficer", shipment.authorizedOfficer);
 // Payment Stamp
 // -----------------------------
 const stamp = document.getElementById("paymentStamp");
+const stampLarge = document.getElementById("paymentStampLarge");
 
 if (stamp) {
 
-    const payment =
-        (shipment.payment || "").toLowerCase();
+    const payment = (shipment.payment || "").toLowerCase();
 
     stamp.className = "stamp";
-
-    const stampLarge = document.getElementById("paymentStampLarge");
-
-if (stampLarge) {
-    stampLarge.className = stamp.className;
-    stampLarge.textContent = stamp.textContent;
-}
 
     if (payment === "paid") {
 
@@ -224,8 +217,11 @@ if (stampLarge) {
         stamp.textContent = "UNPAID";
 
     }
-}
 
+    if (stampLarge) {
+        stampLarge.className = stamp.className;
+        stampLarge.textContent = stamp.textContent;
+    }
 }
 
 // -----------------------------
