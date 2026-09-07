@@ -7,7 +7,6 @@
 // Get Shipment
 // -----------------------------
 console.log("Stored shipment:", localStorage.getItem("shipment"));
- alert(JSON.stringify(shipment));
 
 let shipment =
 JSON.parse(localStorage.getItem("shipment"));
@@ -227,10 +226,12 @@ if (stampLarge) {
     }
 }
 
+}
+
 // -----------------------------
 // Barcode
 // -----------------------------
-if (document.getElementById("barcode")) {
+if (document.getElementById("barcode"))) {
 
     JsBarcode("#barcode", shipment.trackingNumber, {
     format: "CODE128",
