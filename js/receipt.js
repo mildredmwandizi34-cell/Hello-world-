@@ -331,8 +331,8 @@ const coordinates = {
 
 };
 
-const start = coordinates[shipment.origin];
-const end = coordinates[shipment.destination];
+const start = coordinates[(shipment.origin || "").trim()];
+const end = coordinates[(shipment.destination || "").trim()];
 
 if (start && end && document.getElementById("receiptMap")) {
 
