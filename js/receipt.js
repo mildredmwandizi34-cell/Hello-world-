@@ -132,8 +132,8 @@ set("receiverEmail", shipment.receiverEmail);
 // -----------------------------
 // Shipment Details
 // -----------------------------
-set("package", shipment.description);
-set("packageType", shipment.packageType);
+set("package", shipment.package);
+set("packageType", shipment.descriptionType);
 set("pieces", shipment.pieces);
 set("weight", shipment.weight ? shipment.weight + " kg" : "-");
 set("dimensions", shipment.dimensions);
