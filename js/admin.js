@@ -694,43 +694,29 @@ function saveShipment() {
 
 
     // --------------------------------------------------
-    // Add history entry when status/location changes
-    // --------------------------------------------------
+// Add history entry only if status/location actually changed
+// --------------------------------------------------
 
-    const lastHistory =
-        shipment.history[
-            shipment.history.length - 1
-        ];
+if (!Array.isArray(shipment.history)) {
+    shipment.history = [];
+}
 
+const lastHistory = shipment.history[shipment.history.length - 1];
 
-    const statusChanged =
-        oldStatus !== newStatus;
+const shouldAddHistory =
+    !lastHistory ||
+    lastHistory.status !== shipment.status ||
+    lastHistory.location !== shipment.location;
 
-    const locationChanged =
-        oldLocation !== newLocation;
+if (shouldAddHistory) {
 
+    shipment.history.push({
+        status: shipment.status,
+        location: shipment.location,
+        date: new Date().toLocaleString()
+    });
 
-    if (
-        !lastHistory ||
-        statusChanged ||
-        locationChanged
-    ) {
-
-        shipment.history.push({
-
-            status:
-                shipment.status,
-
-            location:
-                shipment.location,
-
-            date:
-                new Date().toLocaleString()
-
-        });
-
-    }
-
+}
 
     // --------------------------------------------------
     // Save
