@@ -368,27 +368,58 @@ font-size:28px;
 }
 
 .details table{
+
 width:100%;
-border-collapse:collapse;
+
+border-collapse:separate;
+
+border-spacing:0;
+
 background:#fff;
-border-radius:12px;
+
+border-radius:16px;
+
 overflow:hidden;
-box-shadow:0 5px 15px rgba(0,0,0,.06);
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
+
 }
 
 .details td{
-padding:15px 18px;
-border-bottom:1px solid #e5e5e5;
+
+padding:18px 22px;
+
+border-bottom:1px solid #edf2f7;
+
+vertical-align:top;
+
 }
 
 .details tr:nth-child(even){
-background:#f8fbff;
+
+background:#f9fbfd;
+
+}
+
+.details tr:hover{
+
+background:#eef6ff;
+
+transition:.25s;
+
 }
 
 .details td:first-child{
+
 width:35%;
-font-weight:bold;
-color:#0b4ea2;
+
+font-weight:700;
+
+color:#003366;
+
+background:#f5f9fd;
+
 }
 
 /* ==========================================
@@ -598,6 +629,133 @@ padding:20px;
 
 height:280px;
 
+}
+
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+========================================== */
+
+@media (max-width:992px){
+
+.receipt{
+margin:15px;
+}
+
+.receipt-header{
+padding:25px;
+}
+
+.people{
+grid-template-columns:1fr;
+padding:25px;
+}
+
+.details,
+.charges{
+padding:25px;
+}
+
+.summary-card{
+grid-template-columns:repeat(2,1fr);
+}
+
+.receipt-footer{
+flex-direction:column;
+gap:20px;
+text-align:center;
+}
+
+}
+
+/* Mobile */
+
+@media (max-width:768px){
+
+body{
+padding:10px;
+}
+
+.receipt{
+border-radius:12px;
+}
+
+.company-info{
+flex-direction:column;
+text-align:center;
+}
+
+.company-logo{
+width:75px;
+}
+
+.company-info h1{
+font-size:24px;
+}
+
+.receipt-info{
+min-width:100%;
+}
+
+.receipt-info h2{
+text-align:center;
+font-size:24px;
+}
+
+.receipt-status{
+padding:20px;
+grid-template-columns:1fr;
+}
+
+.summary-card{
+grid-template-columns:1fr;
+padding:20px;
+}
+
+.people{
+padding:20px;
+}
+
+.card{
+padding:18px;
+}
+
+.details,
+.charges,
+.extra-details,
+.instructions,
+.timeline,
+.security,
+.authorization{
+padding:20px;
+}
+
+.details table,
+.charges table,
+.extra-details table{
+display:block;
+overflow-x:auto;
+white-space:nowrap;
+}
+
+#receiptMap{
+height:280px;
+}
+
+.receipt-actions{
+display:flex;
+flex-direction:column;
+gap:15px;
+padding:20px;
+}
+
+.receipt-actions button{
+width:100%;
+}
+
+.receipt-footer{
+padding:25px 20px;
 }
 
 }
