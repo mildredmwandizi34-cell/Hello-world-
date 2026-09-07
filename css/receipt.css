@@ -753,18 +753,32 @@ height:280px;
 
 .receipt-actions{
 display:flex;
-flex-direction:column;
-gap:15px;
-padding:20px;
+justify-content:center;
+flex-wrap:wrap;
+gap:20px;
+padding:40px;
+background:#f7fbff;
+border-top:1px solid #e5e5e5;
 }
 
 .receipt-actions button{
-width:100%;
+background:#0b4ea2;
+color:#fff;
+border:none;
+padding:15px 30px;
+font-size:16px;
+font-weight:600;
+border-radius:10px;
+cursor:pointer;
+transition:.3s;
+box-shadow:0 8px 20px rgba(11,78,162,.2);
 }
 
-.receipt-footer{
-padding:25px 20px;
-}
+.receipt-actions button:hover{
+background:#083a79;
+transform:translateY(-3px);
+box-shadow:0 12px 28px rgba(11,78,162,.3);
+}   
 
 }
 
