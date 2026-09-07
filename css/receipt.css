@@ -606,34 +606,9 @@ height:280px;
 
 }
 
-/* ==========================================
-   RESPONSIVE DESIGN
-========================================== */
-
-@media (max-width:992px){
-
-.receipt{
-margin:15px;
-}
-
-.receipt-header{
-padding:25px;
-}
-
-.people{
-grid-template-columns:1fr;
-padding:25px;
-}
-
-.details,
-.charges{
-padding:25px;
-}
-
-.summary-card{
-grid-template-columns:repeat(2,1fr);
-}
-
+/* ===========================
+   RECEIPT FOOTER
+=========================== */
 .receipt-footer{
 display:flex;
 justify-content:space-between;
@@ -673,9 +648,37 @@ font-weight:bold;
 color:#fff;
 }
 
-   
+
+/* ==========================================
+   RESPONSIVE DESIGN
+========================================== */
+
+@media (max-width:992px){
+
+.receipt{
+margin:15px;
+}
+
+.receipt-header{
+padding:25px;
+}
+
+.people{
+grid-template-columns:1fr;
+padding:25px;
+}
+
+.details,
+.charges{
+padding:25px;
+}
+
+.summary-card{
+grid-template-columns:repeat(2,1fr);
+}  
 
 }
+
 
 /* Mobile */
 
@@ -686,6 +689,9 @@ padding:10px;
 }
 
 .receipt{
+width:100%;
+max-width:100%;
+margin:0;
 border-radius:12px;
 }
 
