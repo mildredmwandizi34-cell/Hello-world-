@@ -135,7 +135,7 @@ set("receiverEmail", shipment.receiverEmail);
 set("package", shipment.package);
 set("packageType", shipment.descriptionType);
 set("pieces", shipment.pieces);
-set("weight", shipment.weight ? shipment.weight + " kg" : "-");
+set("weight", shipment.weight);
 set("dimensions", shipment.dimensions);
 set("declaredValue", shipment.value ? "$" + shipment.value : "-");
 set("service", shipment.service);
