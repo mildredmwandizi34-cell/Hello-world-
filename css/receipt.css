@@ -752,7 +752,7 @@ padding:20px;
 .extra-details table{
 display:block;
 overflow-x:auto;
-white-space:nowrap;
+white-space:normal;
 }
 
 #receiptMap{
