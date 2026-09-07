@@ -86,6 +86,19 @@ set("receiptNumber", shipment.receiptNumber);
 set("receiptNumberBottom", shipment.receiptNumber);
 set("receiptDate", shipment.receiptDate);
 
+set(
+    "receiptPaymentStatus",
+    shipment.payment ? shipment.payment.toUpperCase() : "-"
+);
+
+set(
+    "receiptShipmentStatus",
+    shipment.status ? shipment.status.toUpperCase() : "-"
+);
+
+set("receiptServiceType", shipment.service);
+set("receiptDelivery", shipment.delivery);
+
 // -----------------------------
 // Summary
 // -----------------------------
@@ -150,14 +163,13 @@ set("reference", shipment.reference);
 set("customerReference", shipment.customerReference);
 set("barcodeNumber", shipment.barcodeNumber || shipment.trackingNumber);
 set("createdTime", shipment.createdTime);
-set("instructionsTable", shipment.instructions);
+set("instructions", shipment.instructions);
 set("instructionsReference", shipment.instructions);
 set("instructionsText", shipment.instructions);
 
 // -----------------------------
 // Verification
 // -----------------------------
-set("verificationCode", shipment.verificationCode);
 set("verificationCode", shipment.verificationCode);
 set("verificationCodeLarge", shipment.verificationCode);
 // -----------------------------
