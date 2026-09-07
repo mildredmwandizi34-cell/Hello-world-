@@ -11,6 +11,9 @@ console.log("Stored shipment:", localStorage.getItem("shipment"));
 let shipment =
 JSON.parse(localStorage.getItem("shipment"));
 
+console.log(shipment);
+alert(shipment ? "Shipment loaded successfully" : "Shipment is NULL");
+
 // Fallback: load from shipments array using tracking number
 if (!shipment) {
 
