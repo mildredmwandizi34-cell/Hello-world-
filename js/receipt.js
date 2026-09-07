@@ -161,6 +161,7 @@ set("totalAmount", shipment.totalAmount ? "$" + shipment.totalAmount : "-");
 set("shipmentId", shipment.shipmentId);
 set("reference", shipment.reference);
 set("customerReference", shipment.customerReference);
+set("customerReferenceExtra", shipment.customerReference);
 set("barcodeNumber", shipment.barcodeNumber || shipment.trackingNumber);
 set("createdTime", shipment.createdTime);
 set("instructions", shipment.instructions);
