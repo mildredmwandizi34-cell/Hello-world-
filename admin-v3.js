@@ -310,9 +310,9 @@ function saveShipment(){
         shipments[currentShipmentIndex].status =
             document.getElementById("editStatus").value;
 
-        shipments[currentShipmentIndex].location =
+        shipment.location =
             document.getElementById("editLocation").value;
-
+        
         shipments[currentShipmentIndex].delivery =
             document.getElementById("editDelivery").value;
 
