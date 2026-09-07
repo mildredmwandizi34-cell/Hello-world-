@@ -728,7 +728,9 @@ padding:20px;
 }
 
 .people{
-padding:20px;
+grid-template-columns:1fr;
+padding:20px 15px;
+gap:15px;
 }
 
 .card{
