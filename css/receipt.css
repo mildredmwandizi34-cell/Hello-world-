@@ -757,3 +757,80 @@ grid-template-columns:repeat(2,1fr);
 }  
 
 }
+
+/* ==========================================
+   PREMIUM SENDER / RECEIVER REFINEMENT
+========================================== */
+
+.people .card{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #f9fbfe 100%
+    );
+}
+
+.people .card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:4px;
+    background:linear-gradient(
+        90deg,
+        #003366,
+        #0b4ea2,
+        #4da3ff
+    );
+}
+
+.people .card h3{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:17px;
+    letter-spacing:.3px;
+    text-transform:uppercase;
+    margin-bottom:18px;
+}
+
+.people .card h3::before{
+    content:"";
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#0b4ea2;
+    box-shadow:0 0 0 4px #e3effd;
+}
+
+.people .card p{
+    grid-template-columns:95px 1fr;
+    min-height:34px;
+}
+
+.people .card p strong{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.3px;
+    color:#557086;
+}
+
+.people .card p span{
+    color:#1f2d38;
+    font-weight:600;
+}
+
+@media (max-width:768px){
+
+    .people .card h3{
+        font-size:16px;
+    }
+
+    .people .card p{
+        grid-template-columns:82px 1fr;
+    }
+
+   }
