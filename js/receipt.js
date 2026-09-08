@@ -389,99 +389,90 @@ if (paymentStamp) {
 
     }
 
-    if (paymentStampLarge) {
+if (paymentStampLarge) {
 
-        paymentStampLarge
+    paymentStampLarge.className = paymentStamp.className;
+    paymentStampLarge.textContent = paymentStamp.textContent;
 
-   /* =====================================================
-   PART 4 - Route Map & Finish
-===================================================== */
+}
 
 /* ==========================
-   Route Map
+   Barcode
 ========================== */
 
-const coordinates = {
+if (typeof JsBarcode !== "undefined") {
 
-    "New York": [40.7128, -74.0060],
-    "London": [51.5074, -0.1278],
-    "Dubai": [25.2048, 55.2708],
-    "Nairobi": [-1.2864, 36.8172],
-    "Los Angeles": [34.0522, -118.2437],
-    "San José": [9.9281, -84.0907],
-    "Guatemala City": [14.6349, -90.5069]
-
-};
-
-if (
-    typeof L !== "undefined" &&
-    $("receiptMap")
-) {
-
-    const start = coordinates[shipment.origin];
-    const end = coordinates[shipment.destination];
-
-    if (start && end) {
-
-        const map = L.map("receiptMap");
-
-        L.tileLayer(
-            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            {
-                attribution: "&copy; OpenStreetMap contributors"
-            }
-        ).addTo(map);
-
-        L.marker(start)
-            .addTo(map)
-            .bindPopup("Origin: " + shipment.origin);
-
-        L.marker(end)
-            .addTo(map)
-            .bindPopup("Destination: " + shipment.destination);
-
-        L.polyline(
-            [start, end],
-            {
-                color: "#0b4ea2",
-                weight: 5
-            }
-        ).addTo(map);
-
-        map.fitBounds([start, end], {
-            padding: [40, 40]
+    if ($("barcode")) {
+        JsBarcode("#barcode", shipment.trackingNumber, {
+            format: "CODE128",
+            width: 2,
+            height: 60,
+            displayValue: true
         });
+    }
 
+    if ($("barcodeLarge")) {
+        JsBarcode("#barcodeLarge", shipment.trackingNumber, {
+            format: "CODE128",
+            width: 2,
+            height: 60,
+            displayValue: true
+        });
     }
 
 }
 
 /* ==========================
-   Save Updated Shipment
+   QR Code
 ========================== */
 
-localStorage.setItem(
-    "shipment",
-    JSON.stringify(shipment)
-);
+if (typeof QRCode !== "undefined" && $("qrcode")) {
 
-let allShipments =
-    JSON.parse(localStorage.getItem("shipments")) || [];
-
-const position =
-    allShipments.findIndex(item =>
-        item.trackingNumber === shipment.trackingNumber
+    QRCode.toCanvas(
+        shipment.trackingNumber,
+        { width: 140 },
+        function(err, canvas) {
+            if (!err) {
+                $("qrcode").innerHTML = "";
+                $("qrcode").appendChild(canvas);
+            }
+        }
     );
 
-if (position >= 0) {
+}
 
-    allShipments[position] = shipment;
+/* ==========================
+   Timeline
+========================== */
 
-    localStorage.setItem(
-        "shipments",
-        JSON.stringify(allShipments)
-    );
+function complete(id) {
+    const step = $(id);
+    if (step) step.classList.add("complete");
+}
 
+switch ((shipment.status || "").toLowerCase()) {
+
+    case "shipment created":
+        complete("stepCreated");
+        break;
+
+    case "picked up":
+        complete("stepCreated");
+        complete("stepPicked");
+        break;
+
+    case "in transit":
+        complete("stepCreated");
+        complete("stepPicked");
+        complete("stepTransit");
+        break;
+
+    case "delivered":
+        complete("stepCreated");
+        complete("stepPicked");
+        complete("stepTransit");
+        complete("stepDelivered");
+        break;
 }
 
 console.log("Receipt loaded successfully.");
