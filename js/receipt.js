@@ -1,47 +1,17 @@
-// =====================================
-// American Global Logistics
-// Premium Receipt V3
-// =====================================
+/* =====================================================
+   American Global Logistics
+   Receipt.js Pro v1
+===================================================== */
 
 // -----------------------------
-// Get Shipment
+// Helper Functions
 // -----------------------------
-console.log("Stored shipment:", localStorage.getItem("shipment"));
-
-let shipment = JSON.parse(localStorage.getItem("shipment"));
-
-console.log(shipment);
-alert(JSON.stringify(shipment));
-
-console.log(shipment);
-alert(shipment ? "Shipment loaded successfully" : "Shipment is NULL");
-
-// Fallback: load from shipments array using tracking number
-if (!shipment) {
-
-    const params = new URLSearchParams(window.location.search);
-    const tracking = params.get("tracking");
-
-    const shipments =
-        JSON.parse(localStorage.getItem("shipments")) || [];
-
-    shipment = shipments.find(s =>
-        s.trackingNumber === tracking ||
-        s.tracking === tracking
-    );
+function $(id) {
+    return document.getElementById(id);
 }
 
-if (!shipment) {
-    alert("Shipment not found.");
-    window.location.href = "create-shipment.html";
-}
-
-// -----------------------------
-// Helper
-// -----------------------------
 function set(id, value) {
-
-    const el = document.getElementById(id);
+    const el = $(id);
 
     if (!el) return;
 
@@ -54,27 +24,74 @@ function set(id, value) {
 }
 
 // -----------------------------
-// Auto Values
+// Load Shipment
+// -----------------------------
+let shipment = null;
+
+// First: current shipment
+try {
+    shipment = JSON.parse(localStorage.getItem("shipment"));
+} catch (e) {
+    console.error(e);
+}
+
+// Second: search by tracking number
+if (!shipment) {
+
+    const params = new URLSearchParams(window.location.search);
+
+    const tracking =
+        params.get("tracking");
+
+    const shipments =
+        JSON.parse(localStorage.getItem("shipments")) || [];
+
+    shipment = shipments.find(item =>
+
+        item.trackingNumber === tracking ||
+
+        item.tracking === tracking
+
+    );
+}
+
+// No shipment found
+if (!shipment) {
+
+    alert("Shipment not found.");
+
+    window.location.href =
+        "create-shipment.html";
+
+    throw new Error("Shipment not found.");
+
+}
+
+// -----------------------------
+// Automatic Values
 // -----------------------------
 shipment.trackingNumber =
-    shipment.trackingNumber || shipment.tracking || "-";
+    shipment.trackingNumber ||
+    shipment.tracking ||
+    "-";
 
 shipment.receiptNumber =
     shipment.receiptNumber ||
-    "RCP-" + Date.now();
+    "RCP-" +
+    Math.floor(Math.random() * 900000 + 100000);
 
 shipment.receiptDate =
     shipment.receiptDate ||
     new Date().toLocaleDateString();
 
+shipment.issueDate =
+    shipment.issueDate ||
+    shipment.receiptDate;
+
 shipment.documentNo =
     shipment.documentNo ||
     "DOC-" +
     Math.floor(Math.random() * 900000 + 100000);
-
-shipment.issueDate =
-    shipment.issueDate ||
-    new Date().toLocaleDateString();
 
 shipment.verificationCode =
     shipment.verificationCode ||
@@ -83,293 +100,5 @@ shipment.verificationCode =
         .substring(2,10)
         .toUpperCase();
 
-// -----------------------------
-// Header
-// -----------------------------
-set("trackingNumber", shipment.trackingNumber);
-set("receiptNumber", shipment.receiptNumber);
-set("receiptNumberBottom", shipment.receiptNumber);
-set("receiptDate", shipment.receiptDate);
-
-set(
-    "receiptPaymentStatus",
-    shipment.payment ? shipment.payment.toUpperCase() : "-"
-);
-
-set(
-    "receiptShipmentStatus",
-    shipment.status ? shipment.status.toUpperCase() : "-"
-);
-
-set("receiptServiceType", shipment.service);
-set("receiptDelivery", shipment.delivery);
-
-// -----------------------------
-// Summary
-// -----------------------------
-set("summaryTracking", shipment.trackingNumber);
-set("summaryStatus", shipment.status);
-set("summaryLocation", shipment.location);
-set("summaryDelivery", shipment.delivery);
-
-// -----------------------------
-// Sender
-// -----------------------------
-set("senderName", shipment.senderName);
-set("senderCompany", shipment.senderCompany);
-set("senderAddress", shipment.senderAddress);
-set("senderCity", shipment.senderCity);
-set("senderCountry", shipment.senderCountry);
-set("senderPhone", shipment.senderPhone);
-set("senderEmail", shipment.senderEmail);
-
-// -----------------------------
-// Receiver
-// -----------------------------
-set("receiverName", shipment.receiverName);
-set("receiverCompany", shipment.receiverCompany);
-set("receiverAddress", shipment.receiverAddress);
-set("receiverCity", shipment.receiverCity);
-set("receiverCountry", shipment.receiverCountry);
-set("receiverPhone", shipment.receiverPhone);
-set("receiverEmail", shipment.receiverEmail);
-
-// -----------------------------
-// Shipment Details
-// -----------------------------
-set("package", shipment.package);
-set("packageType", shipment.descriptionType);
-set("pieces", shipment.pieces);
-set("weight", shipment.weight);
-set("dimensions", shipment.dimensions);
-set("declaredValue", shipment.value ? "$" + shipment.value : "-");
-set("service", shipment.service);
-set("insurance", shipment.insurance);
-set("paymentStatus", shipment.payment);
-set("origin", shipment.origin);
-set("destination", shipment.destination);
-set("delivery", shipment.delivery);
-set("status", shipment.status);
-set("location", shipment.location);
-
-// -----------------------------
-// Charges
-// -----------------------------
-set("shippingCost", shipment.shippingCost ? "$" + shipment.shippingCost : "-");
-set("tax", shipment.tax ? "$" + shipment.tax : "-");
-set("discount", shipment.discount ? "$" + shipment.discount : "-");
-set("totalAmount", shipment.totalAmount ? "$" + shipment.totalAmount : "-");
-
-// -----------------------------
-// References
-// -----------------------------
-set("shipmentId", shipment.shipmentId);
-set("reference", shipment.reference);
-set("customerReference", shipment.customerReference);
-set("customerReferenceExtra", shipment.customerReference);
-set("barcodeNumber", shipment.barcodeNumber || shipment.trackingNumber);
-set("createdTime", shipment.createdTime);
-set("instructions", shipment.instructions);
-set("instructionsReference", shipment.instructions);
-set("instructionsText", shipment.instructions);
-
-// -----------------------------
-// Verification
-// -----------------------------
-set("verificationCode", shipment.verificationCode);
-set("verificationCodeLarge", shipment.verificationCode);
-// -----------------------------
-// Footer
-// -----------------------------
-set("documentNo", shipment.documentNo);
-set("issueDate", shipment.issueDate);
-
-// -----------------------------
-// Sender Signature
-// -----------------------------
-set("senderSignature", shipment.senderSignature);
-set("authorizedOfficer", shipment.authorizedOfficer);
-
-// -----------------------------
-// Payment Stamp
-// -----------------------------
-const stamp = document.getElementById("paymentStamp");
-const stampLarge = document.getElementById("paymentStampLarge");
-
-if (stamp) {
-
-    const payment = (shipment.payment || "").toLowerCase();
-
-    stamp.className = "stamp";
-
-    if (payment === "paid") {
-
-        stamp.classList.add("paid");
-        stamp.textContent = "PAID";
-
-    } else if (payment === "pending") {
-
-        stamp.classList.add("pending");
-        stamp.textContent = "PENDING";
-
-    } else if (payment === "received") {
-
-        stamp.classList.add("received");
-        stamp.textContent = "RECEIVED";
-
-    } else {
-
-        stamp.classList.add("unpaid");
-        stamp.textContent = "UNPAID";
-
-    }
-
-    if (stampLarge) {
-        stampLarge.className = stamp.className;
-        stampLarge.textContent = stamp.textContent;
-    }
-}
-
-// -----------------------------
-// Barcode
-// -----------------------------
-if (document.getElementById("barcode")) {
-
-    JsBarcode("#barcode", shipment.trackingNumber, {
-    format: "CODE128",
-    width: 2,
-    height: 60,
-    displayValue: true
-});
-
-JsBarcode("#barcodeLarge", shipment.trackingNumber, {
-    format: "CODE128",
-    width: 2,
-    height: 60,
-    displayValue: true
-});
-    
-)
-    
-// -----------------------------
-// QR Code
-// -----------------------------
-const qr = document.getElementById("qrcode");
-
-if (qr) {
-
-    qr.innerHTML = "";
-
-    QRCode.toCanvas(
-
-        qr,
-
-        JSON.stringify({
-
-            tracking: shipment.trackingNumber,
-            sender: shipment.senderName,
-            receiver: shipment.receiverName,
-            destination: shipment.destination,
-            status: shipment.status,
-            verification: shipment.verificationCode
-
-        }),
-
-        {
-            width: 140
-        })
-
-    );
-
-}
-
-// -----------------------------
-// Shipment Timeline
-// -----------------------------
-const created = document.getElementById("stepCreated");
-const picked = document.getElementById("stepPicked");
-const transit = document.getElementById("stepTransit");
-const delivered = document.getElementById("stepDelivered");
-
-function complete(step) {
-    if (step) step.classList.add("complete");
-}
-
-switch ((shipment.status || "").toLowerCase()) {
-
-    case "shipment created":
-        complete(created);
-        break;
-
-    case "picked up":
-        complete(created);
-        complete(picked);
-        break;
-
-    case "in transit":
-        complete(created);
-        complete(picked);
-        complete(transit);
-        break;
-
-    case "delivered":
-        complete(created);
-        complete(picked);
-        complete(transit);
-        complete(delivered);
-        break;
-}
-
-console.log("Receipt loaded successfully.", shipment);
-
-/* ==========================================
-   SHIPMENT ROUTE MAP
-========================================== */
-
-const coordinates = {
-
-    "New York": [40.7128, -74.0060],
-    "London": [51.5074, -0.1278],
-    "Dubai": [25.2048, 55.2708],
-    "Nairobi": [-1.2864, 36.8172],
-    "Los Angeles": [34.0522, -118.2437],
-    "Costa Rica": [9.7489, -83.7534],
-    "Guatemala": [14.6349, -90.5069]
-
-};
-
-const start = coordinates[(shipment.origin || "").trim()];
-const end = coordinates[(shipment.destination || "").trim()];
-
-if (start && end && document.getElementById("receiptMap")) {
-
-    const map = L.map("receiptMap");
-
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            attribution: "&copy; OpenStreetMap contributors"
-        }
-    ).addTo(map);
-
-    L.marker(start)
-        .addTo(map)
-        .bindPopup("Origin<br><strong>" + shipment.origin + "</strong>");
-
-    L.marker(end)
-        .addTo(map)
-        .bindPopup("Destination<br><strong>" + shipment.destination + "</strong>");
-
-    L.polyline(
-        [start, end],
-        {
-            color: "#0b4ea2",
-            weight: 5
-        }
-    ).addTo(map);
-
-    map.fitBounds([start, end], {
-        padding: [50, 50]
-    });
-
-}
+console.log("Shipment Loaded");
+console.log(shipment);
