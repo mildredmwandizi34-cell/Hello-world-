@@ -398,9 +398,13 @@ if (typeof JsBarcode !== "undefined") {
 
 if (typeof QRCode !== "undefined" && $("qrcode")) {
 
-    QRCode.toCanvas(
-        shipment.trackingNumber,
-        { width: 140 },
+    const trackingURL =
+    "https://www.americangloballogistics.com/track.html?tracking=" +
+    encodeURIComponent(shipment.trackingNumber);
+
+QRCode.toCanvas(
+    trackingURL,
+    { width: 140 },
         function(err, canvas) {
             if (!err) {
                 $("qrcode").innerHTML = "";
