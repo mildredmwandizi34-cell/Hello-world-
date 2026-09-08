@@ -28,9 +28,9 @@ function set(id, value) {
             : "-";
 }
 
-/* ==========================
-   Load Shipment
-========================== */
+// ==========================
+// Load Shipment From URL
+// ==========================
 
 const params = new URLSearchParams(window.location.search);
 const tracking = params.get("tracking");
@@ -38,51 +38,21 @@ const tracking = params.get("tracking");
 const shipments =
     JSON.parse(localStorage.getItem("shipments")) || [];
 
-let shipment = shipments.find(item =>
-    item.trackingNumber === tracking ||
-    item.tracking === tracking
-);
+let shipment =
+    shipments.find(item =>
+        item.trackingNumber === tracking ||
+        item.tracking === tracking
+    );
 
+// Fallback only if URL tracking wasn't found
 if (!shipment) {
     shipment = JSON.parse(localStorage.getItem("shipment"));
 }
 
-/* ==========================
-   Fallback Search
-========================== */
-
 if (!shipment) {
-
-    const params = new URLSearchParams(window.location.search);
-
-    const tracking =
-        params.get("tracking");
-
-    const shipments =
-        JSON.parse(localStorage.getItem("shipments")) || [];
-
-    shipment = shipments.find(item =>
-
-        item.trackingNumber === tracking ||
-
-        item.tracking === tracking
-
-    );
-
-}
-
-/* ==========================
-   Stop if not found
-========================== */
-
-if (!shipment) {
-
     alert("Shipment not found.");
-
     window.location.href = "create-shipment.html";
-
     throw new Error("Shipment not found.");
-
 }
 
 /* ==========================
