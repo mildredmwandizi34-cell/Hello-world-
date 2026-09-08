@@ -109,12 +109,10 @@ localStorage.setItem(
     JSON.stringify(shipment)
 );
 
-const shipments =
-    JSON.parse(localStorage.getItem("shipments")) || [];
-
 const index =
     shipments.findIndex(item =>
-        item.trackingNumber === shipment.trackingNumber
+        item.trackingNumber === shipment.trackingNumber ||
+        item.tracking === shipment.trackingNumber
     );
 
 if (index >= 0) {
@@ -127,8 +125,6 @@ if (index >= 0) {
     );
 
 }
-
-console.log("Receipt initialized successfully.");
 
 /* =====================================================
    PART 2 - Populate Receipt
