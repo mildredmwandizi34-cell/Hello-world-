@@ -233,7 +233,7 @@ if (stamp) {
 // -----------------------------
 // Barcode
 // -----------------------------
-if (document.getElementById("barcode"))) {
+if (document.getElementById("barcode")) {
 
     JsBarcode("#barcode", shipment.trackingNumber, {
     format: "CODE128",
@@ -275,7 +275,7 @@ if (qr) {
 
         {
             width: 140
-        }
+        })
 
     );
 
