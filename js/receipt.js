@@ -32,16 +32,19 @@ function set(id, value) {
    Load Shipment
 ========================== */
 
-let shipment = null;
+const params = new URLSearchParams(window.location.search);
+const tracking = params.get("tracking");
 
-try {
+const shipments =
+    JSON.parse(localStorage.getItem("shipments")) || [];
 
+let shipment = shipments.find(item =>
+    item.trackingNumber === tracking ||
+    item.tracking === tracking
+);
+
+if (!shipment) {
     shipment = JSON.parse(localStorage.getItem("shipment"));
-
-} catch (error) {
-
-    console.error("Unable to read shipment", error);
-
 }
 
 /* ==========================
