@@ -963,3 +963,414 @@ grid-template-columns:repeat(2,1fr);
         font-size:13px;
     }
 }
+
+/* ==========================================
+   COMPACT SHIPMENT TIMELINE
+========================================== */
+
+.timeline{
+    padding-bottom:18px;
+}
+
+.timeline h2{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.timeline-box{
+    padding:10px 5px;
+}
+
+.timeline-box::before{
+    top:22px;
+    height:2px;
+}
+
+.circle{
+    width:19px;
+    height:19px;
+    margin-bottom:7px;
+    border-width:3px;
+}
+
+.step span{
+    font-size:10px;
+}
+
+@media (max-width:768px){
+
+    .timeline{
+        padding-bottom:15px;
+    }
+
+    .timeline-box{
+        padding-top:8px;
+        padding-bottom:8px;
+    }
+
+    .circle{
+        width:18px;
+        height:18px;
+    }
+
+    .step span{
+        font-size:9px;
+    }
+}
+
+/* ==========================================
+   COMPACT ROUTE MAP
+========================================== */
+
+.route-map{
+    padding-bottom:18px;
+}
+
+.route-map h2{
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+#receiptMap{
+    height:220px;
+}
+
+@media (max-width:768px){
+
+    .route-map{
+        padding-bottom:15px;
+    }
+
+    .route-map h2{
+        font-size:17px;
+    }
+
+    #receiptMap{
+        height:190px;
+    }
+}
+
+@media print{
+
+    #receiptMap{
+        height:180px;
+    }
+}
+
+/* ==========================================
+   COMPACT VERIFICATION SECTION
+========================================== */
+
+.security{
+    gap:14px;
+    margin-bottom:15px;
+    padding:15px;
+}
+
+.verification-box h2{
+    font-size:18px;
+}
+
+.verification-box p{
+    font-size:10px;
+}
+
+#qrcode{
+    width:105px;
+    height:105px;
+}
+
+#barcodeLarge{
+    max-height:45px;
+}
+
+.verification-note{
+    margin-bottom:18px;
+    padding:12px 15px;
+}
+
+.verification-note h3{
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.verification-note p{
+    font-size:10px;
+    line-height:1.45;
+}
+
+@media (max-width:768px){
+
+    .security{
+        padding:14px;
+    }
+
+    .verification-box h2{
+        font-size:17px;
+    }
+
+    #qrcode{
+        width:100px;
+        height:100px;
+    }
+}
+
+@media print{
+
+    .security{
+        padding:10px;
+        margin-bottom:10px;
+    }
+
+    #qrcode{
+        width:90px;
+        height:90px;
+    }
+
+    .verification-note{
+        padding:9px 12px;
+        margin-bottom:12px;
+    }
+}
+
+/* ==========================================
+   COMPACT SIGNATURES & OFFICIAL SEAL
+========================================== */
+
+.authorization{
+    gap:12px;
+    padding-bottom:18px;
+}
+
+.signature-card{
+    min-height:120px;
+    padding:12px;
+}
+
+.signature-card img{
+    max-width:120px;
+    max-height:50px;
+}
+
+.signature-card .seal{
+    width:65px;
+    height:65px;
+}
+
+.signature-line{
+    width:70%;
+    margin:6px auto;
+}
+
+.signature-card h4{
+    font-size:12px;
+    margin-bottom:2px;
+}
+
+.signature-card p{
+    font-size:10px;
+}
+
+@media (max-width:768px){
+
+    .authorization{
+        gap:10px;
+        padding-bottom:15px;
+    }
+
+    .signature-card{
+        min-height:110px;
+        padding:10px;
+    }
+
+    .signature-card img{
+        max-height:45px;
+    }
+
+    .signature-card .seal{
+        width:60px;
+        height:60px;
+    }
+}
+
+@media print{
+
+    .authorization{
+        grid-template-columns:repeat(3,1fr);
+        gap:8px;
+        padding-bottom:12px;
+    }
+
+    .signature-card{
+        min-height:100px;
+        padding:8px;
+    }
+
+    .signature-card img{
+        max-width:100px;
+        max-height:40px;
+    }
+
+    .signature-card .seal{
+        width:55px;
+        height:55px;
+    }
+}
+
+/* ==========================================
+   COMPACT PREMIUM HEADER
+========================================== */
+
+.receipt-header{
+    padding:25px 30px;
+    gap:25px;
+}
+
+.company-info{
+    gap:16px;
+}
+
+.company-logo{
+    width:75px;
+    height:75px;
+}
+
+.company-info h1{
+    font-size:22px;
+    margin-bottom:5px;
+}
+
+.company-info p{
+    font-size:13px;
+    margin-bottom:3px;
+}
+
+.company-info small{
+    font-size:10px;
+}
+
+.receipt-info{
+    padding:17px 20px;
+}
+
+.receipt-info h2{
+    font-size:20px;
+    margin-bottom:10px;
+}
+
+.receipt-info td{
+    padding:5px 4px;
+    font-size:11px;
+}
+
+@media (max-width:768px){
+
+    .receipt-header{
+        padding:20px 15px;
+    }
+
+    .company-logo{
+        width:65px;
+        height:65px;
+    }
+
+    .company-info h1{
+        font-size:19px;
+    }
+
+    .company-info p{
+        font-size:12px;
+    }
+
+    .receipt-info{
+        padding:14px;
+    }
+}
+
+@media print{
+
+    .receipt-header{
+        padding:15px 20px;
+    }
+
+    .company-logo{
+        width:60px;
+        height:60px;
+    }
+
+    .company-info h1{
+        font-size:19px;
+    }
+
+    .receipt-info{
+        padding:12px 15px;
+    }
+
+    .receipt-info h2{
+        font-size:17px;
+        margin-bottom:7px;
+    }
+
+    .receipt-info td{
+        padding:3px;
+        font-size:9px;
+    }
+}
+
+/* ==========================================
+   COMPACT RECEIPT FOOTER
+========================================== */
+
+.receipt-footer{
+    gap:20px;
+    padding:18px 25px;
+}
+
+.footer-left h3{
+    font-size:17px;
+    margin-bottom:4px;
+}
+
+.footer-left p,
+.footer-right p{
+    font-size:10px;
+    line-height:1.5;
+}
+
+.footer-right p{
+    margin-bottom:2px;
+}
+
+@media (max-width:768px){
+
+    .receipt-footer{
+        padding:18px 15px;
+        gap:12px;
+    }
+
+    .footer-left h3{
+        font-size:16px;
+    }
+
+    .footer-left p,
+    .footer-right p{
+        font-size:10px;
+    }
+}
+
+@media print{
+
+    .receipt-footer{
+        padding:12px 18px;
+    }
+
+    .footer-left h3{
+        font-size:14px;
+    }
+
+    .footer-left p,
+    .footer-right p{
+        font-size:8px;
+        line-height:1.35;
+    }
+}
