@@ -248,7 +248,9 @@ JsBarcode("#barcodeLarge", shipment.trackingNumber, {
     height: 60,
     displayValue: true
 });
-
+    
+)
+    
 // -----------------------------
 // QR Code
 // -----------------------------
