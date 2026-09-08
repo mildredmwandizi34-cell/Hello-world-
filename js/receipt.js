@@ -393,9 +393,10 @@ if (paymentStampLarge) {
 
     paymentStampLarge.className = paymentStamp.className;
     paymentStampLarge.textContent = paymentStamp.textContent;
+     }
 
 }
-
+   
 /* ==========================
    Barcode
 ========================== */
