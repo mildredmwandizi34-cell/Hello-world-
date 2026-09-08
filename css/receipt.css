@@ -925,3 +925,41 @@ grid-template-columns:repeat(2,1fr);
         width:40%;
     }
 }
+
+/* ==========================================
+   COMPACT CHARGES SUMMARY
+========================================== */
+
+.charges{
+    padding-bottom:18px;
+}
+
+.charges h2{
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+.charges td{
+    padding:7px 12px;
+    font-size:12px;
+}
+
+.charges .total{
+    font-size:14px;
+}
+
+@media (max-width:768px){
+
+    .charges{
+        padding-bottom:15px;
+    }
+
+    .charges td{
+        padding:6px 9px;
+        font-size:11px;
+    }
+
+    .charges .total{
+        font-size:13px;
+    }
+}
