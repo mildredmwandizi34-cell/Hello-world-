@@ -2,7 +2,7 @@
    American Global Logistics
    Receipt.js Pro v1
 ===================================================== */
-
+alert("receipt.js is running");
 // -----------------------------
 // Helper Functions
 // -----------------------------
