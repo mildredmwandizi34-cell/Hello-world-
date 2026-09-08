@@ -2,7 +2,11 @@
    American Global Logistics
    Receipt.js Pro v1
 ===================================================== */
-alert("receipt.js is running");
+alert("receipt.js loaded");
+
+alert(localStorage.getItem("shipment"));
+
+alert(window.location.search);
 // -----------------------------
 // Helper Functions
 // -----------------------------
