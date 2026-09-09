@@ -159,6 +159,153 @@ href="https://unpkg.com/leaflet/dist/leaflet.css">
 
 </section>
 
+    <!-- =========================================
+     STEP 6 — SHIPMENT ROUTE & TIMELINE
+========================================= -->
+
+<section class="route-section">
+
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">SHIPMENT JOURNEY</span>
+            <h2>Route & Delivery Progress</h2>
+        </div>
+
+        <div class="route-status-badge" id="routeStatus">
+            IN TRANSIT
+        </div>
+    </div>
+
+    <!-- Route -->
+    <div class="shipment-route">
+
+        <!-- Origin -->
+        <div class="route-point">
+            <div class="route-icon origin-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <div class="route-content">
+                <span class="route-label">ORIGIN</span>
+                <strong id="routeOrigin">—</strong>
+                <small id="routeOriginCountry">—</small>
+            </div>
+        </div>
+
+        <!-- Connector -->
+        <div class="route-connector">
+            <div class="route-line"></div>
+
+            <div class="route-plane">
+                <i class="fa-solid fa-plane"></i>
+            </div>
+        </div>
+
+        <!-- Current Location -->
+        <div class="route-point current-point">
+
+            <div class="route-icon current-icon">
+                <i class="fa-solid fa-truck-fast"></i>
+            </div>
+
+            <div class="route-content">
+                <span class="route-label">CURRENT LOCATION</span>
+                <strong id="routeCurrentLocation">—</strong>
+                <small id="routeCurrentCountry">Shipment in transit</small>
+            </div>
+
+        </div>
+
+        <!-- Connector -->
+        <div class="route-connector">
+            <div class="route-line"></div>
+
+            <div class="route-plane">
+                <i class="fa-solid fa-plane"></i>
+            </div>
+        </div>
+
+        <!-- Destination -->
+        <div class="route-point">
+            <div class="route-icon destination-icon">
+                <i class="fa-solid fa-flag-checkered"></i>
+            </div>
+
+            <div class="route-content">
+                <span class="route-label">DESTINATION</span>
+                <strong id="routeDestination">—</strong>
+                <small id="routeDestinationCountry">—</small>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Delivery Information -->
+
+    <div class="delivery-summary">
+
+        <div class="delivery-item">
+
+            <div class="delivery-item-icon">
+                <i class="fa-regular fa-calendar-check"></i>
+            </div>
+
+            <div>
+                <span>ESTIMATED DELIVERY</span>
+                <strong id="routeDeliveryDate">—</strong>
+            </div>
+
+        </div>
+
+
+        <div class="delivery-item">
+
+            <div class="delivery-item-icon">
+                <i class="fa-solid fa-clock"></i>
+            </div>
+
+            <div>
+                <span>SHIPMENT STATUS</span>
+                <strong id="routeShipmentStatus">—</strong>
+            </div>
+
+        </div>
+
+
+        <div class="delivery-item">
+
+            <div class="delivery-item-icon">
+                <i class="fa-solid fa-route"></i>
+            </div>
+
+            <div>
+                <span>SERVICE</span>
+                <strong id="routeService">—</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Shipment Timeline -->
+
+    <div class="timeline-heading">
+        <div>
+            <span class="section-kicker">ACTIVITY LOG</span>
+            <h3>Shipment History</h3>
+        </div>
+    </div>
+
+    <div class="shipment-timeline" id="shipmentTimeline">
+
+        <!-- Timeline items are populated automatically by receipt.js -->
+
+    </div>
+
+                    </section>
+    
 <section class="charges">
 
 <h2>Charges Summary</h2>
