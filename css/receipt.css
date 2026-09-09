@@ -5,9 +5,14 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"Segoe UI",Arial,sans-serif;background:#edf2f7;color:#333;padding:20px}
 .page{width:210mm;min-height:297mm;margin:0 auto 20px;background:#fff;padding:15mm;box-shadow:0 8px 24px rgba(0,0,0,.12);position:relative}
-.receipt-header{display:flex;justify-content:space-between;gap:30px;border-bottom:3px solid #0b4ea2;padding-bottom:20px;margin-bottom:25px}
-.company{display:flex;gap:18px;align-items:center}
-.logo{width:80px}
+.receipt-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:3px solid #0b4ea2;
+    padding-bottom:18px;
+    margin-bottom:25px;
+}
 .receipt-info{width:340px;border:1px solid #dbe6f2;border-radius:10px;overflow:hidden}
 .receipt-info h2,.card h2{background:#0b4ea2;color:#fff;padding:12px}
 .receipt-info table,.card table,.details table,.charges table{width:100%;border-collapse:collapse}
