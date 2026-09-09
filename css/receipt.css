@@ -829,3 +829,71 @@ body{
     }
 
 }
+
+/* ==========================================
+   ACTION BUTTONS
+========================================== */
+
+.receipt-actions{
+
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    padding:30px;
+
+    background:#f8fbff;
+
+}
+
+.receipt-actions button{
+
+    background:#0b4ea2;
+    color:#fff;
+
+    border:none;
+
+    padding:14px 28px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.receipt-actions button:hover{
+
+    background:#083b7a;
+
+}
+
+@media (max-width:768px){
+
+    .receipt-actions{
+
+        flex-direction:column;
+
+    }
+
+    .receipt-actions button{
+
+        width:100%;
+
+    }
+
+}
+
+@media print{
+
+    .receipt-actions{
+
+        display:none !important;
+
+    }
+
+}
