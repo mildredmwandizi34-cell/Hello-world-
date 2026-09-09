@@ -1051,3 +1051,183 @@ SENDER / RECEIVER
     }
 
 }
+/* =========================================
+   STEP 9 — FINAL A4 PRINT POLISH
+========================================= */
+
+@page{
+    size:A4 portrait;
+    margin:10mm;
+}
+
+
+/* ================================
+   A4 RECEIPT PAGE
+================================ */
+
+@media print{
+
+    html,
+    body{
+        width:210mm;
+        min-height:297mm;
+
+        margin:0;
+        padding:0;
+
+        background:#ffffff !important;
+    }
+
+
+    body{
+        font-size:10px;
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+    }
+
+
+    .page{
+        width:190mm;
+        min-height:277mm;
+
+        margin:0 auto;
+        padding:0;
+
+        background:#ffffff;
+
+        box-shadow:none !important;
+        border:none !important;
+
+        overflow:visible;
+    }
+
+
+    /* Remove browser/UI elements */
+
+    nav,
+    .navbar,
+    .navigation,
+    .receipt-actions,
+    .print-button,
+    button{
+        display:none !important;
+    }
+
+
+    /* Keep receipt sections together */
+
+    .receipt-header,
+    .shipment-details,
+    .route-section,
+    .payment-verification,
+    .premium-receipt-footer{
+        break-inside:avoid;
+        page-break-inside:avoid;
+    }
+
+
+    /* Reduce large spacing */
+
+    .receipt-header{
+        margin-bottom:14px !important;
+    }
+
+
+    .route-section{
+        margin-top:14px !important;
+    }
+
+
+    .payment-verification{
+        margin-top:14px !important;
+    }
+
+
+    .premium-receipt-footer{
+        margin-top:12px !important;
+    }
+
+
+    /* Prevent accidental horizontal overflow */
+
+    .page,
+    .receipt,
+    section,
+    table{
+        max-width:100%;
+    }
+
+
+    /* Images stay inside the page */
+
+    img{
+        max-width:100%;
+    }
+
+
+    /* Tables */
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+    }
+
+
+    /* Footer */
+
+    .premium-receipt-footer{
+        page-break-before:auto;
+    }
+
+}
+
+
+/* =========================================
+   FINAL SCREEN VIEW
+========================================= */
+
+@media screen{
+
+    .page{
+        max-width:210mm;
+        margin:20px auto;
+    }
+
+}
+
+
+/* =========================================
+   SMALL SCREEN SAFETY
+========================================= */
+
+@media(max-width:700px){
+
+    .page{
+        width:100%;
+        margin:0;
+    }
+
+}
+
+
+/* =========================================
+   FINAL PRINT SAFETY
+========================================= */
+
+@media print{
+
+    *{
+        animation:none !important;
+        transition:none !important;
+    }
+
+    a{
+        text-decoration:none !important;
+    }
+
+    .receipt-stamp{
+        break-inside:avoid;
+        page-break-inside:avoid;
+    }
+
+}
