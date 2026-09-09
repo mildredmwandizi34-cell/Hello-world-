@@ -248,6 +248,22 @@
 
     </section>
 
+    <section class="receipt-actions">
+
+    <button onclick="window.print()">
+        🖨 Print Receipt
+    </button>
+
+    <button onclick="window.location.href='track.html?tracking='+document.getElementById('trackingNumber').textContent">
+        📦 Track Shipment
+    </button>
+
+    <button onclick="window.location.href='create-shipment.html'">
+        ➕ New Shipment
+    </button>
+
+    </section>
+
     <!-- FOOTER -->
 
     <footer class="receipt-footer">
