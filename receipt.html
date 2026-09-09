@@ -8,304 +8,357 @@
 
 <title>Shipment Receipt | American Global Logistics</title>
 
+<link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="css/receipt.css">
 
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css">
+
 </head>
 
 <body>
 
-<div class="receipt">
+<!-- =========================
+     PAGE 1
+========================= -->
 
-<div class="receipt-watermark"></div>
+<div class="page">
 
-    <!-- HEADER -->
-    <header class="receipt-header">
+<header class="receipt-header">
 
-        <div class="company">
+<div class="company">
 
-            <img src="image/agl-logo.png"
-                 alt="AGL Logo"
-                 class="logo">
+<img src="image/agl-logo.png"
+class="logo"
+alt="AGL Logo">
 
-            <div>
+<div>
 
-                <h1>American Global Logistics</h1>
+<h1>American Global Logistics</h1>
 
-                <p>Worldwide Freight & Logistics Solutions</p>
+<p>Worldwide Freight & Logistics Solutions</p>
 
-                <small>
-                    Reliable • Secure • Global • Express Delivery
-                </small>
-
-            </div>
-
-        </div>
-
-        <div class="receipt-info">
-
-            <h2>SHIPPING RECEIPT</h2>
-
-            <table>
-
-                <tr>
-                    <td>Tracking Number</td>
-                    <td id="trackingNumber"></td>
-                </tr>
-
-                <tr>
-                    <td>Receipt Number</td>
-                    <td id="receiptNumber"></td>
-                </tr>
-
-                <tr>
-                    <td>Verification Code</td>
-                    <td id="verificationCode"></td>
-                </tr>
-
-                <tr>
-                    <td>Issue Date</td>
-                    <td id="receiptDate"></td>
-                </tr>
-
-            </table>
-
-        </div>
-
-    </header>
-
-    <!-- SENDER & RECEIVER -->
-
-    <section class="people">
-
-        <div class="card">
-
-            <h2>Sender Information</h2>
-
-            <table>
-
-                <tr><td>Name</td><td id="senderName"></td></tr>
-                <tr><td>Company</td><td id="senderCompany"></td></tr>
-                <tr><td>Address</td><td id="senderAddress"></td></tr>
-                <tr><td>City</td><td id="senderCity"></td></tr>
-                <tr><td>Country</td><td id="senderCountry"></td></tr>
-                <tr><td>Phone</td><td id="senderPhone"></td></tr>
-                <tr><td>Email</td><td id="senderEmail"></td></tr>
-
-            </table>
-
-        </div>
-
-        <div class="card">
-
-            <h2>Receiver Information</h2>
-
-            <table>
-
-                <tr><td>Name</td><td id="receiverName"></td></tr>
-                <tr><td>Company</td><td id="receiverCompany"></td></tr>
-                <tr><td>Address</td><td id="receiverAddress"></td></tr>
-                <tr><td>City</td><td id="receiverCity"></td></tr>
-                <tr><td>Country</td><td id="receiverCountry"></td></tr>
-                <tr><td>Phone</td><td id="receiverPhone"></td></tr>
-                <tr><td>Email</td><td id="receiverEmail"></td></tr>
-
-            </table>
-
-        </div>
-
-    </section>
-
-    <!-- SHIPMENT DETAILS -->
-
-    <section class="details">
-
-        <h2>Shipment Details</h2>
-
-        <div class="details-grid">
-
-            <table>
-
-                <tr><td>Reference Number</td><td id="referenceNumber"></td></tr>
-                <tr><td>Customer Reference</td><td id="customerReference"></td></tr>
-                <tr><td>Package</td><td id="package"></td></tr>
-                <tr><td>Package Type</td><td id="packageType"></td></tr>
-                <tr><td>Pieces</td><td id="pieces"></td></tr>
-                <tr><td>Weight</td><td id="weight"></td></tr>
-                <tr><td>Dimensions</td><td id="dimensions"></td></tr>
-
-            </table>
-
-            <table>
-
-                <tr><td>Declared Value</td><td id="declaredValue"></td></tr>
-                <tr><td>Service Type</td><td id="service"></td></tr>
-                <tr><td>Insurance</td><td id="insurance"></td></tr>
-                <tr><td>Payment Status</td><td id="paymentStatus"></td></tr>
-                <tr><td>Origin</td><td id="origin"></td></tr>
-                <tr><td>Destination</td><td id="destination"></td></tr>
-                <tr><td>Expected Delivery</td><td id="delivery"></td></tr>
-
-            </table>
-
-        </div>
-
-    </section>
-
-    <!-- CHARGES -->
-
-    <section class="charges">
-
-        <h2>Charges Summary</h2>
-
-        <table>
-
-            <tr>
-                <td>Shipping Cost</td>
-                <td id="shippingCost"></td>
-            </tr>
-
-            <tr>
-                <td>Tax</td>
-                <td id="tax"></td>
-            </tr>
-
-            <tr>
-                <td>Discount</td>
-                <td id="discount"></td>
-            </tr>
-
-            <tr class="total">
-                <td>Total Amount</td>
-                <td id="totalAmount"></td>
-            </tr>
-
-        </table>
-
-    </section>
-
-    <!-- ROUTE MAP -->
-
-    <section class="route-map">
-
-        <h2>Shipment Route</h2>
-
-        <div id="receiptMap"></div>
-
-    </section>
-
-    <!-- SECURITY -->
-
-    <section class="security">
-
-        <div>
-
-            <h3>Verification Code</h3>
-
-            <h2 id="verificationCodeLarge"></h2>
-
-            <svg id="barcodeLarge"></svg>
-
-        </div>
-
-        <div id="qrcode"></div>
-
-    </section>
-
-    <!-- AUTHORIZATION -->
-
-    <section class="authorization">
-
-        <div class="signature">
-
-            <img src="image/sender-signature.png">
-
-            <p id="senderSignature"></p>
-
-            <h4>Sender Signature</h4>
-
-        </div>
-
-        <div class="signature">
-
-            <img src="image/agl-officer-signature.png"
-     alt="Authorized Officer Signature">
-
-            <p id="authorizedOfficer"></p>
-
-            <h4>Authorized Officer</h4>
-
-        </div>
-
-        <div class="signature">
-
-            <img src="image/agl-seal.png">
-
-            <h4>Official Company Seal</h4>
-
-        </div>
-
-    </section>
-
-    <section class="receipt-actions">
-
-    <button onclick="window.print()">
-        🖨 Print Receipt
-    </button>
-
-    <button onclick="window.location.href='track.html?tracking='+document.getElementById('trackingNumber').textContent">
-        📦 Track Shipment
-    </button>
-
-    <button onclick="window.location.href='create-shipment.html'">
-        ➕ New Shipment
-    </button>
-
-    </section>
-
-    <!-- FOOTER -->
-
-    <footer class="receipt-footer">
-
-        <div>
-
-            <h3>American Global Logistics</h3>
-
-            <p>Worldwide Freight & Logistics Solutions</p>
-
-        </div>
-
-        <div>
-
-            <p>
-                Document No:
-                <span id="documentNo"></span>
-            </p>
-
-            <p>
-                Receipt:
-                <span id="receiptNumberBottom"></span>
-            </p>
-
-            <p>
-                Date:
-                <span id="issueDate"></span>
-            </p>
-
-        </div>
-
-    </footer>
+<small>Reliable • Secure • Express Worldwide Shipping</small>
 
 </div>
 
-<link rel="stylesheet"
-href="https://unpkg.com/leaflet/dist/leaflet.css">
+</div>
+
+<div class="receipt-info">
+
+<h2>Shipment Receipt</h2>
+
+<table>
+
+<tr>
+<td>Tracking No.</td>
+<td id="trackingNumber"></td>
+</tr>
+
+<tr>
+<td>Receipt No.</td>
+<td id="receiptNumber"></td>
+</tr>
+
+<tr>
+<td>Issue Date</td>
+<td id="receiptDate"></td>
+</tr>
+
+<tr>
+<td>Status</td>
+<td id="receiptShipmentStatus"></td>
+</tr>
+
+<tr>
+<td>Payment</td>
+<td id="receiptPaymentStatus"></td>
+</tr>
+
+<tr>
+<td>Verification</td>
+<td id="verificationCode"></td>
+</tr>
+
+</table>
+
+</div>
+
+</header>
+
+<section class="people">
+
+<div class="card">
+
+<h2>Sender Information</h2>
+
+<table>
+
+<tr><td>Name</td><td id="senderName"></td></tr>
+<tr><td>Company</td><td id="senderCompany"></td></tr>
+<tr><td>Address</td><td id="senderAddress"></td></tr>
+<tr><td>City</td><td id="senderCity"></td></tr>
+<tr><td>Country</td><td id="senderCountry"></td></tr>
+<tr><td>Phone</td><td id="senderPhone"></td></tr>
+<tr><td>Email</td><td id="senderEmail"></td></tr>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<h2>Receiver Information</h2>
+
+<table>
+
+<tr><td>Name</td><td id="receiverName"></td></tr>
+<tr><td>Company</td><td id="receiverCompany"></td></tr>
+<tr><td>Address</td><td id="receiverAddress"></td></tr>
+<tr><td>City</td><td id="receiverCity"></td></tr>
+<tr><td>Country</td><td id="receiverCountry"></td></tr>
+<tr><td>Phone</td><td id="receiverPhone"></td></tr>
+<tr><td>Email</td><td id="receiverEmail"></td></tr>
+
+</table>
+
+</div>
+
+</section>
+
+<section class="details">
+
+<h2>Shipment Details</h2>
+
+<div class="details-grid">
+
+<table>
+
+<tr><td>Reference No.</td><td id="referenceNumber"></td></tr>
+<tr><td>Customer Ref.</td><td id="customerReference"></td></tr>
+<tr><td>Package</td><td id="package"></td></tr>
+<tr><td>Package Type</td><td id="packageType"></td></tr>
+<tr><td>Pieces</td><td id="pieces"></td></tr>
+<tr><td>Weight</td><td id="weight"></td></tr>
+<tr><td>Dimensions</td><td id="dimensions"></td></tr>
+
+</table>
+
+<table>
+
+<tr><td>Declared Value</td><td id="declaredValue"></td></tr>
+<tr><td>Service</td><td id="service"></td></tr>
+<tr><td>Insurance</td><td id="insurance"></td></tr>
+<tr><td>Origin</td><td id="origin"></td></tr>
+<tr><td>Destination</td><td id="destination"></td></tr>
+<tr><td>Delivery</td><td id="delivery"></td></tr>
+<tr><td>Route</td><td id="route"></td></tr>
+
+</table>
+
+</div>
+
+</section>
+
+<section class="charges">
+
+<h2>Charges Summary</h2>
+
+<table>
+
+<tr>
+<td>Shipping Cost</td>
+<td id="shippingCost"></td>
+</tr>
+
+<tr>
+<td>Tax</td>
+<td id="tax"></td>
+</tr>
+
+<tr>
+<td>Discount</td>
+<td id="discount"></td>
+</tr>
+
+<tr class="total">
+<td>Total Amount</td>
+<td id="totalAmount"></td>
+</tr>
+
+</table>
+
+</section>
+
+</div>
+
+<<div class="page">
+
+<section class="route-map">
+
+<h2>Shipment Route</h2>
+
+<div id="receiptMap"></div>
+
+</section>
+
+<section class="security">
+
+<div class="verification-box">
+
+<h3>Verification Code</h3>
+
+<h2 id="verificationCodeLarge"></h2>
+
+<p>
+This code uniquely identifies this shipment.
+</p>
+
+<br>
+
+<svg id="barcodeLarge"></svg>
+
+</div>
+
+<div class="qr-box">
+
+<h3>Track Shipment</h3>
+
+<div id="qrcode"></div>
+
+</div>
+
+</section>
+
+<section class="authorization">
+
+<div class="signature">
+
+<img
+src="image/sender-signature.png"
+alt="Sender Signature">
+
+<h4>Sender Signature</h4>
+
+<p id="senderSignature"></p>
+
+</div>
+
+<div class="signature">
+
+<img
+src="image/agl-officer-signature.png"
+alt="Authorized Officer">
+
+<h4>Authorized Officer</h4>
+
+<p id="authorizedOfficer"></p>
+
+</div>
+
+<div class="signature">
+
+<img
+src="image/agl-seal.png"
+class="seal"
+alt="Official Seal">
+
+<h4>Official Company Seal</h4>
+
+<p>Verified & Approved</p>
+
+</div>
+
+</section>
+
+<section class="verification-note">
+
+<h3>Digital Verification Certificate</h3>
+
+<p>
+
+This shipment receipt has been electronically generated by
+American Global Logistics.
+
+The barcode, QR code, tracking number and verification code
+are unique to this shipment.
+
+Any unauthorized modification of this receipt invalidates
+its authenticity.
+
+</p>
+
+</section>
+
+<footer class="receipt-footer">
+
+<div class="footer-left">
+
+<h3>American Global Logistics</h3>
+
+<p>Worldwide Freight & Logistics Solutions</p>
+
+<p>support@americangloballogistics.com</p>
+
+<p>www.americangloballogistics.com</p>
+
+</div>
+
+<div class="footer-right">
+
+<p>
+
+<strong>Document No:</strong>
+
+<span id="documentNo"></span>
+
+</p>
+
+<p>
+
+<strong>Issue Date:</strong>
+
+<span id="issueDate"></span>
+
+</p>
+
+<p>
+
+<strong>Receipt No:</strong>
+
+<span id="receiptNumberBottom"></span>
+
+</p>
+
+</div>
+
+</footer>
+
+</div>
+
+<section class="receipt-actions">
+
+<button onclick="window.print()">
+🖨 Print Receipt
+</button>
+
+<button onclick="window.location.href='track.html?tracking='+document.getElementById('trackingNumber').textContent">
+📦 Track Shipment
+</button>
+
+<button onclick="window.location.href='create-shipment.html'">
+➕ New Shipment
+</button>
+
+</section>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <script src="js/receipt.js"></script>
 
-     </body>
-    
+</body>
+
+    </html>!-- PAGE 2 STARTS HERE -->
