@@ -450,3 +450,49 @@ switch ((shipment.status || "").toLowerCase()) {
 }
 
 console.log("Receipt loaded successfully.");
+
+/* ==========================
+   ROUTE MAP
+========================== */
+
+if (typeof L !== "undefined" && $("receiptMap")) {
+
+    // Default center if coordinates are unavailable
+    const defaultCenter = [20, 0];
+
+    const map = L.map("receiptMap");
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxZoom: 18
+    }).addTo(map);
+
+    // If shipment contains coordinates
+    if (
+        shipment.originLat != null &&
+        shipment.originLng != null &&
+        shipment.destinationLat != null &&
+        shipment.destinationLng != null
+    ) {
+        const origin = [shipment.originLat, shipment.originLng];
+        const destination = [shipment.destinationLat, shipment.destinationLng];
+
+        L.marker(origin).addTo(map).bindPopup("Origin");
+        L.marker(destination).addTo(map).bindPopup("Destination");
+
+        const route = L.polyline([origin, destination], {
+            color: "#0b4ea2",
+            weight: 4
+        }).addTo(map);
+
+        map.fitBounds(route.getBounds(), { padding: [30, 30] });
+
+    } else {
+        map.setView(defaultCenter, 2);
+    }
+
+    // Fix rendering after layout changes
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 300);
+}
