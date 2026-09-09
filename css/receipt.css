@@ -501,3 +501,361 @@ SENDER / RECEIVER
     justify-content:center;
     color:#0b4ea2;
     font
+ /* =========================================
+    STEP 7 — PREMIUM PAYMENT & VERIFICATION
+ ========================================= */
+
+.payment-verification{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-top:22px;
+}
+
+
+/* ================================
+   PAYMENT CARD
+================================ */
+
+.payment-card{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:17px;
+    min-height:82px;
+
+    background:linear-gradient(
+        135deg,
+        #f7fbff,
+        #eef6fd
+    );
+
+    border:1px solid #d5e4f1;
+    border-radius:13px;
+    position:relative;
+    overflow:hidden;
+}
+
+.payment-card::after{
+    content:"";
+    position:absolute;
+    right:-35px;
+    top:-35px;
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:rgba(11,78,162,.05);
+}
+
+
+.payment-icon{
+    width:43px;
+    height:43px;
+    min-width:43px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:11px;
+
+    background:#0b4ea2;
+    color:#ffffff;
+
+    font-size:16px;
+
+    box-shadow:
+        0 5px 14px rgba(11,78,162,.20);
+}
+
+
+.payment-content{
+    min-width:0;
+    flex:1;
+}
+
+
+.payment-label{
+    display:block;
+
+    color:#758596;
+    font-size:7px;
+    font-weight:800;
+    letter-spacing:1.2px;
+
+    margin-bottom:4px;
+}
+
+
+.payment-content strong{
+    display:block;
+
+    color:#153b59;
+    font-size:11px;
+    font-weight:900;
+
+    margin-bottom:3px;
+}
+
+
+.payment-content small{
+    display:block;
+
+    color:#7d8b99;
+    font-size:8px;
+
+    line-height:1.35;
+}
+
+
+.payment-badge{
+    display:flex;
+    align-items:center;
+    gap:5px;
+
+    padding:6px 9px;
+
+    border-radius:20px;
+
+    background:#e8f6ee;
+    color:#167447;
+
+    border:1px solid #c9e7d5;
+
+    font-size:7px;
+    font-weight:900;
+    letter-spacing:.8px;
+
+    white-space:nowrap;
+}
+
+
+/* ================================
+   VERIFICATION CARD
+================================ */
+
+.verification-card{
+    padding:17px;
+
+    background:#ffffff;
+
+    border:1px solid #dce5ee;
+    border-radius:13px;
+
+    position:relative;
+    overflow:hidden;
+}
+
+
+.verification-card::before{
+    content:"";
+
+    position:absolute;
+    left:0;
+    top:0;
+
+    width:4px;
+    height:100%;
+
+    background:#0b4ea2;
+}
+
+
+.verification-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding-left:4px;
+    margin-bottom:13px;
+}
+
+
+.verification-header h3{
+    margin:0;
+
+    color:#173b58;
+    font-size:15px;
+    font-weight:800;
+}
+
+
+.verification-seal{
+    width:35px;
+    height:35px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    color:#0b4ea2;
+
+    background:#edf5fc;
+    border:1px solid #d4e5f5;
+
+    font-size:14px;
+}
+
+
+/* ================================
+   VERIFICATION BODY
+================================ */
+
+.verification-body{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding-left:4px;
+}
+
+
+.verification-code-box{
+    min-width:115px;
+
+    padding:9px 11px;
+
+    background:#f5f8fb;
+
+    border:1px dashed #b9c9d8;
+    border-radius:8px;
+}
+
+
+.verification-code-box span{
+    display:block;
+
+    color:#788897;
+
+    font-size:6.5px;
+    font-weight:800;
+    letter-spacing:1px;
+
+    margin-bottom:4px;
+}
+
+
+.verification-code-box strong{
+    display:block;
+
+    color:#183e5d;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:9px;
+    letter-spacing:.8px;
+}
+
+
+.verification-message{
+    display:flex;
+    align-items:flex-start;
+    gap:7px;
+
+    flex:1;
+}
+
+
+.verification-message i{
+    margin-top:2px;
+
+    color:#0b4ea2;
+    font-size:10px;
+}
+
+
+.verification-message p{
+    margin:0;
+
+    color:#7a8997;
+
+    font-size:7.5px;
+    line-height:1.45;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media(max-width:700px){
+
+    .payment-verification{
+        grid-template-columns:1fr;
+    }
+
+    .payment-card{
+        min-height:auto;
+    }
+
+    .verification-body{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .verification-code-box{
+        min-width:0;
+    }
+
+}
+
+
+/* ================================
+   PRINT
+================================ */
+
+@media print{
+
+    .payment-verification{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+
+        margin-top:15px;
+
+        break-inside:avoid;
+        page-break-inside:avoid;
+    }
+
+    .payment-card,
+    .verification-card{
+        box-shadow:none;
+        break-inside:avoid;
+        page-break-inside:avoid;
+    }
+
+    .payment-card{
+        padding:12px;
+        min-height:68px;
+    }
+
+    .verification-card{
+        padding:12px;
+    }
+
+    .payment-icon{
+        width:36px;
+        height:36px;
+        min-width:36px;
+    }
+
+    .payment-content strong{
+        font-size:9px;
+    }
+
+    .payment-content small{
+        font-size:7px;
+    }
+
+    .verification-header{
+        margin-bottom:8px;
+    }
+
+    .verification-header h3{
+        font-size:12px;
+    }
+
+        }
