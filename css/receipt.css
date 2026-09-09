@@ -1,276 +1,121 @@
 /* ==========================================
    AMERICAN GLOBAL LOGISTICS
-   PREMIUM RECEIPT V3
+   RECEIPT V4
 ========================================== */
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
-
-background:#edf3fa;
-
-font-family:
-"Segoe UI",
-Arial,
-sans-serif;
-
-padding:30px;
-
-color:#333;
-
-line-height:1.6;
-
+    background:#eef3f8;
+    font-family:"Segoe UI",Arial,sans-serif;
+    color:#2c3e50;
+    padding:30px;
 }
 
 .receipt{
-
-width:95%;
-
-max-width:1300px;
-
-margin:40px auto;
-
-background:#fff;
-
-border-radius:20px;
-
-overflow:hidden;
-
-position:relative;
-
-box-shadow:
-0 20px 60px rgba(0,0,0,.12);
-
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    background:#fff;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
 }
 
-.receipt-watermark{
-
-position:absolute;
-
-top:50%;
-
-left:50%;
-
-width:220px;
-
-height:220px;
-
-background:url("../image/agl-watermark.png") center center no-repeat;
-
-background-size:contain;
-
-opacity:.04;
-
-transform:translate(-50%,-50%);
-
-pointer-events:none;
-
-}
-
-/* ===========================
-HEADER
-=========================== */
+/* ==========================
+   HEADER
+========================== */
 
 .receipt-header{
 
-display:flex;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:30px;
 
-justify-content:space-between;
+    padding:35px 40px;
 
-align-items:center;
-
-flex-wrap:wrap;
-
-gap:35px;
-
-padding:45px;
-
-background:
-linear-gradient(
-135deg,
-#003366,
-#0b4ea2
-);
-
-color:white;
+    border-bottom:3px solid #0b4ea2;
 
 }
 
-.company-info{
+.company{
 
-display:flex;
-
-align-items:center;
-
-gap:20px;
+    display:flex;
+    gap:18px;
+    align-items:center;
 
 }
 
-.company-logo{
+.logo{
 
-width:95px;
-
-}
-
-.company-info h1{
-
-font-size:22px;
-
-color:white;
-
-margin-bottom:8px;
-
-font-weight:700;
+    width:95px;
 
 }
 
-.company-info p{
+.company h1{
 
-color:#eef6ff;
+    color:#0b4ea2;
+    font-size:30px;
+    margin-bottom:8px;
 
 }
 
-.company-info small{
+.company p{
 
-color:#d5e7ff;
+    color:#444;
+    margin-bottom:5px;
+
+}
+
+.company small{
+
+    color:#777;
 
 }
 
 .receipt-info{
 
-min-width:340px;
+    width:360px;
+    border:1px solid #cfdff3;
+    border-radius:12px;
+    padding:20px;
 
-background:white;
-
-color:#222;
-
-padding:25px;
-
-border-radius:16px;
-
-box-shadow:
-
-0 8px 24px rgba(0,0,0,.08);
+    background:#f8fbff;
 
 }
 
 .receipt-info h2{
 
-font-size:28px;
-
-color:#003366;
-
-margin-bottom:20px;
-
-text-align:center;
+    text-align:center;
+    color:#0b4ea2;
+    margin-bottom:18px;
 
 }
 
 .receipt-info table{
 
-width:100%;
-
-border-collapse:collapse;
+    width:100%;
+    border-collapse:collapse;
 
 }
 
 .receipt-info td{
 
-padding:10px;
-
-border-bottom:1px solid #ddd;
+    padding:9px 0;
+    border-bottom:1px solid #e4edf8;
 
 }
 
 .receipt-info td:first-child{
 
-font-weight:bold;
-
-color:#0b4ea2;
-
-width:45%;
-
-}
-
-/* ===========================
-STATUS
-=========================== */
-
-.receipt-status{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-
-gap:20px;
-
-padding:30px 40px;
-
-background:#f7fbff;
-
-border-bottom:1px solid #ddd;
-
-}
-
-.status-box{
-
-background:white;
-
-padding:25px;
-
-border-radius:16px;
-
-text-align:center;
-
-transition:.3s;
-
-box-shadow:
-
-0 8px 24px rgba(0,0,0,.08);
-
-}
-
-.status-box:hover{
-
-transform:translateY(-5px);
-
-}
-
-.status-box h3{
-
-color:#0b4ea2;
-
-margin-bottom:12px;
-
-font-size:18px;
-
-}
-
-.status-box span{
-
-font-size:20px;
-
-font-weight:bold;
-
-}
-
-#paymentStamp{
-
-display:inline-block;
-
-padding:10px 22px;
-
-border-radius:30px;
-
-font-weight:bold;
-
-color:white;
-
-font-size:18px;
+    font-weight:600;
+    color:#0b4ea2;
+    width:45%;
 
 }
 
@@ -279,77 +124,104 @@ font-size:18px;
 ========================================== */
 
 .people{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(420px,1fr));
-gap:25px;
-padding:35px 40px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:25px;
+
+    padding:35px 40px;
+
 }
 
 .card{
 
-background:#ffffff;
+    background:#fff;
 
-border-radius:16px;
+    border:1px solid #dbe7f5;
 
-padding:30px;
+    border-radius:12px;
 
-border-top:5px solid #0b4ea2;
-
-box-shadow:
-0 10px 30px rgba(0,0,0,.08);
-
-transition:all .3s ease;
+    overflow:hidden;
 
 }
 
-.card:hover{
+.card h2{
 
-transform:translateY(-5px);
+    background:#0b4ea2;
 
-box-shadow:
-0 18px 40px rgba(0,0,0,.12);
+    color:#fff;
 
-}
+    padding:14px 20px;
 
-.card h3{
+    font-size:18px;
 
-font-size:24px;
-
-color:#003366;
-
-margin-bottom:20px;
-
-padding-bottom:12px;
-
-border-bottom:2px solid #e8eef7;
+    font-weight:600;
 
 }
 
-.card p{
+.card table{
 
-display:flex;
+    width:100%;
 
-justify-content:space-between;
-
-align-items:flex-start;
-
-gap:20px;
-
-padding:10px 0;
-
-border-bottom:1px dashed #e5e5e5;
-
-font-size:15px;
+    border-collapse:collapse;
 
 }
 
-.card strong{
+.card td{
 
-color:#003366;
+    padding:12px 18px;
 
-min-width:120px;
+    border-bottom:1px solid #edf3fa;
 
-font-weight:600;
+    font-size:14px;
+
+}
+
+.card tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+.card td:first-child{
+
+    width:35%;
+
+    font-weight:600;
+
+    color:#0b4ea2;
+
+}
+
+.card td:last-child{
+
+    color:#444;
+
+    word-break:break-word;
+
+}
+
+@media (max-width:900px){
+
+    .receipt-header{
+
+        flex-direction:column;
+
+    }
+
+    .receipt-info{
+
+        width:100%;
+
+    }
+
+    .people{
+
+        grid-template-columns:1fr;
+
+    }
 
 }
 
@@ -358,60 +230,97 @@ font-weight:600;
 ========================================== */
 
 .details{
-padding:0 40px 35px;
+
+    padding:0 40px 35px;
+
 }
 
 .details h2{
-color:#0b4ea2;
-margin-bottom:20px;
-font-size:22px;
-}
 
-.details table{
-width:100%;
-border-collapse:separate;
-border-spacing:0;
-background:#fff;
-border-radius:16px;
-overflow:hidden;
-box-shadow:0 10px 25px rgba(0,0,0,.08);
-}
+    color:#0b4ea2;
 
-.details td{
-padding:18px 22px;
-font-size:15px;
-vertical-align:top;
-border-bottom:1px solid #edf2f7;
-}
+    font-size:24px;
 
-.details tr:nth-child(even){
-
-background:#f9fbfd;
+    margin-bottom:20px;
 
 }
 
-.details tr:hover{
+.details-grid{
 
-background:#eef6ff;
+    display:grid;
 
-transition:.25s;
+    grid-template-columns:1fr 1fr;
+
+    gap:25px;
 
 }
 
-.details td:first-child{
-width:35%;
-background:#f7fbff;
-font-weight:700;
-color:#0b4ea2;
+.details-grid table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    border:1px solid #dbe7f5;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    background:#fff;
+
 }
 
-.details tr:last-child td{
-border-bottom:none;
+.details-grid td{
+
+    padding:12px 18px;
+
+    border-bottom:1px solid #edf3fa;
+
+    font-size:14px;
+
 }
 
-.details tr:hover{
-background:#f4f9ff;
-transition:.3s;
+.details-grid tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+.details-grid td:first-child{
+
+    width:42%;
+
+    font-weight:600;
+
+    color:#0b4ea2;
+
+    background:#f8fbff;
+
+}
+
+.details-grid td:last-child{
+
+    color:#444;
+
+    word-break:break-word;
+
+}
+
+@media (max-width:900px){
+
+    .details{
+
+        padding:25px;
+
+    }
+
+    .details-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
 }
 
 /* ==========================================
@@ -419,980 +328,353 @@ transition:.3s;
 ========================================== */
 
 .charges{
-padding:0 40px 35px;
+
+    padding:0 40px 40px;
+
 }
 
 .charges h2{
-color:#0b4ea2;
-margin-bottom:20px;
-font-size:22px;
+
+    color:#0b4ea2;
+
+    font-size:24px;
+
+    margin-bottom:20px;
+
 }
 
 .charges table{
-width:100%;
-border-collapse:collapse;
-background:#fff;
-border-radius:12px;
-overflow:hidden;
-box-shadow:0 5px 15px rgba(0,0,0,.06);
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    border:1px solid #dbe7f5;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    background:#fff;
+
 }
 
 .charges td{
-padding:15px 18px;
-border-bottom:1px solid #e5e5e5;
+
+    padding:15px 20px;
+
+    border-bottom:1px solid #edf3fa;
+
+    font-size:15px;
+
 }
 
-.charges tr:nth-child(even){
-background:#f8fbff;
+.charges tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+.charges td:first-child{
+
+    font-weight:600;
+
+    color:#0b4ea2;
+
+}
+
+.charges td:last-child{
+
+    text-align:right;
+
+    font-weight:600;
+
+    color:#2c3e50;
+
 }
 
 .charges .total{
-background:#0b4ea2;
-color:#fff;
-font-size:18px;
-font-weight:bold;
+
+    background:#0b4ea2;
+
 }
 
 .charges .total td{
-border:none;
-}
 
-.route-map{
-    margin:35px 0;
-}
-
-#receiptMap{
-    width:100%;
-    height:420px;
-    border-radius:12px;
-    overflow:hidden;
-    border:1px solid #ddd;
-}
-
-/* ==========================================
-   MOBILE
-========================================== */
-
-@media (max-width:768px){
-
-body{
-    padding:15px;
-}
-
-.receipt{
-    width:100%;
-    max-width:100%;
-    margin:0;
-    border-radius:12px;
-}
-
-.receipt-header{
-    padding:25px;
-    flex-direction:column;
-    text-align:center;
-}
-
-.company-info{
-    flex-direction:column;
-    text-align:center;
-}
-
-.company-logo{
-    width:80px;
-}
-
-.company-info h1{
-    font-size:24px;
-}
-
-.receipt-info{
-    width:100%;
-    min-width:100%;
-}
-
-.receipt-info h2{
-    font-size:24px;
-    text-align:center;
-}
-
-.receipt-status{
-    grid-template-columns:1fr;
-    padding:20px;
-}
-
-.summary-card{
-    grid-template-columns:1fr;
-    padding:20px;
-}
-
-.summary-box h3{
-    font-size:18px;
-}
-
-.people{
-    grid-template-columns:1fr;
-    gap:20px;
-    padding:20px;
-}
-
-.card{
-    padding:18px;
-}
-
-.card h3{
-    font-size:20px;
-}
-
-.details,
-.charges,
-.extra-details,
-.instructions,
-.timeline,
-.security,
-.authorization{
-    padding:25px;
-}
-
-.details h2,
-.charges h2{
-    font-size:24px;
-}
-
-.details table,
-.charges table,
-.extra-details table{
-    display:block;
-    overflow-x:auto;
-    white-space:normal;
-}
-
-#receiptMap{
-    height:280px;
-}
-
-.authorization{
-    grid-template-columns:1fr;
-}
-
-.receipt-footer{
-    flex-direction:column;
-    padding:25px;
-    gap:25px;
-}
-
-.receipt-actions{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:20px;
-    padding:30px 20px;
-    background:#f7fbff;
-    border-top:1px solid #e5e5e5;
-}
-
-.receipt-actions button{
-    width:100%;
-    max-width:320px;
-    background:#0b4ea2;
     color:#fff;
-    border:none;
-    padding:15px 30px;
-    font-size:16px;
-    font-weight:600;
-    border-radius:10px;
-    cursor:pointer;
-    transition:.3s;
-    box-shadow:0 8px 20px rgba(11,78,162,.2);
-}
 
-.receipt-actions button:hover{
-    background:#083a79;
-    transform:translateY(-3px);
-    box-shadow:0 12px 28px rgba(11,78,162,.3);
-}
-
-.receipt-watermark{
-    width:220px;
-    height:220px;
-}
-
-}
-
-   /* ==========================================
-   SHIPMENT SUMMARY
-========================================== */
-
-.summary-card{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-padding:35px 40px;
-background:#ffffff;
-}
-
-.summary-box{
-background:linear-gradient(135deg,#0b4ea2,#1565c0);
-color:white;
-padding:28px;
-border-radius:16px;
-box-shadow:0 12px 30px rgba(0,0,0,.12);
-transition:.3s;
-}
-   
-.summary-box:hover{
-
-transform:translateY(-4px);
-
-}
-
-.summary-box span{
-display:block;
-font-size:14px;
-opacity:.9;
-margin-bottom:10px;
-text-transform:uppercase;
-letter-spacing:1px;
-}
-
-.summary-box h3{
-font-size:24px;
-font-weight:bold;
-word-break:break-word;
-}
-
-   .summary-box:hover{
-transform:translateY(-6px);
-box-shadow:0 20px 40px rgba(0,0,0,.18);
-   }
-
-.details{
-
-padding:20px;
-
-}
-
-.charges{
-
-padding:20px;
-
-}
-
-#receiptMap{
-
-height:280px;
-
-}
-
-}
-
-/* ===========================
-   RECEIPT FOOTER
-=========================== */
-.receipt-footer{
-display:flex;
-justify-content:space-between;
-align-items:flex-start;
-flex-wrap:wrap;
-gap:40px;
-padding:40px;
-background:#0b4ea2;
-color:#fff;
-}
-
- .footer-left,
-.footer-right{
-flex:1;
-min-width:260px;
-}
-
-.footer-left h3{
-font-size:28px;
-margin-bottom:15px;
-font-weight:bold;
-}
-
-.footer-left p,
-.footer-right p{
-line-height:1.8;
-font-size:15px;
-opacity:.95;
-}
-
-.footer-right strong{
-color:#ffd54f;
-}
-
-.footer-right span{
-font-weight:bold;
-color:#fff;
-}
-
-
-/* ==========================================
-   RESPONSIVE DESIGN
-========================================== */
-
-@media (max-width:992px){
-
-.receipt{
-margin:15px;
-}
-
-.receipt-header{
-padding:25px;
-}
-
-.people{
-grid-template-columns:1fr;
-padding:25px;
-}
-
-.details,
-.charges{
-padding:25px;
-}
-
-.summary-card{
-grid-template-columns:repeat(2,1fr);
-}  
-
-}
-
-/* ==========================================
-   PREMIUM SENDER / RECEIVER REFINEMENT
-========================================== */
-
-.people .card{
-    position:relative;
-    overflow:hidden;
-    background:linear-gradient(
-        180deg,
-        #ffffff 0%,
-        #f9fbfe 100%
-    );
-}
-
-.people .card::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:4px;
-    background:linear-gradient(
-        90deg,
-        #003366,
-        #0b4ea2,
-        #4da3ff
-    );
-}
-
-.people .card h3{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:17px;
-    letter-spacing:.3px;
-    text-transform:uppercase;
-    margin-bottom:18px;
-}
-
-.people .card h3::before{
-    content:"";
-    width:9px;
-    height:9px;
-    border-radius:50%;
-    background:#0b4ea2;
-    box-shadow:0 0 0 4px #e3effd;
-}
-
-.people .card p{
-    grid-template-columns:95px 1fr;
-    min-height:34px;
-}
-
-.people .card p strong{
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:.3px;
-    color:#557086;
-}
-
-.people .card p span{
-    color:#1f2d38;
-    font-weight:600;
-}
-
-@media (max-width:768px){
-
-    .people .card h3{
-        font-size:16px;
-    }
-
-    .people .card p{
-        grid-template-columns:82px 1fr;
-    }
-
-   }
-
-/* ==========================================
-   COMPACT SENDER / RECEIVER
-========================================== */
-
-.people{
-    gap:14px;
-    padding-top:20px;
-    padding-bottom:20px;
-}
-
-.people .card{
-    padding:16px 18px;
-}
-
-.people .card h3{
-    margin-bottom:10px;
-    padding-bottom:7px;
-    font-size:15px;
-}
-
-.people .card p{
-    min-height:0;
-    padding:4px 0;
-    font-size:12px;
-    line-height:1.35;
-}
-
-.people .card p strong{
-    font-size:11px;
-}
-
-@media (max-width:768px){
-
-    .people{
-        padding-top:15px;
-        padding-bottom:15px;
-    }
-
-    .people .card{
-        padding:14px 15px;
-    }
-
-    .people .card p{
-        padding:4px 0;
-    }
-}
-
- /* ==========================================
-    COMPACT SHIPMENT DETAILS
- ========================================== */
-
-.details{
-    padding-top:0;
-    padding-bottom:18px;
-}
-
-.details h2{
     font-size:18px;
-    margin-bottom:10px;
-}
 
-.details td{
-    padding:7px 12px;
-    font-size:12px;
-    line-height:1.3;
-}
+    font-weight:bold;
 
-.details td:first-child{
-    width:30%;
-}
-
-@media (max-width:768px){
-
-    .details{
-        padding-bottom:15px;
-    }
-
-    .details h2{
-        font-size:17px;
-    }
-
-    .details td{
-        padding:6px 9px;
-        font-size:11px;
-    }
-
-    .details td:first-child{
-        width:40%;
-    }
 }
 
 /* ==========================================
-   COMPACT CHARGES SUMMARY
-========================================== */
-
-.charges{
-    padding-bottom:18px;
-}
-
-.charges h2{
-    font-size:18px;
-    margin-bottom:10px;
-}
-
-.charges td{
-    padding:7px 12px;
-    font-size:12px;
-}
-
-.charges .total{
-    font-size:14px;
-}
-
-@media (max-width:768px){
-
-    .charges{
-        padding-bottom:15px;
-    }
-
-    .charges td{
-        padding:6px 9px;
-        font-size:11px;
-    }
-
-    .charges .total{
-        font-size:13px;
-    }
-}
-
-/* ==========================================
-   COMPACT SHIPMENT TIMELINE
-========================================== */
-
-.timeline{
-    padding-bottom:18px;
-}
-
-.timeline h2{
-    font-size:18px;
-    margin-bottom:8px;
-}
-
-.timeline-box{
-    padding:10px 5px;
-}
-
-.timeline-box::before{
-    top:22px;
-    height:2px;
-}
-
-.circle{
-    width:19px;
-    height:19px;
-    margin-bottom:7px;
-    border-width:3px;
-}
-
-.step span{
-    font-size:10px;
-}
-
-@media (max-width:768px){
-
-    .timeline{
-        padding-bottom:15px;
-    }
-
-    .timeline-box{
-        padding-top:8px;
-        padding-bottom:8px;
-    }
-
-    .circle{
-        width:18px;
-        height:18px;
-    }
-
-    .step span{
-        font-size:9px;
-    }
-}
-
-/* ==========================================
-   COMPACT ROUTE MAP
+   ROUTE MAP
 ========================================== */
 
 .route-map{
-    padding-bottom:18px;
+
+    padding:0 40px 35px;
+
 }
 
 .route-map h2{
-    font-size:18px;
-    margin-bottom:10px;
+
+    color:#0b4ea2;
+
+    font-size:24px;
+
+    margin-bottom:20px;
+
 }
 
 #receiptMap{
-    height:220px;
-}
 
-@media (max-width:768px){
+    width:100%;
+    height:260px;
 
-    .route-map{
-        padding-bottom:15px;
-    }
+    border-radius:12px;
 
-    .route-map h2{
-        font-size:17px;
-    }
+    border:1px solid #dbe7f5;
 
-    #receiptMap{
-        height:190px;
-    }
-}
+    overflow:hidden;
 
-@media print{
-
-    #receiptMap{
-        height:180px;
-    }
 }
 
 /* ==========================================
-   COMPACT VERIFICATION SECTION
+   VERIFICATION
 ========================================== */
 
 .security{
-    gap:14px;
-    margin-bottom:15px;
-    padding:15px;
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:25px;
+
+    padding:0 40px 40px;
+
+    align-items:center;
+
 }
 
-.verification-box h2{
-    font-size:18px;
+.security>div{
+
+    background:#fff;
+
+    border:1px solid #dbe7f5;
+
+    border-radius:12px;
+
+    padding:25px;
+
 }
 
-.verification-box p{
-    font-size:10px;
+.security h3{
+
+    color:#0b4ea2;
+
+    margin-bottom:12px;
+
 }
 
-#qrcode{
-    width:105px;
-    height:105px;
+.security h2{
+
+    color:#222;
+
+    font-size:28px;
+
+    margin-bottom:20px;
+
+    letter-spacing:2px;
+
 }
 
 #barcodeLarge{
-    max-height:45px;
+
+    width:100%;
+
 }
 
-.verification-note{
-    margin-bottom:18px;
-    padding:12px 15px;
-}
+#qrcode{
 
-.verification-note h3{
-    font-size:13px;
-    margin-bottom:4px;
-}
+    display:flex;
 
-.verification-note p{
-    font-size:10px;
-    line-height:1.45;
-}
+    justify-content:center;
 
-@media (max-width:768px){
+    align-items:center;
 
-    .security{
-        padding:14px;
-    }
+    min-height:220px;
 
-    .verification-box h2{
-        font-size:17px;
-    }
-
-    #qrcode{
-        width:100px;
-        height:100px;
-    }
-}
-
-@media print{
-
-    .security{
-        padding:10px;
-        margin-bottom:10px;
-    }
-
-    #qrcode{
-        width:90px;
-        height:90px;
-    }
-
-    .verification-note{
-        padding:9px 12px;
-        margin-bottom:12px;
-    }
 }
 
 /* ==========================================
-   COMPACT SIGNATURES & OFFICIAL SEAL
+   PRINT
+========================================== */
+
+@media print{
+
+    .route-map,
+    .security{
+
+        break-inside:avoid;
+        page-break-inside:avoid;
+
+    }
+
+}
+
+@media (max-width:900px){
+
+    .route-map,
+    .security{
+
+        padding:25px;
+
+    }
+
+    .security{
+
+        grid-template-columns:1fr;
+
+    }
+
+    #receiptMap{
+
+        height:220px;
+
+    }
+
+}
+
+/* ==========================================
+   AUTHORIZATION
 ========================================== */
 
 .authorization{
-    gap:12px;
-    padding-bottom:18px;
-}
 
-.signature-card{
-    min-height:120px;
-    padding:12px;
-}
+    display:grid;
 
-.signature-card img{
-    max-width:120px;
-    max-height:50px;
-}
+    grid-template-columns:repeat(3,1fr);
 
-.signature-card .seal{
-    width:65px;
-    height:65px;
-}
-
-.signature-line{
-    width:70%;
-    margin:6px auto;
-}
-
-.signature-card h4{
-    font-size:12px;
-    margin-bottom:2px;
-}
-
-.signature-card p{
-    font-size:10px;
-}
-
-@media (max-width:768px){
-
-    .authorization{
-        gap:10px;
-        padding-bottom:15px;
-    }
-
-    .signature-card{
-        min-height:110px;
-        padding:10px;
-    }
-
-    .signature-card img{
-        max-height:45px;
-    }
-
-    .signature-card .seal{
-        width:60px;
-        height:60px;
-    }
-}
-
-@media print{
-
-    .authorization{
-        grid-template-columns:repeat(3,1fr);
-        gap:8px;
-        padding-bottom:12px;
-    }
-
-    .signature-card{
-        min-height:100px;
-        padding:8px;
-    }
-
-    .signature-card img{
-        max-width:100px;
-        max-height:40px;
-    }
-
-    .signature-card .seal{
-        width:55px;
-        height:55px;
-    }
-}
-
-/* ==========================================
-   COMPACT PREMIUM HEADER
-========================================== */
-
-.receipt-header{
-    padding:25px 30px;
     gap:25px;
+
+    padding:0 40px 40px;
+
 }
 
-.company-info{
-    gap:16px;
+.signature{
+
+    background:#fff;
+
+    border:1px solid #dbe7f5;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    padding:25px;
+
 }
 
-.company-logo{
-    width:75px;
-    height:75px;
+.signature img{
+
+    max-width:140px;
+
+    max-height:70px;
+
+    object-fit:contain;
+
+    margin-bottom:15px;
+
 }
 
-.company-info h1{
-    font-size:22px;
-    margin-bottom:5px;
+.signature h4{
+
+    color:#0b4ea2;
+
+    font-size:16px;
+
+    margin-top:10px;
+
 }
 
-.company-info p{
-    font-size:13px;
-    margin-bottom:3px;
+.signature p{
+
+    color:#555;
+
+    font-size:14px;
+
+    margin-top:6px;
+
 }
 
-.company-info small{
-    font-size:10px;
-}
+@media (max-width:900px){
 
-.receipt-info{
-    padding:17px 20px;
-}
+    .authorization{
 
-.receipt-info h2{
-    font-size:20px;
-    margin-bottom:10px;
-}
+        grid-template-columns:1fr;
 
-.receipt-info td{
-    padding:5px 4px;
-    font-size:11px;
-}
+        padding:25px;
 
-@media (max-width:768px){
-
-    .receipt-header{
-        padding:20px 15px;
     }
 
-    .company-logo{
-        width:65px;
-        height:65px;
-    }
-
-    .company-info h1{
-        font-size:19px;
-    }
-
-    .company-info p{
-        font-size:12px;
-    }
-
-    .receipt-info{
-        padding:14px;
-    }
-}
-
-@media print{
-
-    .receipt-header{
-        padding:15px 20px;
-    }
-
-    .company-logo{
-        width:60px;
-        height:60px;
-    }
-
-    .company-info h1{
-        font-size:19px;
-    }
-
-    .receipt-info{
-        padding:12px 15px;
-    }
-
-    .receipt-info h2{
-        font-size:17px;
-        margin-bottom:7px;
-    }
-
-    .receipt-info td{
-        padding:3px;
-        font-size:9px;
-    }
 }
 
 /* ==========================================
-   COMPACT RECEIPT FOOTER
+   FOOTER
 ========================================== */
 
 .receipt-footer{
-    gap:20px;
-    padding:18px 25px;
+
+    background:#0b4ea2;
+
+    color:#fff;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:30px;
+
+    padding:30px 40px;
+
 }
 
-.footer-left h3{
-    font-size:17px;
-    margin-bottom:4px;
+.receipt-footer h3{
+
+    font-size:22px;
+
+    margin-bottom:10px;
+
 }
 
-.footer-left p,
-.footer-right p{
-    font-size:10px;
-    line-height:1.5;
+.receipt-footer p{
+
+    line-height:1.8;
+
+    font-size:14px;
+
 }
 
-.footer-right p{
-    margin-bottom:2px;
+.receipt-footer span{
+
+    font-weight:bold;
+
 }
 
-@media (max-width:768px){
+@media (max-width:900px){
 
     .receipt-footer{
-        padding:18px 15px;
-        gap:12px;
+
+        flex-direction:column;
+
+        padding:25px;
+
     }
 
-    .footer-left h3{
-        font-size:16px;
-    }
-
-    .footer-left p,
-    .footer-right p{
-        font-size:10px;
-    }
-}
-
-@media print{
-
-    .receipt-footer{
-        padding:12px 18px;
-    }
-
-    .footer-left h3{
-        font-size:14px;
-    }
-
-    .footer-left p,
-    .footer-right p{
-        font-size:8px;
-        line-height:1.35;
-    }
-}
-
-/* FULL WIDTH SHIPMENT DETAILS */
-
-.details table,
-.extra-details table,
-.charges table{
-    width:100%;
-    table-layout:fixed;
-}
-
-.details td:first-child,
-.extra-details td:first-child,
-.charges td:first-child{
-    width:35%;
-}
-
-.details td:last-child,
-.extra-details td:last-child,
-.charges td:last-child{
-    width:65%;
-    word-break:break-word;
 }
