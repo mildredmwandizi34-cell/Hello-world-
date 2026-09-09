@@ -169,3 +169,60 @@ HEADER
     white-space:nowrap;
 
    }
+/*==========================
+RECEIPT INFORMATION
+==========================*/
+
+.receipt-info{
+
+    margin-bottom:30px;
+
+    border:2px solid #dbe6f2;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    background:#fff;
+
+}
+
+.receipt-info table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.receipt-info td{
+
+    padding:14px 18px;
+
+    border:1px solid #edf2f7;
+
+    font-size:14px;
+
+}
+
+.receipt-info td:nth-child(odd){
+
+    width:18%;
+
+    background:#f7fbff;
+
+    color:#0b4ea2;
+
+    font-weight:700;
+
+}
+
+.receipt-info td:nth-child(even){
+
+    width:32%;
+
+    font-weight:600;
+
+    color:#333;
+
+}
