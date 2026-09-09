@@ -581,13 +581,19 @@ body{
 
 .signature img{
 
-    max-width:100px;
+    display:block;
 
-    max-height:45px;
+    width:160px;
+
+    height:auto;
+
+    margin:15px auto;
+
+    border:2px solid red;
+
+    background:#fff;
 
     object-fit:contain;
-
-    margin-bottom:15px;
 
 }
 
