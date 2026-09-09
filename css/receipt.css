@@ -43,15 +43,14 @@ td:first-child{font-weight:700;color:#0b4ea2;width:38%}
 @media print{
 
     *{
-        -webkit-print-color-adjust:exact !important;
-        print-color-adjust:exact !important;
-        color:#000 !important;
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
     }
 
     body{
         background:#fff;
-        padding:0;
         margin:0;
+        padding:0;
         font-family:Arial, Helvetica, sans-serif;
     }
 
@@ -60,10 +59,10 @@ td:first-child{font-weight:700;color:#0b4ea2;width:38%}
         min-height:277mm;
         margin:0 auto;
         padding:10mm;
-        box-shadow:none;
         background:#fff;
-        overflow:hidden;
+        box-shadow:none;
         page-break-after:always;
+        overflow:hidden;
     }
 
     .page:last-child{
@@ -71,27 +70,13 @@ td:first-child{font-weight:700;color:#0b4ea2;width:38%}
     }
 
     .receipt-actions{
-        display:none !important;
+        display:none;
     }
 
-    .receipt-header h1,
-    .receipt-header h2,
-    td,
-    th,
-    p,
-    span,
-    small,
-    h3,
-    h4{
-        color:#000 !important;
-    }
-
-    img{
-        max-width:100%;
-    }
-
+    img,
     svg,
     canvas{
+        max-width:100%;
         display:block;
     }
 }
@@ -102,3 +87,37 @@ td:first-child{font-weight:700;color:#0b4ea2;width:38%}
  .receipt-info{width:100%;margin-top:20px}
  .receipt-actions{width:100%;flex-wrap:wrap}
 }
+.company{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo{
+    width:65px;
+    height:auto;
+}
+
+.company-text h1{
+    font-size:24px;
+    color:#003366;
+    margin-bottom:4px;
+}
+
+.company-text p{
+    color:#555;
+    font-size:14px;
+}
+
+.company-text small{
+    color:#777;
+    font-size:12px;
+}
+
+.receipt-title{
+    font-size:28px;
+    font-weight:700;
+    color:#003366;
+    letter-spacing:2px;
+    text-transform:uppercase;
+      }
