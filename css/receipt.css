@@ -1072,19 +1072,19 @@ body{
 
 .page{
 
-    width:190
-       
- min-height:277mm;
+    width:190mm;
 
-    margin:0;
+    height:277mm;
 
-    padding:12mm;
+    margin:0 auto;
 
-    box-shadow:none;
+    padding:10mm;
+
+    box-sizing:border-box;
+
+    overflow:hidden;
 
     page-break-after:always;
-
-    break-after:page;
 
 }
 
