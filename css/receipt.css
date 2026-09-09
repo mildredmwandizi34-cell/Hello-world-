@@ -1,7 +1,12 @@
-/* ==========================================
+/* =====================================================
    AMERICAN GLOBAL LOGISTICS
-   RECEIPT V4
-========================================== */
+   RECEIPT V5
+   PART 1
+===================================================== */
+
+/* ==========================
+   RESET
+========================== */
 
 *{
     margin:0;
@@ -9,21 +14,83 @@
     box-sizing:border-box;
 }
 
-body{
-    background:#eef3f8;
-    font-family:"Segoe UI",Arial,sans-serif;
-    color:#2c3e50;
-    padding:30px;
+html{
+    scroll-behavior:smooth;
 }
 
-.receipt{
-    width:100%;
-    max-width:1200px;
-    margin:auto;
+body{
+
+    background:#edf2f7;
+
+    font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+    color:#333;
+
+    padding:25px;
+
+}
+
+/* ==========================
+   A4 PAGE
+========================== */
+
+.page{
+
+    width:210mm;
+
+    min-height:297mm;
+
+    margin:0 auto 20px;
+
     background:#fff;
-    border-radius:16px;
+
+    position:relative;
+
+    padding:18mm;
+
+    box-shadow:
+    0 12px 35px rgba(0,0,0,.12);
+
     overflow:hidden;
-    box-shadow:0 15px 40px rgba(0,0,0,.08);
+
+}
+
+/* ==========================
+   WATERMARK
+========================== */
+
+.page::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    width:260px;
+    height:260px;
+
+    transform:
+    translate(-50%,-50%);
+
+    background:
+
+    url("../image/agl-watermark.png")
+
+    center center
+
+    no-repeat;
+
+    background-size:contain;
+
+    opacity:.035;
+
+    pointer-events:none;
+
 }
 
 /* ==========================
@@ -33,11 +100,16 @@ body{
 .receipt-header{
 
     display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:30px;
 
-    padding:35px 40px;
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:40px;
+
+    margin-bottom:35px;
+
+    padding-bottom:25px;
 
     border-bottom:3px solid #0b4ea2;
 
@@ -46,82 +118,118 @@ body{
 .company{
 
     display:flex;
-    gap:18px;
+
+    gap:20px;
+
     align-items:center;
 
 }
 
 .logo{
 
-    width:95px;
+    width:90px;
 
 }
 
 .company h1{
 
-    color:#0b4ea2;
+    color:#003366;
+
     font-size:30px;
+
     margin-bottom:8px;
+
+    font-weight:700;
 
 }
 
 .company p{
 
     color:#444;
-    margin-bottom:5px;
+
+    margin-bottom:6px;
+
+    font-size:16px;
 
 }
 
 .company small{
 
-    color:#777;
+    color:#888;
+
+    font-size:13px;
 
 }
+
+/* ==========================
+   RECEIPT INFO
+========================== */
 
 .receipt-info{
 
     width:360px;
-    border:1px solid #cfdff3;
-    border-radius:12px;
-    padding:20px;
 
-    background:#f8fbff;
+    border:2px solid #d7e5f5;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    background:#fff;
 
 }
 
 .receipt-info h2{
 
+    background:#0b4ea2;
+
+    color:#fff;
+
+    padding:15px;
+
     text-align:center;
-    color:#0b4ea2;
-    margin-bottom:18px;
+
+    font-size:22px;
 
 }
 
 .receipt-info table{
 
     width:100%;
+
     border-collapse:collapse;
 
 }
 
 .receipt-info td{
 
-    padding:9px 0;
-    border-bottom:1px solid #e4edf8;
+    padding:12px 16px;
+
+    border-bottom:1px solid #edf2f7;
+
+    font-size:14px;
+
+}
+
+.receipt-info tr:last-child td{
+
+    border-bottom:none;
 
 }
 
 .receipt-info td:first-child{
 
-    font-weight:600;
-    color:#0b4ea2;
     width:45%;
+
+    font-weight:700;
+
+    color:#0b4ea2;
 
 }
 
-/* ==========================================
-   SENDER & RECEIVER
-========================================== */
+/* ==========================
+   SENDER / RECEIVER
+========================== */
 
 .people{
 
@@ -131,19 +239,19 @@ body{
 
     gap:25px;
 
-    padding:35px 40px;
+    margin-bottom:35px;
 
 }
 
 .card{
 
-    background:#fff;
-
-    border:1px solid #dbe7f5;
+    border:1px solid #dbe6f2;
 
     border-radius:12px;
 
     overflow:hidden;
+
+    background:#fff;
 
 }
 
@@ -153,11 +261,9 @@ body{
 
     color:#fff;
 
-    padding:14px 20px;
+    padding:14px 18px;
 
     font-size:18px;
-
-    font-weight:600;
 
 }
 
@@ -171,9 +277,9 @@ body{
 
 .card td{
 
-    padding:12px 18px;
+    padding:11px 16px;
 
-    border-bottom:1px solid #edf3fa;
+    border-bottom:1px solid #edf2f7;
 
     font-size:14px;
 
@@ -189,7 +295,7 @@ body{
 
     width:35%;
 
-    font-weight:600;
+    font-weight:700;
 
     color:#0b4ea2;
 
@@ -203,45 +309,34 @@ body{
 
 }
 
-@media (max-width:900px){
+/* ==========================
+   SECTION TITLES
+========================== */
 
-    .receipt-header{
+section h2{
 
-        flex-direction:column;
-
-    }
-
-    .receipt-info{
-
-        width:100%;
-
-    }
-
-    .people{
-
-        grid-template-columns:1fr;
-
-    }
-
-}
-
-/* ==========================================
-   SHIPMENT DETAILS
-========================================== */
-
-.details{
-
-    padding:0 40px 35px;
-
-}
-
-.details h2{
-
-    color:#0b4ea2;
+    color:#003366;
 
     font-size:24px;
 
-    margin-bottom:20px;
+    margin-bottom:18px;
+
+    font-weight:700;
+
+}
+/* =====================================================
+   AMERICAN GLOBAL LOGISTICS
+   RECEIPT V5
+   PART 2
+===================================================== */
+
+/* ==========================
+   SHIPMENT DETAILS
+========================== */
+
+.details{
+
+    margin-bottom:35px;
 
 }
 
@@ -261,7 +356,7 @@ body{
 
     border-collapse:collapse;
 
-    border:1px solid #dbe7f5;
+    border:1px solid #dbe6f2;
 
     border-radius:12px;
 
@@ -273,11 +368,13 @@ body{
 
 .details-grid td{
 
-    padding:12px 18px;
+    padding:12px 16px;
 
-    border-bottom:1px solid #edf3fa;
+    border-bottom:1px solid #edf2f7;
 
     font-size:14px;
+
+    vertical-align:top;
 
 }
 
@@ -291,11 +388,11 @@ body{
 
     width:42%;
 
-    font-weight:600;
+    background:#f7fbff;
 
     color:#0b4ea2;
 
-    background:#f8fbff;
+    font-weight:700;
 
 }
 
@@ -307,39 +404,13 @@ body{
 
 }
 
-@media (max-width:900px){
-
-    .details{
-
-        padding:25px;
-
-    }
-
-    .details-grid{
-
-        grid-template-columns:1fr;
-
-    }
-
-}
-
-/* ==========================================
+/* ==========================
    CHARGES SUMMARY
-========================================== */
+========================== */
 
 .charges{
 
-    padding:0 40px 40px;
-
-}
-
-.charges h2{
-
-    color:#0b4ea2;
-
-    font-size:24px;
-
-    margin-bottom:20px;
+    margin-bottom:35px;
 
 }
 
@@ -349,7 +420,7 @@ body{
 
     border-collapse:collapse;
 
-    border:1px solid #dbe7f5;
+    border:1px solid #dbe6f2;
 
     border-radius:12px;
 
@@ -361,9 +432,9 @@ body{
 
 .charges td{
 
-    padding:15px 20px;
+    padding:15px 18px;
 
-    border-bottom:1px solid #edf3fa;
+    border-bottom:1px solid #edf2f7;
 
     font-size:15px;
 
@@ -377,7 +448,7 @@ body{
 
 .charges td:first-child{
 
-    font-weight:600;
+    font-weight:700;
 
     color:#0b4ea2;
 
@@ -388,8 +459,6 @@ body{
     text-align:right;
 
     font-weight:600;
-
-    color:#2c3e50;
 
 }
 
@@ -405,46 +474,66 @@ body{
 
     font-size:18px;
 
-    font-weight:bold;
+    font-weight:700;
 
 }
 
-/* ==========================================
+/* ==========================
    ROUTE MAP
-========================================== */
+========================== */
 
 .route-map{
 
-    padding:0 40px 35px;
+    margin-bottom:35px;
 
 }
 
 .route-map h2{
 
-    color:#0b4ea2;
-
-    font-size:24px;
-
-    margin-bottom:20px;
+    margin-bottom:18px;
 
 }
 
 #receiptMap{
 
     width:100%;
+
     height:300px;
+
+    border:2px solid #dbe6f2;
 
     border-radius:12px;
 
     overflow:hidden;
 
-    border:1px solid #d9e4f2;
+    background:#f7fbff;
 
 }
 
-/* ==========================================
-   VERIFICATION
-========================================== */
+/* ==========================
+   PAGE SPACING
+========================== */
+
+.details,
+.charges,
+.route-map{
+
+    break-inside:avoid;
+
+    page-break-inside:avoid;
+
+}
+
+/* =====================================================
+   AMERICAN GLOBAL LOGISTICS
+   RECEIPT V5
+   PART 3
+   Security • Barcode • QR • Signatures • Footer
+===================================================== */
+
+/* ==========================
+   SECURITY SECTION
+========================== */
 
 .security{
 
@@ -452,19 +541,19 @@ body{
 
     grid-template-columns:2fr 1fr;
 
-    gap:25px;
+    gap:30px;
 
-    padding:0 40px 20px;
+    margin-bottom:35px;
 
-    align-items:center;
+    align-items:start;
 
 }
 
-.security>div{
+.verification-box{
 
     background:#fff;
 
-    border:1px solid #dbe7f5;
+    border:1px solid #dbe6f2;
 
     border-radius:12px;
 
@@ -472,29 +561,71 @@ body{
 
 }
 
-.security h3{
+.verification-box h3{
 
     color:#0b4ea2;
 
-    margin-bottom:12px;
+    font-size:20px;
+
+    margin-bottom:10px;
 
 }
 
-.security h2{
+.verification-box h2{
 
-    color:#222;
+    color:#003366;
 
-    font-size:28px;
+    font-size:32px;
+
+    letter-spacing:3px;
 
     margin-bottom:20px;
 
-    letter-spacing:2px;
+}
+
+.verification-box p{
+
+    color:#666;
+
+    margin-bottom:20px;
+
+    line-height:1.7;
 
 }
 
 #barcodeLarge{
 
     width:100%;
+
+    max-width:420px;
+
+    display:block;
+
+}
+
+/* ==========================
+   QR CODE
+========================== */
+
+.qr-box{
+
+    background:#fff;
+
+    border:1px solid #dbe6f2;
+
+    border-radius:12px;
+
+    padding:25px;
+
+    text-align:center;
+
+}
+
+.qr-box h3{
+
+    color:#0b4ea2;
+
+    margin-bottom:18px;
 
 }
 
@@ -506,52 +637,19 @@ body{
 
     align-items:center;
 
-    min-height:220px;
+}
+
+#qrcode canvas{
+
+    width:180px !important;
+
+    height:180px !important;
 
 }
 
-/* ==========================================
-   PRINT
-========================================== */
-
-@media print{
-
-    .route-map,
-    .security{
-
-        break-inside:avoid;
-        page-break-inside:avoid;
-
-    }
-
-}
-
-@media (max-width:900px){
-
-    .route-map,
-    .security{
-
-        padding:25px;
-
-    }
-
-    .security{
-
-        grid-template-columns:1fr;
-
-    }
-
-    #receiptMap{
-
-        height:220px;
-
-    }
-
-}
-
-/* ==========================================
+/* ==========================
    AUTHORIZATION
-========================================== */
+========================== */
 
 .authorization{
 
@@ -561,7 +659,7 @@ body{
 
     gap:25px;
 
-    padding:0 40px 40px;
+    margin-bottom:35px;
 
 }
 
@@ -569,337 +667,506 @@ body{
 
     background:#fff;
 
-    border:1px solid #dbe7f5;
+    border:1px solid #dbe6f2;
 
     border-radius:12px;
 
-    text-align:center;
-
     padding:25px;
+
+    text-align:center;
 
 }
 
 .signature img{
 
-    display:block;
+    width:170px;
 
-    width:160px;
-
-    height:auto;
-
-    margin:15px auto;
-
-    border:2px solid red;
-
-    background:#fff;
+    max-height:80px;
 
     object-fit:contain;
+
+    display:block;
+
+    margin:0 auto 15px;
+
+}
+
+.signature .seal{
+
+    width:120px;
+
+    max-height:120px;
 
 }
 
 .signature h4{
 
-    color:#0b4ea2;
-
-    font-size:16px;
+    color:#003366;
 
     margin-top:10px;
+
+    margin-bottom:8px;
+
+    font-size:17px;
 
 }
 
 .signature p{
 
-    color:#555;
+    color:#666;
 
     font-size:14px;
 
-    margin-top:6px;
+}
+
+/* ==========================
+   VERIFICATION NOTE
+========================== */
+
+.verification-note{
+
+    background:#f7fbff;
+
+    border-left:5px solid #0b4ea2;
+
+    padding:25px;
+
+    border-radius:10px;
+
+    margin-bottom:35px;
 
 }
 
-@media (max-width:900px){
+.verification-note h3{
 
-    .authorization{
+    color:#003366;
 
-        grid-template-columns:1fr;
-
-        padding:25px;
-
-    }
+    margin-bottom:12px;
 
 }
 
-/* ==========================================
+.verification-note p{
+
+    line-height:1.8;
+
+    color:#555;
+
+}
+
+/* ==========================
    FOOTER
-========================================== */
+========================== */
 
 .receipt-footer{
-
-    background:#0b4ea2;
-
-    color:#fff;
 
     display:flex;
 
     justify-content:space-between;
 
-    align-items:flex-start;
+    gap:40px;
 
-    gap:30px;
+    padding-top:25px;
 
-    padding:18px 30px;
+    border-top:2px solid #dbe6f2;
 
 }
 
-.receipt-footer h3{
+.footer-left{
 
-    font-size:22px;
+    flex:1;
+
+}
+
+.footer-right{
+
+    width:320px;
+
+}
+
+.footer-left h3{
+
+    color:#003366;
 
     margin-bottom:10px;
 
 }
 
-.receipt-footer p{
+.footer-left p{
 
-    line-height:1.8;
+    color:#666;
 
-    font-size:14px;
-
-}
-
-.receipt-footer span{
-
-    font-weight:bold;
+    margin-bottom:6px;
 
 }
 
-@media (max-width:900px){
+.footer-right p{
 
-    .receipt-footer{
+    display:flex;
 
-        flex-direction:column;
+    justify-content:space-between;
 
-        padding:25px;
+    margin-bottom:12px;
 
-    }
-
-}
-
-/* ==========================================
-   WATERMARK
-========================================== */
-
-.receipt{
-    position:relative;
-}
-
-.receipt::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background:url("image/agl-watermark.png") center center no-repeat;
-
-    background-size:280px;
-
-    opacity:.03;
-
-    pointer-events:none;
+    color:#444;
 
 }
 
-/* ==========================================
-   SECTION SPACING
-========================================== */
+.footer-right strong{
 
-.people,
-.details,
-.charges,
-.route-map,
-.security,
-.authorization{
-
-    page-break-inside:avoid;
-    break-inside:avoid;
+    color:#003366;
 
 }
 
-/* ==========================================
-   PRINT SETTINGS
-========================================== */
-
-@page{
-
-    size:A4;
-
-    margin:12mm;
-
-}
-
-@media print{
-
-    body{
-
-        background:#fff;
-        padding:0;
-
-    }
-
-    .receipt{
-
-        width:100%;
-        max-width:100%;
-        border-radius:0;
-        box-shadow:none;
-
-    }
-
-    .receipt::before{
-
-        opacity:.025;
-
-    }
-
-    .route-map{
-
-        page-break-before:always;
-
-    }
-
-    .receipt-footer{
-
-        page-break-inside:avoid;
-
-    }
-
-    img{
-
-        max-width:100%;
-
-    }
-
-}
-
-/* ==========================================
-   PERFECT TWO-PAGE PRINT LAYOUT
-========================================== */
-
-@page{
-    size:A4;
-    margin:12mm;
-}
-
-@media print{
-
-    html,
-    body{
-        background:#fff;
-        margin:0;
-        padding:0;
-    }
-
-    .receipt{
-        width:100%;
-        max-width:100%;
-        margin:0;
-        padding:0;
-        box-shadow:none;
-        border-radius:0;
-    }
-
-    /* Never split these sections */
-
-    .receipt-header,
-    .people,
-    .details,
-    .charges,
-    .security,
-    .authorization,
-    .receipt-footer{
-
-        break-inside:avoid;
-        page-break-inside:avoid;
-
-    }
-
-    /* PAGE 2 STARTS HERE */
-
-    .route-map{
-
-        break-before:page;
-        page-break-before:always;
-
-    }
-
-}
-
-/* ==========================================
+/* ==========================
    ACTION BUTTONS
-========================================== */
+========================== */
 
 .receipt-actions{
 
-    display:flex;
-    justify-content:center;
-    gap:15px;
-    padding:30px;
+    width:210mm;
 
-    background:#f8fbff;
+    margin:25px auto;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
 
 }
 
 .receipt-actions button{
 
     background:#0b4ea2;
+
     color:#fff;
 
     border:none;
 
-    padding:14px 28px;
-
     border-radius:8px;
 
-    cursor:pointer;
+    padding:14px 28px;
 
     font-size:15px;
 
     font-weight:600;
 
-    transition:.3s;
+    cursor:pointer;
+
+    transition:.25s;
 
 }
 
 .receipt-actions button:hover{
 
-    background:#083b7a;
+    background:#083b82;
+
+    transform:translateY(-2px);
 
 }
 
+/* =====================================================
+   AMERICAN GLOBAL LOGISTICS
+   RECEIPT V5
+   PART 4
+   Responsive + Print
+===================================================== */
+
+/* ==========================
+   TABLETS
+========================== */
+
+@media (max-width:992px){
+
+.page{
+
+    width:100%;
+
+    min-height:auto;
+
+    padding:30px;
+
+}
+
+.receipt-header{
+
+    flex-direction:column;
+
+}
+
+.receipt-info{
+
+    width:100%;
+
+}
+
+.people{
+
+    grid-template-columns:1fr;
+
+}
+
+.details-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+.security{
+
+    grid-template-columns:1fr;
+
+}
+
+.authorization{
+
+    grid-template-columns:1fr;
+
+}
+
+.receipt-footer{
+
+    flex-direction:column;
+
+}
+
+.footer-right{
+
+    width:100%;
+
+}
+
+.receipt-actions{
+
+    width:100%;
+
+    flex-wrap:wrap;
+
+}
+
+}
+
+/* ==========================
+   PHONES
+========================== */
+
 @media (max-width:768px){
 
-    .receipt-actions{
+body{
 
-        flex-direction:column;
+    padding:10px;
 
-    }
+}
 
-    .receipt-actions button{
+.page{
 
-        width:100%;
+    padding:20px;
 
-    }
+}
+
+.company{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+.logo{
+
+    width:70px;
+
+}
+
+.company h1{
+
+    font-size:24px;
+
+}
+
+.receipt-info h2{
+
+    font-size:20px;
+
+}
+
+.card h2{
+
+    font-size:18px;
+
+}
+
+.details h2,
+.charges h2,
+.route-map h2{
+
+    font-size:20px;
+
+}
+
+#receiptMap{
+
+    height:240px;
+
+}
+
+.signature img{
+
+    width:130px;
+
+}
+
+.signature .seal{
+
+    width:90px;
+
+}
+
+.verification-box h2{
+
+    font-size:24px;
+
+    letter-spacing:2px;
+
+}
+
+.receipt-actions{
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+.receipt-actions button{
+
+    width:100%;
+
+    max-width:320px;
+
+}
+
+}
+
+/* ==========================
+   PRINT SETTINGS
+========================== */
+
+@page{
+
+    size:A4 portrait;
+
+    margin:10mm;
 
 }
 
 @media print{
 
-    .receipt-actions{
+body{
 
-        display:none !important;
+    background:#fff;
 
-    }
+    padding:0;
 
 }
+
+.page{
+
+    width:190
+       
+ min-height:277mm;
+
+    margin:0;
+
+    padding:12mm;
+
+    box-shadow:none;
+
+    page-break-after:always;
+
+    break-after:page;
+
+}
+
+.page:last-child{
+
+    page-break-after:auto;
+
+    break-after:auto;
+
+}
+
+.receipt-actions{
+
+    display:none;
+
+}
+
+.page::before{
+
+    opacity:.025;
+
+}
+
+#receiptMap{
+
+    height:220px;
+
+}
+
+.signature img{
+
+    max-height:65px;
+
+}
+
+.verification-box h2{
+
+    font-size:24px;
+
+}
+
+}
+
+/* ==========================
+   UTILITIES
+========================== */
+
+table{
+
+    table-layout:fixed;
+
+}
+
+td{
+
+    overflow-wrap:anywhere;
+
+}
+
+img{
+
+    max-width:100%;
+
+    display:block;
+
+}
+
+svg{
+
+    max-width:100%;
+
+}
+
+canvas{
+
+    max-width:100%;
+
+}
+
+button{
+
+    font-family:inherit;
+
+   }
+   
