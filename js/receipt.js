@@ -496,3 +496,56 @@ if (typeof L !== "undefined" && $("receiptMap")) {
         map.invalidateSize();
     }, 300);
 }
+
+/* ==========================================
+   SHIPMENT ROUTE MAP
+========================================== */
+
+if (typeof L !== "undefined" && $("receiptMap")) {
+
+    const origin = [
+        Number(shipment.originLat),
+        Number(shipment.originLng)
+    ];
+
+    const destination = [
+        Number(shipment.destinationLat),
+        Number(shipment.destinationLng)
+    ];
+
+    const map = L.map("receiptMap");
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution: "© OpenStreetMap contributors",
+            maxZoom: 19
+        }
+    ).addTo(map);
+
+    const originMarker = L.marker(origin)
+        .addTo(map)
+        .bindPopup("<b>Origin</b><br>" + shipment.origin);
+
+    const destinationMarker = L.marker(destination)
+        .addTo(map)
+        .bindPopup("<b>Destination</b><br>" + shipment.destination);
+
+    const route = L.polyline(
+        [origin, destination],
+        {
+            color:"#0b4ea2",
+            weight:5,
+            opacity:0.9
+        }
+    ).addTo(map);
+
+    map.fitBounds(route.getBounds(), {
+        padding:[40,40]
+    });
+
+    setTimeout(() => {
+        map.invalidateSize();
+    },300);
+
+}
