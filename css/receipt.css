@@ -1374,3 +1374,25 @@ grid-template-columns:repeat(2,1fr);
         line-height:1.35;
     }
 }
+
+/* FULL WIDTH SHIPMENT DETAILS */
+
+.details table,
+.extra-details table,
+.charges table{
+    width:100%;
+    table-layout:fixed;
+}
+
+.details td:first-child,
+.extra-details td:first-child,
+.charges td:first-child{
+    width:35%;
+}
+
+.details td:last-child,
+.extra-details td:last-child,
+.charges td:last-child{
+    width:65%;
+    word-break:break-word;
+}
