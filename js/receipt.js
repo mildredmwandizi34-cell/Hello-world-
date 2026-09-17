@@ -159,190 +159,63 @@ if (index >= 0) {
    HEADER
 ===================================================== */
 
-set(
-    "trackingNumber",
-    shipment.trackingNumber
-);
-
-set(
-    "receiptNumber",
-    shipment.receiptNumber
-);
-
-set(
-    "receiptNumberBottom",
-    shipment.receiptNumber
-);
-
-set(
-    "receiptDate",
-    shipment.receiptDate
-);
-
-set(
-    "receiptPaymentStatus",
-    shipment.payment
-);
-
-set(
-    "receiptShipmentStatus",
-    shipment.status
-);
-
-set(
-    "receiptServiceType",
-    shipment.service
-);
-
-set(
-    "receiptDelivery",
-    shipment.delivery
-);
+set("trackingNumber", shipment.trackingNumber);
+set("receiptNumber", shipment.receiptNumber);
+set("receiptNumberBottom", shipment.receiptNumber);
+set("receiptDate", shipment.receiptDate);
+set("receiptPaymentStatus", shipment.payment);
+set("receiptShipmentStatus", shipment.status);
+set("receiptServiceType", shipment.service);
+set("receiptDelivery", shipment.delivery);
 
 
 /* =====================================================
    SUMMARY
 ===================================================== */
 
-set(
-    "summaryTracking",
-    shipment.trackingNumber
-);
-
-set(
-    "summaryStatus",
-    shipment.status
-);
-
-set(
-    "summaryLocation",
-    shipment.location
-);
-
-set(
-    "summaryDelivery",
-    shipment.delivery
-);
+set("summaryTracking", shipment.trackingNumber);
+set("summaryStatus", shipment.status);
+set("summaryLocation", shipment.location);
+set("summaryDelivery", shipment.delivery);
 
 
 /* =====================================================
    SENDER
 ===================================================== */
 
-set(
-    "senderName",
-    shipment.senderName
-);
-
-set(
-    "senderCompany",
-    shipment.senderCompany
-);
-
-set(
-    "senderAddress",
-    shipment.senderAddress
-);
-
-set(
-    "senderCity",
-    shipment.senderCity
-);
-
-set(
-    "senderCountry",
-    shipment.senderCountry
-);
-
-set(
-    "senderPhone",
-    shipment.senderPhone
-);
-
-set(
-    "senderEmail",
-    shipment.senderEmail
-);
+set("senderName", shipment.senderName);
+set("senderCompany", shipment.senderCompany);
+set("senderAddress", shipment.senderAddress);
+set("senderCity", shipment.senderCity);
+set("senderCountry", shipment.senderCountry);
+set("senderPhone", shipment.senderPhone);
+set("senderEmail", shipment.senderEmail);
 
 
 /* =====================================================
    RECEIVER
 ===================================================== */
 
-set(
-    "receiverName",
-    shipment.receiverName
-);
-
-set(
-    "receiverCompany",
-    shipment.receiverCompany
-);
-
-set(
-    "receiverAddress",
-    shipment.receiverAddress
-);
-
-set(
-    "receiverCity",
-    shipment.receiverCity
-);
-
-set(
-    "receiverCountry",
-    shipment.receiverCountry
-);
-
-set(
-    "receiverPhone",
-    shipment.receiverPhone
-);
-
-set(
-    "receiverEmail",
-    shipment.receiverEmail
-);
+set("receiverName", shipment.receiverName);
+set("receiverCompany", shipment.receiverCompany);
+set("receiverAddress", shipment.receiverAddress);
+set("receiverCity", shipment.receiverCity);
+set("receiverCountry", shipment.receiverCountry);
+set("receiverPhone", shipment.receiverPhone);
+set("receiverEmail", shipment.receiverEmail);
 
 
 /* =====================================================
    SHIPMENT DETAILS
 ===================================================== */
 
-set(
-    "referenceNumber",
-    shipment.reference
-);
-
-set(
-    "customerReference",
-    shipment.customerReference
-);
-
-set(
-    "package",
-    shipment.package
-);
-
-set(
-    "packageType",
-    shipment.descriptionType
-);
-
-set(
-    "pieces",
-    shipment.pieces
-);
-
-set(
-    "weight",
-    shipment.weight
-);
-
-set(
-    "dimensions",
-    shipment.dimensions
-);
+set("referenceNumber", shipment.reference);
+set("customerReference", shipment.customerReference);
+set("package", shipment.package);
+set("packageType", shipment.descriptionType);
+set("pieces", shipment.pieces);
+set("weight", shipment.weight);
+set("dimensions", shipment.dimensions);
 
 set(
     "declaredValue",
@@ -351,90 +224,33 @@ set(
         : "-"
 );
 
-set(
-    "service",
-    shipment.service
-);
-
-set(
-    "insurance",
-    shipment.insurance
-);
-
-set(
-    "paymentStatus",
-    shipment.payment
-);
+set("service", shipment.service);
+set("insurance", shipment.insurance);
+set("paymentStatus", shipment.payment);
 
 
 /* =====================================================
    ROUTE
 ===================================================== */
 
-set(
-    "origin",
-    shipment.origin
-);
-
-set(
-    "destination",
-    shipment.destination
-);
-
-set(
-    "delivery",
-    shipment.delivery
-);
-
-set(
-    "route",
-    shipment.route
-);
-
-set(
-    "instructions",
-    shipment.instructions
-);
+set("origin", shipment.origin);
+set("destination", shipment.destination);
+set("delivery", shipment.delivery);
+set("route", shipment.route);
+set("instructions", shipment.instructions);
 
 
 /* =====================================================
    REFERENCES
 ===================================================== */
 
-set(
-    "shipmentId",
-    shipment.shipmentId
-);
-
-set(
-    "customerReferenceExtra",
-    shipment.customerReference
-);
-
-set(
-    "reference",
-    shipment.reference
-);
-
-set(
-    "barcodeNumber",
-    shipment.barcodeNumber
-);
-
-set(
-    "createdTime",
-    shipment.createdTime
-);
-
-set(
-    "instructionsReference",
-    shipment.instructions
-);
-
-set(
-    "instructionsText",
-    shipment.instructions
-);
+set("shipmentId", shipment.shipmentId);
+set("customerReferenceExtra", shipment.customerReference);
+set("reference", shipment.reference);
+set("barcodeNumber", shipment.barcodeNumber);
+set("createdTime", shipment.createdTime);
+set("instructionsReference", shipment.instructions);
+set("instructionsText", shipment.instructions);
 
 
 /* =====================================================
@@ -474,45 +290,24 @@ set(
    VERIFICATION
 ===================================================== */
 
-set(
-    "verificationCode",
-    shipment.verificationCode
-);
-
-set(
-    "verificationCodeLarge",
-    shipment.verificationCode
-);
+set("verificationCode", shipment.verificationCode);
+set("verificationCodeLarge", shipment.verificationCode);
 
 
 /* =====================================================
    SIGNATURES
 ===================================================== */
 
-set(
-    "senderSignature",
-    shipment.senderSignature
-);
-
-set(
-    "authorizedOfficer",
-    shipment.authorizedOfficer
-);
+set("senderSignature", shipment.senderSignature);
+set("authorizedOfficer", shipment.authorizedOfficer);
 
 
 /* =====================================================
    FOOTER
 ===================================================== */
 
-set(
-    "documentNo",
-    shipment.documentNo
-);
-
-set(
-    "issueDate",
-    shipment.issueDate
-);
+set("documentNo", shipment.documentNo);
+set("issueDate", shipment.issueDate);
 
 
 /* =====================================================
@@ -772,144 +567,51 @@ if (
 
 
         /* =================================================
-   AIRPLANE
-================================================= */
+           AIRPLANE
+        ================================================= */
 
-const airplaneIcon =
-    L.divIcon({
+        const airplaneIcon =
+            L.divIcon({
 
-        className:
-            "agl-airplane-icon",
+                className:
+                    "agl-airplane-icon",
 
-        html:
-            '<div class="agl-airplane">✈</div>',
+                html:
+                    '<div class="agl-airplane">✈</div>',
 
-        iconSize: [
-            38,
-            38
-        ],
+                iconSize: [
+                    34,
+                    34
+                ],
 
-        iconAnchor: [
-            19,
-            19
-        ]
-    });
-
-
-const airplane =
-    L.marker(
-        origin,
-        {
-            icon:
-                airplaneIcon,
-
-            interactive:
-                false,
-
-            zIndexOffset:
-                1000
-        }
-    ).addTo(map);
+                iconAnchor: [
+                    17,
+                    17
+                ]
+            });
 
 
-   /* =================================================
-   AIRPLANE
-================================================= */
+        const airplane =
+            L.marker(
+                origin,
+                {
+                    icon:
+                        airplaneIcon,
 
-const airplaneIcon =
-    L.divIcon({
+                    interactive:
+                        false,
 
-        className:
-            "agl-airplane-icon",
+                    zIndexOffset:
+                        1000
+                }
+            ).addTo(map);
 
-        html:
-            '<div class="agl-airplane">✈</div>',
-
-        iconSize: [
-            34,
-            34
-        ],
-
-        iconAnchor: [
-            17,
-            17
-        ]
-    });
-
-
-const airplane =
-    L.marker(
-        origin,
-        {
-            icon:
-                airplaneIcon,
-
-            interactive:
-                false,
-
-            zIndexOffset:
-                1000
-        }
-    ).addTo(map);
-
-
-/* =================================================
-   AIRPLANE ANIMATION
-================================================= */
-
-let progress = 0;
-
-function animatePlane() {
-
-    progress +=
-        0.003;
-
-
-    if (progress >= 1) {
-
-        progress = 0;
-    }
-
-
-    const lat =
-        originLat +
-        (
-            destinationLat -
-            originLat
-        ) * progress;
-
-
-    const lng =
-        originLng +
-        (
-            destinationLng -
-            originLng
-        ) * progress;
-
-
-    airplane.setLatLng(
-        [
-            lat,
-            lng
-        ]
-    );
-
-
-    requestAnimationFrame(
-        animatePlane
-    );
-}
-
-
-animatePlane(); 
 
         /* =================================================
            AIRPLANE ANIMATION
         ================================================= */
 
         let progress = 0;
-
-        let direction = 1;
 
 
         function animatePlane() {
