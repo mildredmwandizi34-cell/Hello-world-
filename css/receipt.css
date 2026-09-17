@@ -189,72 +189,29 @@ text-transform:uppercase;
 ========================================================= */
 
 .people-grid{
-    width:100%;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-    margin-top:6px;
-    align-items:stretch;
+    grid-template-columns:1fr 1fr !important;
+    gap:4px !important;
 }
 
 .person-box{
-    width:100%;
-    min-width:0;
-    border:1px solid #d7dee8;
-    border-radius:4px;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
+    width:100% !important;
+    min-width:0 !important;
 }
 
 .person-content{
-    width:100%;
-    flex:1;
-
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        1fr
-        1fr;
-
-    gap:3px 8px;
-
-    padding:5px 8px;
-
-    font-size:7px;
-    line-height:1.2;
-
-    min-width:0;
+    grid-template-columns:1fr 1fr !important;
+    gap:3px 5px !important;
+    padding:5px !important;
+    font-size:6px !important;
 }
 
 .person-content strong{
-    grid-column:1 / -1;
-
-    font-size:9px;
-    color:#083b80;
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.person-content > span{
-    min-width:0;
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    font-size:7px !important;
 }
 
 .person-content > span:nth-child(3){
-    grid-column:1 / -1;
+    grid-column:1 / -1 !important;
 }
-
-.person-content b{
-    font-weight:700;
-    color:#555;
-    }
 
 /* =========================================================
 SHIPMENT DETAILS
