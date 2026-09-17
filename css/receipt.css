@@ -115,28 +115,6 @@ body{
 }
 
 /* =========================================================
-   SHIPMENT RECEIPT BOX
-   TOP-RIGHT PREMIUM RECTANGLE
-========================================================= */
-
-.receipt-header{
-    width:100%;
-
-    display:grid !important;
-
-    grid-template-columns:minmax(0,1fr) 78mm;
-
-    align-items:center;
-
-    column-gap:8mm;
-
-    padding-bottom:6px;
-
-    border-bottom:3px solid #0b4ea2;
-}
-
-
-/* =========================================================
    SHIPMENT RECEIPT RECTANGLE
 ========================================================= */
 
@@ -1018,38 +996,87 @@ body{
         overflow:hidden !important;
     }
 
+/* =========================================================
+   PRINT — SHIPMENT RECEIPT HEADER
+========================================================= */
 
-    /* HEADER */
+.receipt-header{
+    display:grid !important;
 
-    .receipt-header{
-        grid-template-columns:minmax(0,1fr) 70mm !important;
+    grid-template-columns:minmax(0,1fr) 78mm !important;
 
-        column-gap:8mm !important;
-    }
+    align-items:center !important;
 
-    .receipt-heading{
-        width:70mm !important;
-
-        min-width:70mm !important;
-
-        max-width:70mm !important;
-
-        padding:5mm 3mm !important;
-    }
-
-    .receipt-heading h2{
-        font-size:8px !important;
-    }
-
-    .receipt-meta span{
-        font-size:5px !important;
-    }
-
-    .receipt-meta strong{
-        font-size:6px !important;
-    }
+    column-gap:8mm !important;
+}
 
 
+.receipt-heading{
+    width:78mm !important;
+
+    min-width:78mm !important;
+
+    min-height:29mm !important;
+
+    padding:5mm 6mm !important;
+
+    margin-left:auto !important;
+
+    border:2px solid #083b80 !important;
+
+    border-radius:5px !important;
+
+    background:#fff !important;
+
+    display:flex !important;
+
+    flex-direction:column !important;
+
+    justify-content:center !important;
+
+    align-items:center !important;
+
+    text-align:center !important;
+}
+
+
+.receipt-heading h2{
+    font-size:19px !important;
+
+    line-height:1.1 !important;
+
+    font-weight:800 !important;
+
+    letter-spacing:.7px !important;
+}
+
+
+.receipt-meta{
+    width:100% !important;
+
+    display:grid !important;
+
+    grid-template-columns:1fr 1fr 1fr !important;
+
+    gap:5px !important;
+
+    margin-top:5px !important;
+
+    padding-top:5px !important;
+
+    border-top:1px solid #d7dee8 !important;
+}
+
+
+.receipt-meta span{
+    font-size:5.5px !important;
+}
+
+
+.receipt-meta strong{
+    font-size:6.5px !important;
+}
+    
     /* SENDER / RECEIVER */
 
     .people-grid{
