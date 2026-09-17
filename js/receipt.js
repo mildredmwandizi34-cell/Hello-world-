@@ -1,14 +1,14 @@
 /* =====================================================
-   American Global Logistics
-   Receipt.js Pro
-   Compact Receipt + Animated Air Route + QR
+   AMERICAN GLOBAL LOGISTICS
+   Receipt.js
+   Clean Stable Version
 ===================================================== */
 
 "use strict";
 
 
 /* =====================================================
-   HELPER FUNCTIONS
+   HELPERS
 ===================================================== */
 
 function $(id) {
@@ -52,7 +52,7 @@ let shipment =
     );
 
 
-/* Fallback */
+/* FALLBACK */
 
 if (!shipment) {
 
@@ -63,7 +63,7 @@ if (!shipment) {
 }
 
 
-/* Shipment not found */
+/* NO SHIPMENT */
 
 if (!shipment) {
 
@@ -146,8 +146,7 @@ const index =
 
 if (index >= 0) {
 
-    shipments[index] =
-        shipment;
+    shipments[index] = shipment;
 
     localStorage.setItem(
         "shipments",
@@ -530,49 +529,30 @@ const paymentStamp =
 const paymentStampLarge =
     $("paymentStampLarge");
 
-
 if (paymentStamp) {
 
-    paymentStamp.className =
-        "stamp";
+    paymentStamp.className = "stamp";
 
     if (payment === "paid") {
 
-        paymentStamp.classList.add(
-            "paid"
-        );
-
-        paymentStamp.textContent =
-            "PAID";
+        paymentStamp.classList.add("paid");
+        paymentStamp.textContent = "PAID";
 
     } else if (payment === "pending") {
 
-        paymentStamp.classList.add(
-            "pending"
-        );
-
-        paymentStamp.textContent =
-            "PENDING";
+        paymentStamp.classList.add("pending");
+        paymentStamp.textContent = "PENDING";
 
     } else if (payment === "received") {
 
-        paymentStamp.classList.add(
-            "received"
-        );
-
-        paymentStamp.textContent =
-            "RECEIVED";
+        paymentStamp.classList.add("received");
+        paymentStamp.textContent = "RECEIVED";
 
     } else {
 
-        paymentStamp.classList.add(
-            "unpaid"
-        );
-
-        paymentStamp.textContent =
-            "UNPAID";
+        paymentStamp.classList.add("unpaid");
+        paymentStamp.textContent = "UNPAID";
     }
-
 
     if (paymentStampLarge) {
 
@@ -607,7 +587,6 @@ if (
         );
     }
 
-
     if ($("barcodeLarge")) {
 
         JsBarcode(
@@ -639,13 +618,6 @@ if (
             shipment.trackingNumber
         );
 
-
-    /*
-       IMPORTANT:
-       qrcode in receipt.html is already a CANVAS.
-       Therefore we draw directly onto it.
-    */
-
     QRCode.toCanvas(
         $("qrcode"),
         trackingURL,
@@ -659,14 +631,14 @@ if (
             if (error) {
 
                 console.error(
-                    "QR code error:",
+                    "QR Code Error:",
                     error
                 );
 
             } else {
 
                 console.log(
-                    "QR code generated."
+                    "QR code generated successfully."
                 );
             }
         }
@@ -675,92 +647,7 @@ if (
 
 
 /* =====================================================
-   OPTIONAL TIMELINE SUPPORT
-===================================================== */
-
-function complete(id) {
-
-    const step =
-        $(id);
-
-    if (step) {
-
-        step.classList.add(
-            "complete"
-        );
-    }
-}
-
-
-switch (
-    (shipment.status || "")
-        .toLowerCase()
-) {
-
-    case "shipment created":
-
-        complete(
-            "stepCreated"
-        );
-
-        break;
-
-
-    case "picked up":
-
-        complete(
-            "stepCreated"
-        );
-
-        complete(
-            "stepPicked"
-        );
-
-        break;
-
-
-    case "in transit":
-
-        complete(
-            "stepCreated"
-        );
-
-        complete(
-            "stepPicked"
-        );
-
-        complete(
-            "stepTransit"
-        );
-
-        break;
-
-
-    case "delivered":
-
-        complete(
-            "stepCreated"
-        );
-
-        complete(
-            "stepPicked"
-        );
-
-        complete(
-            "stepTransit"
-        );
-
-        complete(
-            "stepDelivered"
-        );
-
-        break;
-}
-
-
-/* =====================================================
    SHIPPING ROUTE MAP
-   ONE MAP ONLY
 ===================================================== */
 
 if (
@@ -778,9 +665,7 @@ if (
         );
 
 
-    /* =================================================
-       MAP TILES
-    ================================================= */
+    /* MAP TILES */
 
     L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -791,9 +676,7 @@ if (
     ).addTo(map);
 
 
-    /* =================================================
-       CHECK COORDINATES
-    ================================================= */
+    /* COORDINATES */
 
     const originLat =
         Number(shipment.originLat);
@@ -816,7 +699,7 @@ if (
 
 
     /* =================================================
-       VALID ROUTE
+       ROUTE AVAILABLE
     ================================================= */
 
     if (validCoordinates) {
@@ -832,9 +715,7 @@ if (
         ];
 
 
-        /* =============================================
-           ORIGIN
-        ============================================= */
+        /* ORIGIN */
 
         L.circleMarker(
             origin,
@@ -853,9 +734,7 @@ if (
         );
 
 
-        /* =============================================
-           DESTINATION
-        ============================================= */
+        /* DESTINATION */
 
         L.circleMarker(
             destination,
@@ -874,9 +753,7 @@ if (
         );
 
 
-        /* =============================================
-           ROUTE LINE
-        ============================================= */
+        /* ROUTE LINE */
 
         const route =
             L.polyline(
@@ -894,9 +771,9 @@ if (
             .addTo(map);
 
 
-        /* =============================================
-           AIRPLANE ICON
-        ============================================= */
+        /* =================================================
+           AIRPLANE
+        ================================================= */
 
         const airplaneIcon =
             L.divIcon({
@@ -908,148 +785,88 @@ if (
                     '<div class="agl-airplane">✈</div>',
 
                 iconSize: [
-                    30,
-                    30
+                    34,
+                    34
                 ],
 
                 iconAnchor: [
-                    15,
-                    15
+                    17,
+                    17
                 ]
             });
 
 
-        /* =====================================================
-   ANIMATED AIRPLANE
-===================================================== */
+        const airplane =
+            L.marker(
+                origin,
+                {
+                    icon:
+                        airplaneIcon,
 
-const airplaneIcon =
-    L.divIcon({
+                    interactive:
+                        false,
 
-        className:
-            "agl-airplane-icon",
-
-        html:
-            '<div class="agl-airplane">✈</div>',
-
-        iconSize:[
-            34,
-            34
-        ],
-
-        iconAnchor:[
-            17,
-            17
-        ]
-    });
+                    zIndexOffset:
+                        1000
+                }
+            ).addTo(map);
 
 
-/* =============================================
-   CREATE AIRPLANE AT ORIGIN
-============================================= */
+        /* =================================================
+           AIRPLANE ANIMATION
+        ================================================= */
 
-const airplane =
-    L.marker(
-        origin,
-        {
-            icon:
-                airplaneIcon,
+        let progress = 0;
 
-            interactive:
-                false,
+        let direction = 1;
 
-            zIndexOffset:
-                1000
+
+        function animatePlane() {
+
+            progress +=
+                0.003;
+
+
+            if (progress >= 1) {
+
+                progress = 0;
+            }
+
+
+            const lat =
+                originLat +
+                (
+                    destinationLat -
+                    originLat
+                ) * progress;
+
+
+            const lng =
+                originLng +
+                (
+                    destinationLng -
+                    originLng
+                ) * progress;
+
+
+            airplane.setLatLng(
+                [
+                    lat,
+                    lng
+                ]
+            );
+
+
+            requestAnimationFrame(
+                animatePlane
+            );
         }
-    ).addTo(map);
 
 
-/* =============================================
-   ANIMATION VARIABLES
-============================================= */
-
-let planeProgress = 0;
-
-let planeDirection = 1;
+        animatePlane();
 
 
-/* =============================================
-   ANIMATE FROM ORIGIN → DESTINATION
-============================================= */
-
-function animatePlane(){
-
-    planeProgress +=
-        0.004 * planeDirection;
-
-
-    /* Reach destination */
-
-    if(
-        planeProgress >= 1
-    ){
-
-        planeProgress = 1;
-
-        planeDirection = -1;
-    }
-
-
-    /* Return to origin */
-
-    if(
-        planeProgress <= 0
-    ){
-
-        planeProgress = 0;
-
-        planeDirection = 1;
-    }
-
-
-    /* =========================================
-       CURRENT AIRPLANE POSITION
-    ========================================= */
-
-    const currentLat =
-        originLat +
-        (
-            destinationLat -
-            originLat
-        ) * planeProgress;
-
-
-    const currentLng =
-        originLng +
-        (
-            destinationLng -
-            originLng
-        ) * planeProgress;
-
-
-    airplane.setLatLng([
-        currentLat,
-        currentLng
-    ]);
-
-
-    /* =========================================
-       CONTINUE ANIMATION
-    ========================================= */
-
-    requestAnimationFrame(
-        animatePlane
-    );
-}
-
-
-/* START */
-
-animatePlane();
-
-        /* =============================================
-           FIT MAP TO ROUTE
-        ============================================= */
+        /* FIT MAP */
 
         map.fitBounds(
             route.getBounds(),
@@ -1064,9 +881,7 @@ animatePlane();
 
     } else {
 
-        /*
-           Coordinates not available.
-        */
+        /* NO COORDINATES */
 
         map.setView(
             [
@@ -1078,9 +893,7 @@ animatePlane();
     }
 
 
-    /* =================================================
-       FIX MAP RENDERING
-    ================================================= */
+    /* FIX MAP SIZE */
 
     setTimeout(
         function() {
@@ -1088,11 +901,11 @@ animatePlane();
             map.invalidateSize();
 
         },
-        400
+        500
     );
 }
 
 
 console.log(
-    "Receipt loaded successfully."
+    "AGL Receipt loaded successfully."
 );
