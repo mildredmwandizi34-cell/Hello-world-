@@ -997,3 +997,186 @@ body{
 
     transform:rotate(0deg);
 }
+
+/* =====================================================
+   FINAL HEADER
+   COMPANY LEFT / RECEIPT BOX RIGHT
+===================================================== */
+
+.receipt-header{
+    width:100% !important;
+
+    display:grid !important;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        125px !important;
+
+    align-items:center !important;
+
+    column-gap:12px !important;
+
+    padding-bottom:6px !important;
+
+    border-bottom:3px solid #0b4ea2 !important;
+}
+
+
+/* =====================================================
+   COMPANY BRAND — LEFT
+===================================================== */
+
+.brand-area{
+    width:100% !important;
+    min-width:0 !important;
+
+    display:flex !important;
+    align-items:center !important;
+
+    gap:9px !important;
+
+    overflow:hidden !important;
+}
+
+.receipt-logo{
+    width:48px !important;
+    height:48px !important;
+
+    flex-shrink:0 !important;
+
+    object-fit:contain !important;
+}
+
+.brand-text{
+    min-width:0 !important;
+    overflow:hidden !important;
+}
+
+.brand-text h1{
+    font-size:13px !important;
+    line-height:1 !important;
+
+    font-weight:800 !important;
+
+    color:#083b80 !important;
+
+    white-space:nowrap !important;
+
+    overflow:hidden !important;
+
+    text-overflow:ellipsis !important;
+}
+
+.brand-text p{
+    margin-top:3px !important;
+
+    font-size:6px !important;
+
+    color:#667085 !important;
+
+    white-space:nowrap !important;
+
+    overflow:hidden !important;
+
+    text-overflow:ellipsis !important;
+}
+
+
+/* =====================================================
+   SHIPMENT RECEIPT BOX — RIGHT
+===================================================== */
+
+.receipt-heading{
+    width:125px !important;
+    min-width:0 !important;
+
+    padding:6px 7px !important;
+
+    border:1px solid #0b4ea2 !important;
+
+    border-radius:3px !important;
+
+    background:#f8fafc !important;
+
+    text-align:center !important;
+
+    overflow:hidden !important;
+}
+
+.receipt-heading h2{
+    margin:0 0 5px 0 !important;
+
+    font-size:9px !important;
+
+    line-height:1 !important;
+
+    font-weight:800 !important;
+
+    color:#0b4ea2 !important;
+
+    white-space:nowrap !important;
+}
+
+
+/* =====================================================
+   RECEIPT META
+===================================================== */
+
+.receipt-meta{
+    width:100% !important;
+
+    display:grid !important;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr !important;
+
+    gap:5px !important;
+
+    justify-content:center !important;
+}
+
+.receipt-meta div{
+    min-width:0 !important;
+
+    display:flex !important;
+
+    flex-direction:column !important;
+
+    align-items:center !important;
+
+    overflow:hidden !important;
+}
+
+.receipt-meta span{
+    font-size:4.5px !important;
+
+    line-height:1 !important;
+
+    color:#667085 !important;
+
+    text-transform:uppercase !important;
+
+    white-space:nowrap !important;
+}
+
+.receipt-meta strong{
+    display:block !important;
+
+    margin-top:2px !important;
+
+    font-size:5.5px !important;
+
+    line-height:1 !important;
+
+    color:#222 !important;
+
+    white-space:nowrap !important;
+
+    overflow:hidden !important;
+
+    text-overflow:ellipsis !important;
+
+    max-width:100% !important;
+}
