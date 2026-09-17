@@ -1567,4 +1567,386 @@ body{
         grid-template-columns:1fr !important;
     }
 
-   
+   /* =========================================================
+   FINAL RECEIPT SIZE ADJUSTMENT
+========================================================= */
+
+/* ---------- HEADER ---------- */
+
+.receipt-header{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) 70mm !important;
+    align-items:center !important;
+    column-gap:8mm !important;
+    width:100% !important;
+}
+
+.brand-area{
+    display:flex !important;
+    align-items:center !important;
+    min-width:0 !important;
+}
+
+.receipt-logo{
+    width:48px !important;
+    height:48px !important;
+    flex-shrink:0 !important;
+}
+
+.brand-text h1{
+    font-size:14px !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+}
+
+.brand-text p{
+    font-size:6.5px !important;
+    white-space:nowrap !important;
+}
+
+
+/* ---------- BIGGER SHIPMENT RECEIPT BOX ---------- */
+
+.receipt-heading{
+    width:70mm !important;
+    min-width:70mm !important;
+    max-width:70mm !important;
+
+    text-align:center !important;
+
+    border:1.5px solid #0b4ea2 !important;
+    border-radius:4px !important;
+
+    padding:6px 7px !important;
+
+    background:#f7faff !important;
+}
+
+.receipt-heading h2{
+    font-size:8px !important;
+    line-height:1 !important;
+    margin:0 0 6px 0 !important;
+
+    color:#0b4ea2 !important;
+
+    letter-spacing:.3px !important;
+    white-space:nowrap !important;
+}
+
+.receipt-meta{
+    display:grid !important;
+    grid-template-columns:1fr 1fr 1fr !important;
+    gap:6px !important;
+    width:100% !important;
+}
+
+.receipt-meta div{
+    min-width:0 !important;
+    text-align:center !important;
+    align-items:center !important;
+}
+
+.receipt-meta span{
+    font-size:5px !important;
+    white-space:nowrap !important;
+}
+
+.receipt-meta strong{
+    font-size:6px !important;
+    margin-top:2px !important;
+    max-width:100% !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+}
+
+
+/* ---------- SENDER + RECEIVER ---------- */
+
+.people-grid{
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:7px !important;
+    width:100% !important;
+}
+
+.person-box{
+    display:flex !important;
+    flex-direction:column !important;
+    min-width:0 !important;
+}
+
+.person-content{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    grid-template-rows:repeat(7,auto) !important;
+    gap:3.5px !important;
+    padding:6px 9px !important;
+    font-size:7.5px !important;
+    line-height:1.2 !important;
+    flex:1 !important;
+}
+
+.person-content strong{
+    grid-column:auto !important;
+    font-size:9px !important;
+}
+
+.person-content > span{
+    grid-column:auto !important;
+    min-width:0 !important;
+}
+
+
+/* ---------- SHIPMENT DETAILS ---------- */
+
+.shipment-grid{
+    display:grid !important;
+    grid-template-columns:1.4fr 1.1fr .55fr .8fr 1.1fr 1.2fr !important;
+    width:100% !important;
+}
+
+.shipment-item{
+    padding:7px 9px !important;
+}
+
+.shipment-item small{
+    font-size:6.5px !important;
+}
+
+.shipment-item strong{
+    font-size:8.5px !important;
+}
+
+
+/* ---------- ROUTE + CHARGES ---------- */
+
+.route-charges-grid{
+    display:grid !important;
+    grid-template-columns:2.15fr .85fr !important;
+    width:100% !important;
+}
+
+.route-information{
+    padding:6px 9px !important;
+}
+
+.route-location small{
+    font-size:6.5px !important;
+}
+
+.route-location strong{
+    font-size:8.5px !important;
+}
+
+.receipt-map{
+    height:80px !important;
+}
+
+
+/* ---------- CHARGES ---------- */
+
+.charge-row{
+    padding:6px 10px !important;
+    font-size:7.5px !important;
+}
+
+.charge-row strong{
+    font-size:8.5px !important;
+}
+
+.total-row{
+    padding:8px 10px !important;
+}
+
+.total-row span{
+    font-size:8.5px !important;
+}
+
+.total-row strong{
+    font-size:13px !important;
+}
+
+
+/* ---------- VERIFICATION ---------- */
+
+.verification-grid{
+    display:grid !important;
+    grid-template-columns:2.2fr .65fr 1fr .75fr !important;
+    width:100% !important;
+}
+
+.verification-box{
+    height:76px !important;
+}
+
+.company-seal{
+    width:65px !important;
+    height:65px !important;
+    max-width:65px !important;
+    max-height:65px !important;
+}
+
+
+/* ---------- PRINT ---------- */
+
+@media print{
+
+    @page{
+        size:A4 landscape !important;
+        margin:3mm !important;
+    }
+
+    .receipt-page{
+        width:291mm !important;
+        max-width:291mm !important;
+        min-height:0 !important;
+        margin:0 !important;
+        padding:4mm !important;
+        overflow:hidden !important;
+    }
+
+    .receipt-header{
+        grid-template-columns:minmax(0,1fr) 70mm !important;
+        column-gap:8mm !important;
+    }
+
+    .receipt-heading{
+        width:70mm !important;
+        min-width:70mm !important;
+        max-width:70mm !important;
+        padding:5mm 3mm !important;
+    }
+
+    /* Smaller LETTERING */
+    .receipt-heading h2{
+        font-size:8px !important;
+    }
+
+    .receipt-meta span{
+        font-size:5px !important;
+    }
+
+    .receipt-meta strong{
+        font-size:6px !important;
+    }
+
+    .people-grid{
+        grid-template-columns:1fr 1fr !important;
+    }
+
+    .person-content{
+        font-size:7px !important;
+        gap:3px !important;
+    }
+
+    .person-content strong{
+        font-size:8px !important;
+    }
+
+    .shipment-item strong{
+        font-size:8px !important;
+    }
+
+    .receipt-map{
+        height:75px !important;
+    }
+
+    .verification-box{
+        height:75px !important;
+    }
+
+    .company-seal{
+        width:62px !important;
+        height:62px !important;
+    }
+}
+
+
+/* ---------- PHONE ---------- */
+
+@media screen and (max-width:800px){
+
+    .receipt-page{
+        width:100% !important;
+        margin:0 !important;
+        padding:6px !important;
+    }
+
+    .receipt-header{
+        grid-template-columns:minmax(0,1fr) 125px !important;
+        column-gap:5px !important;
+    }
+
+    .receipt-logo{
+        width:40px !important;
+        height:40px !important;
+    }
+
+    .brand-text h1{
+        font-size:10px !important;
+    }
+
+    .brand-text p{
+        font-size:4.5px !important;
+    }
+
+    .receipt-heading{
+        width:125px !important;
+        min-width:125px !important;
+        max-width:125px !important;
+        padding:5px !important;
+    }
+
+    /* Smaller receipt lettering on phone */
+    .receipt-heading h2{
+        font-size:7px !important;
+    }
+
+    .receipt-meta{
+        grid-template-columns:1fr 1fr 1fr !important;
+        gap:2px !important;
+    }
+
+    .receipt-meta span{
+        font-size:3.5px !important;
+    }
+
+    .receipt-meta strong{
+        font-size:4.5px !important;
+    }
+
+    /* Sender LEFT / Receiver RIGHT */
+    .people-grid{
+        grid-template-columns:1fr 1fr !important;
+        gap:4px !important;
+    }
+
+    .person-content{
+        grid-template-columns:1fr !important;
+        gap:2.5px !important;
+        padding:5px !important;
+        font-size:6px !important;
+    }
+
+    .person-content strong{
+        font-size:7px !important;
+    }
+
+    .section-heading{
+        font-size:6px !important;
+        padding:3px 5px !important;
+    }
+
+    .shipment-grid{
+        grid-template-columns:repeat(3,1fr) !important;
+    }
+
+    .route-charges-grid{
+        grid-template-columns:1fr !important;
+    }
+
+    .verification-grid{
+        grid-template-columns:1fr 1fr !important;
+    }
+        }
