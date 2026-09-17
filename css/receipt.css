@@ -539,62 +539,168 @@ font-size:7px;
 font-weight:600;
 cursor:pointer;
 }
-
 /* =========================================================
-PRINT
+   FINAL A4 LANDSCAPE PRINT FIX
 ========================================================= */
 
 @media print{
 
-@page{
-    size:A4 landscape;
-    margin:4mm;
-}
+    @page{
+        size:A4 landscape;
+        margin:3mm;
+    }
 
-html,
-body{
-    width:100%;
-    height:auto;
-    margin:0 !important;
-    padding:0 !important;
-    background:#fff !important;
-}
+    html,
+    body{
+        width:100%;
+        height:auto;
+        margin:0 !important;
+        padding:0 !important;
+        background:#fff !important;
+        overflow:hidden !important;
+    }
 
-.receipt-page{
-    width:289mm;
-    min-height:0;
-    margin:0;
-    padding:5mm;
-    border:0;
-    box-shadow:none;
-    overflow:hidden;
-}
+    .receipt-page{
+        width:291mm !important;
+        max-width:291mm !important;
+        min-height:0 !important;
 
-.footer-actions{
-    display:none !important;
-}
+        margin:0 !important;
+        padding:4mm !important;
 
-.receipt-map{
-    height:70px;
-}
+        border:0 !important;
+        box-shadow:none !important;
 
-.receipt-page,
-.receipt-header,
-.summary-strip,
-.people-grid,
-.shipment-section,
-.route-charges-grid,
-.verification-grid,
-.receipt-footer{
-    break-inside:avoid;
-    page-break-inside:avoid;
-}
+        overflow:hidden !important;
+    }
 
-*{
-    -webkit-print-color-adjust:exact !important;
-    print-color-adjust:exact !important;
-}
+    /* =========================
+       HEADER
+    ========================= */
 
+    .receipt-header{
+        width:100% !important;
+
+        display:grid !important;
+        grid-template-columns:minmax(0,1fr) 125mm !important;
+
+        column-gap:8mm !important;
+
+        align-items:center !important;
+
+        overflow:hidden !important;
+    }
+
+    .brand-area{
+        min-width:0 !important;
+        width:100% !important;
+        overflow:hidden !important;
+    }
+
+    .brand-text{
+        min-width:0 !important;
+        overflow:hidden !important;
+    }
+
+    .brand-text h1{
+        font-size:12px !important;
+        white-space:nowrap !important;
+        overflow:hidden !important;
+        text-overflow:ellipsis !important;
+    }
+
+    .brand-text p{
+        font-size:5.5px !important;
+        white-space:nowrap !important;
+        overflow:hidden !important;
+    }
+
+    .receipt-heading{
+        width:125mm !important;
+        min-width:0 !important;
+        overflow:hidden !important;
+        text-align:right !important;
+    }
+
+    .receipt-heading h2{
+        font-size:11px !important;
+        white-space:nowrap !important;
+        overflow:hidden !important;
+    }
+
+    .receipt-meta{
+        width:100% !important;
+        display:flex !important;
+        justify-content:flex-end !important;
+        gap:6mm !important;
+        overflow:hidden !important;
+    }
+
+    .receipt-meta div{
+        min-width:0 !important;
+        overflow:hidden !important;
+    }
+
+    .receipt-meta span{
+        font-size:5px !important;
+        white-space:nowrap !important;
+    }
+
+    .receipt-meta strong{
+        font-size:6px !important;
+        max-width:35mm !important;
+        white-space:nowrap !important;
+        overflow:hidden !important;
+        text-overflow:ellipsis !important;
+    }
+
+    /* =========================
+       MAIN CONTENT
+    ========================= */
+
+    .summary-strip,
+    .people-grid,
+    .shipment-section,
+    .route-charges-grid,
+    .verification-grid,
+    .receipt-footer{
+        width:100% !important;
+        max-width:100% !important;
+
+        break-inside:avoid !important;
+        page-break-inside:avoid !important;
+    }
+
+    /* =========================
+       MAP
+    ========================= */
+
+    .receipt-map{
+        height:68px !important;
+        overflow:hidden !important;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer-actions{
+        display:none !important;
+    }
+
+    /* =========================
+       PREVENT HORIZONTAL OVERFLOW
+    ========================= */
+
+    .receipt-page *,
+    .receipt-page{
+        max-width:100%;
+    }
+
+    *{
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
+    }
 }
 
 /* =========================================================
