@@ -77,8 +77,8 @@ body{
 }
 
 .receipt-logo{
-    width:48px;
-    height:48px;
+    width:68px;
+    height:68px;
 
     display:block;
 
@@ -86,7 +86,7 @@ body{
 
     flex-shrink:0;
 
-    margin-right:10px;
+    margin-right:12px;
 }
 
 .brand-text{
