@@ -1,7 +1,7 @@
 /* =====================================================
    American Global Logistics
    Receipt.js Pro
-   Clean Receipt + Airplane Route
+   Compact Receipt + Animated Air Route + QR
 ===================================================== */
 
 "use strict";
@@ -31,14 +31,19 @@ function set(id, value) {
 
 
 /* =====================================================
-   LOAD SHIPMENT FROM URL
+   LOAD SHIPMENT
 ===================================================== */
 
-const params = new URLSearchParams(window.location.search);
-const tracking = params.get("tracking");
+const params =
+    new URLSearchParams(window.location.search);
+
+const tracking =
+    params.get("tracking");
 
 const shipments =
-    JSON.parse(localStorage.getItem("shipments")) || [];
+    JSON.parse(
+        localStorage.getItem("shipments")
+    ) || [];
 
 let shipment =
     shipments.find(item =>
@@ -67,7 +72,9 @@ if (!shipment) {
     window.location.href =
         "create-shipment.html";
 
-    throw new Error("Shipment not found.");
+    throw new Error(
+        "Shipment not found."
+    );
 }
 
 
@@ -121,7 +128,7 @@ shipment.verificationCode =
 
 
 /* =====================================================
-   SAVE UPDATED SHIPMENT
+   SAVE SHIPMENT
 ===================================================== */
 
 localStorage.setItem(
@@ -139,7 +146,8 @@ const index =
 
 if (index >= 0) {
 
-    shipments[index] = shipment;
+    shipments[index] =
+        shipment;
 
     localStorage.setItem(
         "shipments",
@@ -215,21 +223,6 @@ set(
 set(
     "summaryDelivery",
     shipment.delivery
-);
-
-
-/* =====================================================
-   OPTIONAL STATUS FIELDS
-===================================================== */
-
-set(
-    "status",
-    shipment.status
-);
-
-set(
-    "location",
-    shipment.location
 );
 
 
@@ -376,7 +369,7 @@ set(
 
 
 /* =====================================================
-   ROUTE INFORMATION
+   ROUTE
 ===================================================== */
 
 set(
@@ -523,17 +516,13 @@ set(
 );
 
 
-console.log(
-    "Receipt fields populated."
-);
-
-
 /* =====================================================
    PAYMENT STAMP
 ===================================================== */
 
 const payment =
-    (shipment.payment || "").toLowerCase();
+    (shipment.payment || "")
+        .toLowerCase();
 
 const paymentStamp =
     $("paymentStamp");
@@ -547,52 +536,41 @@ if (paymentStamp) {
     paymentStamp.className =
         "stamp";
 
-    switch (payment) {
+    if (payment === "paid") {
 
-        case "paid":
+        paymentStamp.classList.add(
+            "paid"
+        );
 
-            paymentStamp.classList.add(
-                "paid"
-            );
+        paymentStamp.textContent =
+            "PAID";
 
-            paymentStamp.textContent =
-                "PAID";
+    } else if (payment === "pending") {
 
-            break;
+        paymentStamp.classList.add(
+            "pending"
+        );
 
+        paymentStamp.textContent =
+            "PENDING";
 
-        case "pending":
+    } else if (payment === "received") {
 
-            paymentStamp.classList.add(
-                "pending"
-            );
+        paymentStamp.classList.add(
+            "received"
+        );
 
-            paymentStamp.textContent =
-                "PENDING";
+        paymentStamp.textContent =
+            "RECEIVED";
 
-            break;
+    } else {
 
+        paymentStamp.classList.add(
+            "unpaid"
+        );
 
-        case "received":
-
-            paymentStamp.classList.add(
-                "received"
-            );
-
-            paymentStamp.textContent =
-                "RECEIVED";
-
-            break;
-
-
-        default:
-
-            paymentStamp.classList.add(
-                "unpaid"
-            );
-
-            paymentStamp.textContent =
-                "UNPAID";
+        paymentStamp.textContent =
+            "UNPAID";
     }
 
 
@@ -662,21 +640,34 @@ if (
         );
 
 
+    /*
+       IMPORTANT:
+       qrcode in receipt.html is already a CANVAS.
+       Therefore we draw directly onto it.
+    */
+
     QRCode.toCanvas(
+        $("qrcode"),
         trackingURL,
         {
-            width: 140
+            width: 100,
+            margin: 1,
+            errorCorrectionLevel: "M"
         },
-        function(err, canvas) {
+        function(error) {
 
-            if (!err) {
+            if (error) {
 
-                const qr =
-                    $("qrcode");
+                console.error(
+                    "QR code error:",
+                    error
+                );
 
-                qr.innerHTML = "";
+            } else {
 
-                qr.appendChild(canvas);
+                console.log(
+                    "QR code generated."
+                );
             }
         }
     );
@@ -684,13 +675,13 @@ if (
 
 
 /* =====================================================
-   TIMELINE
-   Optional — harmless if timeline is removed
+   OPTIONAL TIMELINE SUPPORT
 ===================================================== */
 
 function complete(id) {
 
-    const step = $(id);
+    const step =
+        $(id);
 
     if (step) {
 
@@ -702,39 +693,66 @@ function complete(id) {
 
 
 switch (
-    (shipment.status || "").toLowerCase()
+    (shipment.status || "")
+        .toLowerCase()
 ) {
 
     case "shipment created":
 
-        complete("stepCreated");
+        complete(
+            "stepCreated"
+        );
 
         break;
 
 
     case "picked up":
 
-        complete("stepCreated");
-        complete("stepPicked");
+        complete(
+            "stepCreated"
+        );
+
+        complete(
+            "stepPicked"
+        );
 
         break;
 
 
     case "in transit":
 
-        complete("stepCreated");
-        complete("stepPicked");
-        complete("stepTransit");
+        complete(
+            "stepCreated"
+        );
+
+        complete(
+            "stepPicked"
+        );
+
+        complete(
+            "stepTransit"
+        );
 
         break;
 
 
     case "delivered":
 
-        complete("stepCreated");
-        complete("stepPicked");
-        complete("stepTransit");
-        complete("stepDelivered");
+        complete(
+            "stepCreated"
+        );
+
+        complete(
+            "stepPicked"
+        );
+
+        complete(
+            "stepTransit"
+        );
+
+        complete(
+            "stepDelivered"
+        );
 
         break;
 }
@@ -742,7 +760,7 @@ switch (
 
 /* =====================================================
    SHIPPING ROUTE MAP
-   SINGLE MAP INITIALIZATION
+   ONE MAP ONLY
 ===================================================== */
 
 if (
@@ -760,8 +778,21 @@ if (
         );
 
 
-    /* ================================================
-       Coordinates
+    /* =================================================
+       MAP TILES
+    ================================================= */
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            maxZoom: 18,
+            attribution: ""
+        }
+    ).addTo(map);
+
+
+    /* =================================================
+       CHECK COORDINATES
     ================================================= */
 
     const originLat =
@@ -784,22 +815,8 @@ if (
         Number.isFinite(destinationLng);
 
 
-    /* ================================================
-       Map Background
-       No attribution displayed
-    ================================================= */
-
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            maxZoom: 18,
-            attribution: ""
-        }
-    ).addTo(map);
-
-
-    /* ================================================
-       ROUTE WITH AIRPLANE
+    /* =================================================
+       VALID ROUTE
     ================================================= */
 
     if (validCoordinates) {
@@ -815,53 +832,51 @@ if (
         ];
 
 
-        /* ============================================
-           Origin Marker
-        ============================================ */
+        /* =============================================
+           ORIGIN
+        ============================================= */
 
-        const originMarker =
-            L.circleMarker(
-                origin,
-                {
-                    radius: 6,
-                    color: "#083b80",
-                    fillColor: "#0b4ea2",
-                    fillOpacity: 1,
-                    weight: 2
-                }
-            )
-            .addTo(map)
-            .bindPopup(
-                "<b>Origin</b><br>" +
-                (shipment.origin || "")
-            );
-
-
-        /* ============================================
-           Destination Marker
-        ============================================ */
-
-        const destinationMarker =
-            L.circleMarker(
-                destination,
-                {
-                    radius: 6,
-                    color: "#b45309",
-                    fillColor: "#ff9800",
-                    fillOpacity: 1,
-                    weight: 2
-                }
-            )
-            .addTo(map)
-            .bindPopup(
-                "<b>Destination</b><br>" +
-                (shipment.destination || "")
-            );
+        L.circleMarker(
+            origin,
+            {
+                radius: 6,
+                color: "#083b80",
+                fillColor: "#0b4ea2",
+                fillOpacity: 1,
+                weight: 2
+            }
+        )
+        .addTo(map)
+        .bindPopup(
+            "<b>Origin</b><br>" +
+            (shipment.origin || "")
+        );
 
 
-        /* ============================================
-           BLUE SHIPPING ROUTE LINE
-        ============================================ */
+        /* =============================================
+           DESTINATION
+        ============================================= */
+
+        L.circleMarker(
+            destination,
+            {
+                radius: 6,
+                color: "#b45309",
+                fillColor: "#ff9800",
+                fillOpacity: 1,
+                weight: 2
+            }
+        )
+        .addTo(map)
+        .bindPopup(
+            "<b>Destination</b><br>" +
+            (shipment.destination || "")
+        );
+
+
+        /* =============================================
+           ROUTE LINE
+        ============================================= */
 
         const route =
             L.polyline(
@@ -872,16 +887,16 @@ if (
                 {
                     color: "#0b4ea2",
                     weight: 4,
-                    opacity: 0.9,
+                    opacity: 0.95,
                     dashArray: "8,6"
                 }
             )
             .addTo(map);
 
 
-        /* ============================================
+        /* =============================================
            AIRPLANE ICON
-        ============================================ */
+        ============================================= */
 
         const airplaneIcon =
             L.divIcon({
@@ -904,70 +919,136 @@ if (
             });
 
 
-        /* ============================================
-           PLACE AIRPLANE AT MIDDLE OF ROUTE
-        ============================================ */
+        /* =============================================
+           ANIMATED AIRPLANE
+        ============================================= */
 
-        const midLat =
-            (originLat +
-                destinationLat) / 2;
+        const airplane =
+            L.marker(
+                origin,
+                {
+                    icon:
+                        airplaneIcon,
+                    interactive:
+                        false
+                }
+            )
+            .addTo(map);
 
-        const midLng =
-            (originLng +
-                destinationLng) / 2;
+
+        let progress = 0;
+
+        let direction = 1;
 
 
-        L.marker(
-            [
-                midLat,
-                midLng
-            ],
-            {
-                icon:
-                    airplaneIcon,
-                interactive: false
+        function animatePlane() {
+
+            progress +=
+                0.0025 * direction;
+
+
+            /*
+               When airplane reaches destination,
+               reverse direction and fly back.
+            */
+
+            if (progress >= 1) {
+
+                progress = 1;
+                direction = -1;
+
             }
-        ).addTo(map);
+
+            if (progress <= 0) {
+
+                progress = 0;
+                direction = 1;
+            }
 
 
-        /* ============================================
-           FIT ROUTE TO MAP
-        ============================================ */
+            /* -----------------------------------------
+               Calculate current position
+            ----------------------------------------- */
+
+            const lat =
+                originLat +
+                (
+                    destinationLat -
+                    originLat
+                ) * progress;
+
+
+            const lng =
+                originLng +
+                (
+                    destinationLng -
+                    originLng
+                ) * progress;
+
+
+            airplane.setLatLng(
+                [
+                    lat,
+                    lng
+                ]
+            );
+
+
+            /* -----------------------------------------
+               Continue animation
+            ----------------------------------------- */
+
+            requestAnimationFrame(
+                animatePlane
+            );
+        }
+
+
+        animatePlane();
+
+
+        /* =============================================
+           FIT MAP TO ROUTE
+        ============================================= */
 
         map.fitBounds(
             route.getBounds(),
             {
                 padding: [
-                    25,
-                    25
+                    20,
+                    20
                 ]
             }
         );
 
+
     } else {
 
-        /* ============================================
-           No Coordinates
-        ============================================ */
+        /*
+           Coordinates not available.
+        */
 
         map.setView(
-            [20, 0],
+            [
+                20,
+                0
+            ],
             2
         );
     }
 
 
-    /* ================================================
-       Fix Leaflet Rendering
+    /* =================================================
+       FIX MAP RENDERING
     ================================================= */
 
     setTimeout(
-        () => {
+        function() {
 
             map.invalidateSize();
 
         },
-        300
+        400
     );
 }
 
