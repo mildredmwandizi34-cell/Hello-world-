@@ -783,3 +783,66 @@ body{
 
     pointer-events:none;
 }
+
+/* =====================================================
+   FINAL AGL HEADER + SEAL FIX
+===================================================== */
+
+/* Give the company area enough room */
+.receipt-header{
+    grid-template-columns:minmax(0, 1fr) 150px !important;
+    column-gap:12px !important;
+}
+
+/* Prevent the company name from being clipped */
+.brand-area{
+    width:100% !important;
+    min-width:0 !important;
+    overflow:visible !important;
+}
+
+.brand-text{
+    min-width:0 !important;
+    width:auto !important;
+    overflow:visible !important;
+}
+
+/* Full company name */
+.brand-text h1{
+    font-size:13px !important;
+    letter-spacing:0 !important;
+    white-space:nowrap !important;
+    overflow:visible !important;
+    text-overflow:clip !important;
+}
+
+/* Keep tagline readable */
+.brand-text p{
+    white-space:nowrap !important;
+    overflow:visible !important;
+}
+
+
+/* =====================================================
+   LARGER COMPANY SEAL
+===================================================== */
+
+.company-seal{
+    width:65px !important;
+    height:65px !important;
+    max-width:65px !important;
+    max-height:65px !important;
+    object-fit:contain !important;
+}
+
+.seal-box{
+    height:75px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+}
+
+.seal-box small{
+    margin-bottom:2px !important;
+}
