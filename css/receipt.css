@@ -185,7 +185,7 @@ text-transform:uppercase;
 
 /* =========================================================
    SENDER / RECEIVER
-   SIDE-BY-SIDE + VERTICAL INFORMATION
+   OPPOSITE HORIZONTAL COLUMNS
 ========================================================= */
 
 .people-grid{
@@ -203,27 +203,34 @@ text-transform:uppercase;
     border:1px solid #d7dee8;
     border-radius:4px;
     overflow:hidden;
-    display:flex;
-    flex-direction:column;
 }
 
 .person-content{
     width:100%;
-    display:flex;
-    flex-direction:column;
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+    grid-auto-rows:minmax(0,auto);
+
     gap:3px;
+
     padding:6px 8px;
+
     font-size:7px;
-    line-height:1.25;
+    line-height:1.2;
+
     min-width:0;
 }
 
 .person-content strong{
     display:block;
     width:100%;
+
     font-size:9px;
     color:#083b80;
-    margin-bottom:1px;
+
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -233,6 +240,7 @@ text-transform:uppercase;
     display:block;
     width:100%;
     min-width:0;
+
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
