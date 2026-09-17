@@ -29,7 +29,8 @@ function createShipment (event) {
     alert("Create Shipment button is working");
 
     event.preventDefault();
-
+calculateShippingCost();
+    
 // Generate IDs
 const trackingNumber = "AGL" + Math.floor(100000 + Math.random() * 900000);
     const barcodeField = document.getElementById("trackingBarcode");
