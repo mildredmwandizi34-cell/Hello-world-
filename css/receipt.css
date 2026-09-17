@@ -1014,78 +1014,45 @@ body{
 .receipt-header{
     display:grid !important;
 
-    grid-template-columns:minmax(0,1fr) 78mm !important;
+    grid-template-columns:minmax(0,1fr) 58mm !important;
 
-    align-items:center !important;
-
-    column-gap:8mm !important;
+    column-gap:6mm !important;
 }
 
-
 .receipt-heading{
-    width:78mm !important;
+    width:58mm !important;
 
-    min-width:78mm !important;
+    min-width:58mm !important;
 
-    min-height:29mm !important;
+    height:20mm !important;
 
-    padding:5mm 6mm !important;
+    min-height:20mm !important;
+
+    padding:3mm 4mm !important;
 
     margin-left:auto !important;
 
-    border:2px solid #083b80 !important;
+    border:1.5px solid #083b80 !important;
 
-    border-radius:5px !important;
-
-    background:#fff !important;
-
-    display:flex !important;
-
-    flex-direction:column !important;
-
-    justify-content:center !important;
-
-    align-items:center !important;
-
-    text-align:center !important;
+    border-radius:4px !important;
 }
-
 
 .receipt-heading h2{
-    font-size:19px !important;
-
-    line-height:1.1 !important;
-
-    font-weight:800 !important;
-
-    letter-spacing:.7px !important;
+    font-size:14px !important;
 }
-
 
 .receipt-meta{
-    width:100% !important;
+    margin-top:3px !important;
 
-    display:grid !important;
-
-    grid-template-columns:1fr 1fr 1fr !important;
-
-    gap:5px !important;
-
-    margin-top:5px !important;
-
-    padding-top:5px !important;
-
-    border-top:1px solid #d7dee8 !important;
+    padding-top:3px !important;
 }
-
 
 .receipt-meta span{
-    font-size:5.5px !important;
+    font-size:4.5px !important;
 }
 
-
 .receipt-meta strong{
-    font-size:6.5px !important;
+    font-size:5.5px !important;
 }
     
     /* SENDER / RECEIVER */
