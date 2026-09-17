@@ -155,17 +155,22 @@ window.location.href =
 function calculateShippingCost() {
 
     const weight =
-        parseFloat(document.getElementById("weight").value) || 0;
+        parseFloat(
+            document.getElementById("weight").value
+        ) || 0;
 
     const service =
         document.getElementById("service").value;
 
-    const discount =
-        parseFloat(document.getElementById("discount").value) || 0;
+    const discountInput =
+        document.getElementById("discount");
+
+    const discountValue =
+        parseFloat(discountInput.value) || 0;
 
     let rate = 8;
 
-    switch(service){
+    switch (service) {
 
         case "Air Freight":
             rate = 12;
@@ -182,12 +187,21 @@ function calculateShippingCost() {
         case "Express Delivery":
             rate = 15;
             break;
-
     }
 
     const shipping = weight * rate;
+
     const tax = shipping * 0.16;
-    const total = shipping + tax - discount;
+
+    const maximumDiscount = shipping + tax;
+
+    const discount = Math.min(
+        Math.max(0, discountValue),
+        maximumDiscount
+    );
+
+    const total =
+        shipping + tax - discount;
 
     document.getElementById("shippingCost").value =
         shipping.toFixed(2);
@@ -195,7 +209,9 @@ function calculateShippingCost() {
     document.getElementById("tax").value =
         tax.toFixed(2);
 
+    discountInput.value =
+        discount.toFixed(2);
+
     document.getElementById("totalAmount").value =
         total.toFixed(2);
-
 }
