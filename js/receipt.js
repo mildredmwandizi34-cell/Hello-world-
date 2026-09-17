@@ -772,44 +772,217 @@ if (
 
 
         /* =================================================
-           AIRPLANE
-        ================================================= */
+   AIRPLANE
+================================================= */
 
-        const airplaneIcon =
-            L.divIcon({
+const airplaneIcon =
+    L.divIcon({
 
-                className:
-                    "agl-airplane-icon",
+        className:
+            "agl-airplane-icon",
 
-                html:
-                    '<div class="agl-airplane">✈</div>',
+        html:
+            '<div class="agl-airplane">✈</div>',
 
-                iconSize: [
-                    34,
-                    34
-                ],
+        iconSize: [
+            38,
+            38
+        ],
 
-                iconAnchor: [
-                    17,
-                    17
-                ]
-            });
+        iconAnchor: [
+            19,
+            19
+        ]
+    });
 
 
-        const airplane =
-            L.marker(
-                origin,
-                {
-                    icon:
-                        airplaneIcon,
+const airplane =
+    L.marker(
+        origin,
+        {
+            icon:
+                airplaneIcon,
 
-                    interactive:
-                        false,
+            interactive:
+                false,
 
-                    zIndexOffset:
-                        1000
-                }
-            ).addTo(map);
+            zIndexOffset:
+                1000
+        }
+    ).addTo(map);
+
+
+/* =================================================
+   AIRPLANE ANIMATION
+   ORIGIN → DESTINATION
+================================================= */
+
+let progress = 0;
+
+/* Flight speed */
+const flightSpeed = 0.0025;
+
+
+/* Calculate airplane bearing */
+function calculateBearing(
+    lat1,
+    lng1,
+    lat2,
+    lng2
+) {
+
+    const lat1Rad =
+        lat1 * Math.PI / 180;
+
+    const lat2Rad =
+        lat2 * Math.PI / 180;
+
+    const deltaLng =
+        (lng2 - lng1) *
+        Math.PI / 180;
+
+
+    const y =
+        Math.sin(deltaLng) *
+        Math.cos(lat2Rad);
+
+
+    const x =
+        Math.cos(lat1Rad) *
+        Math.sin(lat2Rad) -
+        Math.sin(lat1Rad) *
+        Math.cos(lat2Rad) *
+        Math.cos(deltaLng);
+
+
+    const bearing =
+        Math.atan2(y, x) *
+        180 / Math.PI;
+
+
+    return (
+        bearing + 360
+    ) % 360;
+}
+
+
+/* =================================================
+   FLIGHT LOOP
+================================================= */
+
+function animatePlane() {
+
+    progress +=
+        flightSpeed;
+
+
+    /* Restart flight */
+    if (progress >= 1) {
+
+        progress = 0;
+    }
+
+
+    /* Current position */
+
+    const lat =
+        originLat +
+        (
+            destinationLat -
+            originLat
+        ) * progress;
+
+
+    const lng =
+        originLng +
+        (
+            destinationLng -
+            originLng
+        ) * progress;
+
+
+    /* Slight curved flight path */
+
+    const curve =
+        Math.sin(
+            progress * Math.PI
+        ) * 0.8;
+
+
+    const curvedLat =
+        lat + curve;
+
+
+    /* Move airplane */
+
+    airplane.setLatLng(
+        [
+            curvedLat,
+            lng
+        ]
+    );
+
+
+    /* Calculate direction */
+
+    const nextProgress =
+        Math.min(
+            progress + 0.01,
+            1
+        );
+
+
+    const nextLat =
+        originLat +
+        (
+            destinationLat -
+            originLat
+        ) * nextProgress;
+
+
+    const nextLng =
+        originLng +
+        (
+            destinationLng -
+            originLng
+        ) * nextProgress;
+
+
+    const bearing =
+        calculateBearing(
+            curvedLat,
+            lng,
+            nextLat,
+            nextLng
+        );
+
+
+    /* Rotate airplane */
+
+    const airplaneElement =
+        document.querySelector(
+            ".agl-airplane"
+        );
+
+
+    if (airplaneElement) {
+
+        airplaneElement.style.transform =
+            "rotate(" +
+            bearing +
+            "deg)";
+    }
+
+
+    requestAnimationFrame(
+        animatePlane
+    );
+}
+
+
+/* Start flight */
+
+animatePlane();
 
 
         /* =================================================
