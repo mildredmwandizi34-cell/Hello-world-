@@ -114,96 +114,86 @@ body{
     white-space:nowrap;
 }
 
-
 /* =========================================================
-   SHIPMENT RECEIPT BOX
-========================================================= */
+   SHIPMENT RECEIPT BOX — LARGE PREMIUM VERSION
+   ========================================================= */
 
-.receipt-heading{
-    width:70mm;
-    min-width:70mm;
-    max-width:70mm;
+.receipt-title-box {
+    width: 75mm;
+    min-height: 28mm;
+    padding: 6mm 8mm;
+    border: 2px solid #083b80;
+    border-radius: 4px;
+    background: #ffffff;
 
-    text-align:center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    border:1.5px solid #0b4ea2;
-
-    border-radius:4px;
-
-    padding:6px 7px;
-
-    background:#f7faff;
+    text-align: center;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
-.receipt-heading h2{
-    font-size:8px;
+/* Main SHIPMENT RECEIPT title */
+.receipt-title-box h1,
+.receipt-title-box h2,
+.receipt-title-box .receipt-title {
+    margin: 0;
+    padding: 0;
 
-    line-height:1;
-
-    font-weight:800;
-
-    color:#0b4ea2;
-
-    letter-spacing:.3px;
-
-    margin-bottom:6px;
-
-    white-space:nowrap;
+    font-size: 23px;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #083b80;
+    text-transform: uppercase;
 }
 
-
-/* ---------- RECEIPT META ---------- */
-
-.receipt-meta{
-    width:100%;
-
-    display:grid;
-
-    grid-template-columns:1fr 1fr 1fr;
-
-    gap:6px;
+/* Optional small subtitle inside the box */
+.receipt-title-box p,
+.receipt-title-box .receipt-subtitle {
+    margin: 4px 0 0;
+    font-size: 10px;
+    line-height: 1.2;
+    font-weight: 600;
+    color: #555;
+    letter-spacing: 0.4px;
 }
 
-.receipt-meta div{
-    min-width:0;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    text-align:center;
+/* Keep the top header aligned properly */
+.receipt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10mm;
 }
 
-.receipt-meta span{
-    font-size:5px;
-
-    color:#667085;
-
-    text-transform:uppercase;
-
-    white-space:nowrap;
+/* Prevent the box from becoming too large on screen */
+@media screen {
+    .receipt-title-box {
+        min-width: 65mm;
+    }
 }
 
-.receipt-meta strong{
-    display:block;
+/* Print version */
+@media print {
+    .receipt-title-box {
+        width: 75mm;
+        min-height: 28mm;
+        padding: 6mm 8mm;
+        border: 2px solid #083b80;
+        border-radius: 4px;
+        background: #fff;
+    }
 
-    margin-top:2px;
-
-    font-size:6px;
-
-    color:#101828;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-
-    max-width:100%;
+    .receipt-title-box h1,
+    .receipt-title-box h2,
+    .receipt-title-box .receipt-title {
+        font-size: 23px;
+    }
 }
-
 
 /* =========================================================
    SUMMARY STRIP
