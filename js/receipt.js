@@ -919,93 +919,133 @@ if (
             });
 
 
-        /* =============================================
-           ANIMATED AIRPLANE
-        ============================================= */
+        /* =====================================================
+   ANIMATED AIRPLANE
+===================================================== */
 
-        const airplane =
-            L.marker(
-                origin,
-                {
-                    icon:
-                        airplaneIcon,
-                    interactive:
-                        false
-                }
-            )
-            .addTo(map);
+const airplaneIcon =
+    L.divIcon({
 
+        className:
+            "agl-airplane-icon",
 
-        let progress = 0;
+        html:
+            '<div class="agl-airplane">✈</div>',
 
-        let direction = 1;
+        iconSize:[
+            34,
+            34
+        ],
 
-
-        function animatePlane() {
-
-            progress +=
-                0.0025 * direction;
+        iconAnchor:[
+            17,
+            17
+        ]
+    });
 
 
-            /*
-               When airplane reaches destination,
-               reverse direction and fly back.
-            */
+/* =============================================
+   CREATE AIRPLANE AT ORIGIN
+============================================= */
 
-            if (progress >= 1) {
+const airplane =
+    L.marker(
+        origin,
+        {
+            icon:
+                airplaneIcon,
 
-                progress = 1;
-                direction = -1;
+            interactive:
+                false,
 
-            }
-
-            if (progress <= 0) {
-
-                progress = 0;
-                direction = 1;
-            }
-
-
-            /* -----------------------------------------
-               Calculate current position
-            ----------------------------------------- */
-
-            const lat =
-                originLat +
-                (
-                    destinationLat -
-                    originLat
-                ) * progress;
-
-
-            const lng =
-                originLng +
-                (
-                    destinationLng -
-                    originLng
-                ) * progress;
-
-
-            airplane.setLatLng(
-                [
-                    lat,
-                    lng
-                ]
-            );
-
-
-            /* -----------------------------------------
-               Continue animation
-            ----------------------------------------- */
-
-            requestAnimationFrame(
-                animatePlane
-            );
+            zIndexOffset:
+                1000
         }
+    ).addTo(map);
 
 
-        animatePlane();
+/* =============================================
+   ANIMATION VARIABLES
+============================================= */
 
+let planeProgress = 0;
+
+let planeDirection = 1;
+
+
+/* =============================================
+   ANIMATE FROM ORIGIN → DESTINATION
+============================================= */
+
+function animatePlane(){
+
+    planeProgress +=
+        0.004 * planeDirection;
+
+
+    /* Reach destination */
+
+    if(
+        planeProgress >= 1
+    ){
+
+        planeProgress = 1;
+
+        planeDirection = -1;
+    }
+
+
+    /* Return to origin */
+
+    if(
+        planeProgress <= 0
+    ){
+
+        planeProgress = 0;
+
+        planeDirection = 1;
+    }
+
+
+    /* =========================================
+       CURRENT AIRPLANE POSITION
+    ========================================= */
+
+    const currentLat =
+        originLat +
+        (
+            destinationLat -
+            originLat
+        ) * planeProgress;
+
+
+    const currentLng =
+        originLng +
+        (
+            destinationLng -
+            originLng
+        ) * planeProgress;
+
+
+    airplane.setLatLng([
+        currentLat,
+        currentLng
+    ]);
+
+
+    /* =========================================
+       CONTINUE ANIMATION
+    ========================================= */
+
+    requestAnimationFrame(
+        animatePlane
+    );
+}
+
+
+/* START */
+
+animatePlane();
 
         /* =============================================
            FIT MAP TO ROUTE
