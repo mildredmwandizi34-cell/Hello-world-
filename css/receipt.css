@@ -570,42 +570,63 @@ body{
     display:none !important;
 }
 
-
 /* =========================================================
    ANIMATED AIRPLANE
+   ORIGIN → DESTINATION
 ========================================================= */
 
 .agl-airplane-icon{
     background:transparent !important;
-
     border:0 !important;
+    box-shadow:none !important;
 }
 
 .agl-airplane{
-    width:34px;
-
-    height:34px;
+    width:38px;
+    height:38px;
 
     display:flex;
-
     align-items:center;
-
     justify-content:center;
 
-    font-size:24px;
-
+    font-size:26px;
     font-weight:bold;
-
     line-height:1;
 
     color:#ff9800;
 
     text-shadow:
-        0 1px 2px rgba(0,0,0,.7);
+        0 2px 3px rgba(0,0,0,.45);
 
     pointer-events:none;
 
-    transform:rotate(0deg);
+    /* Smooth movement */
+    transition:
+        transform .25s ease,
+        opacity .25s ease;
+
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.2));
+}
+
+/* Airplane while travelling */
+.agl-airplane.flying{
+    animation: aglPlanePulse 1.2s ease-in-out infinite;
+}
+
+/* Small natural movement while flying */
+@keyframes aglPlanePulse{
+
+    0%{
+        transform:translateY(0) rotate(0deg);
+    }
+
+    50%{
+        transform:translateY(-4px) rotate(-2deg);
+    }
+
+    100%{
+        transform:translateY(0) rotate(0deg);
+    }
 }
 
 
