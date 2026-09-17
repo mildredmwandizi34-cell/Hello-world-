@@ -1,37 +1,36 @@
 /* =========================================================
 AMERICAN GLOBAL LOGISTICS
-ULTRA-COMPACT HORIZONTAL RECEIPT
-A4 / ONE-PAGE PRINT LAYOUT
+LANDSCAPE HORIZONTAL RECEIPT
+COMPACT A4 PRINT DESIGN
 ========================================================= */
 
 *{
+box-sizing:border-box;
 margin:0;
 padding:0;
-box-sizing:border-box;
 }
 
 html,
 body{
-margin:0;
-padding:0;
-background:#e9eef4;
-color:#222;
+width:100%;
+min-height:100%;
 font-family:"Segoe UI",Arial,sans-serif;
+color:#222;
+background:#e9eef4;
 }
 
 /* =========================================================
-MAIN RECEIPT
+RECEIPT PAGE
 ========================================================= */
 
 .receipt-page{
-width:210mm;
-max-width:210mm;
-min-height:0;
+width:297mm;
+min-height:210mm;
 margin:12px auto;
 padding:7mm;
 background:#fff;
-border:1px solid #d8dee7;
-box-shadow:0 5px 20px rgba(0,0,0,.10);
+border:1px solid #d7dee8;
+box-shadow:0 6px 25px rgba(0,0,0,.12);
 overflow:hidden;
 }
 
@@ -40,10 +39,11 @@ HEADER
 ========================================================= */
 
 .receipt-header{
+width:100%;
 display:flex;
-justify-content:space-between;
 align-items:center;
-gap:10px;
+justify-content:space-between;
+gap:15px;
 padding-bottom:6px;
 border-bottom:3px solid #0b4ea2;
 }
@@ -51,45 +51,54 @@ border-bottom:3px solid #0b4ea2;
 .brand-area{
 display:flex;
 align-items:center;
-gap:8px;
+gap:10px;
 min-width:0;
+flex:1;
 }
 
 .receipt-logo{
-width:55px;
-height:55px;
+width:58px;
+height:58px;
+display:block;
 object-fit:contain;
 flex-shrink:0;
 }
 
-.brand-area h1{
-font-size:16px;
+.brand-text{
+min-width:0;
+}
+
+.brand-text h1{
+font-size:17px;
 line-height:1.1;
+font-weight:800;
 color:#083b80;
 white-space:nowrap;
 }
 
-.brand-area p{
+.brand-text p{
 margin-top:3px;
 font-size:7px;
-color:#666;
+color:#667085;
 white-space:nowrap;
 }
 
-.receipt-title{
-text-align:right;
+.receipt-heading{
 flex-shrink:0;
+text-align:right;
 }
 
-.receipt-title h2{
-font-size:15px;
+.receipt-heading h2{
+font-size:16px;
 color:#0b4ea2;
+font-weight:800;
 margin-bottom:4px;
 }
 
 .receipt-meta{
 display:flex;
-gap:7px;
+justify-content:flex-end;
+gap:12px;
 }
 
 .receipt-meta div{
@@ -100,12 +109,14 @@ align-items:flex-end;
 
 .receipt-meta span{
 font-size:6px;
-color:#777;
+color:#737b87;
 text-transform:uppercase;
 }
 
 .receipt-meta strong{
+margin-top:1px;
 font-size:7px;
+color:#222;
 white-space:nowrap;
 }
 
@@ -114,20 +125,20 @@ SUMMARY STRIP
 ========================================================= */
 
 .summary-strip{
+width:100%;
 display:grid;
-grid-template-columns:1.25fr 1.1fr 1fr 1fr 1fr;
-gap:4px;
+grid-template-columns:1.35fr 1.1fr 1fr 1fr 1fr;
 margin-top:6px;
-padding:5px;
-background:#f1f5f9;
-border:1px solid #dce3eb;
+border:1px solid #d7dee8;
 border-radius:4px;
+background:#f4f7fa;
+overflow:hidden;
 }
 
 .summary-strip div{
 min-width:0;
-padding:2px 5px;
-border-right:1px solid #d8dee6;
+padding:5px 8px;
+border-right:1px solid #dce2e9;
 }
 
 .summary-strip div:last-child{
@@ -135,35 +146,39 @@ border-right:0;
 }
 
 .summary-strip small,
-.shipment-grid small,
-.code-box small{
+.shipment-item small,
+.verification-box small{
 display:block;
 font-size:6px;
-font-weight:700;
-color:#6b7280;
-letter-spacing:.4px;
+line-height:1;
+font-weight:800;
+letter-spacing:.45px;
+color:#667085;
 }
 
 .summary-strip strong{
 display:block;
-margin-top:2px;
+margin-top:3px;
 font-size:8px;
-color:#111827;
+line-height:1.1;
+color:#101828;
 white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
 }
 
 /* =========================================================
-GENERAL SECTION HEADING
+SECTION HEADINGS
 ========================================================= */
 
 .section-heading{
-padding:3px 6px;
+display:block;
+padding:4px 7px;
 background:#0b4ea2;
 color:#fff;
 font-size:7px;
-font-weight:700;
+line-height:1;
+font-weight:800;
 letter-spacing:.6px;
 text-transform:uppercase;
 }
@@ -173,6 +188,7 @@ SENDER / RECEIVER
 ========================================================= */
 
 .people-grid{
+width:100%;
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:6px;
@@ -180,78 +196,87 @@ margin-top:6px;
 }
 
 .person-box{
-border:1px solid #d9e0e8;
-border-radius:3px;
-overflow:hidden;
 min-width:0;
+border:1px solid #d7dee8;
+border-radius:4px;
+overflow:hidden;
 }
 
 .person-content{
 display:grid;
-grid-template-columns:repeat(2, minmax(0,1fr));
-gap:2px 8px;
-padding:5px 7px;
+grid-template-columns:1.2fr 1fr 1fr;
+gap:3px 9px;
+padding:5px 8px;
 font-size:7px;
-line-height:1.25;
+line-height:1.2;
 }
 
 .person-content strong{
 grid-column:1 / -1;
 font-size:9px;
 color:#083b80;
-}
-
-.person-content span{
-min-width:0;
+white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
-white-space:nowrap;
 }
 
-.person-content span:nth-child(3){
+.person-content > span{
+min-width:0;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.person-content > span:nth-child(3){
 grid-column:1 / -1;
+}
+
+.person-content b{
+font-weight:700;
+color:#555;
 }
 
 /* =========================================================
 SHIPMENT DETAILS
-HORIZONTAL ROW
+SINGLE HORIZONTAL ROW
 ========================================================= */
 
-.compact-section{
+.shipment-section{
+width:100%;
 margin-top:6px;
-border:1px solid #d9e0e8;
-border-radius:3px;
+border:1px solid #d7dee8;
+border-radius:4px;
 overflow:hidden;
 }
 
 .shipment-grid{
+width:100%;
 display:grid;
 grid-template-columns:
-1.35fr
-1fr
+1.45fr
+1.05fr
 .55fr
-.75fr
+.8fr
 1.15fr
-1.15fr;
-gap:0;
+1.25fr;
 }
 
-.shipment-grid div{
+.shipment-item{
 min-width:0;
-padding:5px 6px;
+padding:6px 8px;
 border-right:1px solid #e0e5eb;
 }
 
-.shipment-grid div:last-child{
+.shipment-item:last-child{
 border-right:0;
 }
 
-.shipment-grid strong{
+.shipment-item strong{
 display:block;
-margin-top:2px;
+margin-top:3px;
 font-size:8px;
-line-height:1.15;
-color:#111827;
+line-height:1.1;
+color:#101828;
 white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
@@ -261,48 +286,50 @@ text-overflow:ellipsis;
 ROUTE + CHARGES
 ========================================================= */
 
-.middle-grid{
+.route-charges-grid{
+width:100%;
 display:grid;
-grid-template-columns:1.65fr .8fr;
+grid-template-columns:2.15fr .85fr;
 gap:6px;
 margin-top:6px;
 }
 
 .route-box,
 .charges-box{
-border:1px solid #d9e0e8;
-border-radius:3px;
-overflow:hidden;
 min-width:0;
+border:1px solid #d7dee8;
+border-radius:4px;
+overflow:hidden;
 }
 
 /* =========================================================
-ROUTE
+ROUTE INFORMATION
 ========================================================= */
 
-.route-line{
+.route-information{
 display:grid;
-grid-template-columns:1fr 25px 1fr;
+grid-template-columns:1fr 35px 1fr;
 align-items:center;
 gap:5px;
-padding:5px 7px;
+padding:5px 8px;
 }
 
-.route-line div{
+.route-location{
 min-width:0;
 }
 
-.route-line small{
+.route-location small{
 display:block;
 font-size:6px;
-font-weight:700;
-color:#777;
+font-weight:800;
+color:#667085;
 }
 
-.route-line strong{
+.route-location strong{
 display:block;
 margin-top:2px;
 font-size:8px;
+line-height:1.1;
 white-space:nowrap;
 overflow:hidden;
 text-overflow:ellipsis;
@@ -310,8 +337,8 @@ text-overflow:ellipsis;
 
 .route-arrow{
 text-align:center;
-font-size:17px;
-font-weight:700;
+font-size:19px;
+font-weight:800;
 color:#ff9800;
 }
 
@@ -321,14 +348,20 @@ MAP
 
 .receipt-map{
 width:100%;
-height:62px;
-margin:0;
+height:75px;
 border-top:1px solid #dce2e9;
+overflow:hidden;
 }
 
 .receipt-map .leaflet-container{
 width:100%;
 height:100%;
+}
+
+/* REMOVE LEAFLET ZOOM BUTTONS */
+
+.receipt-map .leaflet-control-zoom{
+display:none !important;
 }
 
 /* =========================================================
@@ -337,99 +370,124 @@ CHARGES
 
 .charge-row{
 display:flex;
-justify-content:space-between;
 align-items:center;
-padding:4px 7px;
+justify-content:space-between;
+gap:8px;
+padding:5px 9px;
 border-bottom:1px solid #edf0f3;
 font-size:7px;
 }
 
+.charge-row span{
+color:#555;
+}
+
 .charge-row strong{
 font-size:8px;
+color:#222;
 }
 
 .total-row{
-padding:6px 7px;
+padding:7px 9px;
 background:#f1f5f9;
 border-bottom:0;
-color:#083b80;
 }
 
 .total-row span{
 font-size:8px;
 font-weight:800;
+color:#083b80;
 }
 
 .total-row strong{
-font-size:11px;
+font-size:12px;
+font-weight:900;
 color:#0b4ea2;
 }
 
 /* =========================================================
-BARCODE / QR / SIGNATURES
+VERIFICATION AREA
 ========================================================= */
 
 .verification-grid{
+width:100%;
 display:grid;
 grid-template-columns:2.2fr .65fr 1fr .75fr;
 gap:6px;
 margin-top:6px;
-align-items:center;
 }
 
-.code-box,
-.authorization-box{
-height:67px;
+.verification-box{
+height:70px;
 min-width:0;
-padding:5px;
-border:1px solid #d9e0e8;
-border-radius:3px;
-text-align:center;
+border:1px solid #d7dee8;
+border-radius:4px;
+padding:5px 7px;
 overflow:hidden;
+text-align:center;
 }
 
-.code-box small,
-.authorization-box small{
+.verification-box small{
 margin-bottom:3px;
 }
 
-#barcodeLarge{
+/* =========================================================
+BARCODE
+========================================================= */
+
+.barcode-box svg{
 display:block;
 width:100%;
-max-width:190px;
-height:40px;
+max-width:250px;
+height:45px;
 margin:0 auto;
 }
 
-.qr-box canvas,
+/* =========================================================
+QR CODE
+========================================================= */
+
 #qrcode{
 display:block;
-width:48px !important;
-height:48px !important;
+width:50px !important;
+height:50px !important;
 margin:0 auto;
 }
+
+.qr-box canvas{
+width:50px !important;
+height:50px !important;
+}
+
+/* =========================================================
+OFFICER SIGNATURE
+========================================================= */
 
 .officer-signature{
 display:block;
-width:90px;
-height:37px;
-object-fit:contain;
+width:105px;
+height:40px;
 margin:0 auto;
+object-fit:contain;
 }
 
-.authorization-box span{
+.officer-box span{
 display:block;
-font-size:6px;
 margin-top:1px;
+font-size:6px;
 color:#555;
 }
+
+/* =========================================================
+COMPANY SEAL
+========================================================= */
 
 .company-seal{
 display:block;
 width:48px;
 height:48px;
-object-fit:contain;
 margin:0 auto;
+object-fit:contain;
 }
 
 /* =========================================================
@@ -437,88 +495,97 @@ FOOTER
 ========================================================= */
 
 .receipt-footer{
+width:100%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-gap:8px;
+gap:10px;
 margin-top:6px;
 padding-top:5px;
-border-top:1px solid #d9e0e8;
+border-top:1px solid #d7dee8;
 }
 
-.receipt-footer > div:first-child{
+.footer-company{
 min-width:0;
 }
 
-.receipt-footer strong{
+.footer-company strong{
 display:block;
 font-size:7px;
 color:#083b80;
 }
 
-.receipt-footer span{
+.footer-company span{
 display:block;
-margin-top:1px;
+margin-top:2px;
 font-size:6px;
-color:#777;
+color:#667085;
 }
 
 .footer-actions{
 display:flex;
+align-items:center;
 gap:4px;
 flex-shrink:0;
 }
 
 .footer-actions button{
 border:0;
-padding:4px 7px;
 border-radius:3px;
+padding:5px 9px;
 background:#0b4ea2;
 color:#fff;
 font-size:7px;
+font-weight:600;
 cursor:pointer;
 }
 
 /* =========================================================
-PRINT SETTINGS
+PRINT
 ========================================================= */
 
 @media print{
 
 @page{
-    size:A4 portrait;
-    margin:5mm;
+    size:A4 landscape;
+    margin:4mm;
 }
 
 html,
 body{
-    background:#fff !important;
+    width:100%;
+    height:auto;
     margin:0 !important;
     padding:0 !important;
+    background:#fff !important;
 }
 
 .receipt-page{
-    width:200mm;
-    max-width:200mm;
+    width:289mm;
+    min-height:0;
     margin:0;
     padding:5mm;
     border:0;
     box-shadow:none;
+    overflow:hidden;
 }
 
 .footer-actions{
-    display:none;
+    display:none !important;
 }
 
 .receipt-map{
-    height:58px;
+    height:70px;
 }
 
 .receipt-page,
+.receipt-header,
+.summary-strip,
 .people-grid,
-.compact-section,
-.middle-grid,
-.verification-grid{
+.shipment-section,
+.route-charges-grid,
+.verification-grid,
+.receipt-footer{
     break-inside:avoid;
     page-break-inside:avoid;
 }
@@ -531,10 +598,10 @@ body{
 }
 
 /* =========================================================
-MOBILE SCREEN
+MOBILE VIEW
 ========================================================= */
 
-@media screen and (max-width:700px){
+@media screen and (max-width:800px){
 
 body{
     padding:5px;
@@ -542,35 +609,26 @@ body{
 
 .receipt-page{
     width:100%;
-    max-width:100%;
+    min-height:0;
     margin:0;
     padding:8px;
 }
 
 .receipt-header{
-    flex-direction:column;
     align-items:flex-start;
 }
 
-.receipt-title{
-    width:100%;
-    text-align:left;
-}
-
-.receipt-meta{
-    justify-content:flex-start;
-}
-
-.receipt-meta div{
-    align-items:flex-start;
-}
-
-.brand-area h1{
+.brand-text h1{
     font-size:13px;
 }
 
-.brand-area p{
+.brand-text p{
     font-size:6px;
+}
+
+.receipt-logo{
+    width:48px;
+    height:48px;
 }
 
 .summary-strip{
@@ -579,11 +637,10 @@ body{
 
 .summary-strip div{
     border-right:0;
-    border-bottom:1px solid #d8dee6;
+    border-bottom:1px solid #dce2e9;
 }
 
-.people-grid,
-.middle-grid{
+.people-grid{
     grid-template-columns:1fr;
 }
 
@@ -591,8 +648,12 @@ body{
     grid-template-columns:repeat(3,1fr);
 }
 
-.shipment-grid div:nth-child(3){
+.shipment-item:nth-child(3){
     border-right:0;
+}
+
+.route-charges-grid{
+    grid-template-columns:1fr;
 }
 
 .verification-grid{
