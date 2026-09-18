@@ -301,20 +301,70 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 </div>
 
 </section><!-- =====================================================
-     BARCODE / QR / SIGNATURES / SEAL
+     VERIFICATION / BARCODE / QR / DIGITAL CERTIFICATE
 ===================================================== -->
 
 <section class="verification-grid">
 
-    <!-- BARCODE -->
+    <!-- ================= VERIFICATION / BARCODE ================= -->
 
-    <div class="verification-box barcode-box">
+    <div class="verification-left">
 
-        <small>TRACKING BARCODE</small>
+        <div class="verification-code-box">
 
-        <svg id="barcodeLarge"></svg>
+            <small>VERIFICATION CODE</small>
+
+            <strong id="verificationCode"></strong>
+
+        </div>
+
+
+        <div class="barcode-box">
+
+            <small>TRACKING BARCODE</small>
+
+            <svg id="barcodeLarge"></svg>
+
+        </div>
+
+
+        <div class="qr-box">
+
+            <small>VERIFICATION QR</small>
+
+            <canvas id="qrcode"></canvas>
+
+        </div>
 
     </div>
+
+
+    <!-- ================= DIGITAL VERIFICATION ================= -->
+
+    <div class="digital-verification">
+
+        <div class="digital-title">
+            DIGITAL VERIFICATION CERTIFICATE
+        </div>
+
+        <div class="digital-content">
+
+            <strong>✓ DIGITALLY VERIFIED</strong>
+
+            <span>
+                American Global Logistics
+            </span>
+
+            <span>
+                This document is electronically verified
+                using the tracking and verification code.
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
 
 
     <!-- QR -->
