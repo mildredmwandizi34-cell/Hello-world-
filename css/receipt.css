@@ -1295,6 +1295,52 @@ button{
     padding:2px 4px;
 }
 
+/* =========================================================
+   FORCE SENDER + RECEIVER SIDE BY SIDE
+========================================================= */
+
+.people-grid{
+    width:100% !important;
+
+    display:grid !important;
+
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+
+    grid-template-rows:auto !important;
+
+    gap:8px !important;
+
+    align-items:stretch !important;
+}
+
+.people-grid .person-box{
+    width:100% !important;
+
+    min-width:0 !important;
+
+    grid-column:auto !important;
+    grid-row:auto !important;
+}
+
+@media print{
+
+    .people-grid{
+        display:grid !important;
+
+        grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+
+        grid-template-rows:auto !important;
+
+        gap:8px !important;
+
+        width:100% !important;
+    }
+
+    .people-grid .person-box{
+        width:100% !important;
+    }
+
+}
 
 /* =========================================================
    END OF RECEIPT.CSS
