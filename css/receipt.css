@@ -1379,4 +1379,36 @@ footer,
     }
 
     .brand-text p {
-        font-size: 
+        font-size: 7px;
+    }
+
+    .summary-strip {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .shipment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .shipment-item,
+    .shipment-item:nth-child(2n),
+    .shipment-item:nth-child(3n) {
+        border-right: 0;
+    }
+
+    .verification-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .signature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .receipt-actions {
+        flex-direction: column;
+    }
+
+    .receipt-actions button {
+        width: 100%;
+    }
+}
