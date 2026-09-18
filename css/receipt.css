@@ -49,7 +49,8 @@ body {
 
 
 /* =========================================================
-   HEADER
+   RECEIPT HEADER
+   AGL BRAND LEFT + SMALL RECEIPT BOX TOP RIGHT
    ========================================================= */
 
 .receipt-header {
@@ -59,9 +60,9 @@ body {
     flex-direction: row;
 
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 
-    gap: 15px;
+    gap: 12px;
 
     padding-bottom: 7px;
 
@@ -69,7 +70,10 @@ body {
 }
 
 
-/* LEFT: LOGO + COMPANY */
+/* =========================================================
+   LEFT SIDE
+   AGL LOGO + COMPANY NAME + TAGLINE
+   ========================================================= */
 
 .brand-area {
     flex: 1;
@@ -122,32 +126,46 @@ body {
 }
 
 
-/* RIGHT: RECEIPT BOX */
+/* =========================================================
+   RIGHT SIDE
+   SHIPMENT RECEIPT BOX
+   70% SMALLER
+   ========================================================= */
 
 .receipt-heading {
-    width: 140px;
-    min-width: 140px;
+    width: 92px;
+    min-width: 92px;
 
-    padding: 7px 8px;
+    padding: 4px 5px;
 
-    border: 2px solid #0b4ea2;
-    border-radius: 5px;
+    margin-left: auto;
+
+    border: 1px solid #0b4ea2;
+    border-radius: 3px;
 
     background: #f7faff;
 
     text-align: center;
 }
 
+
+/* SMALL SHIPMENT RECEIPT TITLE */
+
 .receipt-heading h2 {
-    margin: 0 0 5px;
+    margin: 0 0 3px;
 
     color: #083b80;
 
-    font-size: 13px;
+    font-size: 8px;
     font-weight: 800;
 
-    line-height: 1.1;
+    line-height: 1.05;
+
+    white-space: nowrap;
 }
+
+
+/* SMALL RECEIPT INFORMATION */
 
 .receipt-meta {
     width: 100%;
@@ -160,9 +178,9 @@ body {
     justify-content: space-between;
     align-items: center;
 
-    gap: 5px;
+    gap: 3px;
 
-    padding: 2px 0;
+    padding: 1.5px 0;
 
     border-top: 1px solid #dce3ea;
 
@@ -172,17 +190,67 @@ body {
 .receipt-meta span {
     color: #68737d;
 
-    font-size: 7px;
+    font-size: 5px;
     font-weight: 600;
+
+    white-space: nowrap;
 }
 
 .receipt-meta strong {
     color: #17202a;
 
-    font-size: 7px;
+    font-size: 5px;
     font-weight: 800;
 
     text-align: right;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   PRINT VERSION
+   ========================================================= */
+
+@media print {
+
+    .receipt-header {
+        gap: 10px;
+
+        padding-bottom: 6px;
+    }
+
+    .receipt-logo {
+        width: 52px;
+        height: 52px;
+    }
+
+    .brand-text h1 {
+        font-size: 17px;
+    }
+
+    .brand-text p {
+        font-size: 7px;
+    }
+
+    .receipt-heading {
+        width: 92px;
+        min-width: 92px;
+
+        padding: 4px 5px;
+    }
+
+    .receipt-heading h2 {
+        font-size: 8px;
+    }
+
+    .receipt-meta span,
+    .receipt-meta strong {
+        font-size: 5px;
+    }
 }
 
 
