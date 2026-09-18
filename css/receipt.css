@@ -1,1654 +1,932 @@
 /* =========================================================
    AMERICAN GLOBAL LOGISTICS
-   RECEIPT.CSS — COMPLETE CLEAN VERSION
-   A4 LANDSCAPE • COMPACT • PROFESSIONAL
-========================================================= */
+   RECEIPT.CSS — CLEAN A4 REPLACEMENT
+   ========================================================= */
 
-
-/* =========================================================
+/* =========================
    GLOBAL RESET
-========================================================= */
+   ========================= */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
 html,
-body{
-    width:100%;
-    min-height:100%;
+body {
+    margin: 0;
+    padding: 0;
+    background: #eef2f6;
+    color: #1d2733;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.35;
 }
 
-body{
-    font-family:"Segoe UI",Arial,sans-serif;
-    background:#edf2f7;
-    color:#263238;
-    padding:12px;
-    font-size:10px;
+body {
+    min-height: 100vh;
 }
 
-
-/* =========================================================
+/* =========================
    MAIN RECEIPT PAGE
-========================================================= */
+   ========================= */
 
-.receipt-page{
-    width:297mm;
-    min-height:210mm;
-    margin:0 auto 15px;
-    padding:7mm;
-
-    background:#ffffff;
-
-    border:1px solid #d8e0e8;
-    border-radius:5px;
-
-    box-shadow:0 3px 14px rgba(0,0,0,.10);
-
-    overflow:hidden;
+.page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 18px auto;
+    padding: 10mm;
+    background: #ffffff;
+    border: 1px solid #d5dce3;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+    position: relative;
+    overflow: hidden;
 }
 
-
-    flex-direction:column !important;
-
-    margin:0;
-
-    padding:0;
+/* Keep content compact */
+.page * {
+    max-width: 100%;
 }
 
-/* =====================================================
-   AGL RECEIPT HEADER — LOGO LEFT / RECEIPT RIGHT
-===================================================== */
+/* =========================
+   HEADER
+   ========================= */
 
-.receipt-header{
-    width:100%;
-    display:grid !important;
-    grid-template-columns:minmax(0,1fr) 38mm !important;
-    gap:8px !important;
-    align-items:start !important;
-    padding-bottom:6px;
-    border-bottom:2px solid #0b4ea2;
+.receipt-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #0b4ea2;
 }
 
-/* LEFT SIDE — LOGO + COMPANY NAME */
-.brand-area{
-    display:flex !important;
-    flex-direction:row !important;
-    align-items:center !important;
-    gap:7px !important;
-    min-width:0 !important;
+.company-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
 }
 
-.receipt-logo{
-    width:52px !important;
-    height:52px !important;
-    object-fit:contain;
-    flex-shrink:0;
+.company-logo,
+#companyLogo {
+    width: 62px;
+    height: 62px;
+    object-fit: contain;
+    flex: 0 0 auto;
 }
 
-.brand-text{
-    min-width:0 !important;
-    display:flex !important;
-    flex-direction:column !important;
-    justify-content:center !important;
+.company-info {
+    min-width: 0;
 }
 
-.brand-text h1{
-    margin:0 !important;
-    color:#0b4ea2 !important;
-    font-size:11px !important;
-    line-height:1.1 !important;
-    font-weight:800 !important;
-    white-space:nowrap !important;
+.company-name {
+    margin: 0;
+    color: #083b80;
+    font-size: 21px;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: 0.2px;
 }
 
-.brand-text p{
-    margin:3px 0 0 !important;
-    color:#0b4ea2 !important;
-    font-size:6px !important;
-    line-height:1.15 !important;
-    font-weight:700 !important;
-    white-space:nowrap !important;
+.company-tagline {
+    margin: 4px 0 0;
+    color: #555f69;
+    font-size: 10px;
+    font-weight: 600;
 }
 
-/* RIGHT SIDE — SMALL VERTICAL RECEIPT BOX */
-.receipt-heading{
-    width:38mm !important;
-    min-width:38mm !important;
-    max-width:38mm !important;
-    justify-self:end !important;
-    align-self:start !important;
-
-    border:1.5px solid #0b4ea2 !important;
-    border-radius:3px !important;
-    background:#fff !important;
-    overflow:hidden !important;
+.company-contact {
+    margin-top: 4px;
+    color: #68727d;
+    font-size: 9px;
+    line-height: 1.35;
 }
 
-.receipt-heading h2{
-    margin:0 !important;
-    padding:4px 5px !important;
+/* =========================
+   RECEIPT TITLE BOX
+   ========================= */
 
-    background:#0b4ea2 !important;
-    color:#fff !important;
-
-    font-size:8.5px !important;
-    line-height:1.1 !important;
-    text-align:center !important;
-    font-weight:800 !important;
-    white-space:nowrap !important;
+.receipt-title-box {
+    width: 142px;
+    min-width: 142px;
+    padding: 8px 10px;
+    border: 2px solid #0b4ea2;
+    border-radius: 5px;
+    text-align: center;
+    background: #f8fbff;
 }
 
-.receipt-meta{
-    display:flex !important;
-    flex-direction:column !important;
-    gap:0 !important;
-    padding:3px 5px !important;
+.receipt-title-box h1,
+.receipt-title-box h2,
+.receipt-title {
+    margin: 0;
+    color: #083b80;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-transform: uppercase;
 }
 
-.receipt-meta div{
-    display:flex !important;
-    justify-content:space-between !important;
-    align-items:center !important;
-    gap:5px !important;
-
-    padding:2px 0 !important;
-    border-bottom:1px solid #d9e2ec !important;
-
-    font-size:6.5px !important;
-    line-height:1.15 !important;
+.receipt-title-box p {
+    margin: 4px 0 0;
+    color: #66717d;
+    font-size: 8px;
+    font-weight: 600;
 }
 
-.receipt-meta div:last-child{
-    border-bottom:none !important;
+/* =========================
+   RECEIPT META
+   ========================= */
+
+.receipt-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px 12px;
+    margin-top: 8px;
+    font-size: 10px;
 }
 
-.receipt-meta strong{
-    color:#0b4ea2 !important;
-    font-weight:800 !important;
+.receipt-meta-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 2px 0;
+    border-bottom: 1px dotted #d7dde3;
 }
 
-.receipt-meta span{
-    color:#333 !important;
-    text-align:right !important;
-    white-space:nowrap !important;
+.receipt-meta-label {
+    color: #6b747d;
+    font-weight: 600;
 }
 
-
-/* =========================================================
-   SUMMARY STRIP
-========================================================= */
-
-.summary-strip{
-    width:100%;
-
-    display:grid;
-
-    grid-template-columns:
-        1.15fr
-        1fr
-        1fr
-        .9fr
-        1fr;
-
-    margin-top:6px;
-
-    border:1px solid #cfd8e3;
-
-    border-radius:4px;
-
-    overflow:hidden;
-
-    background:#f8fafc;
+.receipt-meta-value {
+    color: #17202a;
+    font-weight: 700;
+    text-align: right;
 }
 
-
-.summary-strip > div{
-    min-width:0;
-
-    padding:5px 7px;
-
-    border-right:1px solid #d7dee8;
-}
-
-
-.summary-strip > div:last-child{
-    border-right:none;
-}
-
-
-.summary-strip small{
-    display:block;
-
-    color:#687582;
-
-    font-size:7px;
-    font-weight:800;
-
-    letter-spacing:.4px;
-}
-
-
-.summary-strip strong{
-    display:block;
-
-    margin-top:2px;
-
-    color:#0b4ea2;
-
-    font-size:9px;
-    font-weight:800;
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-
-/* =========================================================
+/* =========================
    SECTION HEADINGS
-========================================================= */
+   ========================= */
 
-.section-heading{
-    padding:4px 7px;
-
-    background:#0b4ea2;
-    color:#fff;
-
-    font-size:8px;
-    font-weight:800;
-
-    letter-spacing:.5px;
-
-    text-transform:uppercase;
+.section {
+    margin-top: 9px;
 }
 
-
-/* =========================================================
-   SENDER / RECEIVER
-========================================================= */
-
-.people-grid{
-    width:100%;
-
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:8px;
-
-    margin-top:6px;
+.section-title {
+    margin: 0 0 5px;
+    padding: 5px 8px;
+    color: #ffffff;
+    background: #0b4ea2;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
 }
 
-.person-box{
-    min-width:0;
+/* =========================
+   TWO COLUMN LAYOUT
+   ========================= */
 
-    border:1px solid #d7dee8;
-    border-radius:4px;
-
-    overflow:hidden;
-
-    background:#fff;
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
 }
 
-.person-content{
-    display:grid;
-    grid-template-columns:1fr;
-
-    gap:2px;
-
-    padding:5px 7px;
-
-    min-height:39mm;
+.column {
+    min-width: 0;
 }
 
+/* =========================
+   INFORMATION CARDS
+   ========================= */
 
-.person-content strong{
-    color:#0b4ea2;
-
-    font-size:10px;
-    font-weight:800;
+.info-card {
+    border: 1px solid #d5dce3;
+    border-radius: 4px;
+    background: #ffffff;
+    overflow: hidden;
 }
 
-
-.person-content span{
-    display:block;
-
-    color:#3f4b55;
-
-    font-size:8.5px;
-
-    line-height:1.25;
-
-    word-break:break-word;
+.info-card-header {
+    padding: 5px 7px;
+    background: #f1f5f9;
+    color: #083b80;
+    border-bottom: 1px solid #d5dce3;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
-
-.person-content b{
-    color:#263238;
-
-    font-size:8px;
-
-    margin-right:3px;
+.info-card-body {
+    padding: 6px 7px;
 }
 
+.info-row {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    gap: 5px;
+    padding: 2px 0;
+    border-bottom: 1px dotted #e0e4e8;
+    font-size: 9px;
+}
 
-/* =========================================================
+.info-row:last-child {
+    border-bottom: 0;
+}
+
+.info-label {
+    color: #69737d;
+    font-weight: 600;
+}
+
+.info-value {
+    color: #17202a;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+/* =========================
    SHIPMENT DETAILS
-========================================================= */
+   ========================= */
 
-.shipment-section{
-    margin-top:6px;
-
-    border:1px solid #d7dee8;
-
-    border-radius:4px;
-
-    overflow:hidden;
+.shipment-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #d5dce3;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
-
-.shipment-grid{
-    display:grid;
-
-    grid-template-columns:
-        1.4fr
-        1.3fr
-        .65fr
-        .8fr
-        1.2fr
-        1.3fr;
-
-    gap:0;
-
-    background:#fff;
+.detail-item {
+    min-height: 30px;
+    padding: 5px 7px;
+    border-right: 1px solid #e0e4e8;
+    border-bottom: 1px solid #e0e4e8;
 }
 
-
-.shipment-item{
-    min-width:0;
-
-    padding:5px 6px;
-
-    border-right:1px solid #e0e6ed;
+.detail-item:nth-child(even) {
+    border-right: 0;
 }
 
-
-.shipment-item:last-child{
-    border-right:none;
+.detail-item:nth-last-child(-n + 2) {
+    border-bottom: 0;
 }
 
-
-.shipment-item small{
-    display:block;
-
-    color:#687582;
-
-    font-size:7px;
-    font-weight:800;
-
-    text-transform:uppercase;
+.detail-label {
+    display: block;
+    margin-bottom: 1px;
+    color: #707983;
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
-
-.shipment-item strong{
-    display:block;
-
-    margin-top:2px;
-
-    color:#263238;
-
-    font-size:8.5px;
-    font-weight:700;
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+.detail-value {
+    display: block;
+    color: #17202a;
+    font-size: 10px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
 }
 
-
-/* =========================================================
-   ROUTE + CHARGES
-========================================================= */
-
-.route-charges-grid{
-    display:grid;
-
-    grid-template-columns:2.15fr .85fr;
-
-    gap:7px;
-
-    margin-top:6px;
-}
-
-
-.route-box,
-.charges-box{
-    min-width:0;
-
-    border:1px solid #d7dee8;
-
-    border-radius:4px;
-
-    overflow:hidden;
-
-    background:#fff;
-}
-
-
-/* =========================================================
-   ROUTE INFORMATION
-========================================================= */
-
-.route-information{
-    display:grid;
-
-    grid-template-columns:1fr 35px 1fr;
-
-    align-items:center;
-
-    min-height:29px;
-
-    padding:4px 8px;
-
-    background:#f8fafc;
-}
-
-
-.route-location{
-    min-width:0;
-}
-
-
-.route-location small{
-    display:block;
-
-    color:#687582;
-
-    font-size:7px;
-    font-weight:800;
-}
-
-
-.route-location strong{
-    display:block;
-
-    margin-top:1px;
-
-    color:#0b4ea2;
-
-    font-size:9px;
-    font-weight:800;
-
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-
-.route-arrow{
-    text-align:center;
-
-    color:#ff9800;
-
-    font-size:17px;
-    font-weight:900;
-}
-
-
-/* =========================================================
-   MAP
-========================================================= */
-/* =====================================================
-   SHIPPING ROUTE — 15% SHORTER
-===================================================== */
-
-.route-box,
-.charges-box{
-    min-height:0 !important;
-}
-
-#receiptMap{
-    height:75px !important;
-    min-height:75px !important;
-    max-height:75px !important;
-}
-
-.route-charges-grid{
-    align-items:stretch !important;
-}
-
-.route-box{
-    padding:7px !important;
-}
-
-.charges-box{
-    padding:7px !important;
-}
-
-
-/* =========================================================
+/* =========================
    CHARGES
-========================================================= */
+   ========================= */
 
-.charges-box{
-    display:flex;
-    flex-direction:column;
+.charges-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #d5dce3;
+    font-size: 9px;
 }
 
-
-.charge-row{
-    display:flex;
-
-    justify-content:space-between;
-    align-items:center;
-
-    padding:6px 8px;
-
-    border-bottom:1px solid #e1e6eb;
-
-    color:#4b5660;
-
-    font-size:8.5px;
+.charges-table th {
+    padding: 5px 7px;
+    color: #ffffff;
+    background: #083b80;
+    text-align: left;
+    font-size: 9px;
 }
 
-
-.charge-row strong{
-    color:#263238;
-
-    font-size:8.5px;
+.charges-table td {
+    padding: 4px 7px;
+    border-bottom: 1px solid #e1e5e9;
 }
 
-
-.total-row{
-    margin-top:auto;
-
-    padding:8px;
-
-    border-top:2px solid #0b4ea2;
-    border-bottom:none;
-
-    background:#f1f6fc;
+.charges-table tr:last-child td {
+    border-bottom: 0;
 }
 
-
-.total-row span{
-    color:#0b4ea2;
-
-    font-size:9px;
-    font-weight:900;
+.charges-table td:last-child,
+.charges-table th:last-child {
+    text-align: right;
 }
 
-
-.total-row strong{
-    color:#0b4ea2;
-
-    font-size:11px;
-    font-weight:900;
+.charges-total {
+    font-size: 11px;
+    font-weight: 800;
 }
 
-
-/* =========================================================
-   VERIFICATION / BARCODE / QR / SIGNATURES / SEAL
-========================================================= */
-
-.verification-grid{
-    width:100%;
-
-    display:grid;
-
-    grid-template-columns:
-        2.15fr
-        .75fr
-        1fr
-        1fr
-        .85fr;
-
-    gap:6px;
-
-    margin-top:6px;
+.charges-total td {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background: #f2f7fc;
+    color: #083b80;
 }
 
+/* =========================
+   ROUTE / MAP
+   ========================= */
 
-.verification-box{
-    height:76px;
-
-    min-width:0;
-
-    border:1px solid #d7dee8;
-
-    border-radius:4px;
-
-    padding:5px 6px;
-
-    overflow:hidden;
-
-    text-align:center;
-
-    background:#fff;
+.route-section {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 8px;
+    align-items: stretch;
 }
 
-
-.verification-box small{
-    display:block;
-
-    margin-bottom:3px;
-
-    color:#687582;
-
-    font-size:7px;
-    font-weight:800;
-
-    text-transform:uppercase;
-
-    white-space:nowrap;
+.route-information {
+    border: 1px solid #d5dce3;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
-
-/* =========================================================
-   BARCODE
-========================================================= */
-
-.barcode-box{
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-    align-items:center;
+.route-row {
+    padding: 7px;
+    border-bottom: 1px solid #e1e5e9;
 }
 
-
-.barcode-box svg{
-    display:block;
-
-    width:100%;
-    max-width:245px;
-
-    height:43px;
+.route-row:last-child {
+    border-bottom: 0;
 }
 
-
-.barcode-box svg text{
-    font-size:10px;
+.route-label {
+    display: block;
+    color: #6b747d;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-
-/* =========================================================
-   QR CODE
-========================================================= */
-
-.qr-box{
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-    align-items:center;
+.route-value {
+    display: block;
+    margin-top: 2px;
+    color: #17202a;
+    font-size: 10px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
 }
 
-
-#qrcode{
-    width:55px !important;
-    height:55px !important;
-
-    display:block;
+.route-arrow {
+    color: #ff9800;
+    font-size: 13px;
+    font-weight: 900;
 }
 
-
-.qr-box canvas{
-    width:55px !important;
-    height:55px !important;
-
-    display:block;
+#receiptMap,
+.receipt-map,
+.route-map {
+    width: 100%;
+    height: 145px;
+    min-height: 145px;
+    border: 1px solid #d5dce3;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #e8edf2;
 }
 
-
-/* =========================================================
-   SENDER SIGNATURE
-========================================================= */
-
-.sender-box{
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    text-align:center;
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
+/* =========================
+   BARCODE + QR
+   ========================= */
 
-.sender-signature{
-    display:block;
-
-    max-width:125px;
-    width:auto;
-
-    height:42px;
-
-    object-fit:contain;
-
-    margin:1px auto 1px;
+.verification-section {
+    display: grid;
+    grid-template-columns: 1.45fr 0.55fr;
+    gap: 8px;
+    align-items: center;
 }
 
-
-.sender-box span{
-    display:block;
-
-    color:#4d5963;
-
-    font-size:7px;
-    font-weight:700;
+.barcode-box,
+.qr-box {
+    border: 1px solid #d5dce3;
+    border-radius: 4px;
+    background: #ffffff;
+    padding: 6px;
+    text-align: center;
 }
 
-
-/* =========================================================
-   AUTHORIZED OFFICER SIGNATURE
-========================================================= */
-
-.officer-box{
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    text-align:center;
+.barcode-box {
+    min-height: 73px;
 }
 
-
-.officer-signature{
-    display:block;
-
-    max-width:120px;
-    width:auto;
-
-    height:40px;
-
-    object-fit:contain;
-
-    margin:1px auto 1px;
+#barcodeLarge,
+.barcode-box svg {
+    display: block;
+    width: 100%;
+    max-width: 330px;
+    height: 52px;
+    margin: 0 auto;
 }
 
-
-.officer-box span{
-    display:block;
-
-    color:#4d5963;
-
-    font-size:7px;
-    font-weight:700;
+.qr-box {
+    min-height: 73px;
 }
 
-
-/* =========================================================
-   COMPANY SEAL
-========================================================= */
-
-.seal-box{
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    text-align:center;
+#qrcode {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto;
 }
 
-
-.company-seal{
-    display:block;
-
-    width:62px;
-    height:62px;
-
-    object-fit:contain;
-
-    margin:auto;
+#qrcode img,
+#qrcode canvas {
+    display: block;
+    width: 58px !important;
+    height: 58px !important;
+    margin: 0 auto;
 }
 
+.verification-label {
+    display: block;
+    margin-bottom: 3px;
+    color: #6d7680;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
 
-/* =========================================================
+.verification-code {
+    color: #083b80;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* =========================
+   AUTHORIZATION
+   ========================= */
+
+.authorization {
+    display: grid;
+    grid-template-columns: 1fr 110px;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid #d5dce3;
+    border-radius: 4px;
+    padding: 7px;
+}
+
+.authorization-text {
+    font-size: 9px;
+    color: #4e5862;
+    line-height: 1.35;
+}
+
+.authorization-text strong {
+    color: #083b80;
+}
+
+.signature-area {
+    position: relative;
+    min-height: 70px;
+    text-align: center;
+}
+
+.officer-signature {
+    display: block;
+    width: 100px;
+    height: 48px;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+.authorization-seal {
+    display: block;
+    width: 48px;
+    height: 48px;
+    margin: -8px auto 0;
+    object-fit: contain;
+}
+
+.signature-caption {
+    margin-top: 1px;
+    padding-top: 3px;
+    border-top: 1px solid #7b838b;
+    color: #555e67;
+    font-size: 7px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* =========================
    FOOTER
-========================================================= */
+   ========================= */
 
-.receipt-footer{
-    display:grid;
-
-    grid-template-columns:1.5fr 1.5fr .8fr;
-
-    gap:10px;
-
-    margin-top:6px;
-
-    padding-top:5px;
-
-    border-top:1px solid #cfd8e3;
-
-    color:#687582;
-
-    font-size:7px;
-
-    line-height:1.35;
+.receipt-footer {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 2px solid #0b4ea2;
+    text-align: center;
 }
 
-
-.footer-left,
-.footer-center,
-.footer-right{
-    display:flex;
-
-    flex-direction:column;
+.receipt-footer p {
+    margin: 2px 0;
+    color: #66717c;
+    font-size: 8px;
 }
 
-
-.footer-left strong{
-    color:#0b4ea2;
-
-    font-size:8px;
+.receipt-footer strong {
+    color: #083b80;
 }
 
-
-.footer-left b,
-.footer-right strong{
-    color:#263238;
-}
-
-
-.footer-center{
-    justify-content:center;
-
-    text-align:center;
-}
-
-
-.footer-right{
-    justify-content:center;
-
-    align-items:flex-end;
-
-    text-align:right;
-}
-
-
-.footer-right strong{
-    color:#0b4ea2;
-
-    font-size:8px;
-}
-
-
-/* =========================================================
+/* =========================
    ACTION BUTTONS
-========================================================= */
+   ========================= */
 
-.receipt-actions{
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:8px;
-
-    margin:12px auto;
+.receipt-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 12px auto 20px;
 }
 
-
-.receipt-actions button{
-    border:none;
-
-    border-radius:4px;
-
-    padding:8px 15px;
-
-    background:#0b4ea2;
-    color:#fff;
-
-    font-family:inherit;
-
-    font-size:9px;
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.2s ease;
+.receipt-actions button,
+.receipt-actions a,
+.print-btn,
+.track-btn,
+.new-shipment-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 105px;
+    min-height: 34px;
+    padding: 7px 13px;
+    border: 0;
+    border-radius: 4px;
+    background: #0b4ea2;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-
-.receipt-actions button:hover{
-    background:#083b80;
+.receipt-actions button:hover,
+.receipt-actions a:hover,
+.print-btn:hover,
+.track-btn:hover,
+.new-shipment-btn:hover {
+    background: #083b80;
 }
 
-
-.receipt-actions button:active{
-    transform:scale(.98);
+.receipt-actions .secondary {
+    background: #68727d;
 }
 
-
-/* =========================================================
-   PRINT SETTINGS
-========================================================= */
-
-@page{
-    size:A4 landscape;
-    margin:0;
+.receipt-actions .secondary:hover {
+    background: #4f5861;
 }
 
+.receipt-actions .orange {
+    background: #ff9800;
+}
 
-@media print{
+.receipt-actions .orange:hover {
+    background: #e68900;
+}
+
+/* =========================
+   UTILITY CLASSES
+   ========================= */
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.no-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.print-only {
+    display: none;
+}
+
+/* Prevent accidental long text from stretching the page */
+p,
+div,
+span,
+td,
+th {
+    overflow-wrap: break-word;
+}
+
+/* =========================
+   PRINT
+   ========================= */
+
+@page {
+    size: A4 portrait;
+    margin: 0;
+}
+
+@media print {
 
     html,
-    body{
-        width:297mm;
-        height:210mm;
-
-        margin:0;
-        padding:0;
-
-        background:#fff;
+    body {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        font-size: 11px;
     }
 
-
-    body{
-        font-size:10px;
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
 
-
-    .receipt-page{
-        width:297mm;
-        height:210mm;
-
-        min-height:210mm;
-
-        margin:0;
-
-        padding:7mm;
-
-        border:none;
-        border-radius:0;
-
-        box-shadow:none;
-
-        overflow:hidden;
+    .page {
+        width: 210mm;
+        min-height: 297mm;
+        height: 297mm;
+        margin: 0;
+        padding: 8mm;
+        border: 0;
+        box-shadow: none;
+        overflow: hidden;
     }
 
-
-    .receipt-actions{
-        display:none !important;
+    .receipt-actions {
+        display: none !important;
     }
 
-
-    .receipt-header{
-        padding-bottom:6px;
+    .print-only {
+        display: block;
     }
 
-
-    .receipt-logo{
-        width:64px;
-        height:64px;
+    .section {
+        margin-top: 7px;
     }
 
-
-    .brand-text h1{
-        font-size:20px;
+    .section-title {
+        margin-bottom: 4px;
     }
 
-
-    .brand-text p{
-        font-size:9px;
+    .receipt-header {
+        padding-bottom: 7px;
     }
 
-
-    .summary-strip{
-        margin-top:5px;
+    .company-logo,
+    #companyLogo {
+        width: 55px;
+        height: 55px;
     }
 
-
-    .people-grid,
-    .shipment-section,
-    .route-charges-grid,
-    .verification-grid,
-    .receipt-footer{
-        break-inside:avoid;
-        page-break-inside:avoid;
+    .company-name {
+        font-size: 18px;
     }
 
-
-    .people-grid{
-        margin-top:5px;
+    .receipt-title-box {
+        width: 130px;
+        min-width: 130px;
+        padding: 6px 8px;
     }
 
-
-    .person-content{
-        min-height:39mm;
+    .receipt-title-box h1,
+    .receipt-title-box h2,
+    .receipt-title {
+        font-size: 14px;
     }
 
-
-    .shipment-section{
-        margin-top:5px;
+    .info-card-body {
+        padding: 5px 6px;
     }
 
-
-    .route-charges-grid{
-        margin-top:5px;
+    .info-row {
+        font-size: 8.5px;
+        grid-template-columns: 78px 1fr;
+        padding: 1.5px 0;
     }
 
-
-    .receipt-map{
-        height:82px;
+    .detail-item {
+        min-height: 27px;
+        padding: 4px 6px;
     }
 
-
-    .verification-grid{
-        grid-template-columns:
-            2.15fr
-            .75fr
-            1fr
-            1fr
-            .85fr;
-
-        margin-top:5px;
+    .detail-label {
+        font-size: 7px;
     }
 
-
-    .verification-box{
-        height:72px;
+    .detail-value {
+        font-size: 9px;
     }
 
-
-    .sender-signature{
-        max-width:115px;
-        height:38px;
+    .charges-table {
+        font-size: 8.5px;
     }
 
-
-    .officer-signature{
-        max-width:110px;
-        height:37px;
+    .charges-table th,
+    .charges-table td {
+        padding: 3px 6px;
     }
 
-
-    .company-seal{
-        width:58px;
-        height:58px;
+    #receiptMap,
+    .receipt-map,
+    .route-map {
+        height: 125px;
+        min-height: 125px;
     }
 
-
-    .receipt-footer{
-        margin-top:5px;
-        padding-top:4px;
+    .barcode-box,
+    .qr-box {
+        padding: 4px;
     }
 
-}
-
-
-/* =========================================================
-   MOBILE / SMALL SCREEN
-========================================================= */
-
-@media screen and (max-width:900px){
-
-    body{
-        padding:6px;
-
-        overflow-x:auto;
+    #barcodeLarge,
+    .barcode-box svg {
+        height: 45px;
     }
 
-
-    .receipt-page{
-        width:100%;
-        min-width:720px;
-
-        margin:0 auto 10px;
-
-        padding:10px;
+    #qrcode,
+    #qrcode img,
+    #qrcode canvas {
+        width: 50px !important;
+        height: 50px !important;
     }
 
-}
-
-
-@media screen and (max-width:720px){
-
-    .receipt-page{
-        min-width:0;
-
-        width:100%;
-
-        padding:8px;
+    .authorization {
+        padding: 5px;
     }
 
-
-    .receipt-header{
-        grid-template-columns:1fr;
+    .officer-signature {
+        width: 88px;
+        height: 42px;
     }
 
-
-    .receipt-heading{
-        width:100%;
+    .authorization-seal {
+        width: 42px;
+        height: 42px;
     }
 
-
-    .brand-text h1{
-        font-size:17px;
-
-        white-space:normal;
+    .receipt-footer {
+        margin-top: 6px;
+        padding-top: 4px;
     }
 
-
-    .brand-text p{
-        white-space:normal;
-
-        line-height:1.3;
-    }
-
-
-    .summary-strip{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-
-    .summary-strip > div{
-        border-bottom:1px solid #d7dee8;
-    }
-
-
-    .people-grid{
-        grid-template-columns:1fr;
-    }
-
-
-    .shipment-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-
-    .shipment-item{
-        border-bottom:1px solid #e0e6ed;
-    }
-
-
-    .route-charges-grid{
-        grid-template-columns:1fr;
-    }
-
-
-    .verification-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-
-    .barcode-box{
-        grid-column:1 / -1;
-    }
-
-
-    .receipt-footer{
-        grid-template-columns:1fr;
-        text-align:center;
-    }
-
-
-    .footer-right{
-        align-items:center;
-        text-align:center;
-    }
-
-
-    .receipt-actions{
-        flex-wrap:wrap;
-    }
-
-}
-
-
-/* =========================================================
-   FINAL VISUAL DETAILS
-========================================================= */
-
-strong,
-b{
-    font-weight:700;
-}
-
-
-img{
-    max-width:100%;
-}
-
-
-button{
-    -webkit-tap-highlight-color:transparent;
-}
-
-
-/* Prevent long shipment values from stretching layout */
-
-#senderAddress,
-#receiverAddress,
-#origin,
-#destination,
-#customerReference,
-#package,
-#packageType,
-#dimensions{
-    overflow-wrap:anywhere;
-}
-
-
-/* Keep Leaflet route visible */
-
-.receipt-map .leaflet-pane,
-.receipt-map .leaflet-control-container{
-    z-index:1;
-}
-
-
-/* Map marker labels */
-
-.receipt-map .leaflet-tooltip{
-    font-size:7px;
-    font-weight:700;
-    padding:2px 4px;
-}
-
-/* =========================================================
-   FORCE SENDER + RECEIVER SIDE BY SIDE
-========================================================= */
-
-.people-grid{
-    width:100% !important;
-
-    display:grid !important;
-
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
-
-    grid-template-rows:auto !important;
-
-    gap:8px !important;
-
-    align-items:stretch !important;
-}
-
-.people-grid .person-box{
-    width:100% !important;
-
-    min-width:0 !important;
-
-    grid-column:auto !important;
-    grid-row:auto !important;
-}
-
-@media print{
-
-    .people-grid{
-        display:grid !important;
-
-        grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
-
-        grid-template-rows:auto !important;
-
-        gap:8px !important;
-
-        width:100% !important;
-    }
-
-    .people-grid .person-box{
-        width:100% !important;
-    }
-
-}
-
-/* =====================================================
-   FINAL HEADER ALIGNMENT
-   LOGO/COMPANY + RECEIPT BOX ON SAME HORIZONTAL LINE
-===================================================== */
-
-.receipt-header{
-    display:grid !important;
-    grid-template-columns:minmax(0,1fr) 38mm !important;
-    align-items:start !important;
-    position:relative !important;
-}
-
-.brand-area{
-    align-self:start !important;
-    margin-top:0 !important;
-    padding-top:0 !important;
-}
-
-.receipt-heading{
-    align-self:start !important;
-    justify-self:end !important;
-    margin-top:0 !important;
-    padding-top:0 !important;
-    transform:none !important;
-    position:relative !important;
-    top:0 !important;
-}
-
-/* Keep the receipt box compact */
-.receipt-heading h2{
-    margin-top:0 !important;
-}
-
-.receipt-meta{
-    margin-top:0 !important;
-}
-
-/* =====================================================
-   VERIFICATION — ONE HORIZONTAL ROW
-   CODE + BARCODE + QR | DIGITAL CERTIFICATE
-===================================================== */
-
-.verification-grid{
-    width:100% !important;
-    display:grid !important;
-
-    /* Verification | Barcode/QR | Digital Certificate */
-    grid-template-columns:1fr 1.4fr 1fr !important;
-
-    gap:0 !important;
-    align-items:stretch !important;
-}
-
-/* All verification boxes */
-.verification-grid > div{
-    min-width:0 !important;
-    min-height:0 !important;
-    padding:6px 8px !important;
-    margin:0 !important;
-}
-
-/* Verification code */
-.verification-grid > div:first-child{
-    text-align:center !important;
-}
-
-/* Barcode + QR area */
-.verification-grid > div:nth-child(2){
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    gap:10px !important;
-}
-
-/* QR code */
-.verification-grid canvas,
-.verification-grid img{
-    max-width:65px !important;
-    max-height:65px !important;
-    object-fit:contain !important;
-}
-
-/* Digital Verification Certificate */
-.verification-grid > div:nth-child(3){
-    border-left:2px solid #0b4ea2 !important;
-    padding-left:12px !important;
-
-    display:flex !important;
-    flex-direction:column !important;
-    justify-content:center !important;
-    text-align:center !important;
-}
-
-/* Keep certificate heading compact */
-.verification-grid > div:nth-child(3) h3,
-.verification-grid > div:nth-child(3) strong{
-    color:#0b4ea2 !important;
-}
-
-/* Prevent the row from breaking during printing */
-@media print{
-    .verification-grid{
-        display:grid !important;
-        grid-template-columns:1fr 1.4fr 1fr !important;
-        gap:0 !important;
-        page-break-inside:avoid !important;
-        break-inside:avoid !important;
+    .no-break {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
     }
 }
 
-/* =====================================================
-   VERIFICATION SECTION
-   BARCODE + CODE + QR | DIGITAL CERTIFICATE
-===================================================== */
-
-.verification-grid{
-    width:100% !important;
-
-    display:grid !important;
-
-    grid-template-columns:minmax(0,2fr) minmax(0,1fr) !important;
-
-    gap:0 !important;
-
-    align-items:stretch !important;
-
-    margin-top:8px !important;
-
-    border:1px solid #cbd5e1 !important;
-
-    background:#fff !important;
-
-    min-height:78px !important;
-
-    page-break-inside:avoid !important;
-    break-inside:avoid !important;
-}
-
-
-/* =====================================================
-   LEFT SIDE
-   VERIFICATION CODE + BARCODE + QR
-===================================================== */
-
-.verification-left{
-    display:grid !important;
-
-    grid-template-columns:.8fr 1.35fr .75fr !important;
-
-    align-items:center !important;
-
-    gap:6px !important;
-
-    padding:6px 8px !important;
-
-    min-width:0 !important;
-}
-
-
-/* Individual verification areas */
-
-.verification-code-box,
-.barcode-box,
-.qr-box{
-    min-width:0 !important;
-
-    display:flex !important;
-
-    flex-direction:column !important;
-
-    justify-content:center !important;
-
-    align-items:center !important;
-
-    text-align:center !important;
-
-    height:100% !important;
-}
-
-
-/* Small headings */
-
-.verification-grid small{
-    display:block !important;
-
-    color:#0b4ea2 !important;
-
-    font-size:6px !important;
-
-    font-weight:800 !important;
-
-    letter-spacing:.3px !important;
-
-    margin-bottom:3px !important;
-}
-
-
-/* Verification code */
-
-.verification-code-box strong{
-    color:#222 !important;
-
-    font-size:10px !important;
-
-    font-weight:800 !important;
-
-    letter-spacing:.5px !important;
-
-    word-break:break-word !important;
-}
-
-
-/* =====================================================
-   BARCODE
-===================================================== */
-
-#barcodeLarge{
-    width:115px !important;
-
-    height:38px !important;
-
-    max-width:100% !important;
-
-    display:block !important;
-}
-
-
-/* =====================================================
-   QR CODE
-===================================================== */
-
-#qrcode{
-    width:52px !important;
-
-    height:52px !important;
-
-    max-width:52px !important;
-
-    max-height:52px !important;
-
-    display:block !important;
-}
-
-
-/* =====================================================
-   DIGITAL VERIFICATION CERTIFICATE
-===================================================== */
-
-.digital-verification{
-    border-left:2px solid #0b4ea2 !important;
-
-    padding:6px 10px !important;
-
-    display:flex !important;
-
-    flex-direction:column !important;
-
-    justify-content:center !important;
-
-    align-items:center !important;
-
-    text-align:center !important;
-
-    min-width:0 !important;
-
-    background:#f8fbff !important;
-}
-
-
-.digital-title{
-    color:#0b4ea2 !important;
-
-    font-size:7.5px !important;
-
-    font-weight:900 !important;
-
-    letter-spacing:.3px !important;
-
-    margin-bottom:4px !important;
-}
-
-
-.digital-content{
-    display:flex !important;
-
-    flex-direction:column !important;
-
-    align-items:center !important;
-
-    gap:2px !important;
-}
-
-
-.digital-content strong{
-    color:#0b4ea2 !important;
-
-    font-size:7px !important;
-
-    font-weight:900 !important;
-}
-
-
-.digital-content span{
-    color:#444 !important;
-
-    font-size:6px !important;
-
-    line-height:1.2 !important;
-}
-
-
-/* =====================================================
-   PRINT
-===================================================== */
-
-@media print{
-
-    .verification-grid{
-        display:grid !important;
-
-        grid-template-columns:minmax(0,2fr) minmax(0,1fr) !important;
-
-        gap:0 !important;
-
-        min-height:78px !important;
-
-        page-break-inside:avoid !important;
-
-        break-inside:avoid !important;
+/* =========================
+   MOBILE SCREEN
+   ========================= */
+
+@media screen and (max-width: 800px) {
+
+    html,
+    body {
+        background: #eef2f6;
     }
 
-    .verification-left{
-        display:grid !important;
-
-        grid-template-columns:.8fr 1.35fr .75fr !important;
-
-        gap:6px !important;
+    .page {
+        width: calc(100% - 16px);
+        min-height: auto;
+        margin: 8px;
+        padding: 14px;
     }
 
-    .digital-verification{
-        border-left:2px solid #0b4ea2 !important;
+    .receipt-header {
+        gap: 10px;
     }
-       }
 
-/* =========================================================
-   END OF RECEIPT.CSS
-========================================================= */
+    .company-logo,
+    #companyLogo {
+        width: 52px;
+        height: 52px;
+    }
+
+    .company-name {
+        font-size: 16px;
+    }
+
+    .company-tagline,
+    .company-contact {
+        font-size: 8px;
+    }
+
+    .receipt-title-box {
+        width: 115px;
+        min-width: 115px;
+    }
+
+    .receipt-title-box h1,
+    .receipt-title-box h2,
+    .receipt-title {
+        font-size: 12px;
+    }
+
+    .receipt-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .two-column,
+    .route-section,
+    .verification-section {
+        grid-template-columns: 1fr;
+    }
+
+    #receiptMap,
+    .receipt-map,
+    .route-map {
+        height: 190px;
+        min-height: 190px;
+    }
+
+    .authorization {
+        grid-template-columns: 1fr;
+    }
+
+    .receipt-actions {
+        flex-wrap: wrap;
+    }
+}
+
+/* =========================
+   VERY SMALL PHONES
+   ========================= */
+
+@media screen and (max-width: 430px) {
+
+    .page {
+        width: calc(100% - 10px);
+        margin: 5px;
+        padding: 10px;
+    }
+
+    .receipt-header {
+        align-items: center;
+    }
+
+    .company-area {
+        gap: 6px;
+    }
+
+    .company-logo,
+    #companyLogo {
+        width: 45px;
+        height: 45px;
+    }
+
+    .company-name {
+        font-size: 14px;
+    }
+
+    .receipt-title-box {
+        width: 100px;
+        min-width: 100px;
+        padding: 5px;
+    }
+
+    .receipt-title-box h1,
+    .receipt-title-box h2,
+    .receipt-title {
+        font-size: 10px;
+    }
+
+    .shipment-details {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-item,
+    .detail-item:nth-child(even),
+    .detail-item:nth-last-child(-n + 2) {
+        border-right: 0;
+        border-bottom: 1px solid #e0e4e8;
+    }
+
+    .detail-item:last-child {
+        border-bottom: 0;
+    }
+
+    .receipt-actions button,
+    .receipt-actions a {
+        width: 100%;
+    }
+   }
