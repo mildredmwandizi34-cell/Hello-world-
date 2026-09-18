@@ -301,128 +301,95 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 </div>
 
 </section><!-- =====================================================
-     VERIFICATION / BARCODE / QR / DIGITAL CERTIFICATE
+     VERIFICATION + SIGNATURES
 ===================================================== -->
 
-<section class="verification-grid">
+<section class="verification-section">
 
-    <!-- ================= VERIFICATION / BARCODE ================= -->
+    <!-- VERIFICATION ROW -->
 
-    <div class="verification-left">
+    <div class="verification-grid">
 
         <div class="verification-code-box">
-
             <small>VERIFICATION CODE</small>
-
             <strong id="verificationCode"></strong>
-
         </div>
-
 
         <div class="barcode-box">
-
             <small>TRACKING BARCODE</small>
-
             <svg id="barcodeLarge"></svg>
-
         </div>
-
 
         <div class="qr-box">
-
             <small>VERIFICATION QR</small>
-
             <canvas id="qrcode"></canvas>
-
         </div>
 
-    </div>
+        <div class="digital-verification">
 
+            <strong>DIGITAL VERIFICATION CERTIFICATE</strong>
 
-    <!-- ================= DIGITAL VERIFICATION ================= -->
+            <span>✓ DIGITALLY VERIFIED</span>
 
-    <div class="digital-verification">
-
-        <div class="digital-title">
-            DIGITAL VERIFICATION CERTIFICATE
-        </div>
-
-        <div class="digital-content">
-
-            <strong>✓ DIGITALLY VERIFIED</strong>
-
-            <span>
+            <small>
                 American Global Logistics
-            </span>
+            </small>
 
-            <span>
+            <small>
                 This document is electronically verified
                 using the tracking and verification code.
-            </span>
+            </small>
 
         </div>
 
     </div>
 
-</section>
+
+    <!-- SIGNATURE ROW -->
+
+    <div class="signature-grid">
+
+        <div class="signature-box">
+
+            <small>SENDER'S SIGNATURE</small>
+
+            <img
+                src="image/sender-signature.png"
+                class="sender-signature"
+                alt="Sender's Signature"
+            >
+
+            <span>Sender</span>
+
+        </div>
 
 
-    <!-- QR -->
+        <div class="signature-box">
 
-    <div class="verification-box qr-box">
+            <small>AUTHORIZED OFFICER</small>
 
-        <small>VERIFICATION QR</small>
+            <img
+                src="image/agl-officer-signature.png"
+                class="officer-signature"
+                alt="Authorized Officer"
+            >
 
-        <canvas id="qrcode"></canvas>
+            <span>Authorized Officer</span>
 
-    </div>
-
-
-    <!-- SENDER SIGNATURE -->
-
-    <div class="verification-box sender-box">
-
-        <small>SENDER'S SIGNATURE</small>
-
-        <img
-            src="image/sender-signature.png"
-            class="sender-signature"
-            alt="Sender's Signature"
-        >
-
-        <span>Sender</span>
-
-    </div>
+        </div>
 
 
-    <!-- AUTHORIZED OFFICER -->
+        <div class="signature-box">
 
-    <div class="verification-box officer-box">
+            <small>COMPANY SEAL</small>
 
-        <small>AUTHORIZED OFFICER</small>
+            <img
+                src="image/agl-seal.png"
+                class="company-seal"
+                alt="AGL Company Seal"
+            >
 
-        <img
-            src="image/agl-officer-signature.png"
-            class="officer-signature"
-            alt="Authorized Officer"
-        >
-
-        <span>Authorized Officer</span>
-
-    </div>
-
-
-    <!-- COMPANY SEAL -->
-
-    <div class="verification-box seal-box">
-
-        <small>COMPANY SEAL</small>
-
-        <img
-            src="image/agl-seal.png"
-            class="company-seal"
-            alt="AGL Company Seal"
-        >
+        </div>
 
     </div>
 
