@@ -1342,6 +1342,79 @@ button{
     margin-top:0 !important;
 }
 
+/* =====================================================
+   VERIFICATION — ONE HORIZONTAL ROW
+   CODE + BARCODE + QR | DIGITAL CERTIFICATE
+===================================================== */
+
+.verification-grid{
+    width:100% !important;
+    display:grid !important;
+
+    /* Verification | Barcode/QR | Digital Certificate */
+    grid-template-columns:1fr 1.4fr 1fr !important;
+
+    gap:0 !important;
+    align-items:stretch !important;
+}
+
+/* All verification boxes */
+.verification-grid > div{
+    min-width:0 !important;
+    min-height:0 !important;
+    padding:6px 8px !important;
+    margin:0 !important;
+}
+
+/* Verification code */
+.verification-grid > div:first-child{
+    text-align:center !important;
+}
+
+/* Barcode + QR area */
+.verification-grid > div:nth-child(2){
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:10px !important;
+}
+
+/* QR code */
+.verification-grid canvas,
+.verification-grid img{
+    max-width:65px !important;
+    max-height:65px !important;
+    object-fit:contain !important;
+}
+
+/* Digital Verification Certificate */
+.verification-grid > div:nth-child(3){
+    border-left:2px solid #0b4ea2 !important;
+    padding-left:12px !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+    text-align:center !important;
+}
+
+/* Keep certificate heading compact */
+.verification-grid > div:nth-child(3) h3,
+.verification-grid > div:nth-child(3) strong{
+    color:#0b4ea2 !important;
+}
+
+/* Prevent the row from breaking during printing */
+@media print{
+    .verification-grid{
+        display:grid !important;
+        grid-template-columns:1fr 1.4fr 1fr !important;
+        gap:0 !important;
+        page-break-inside:avoid !important;
+        break-inside:avoid !important;
+    }
+}
+
 /* =========================================================
    END OF RECEIPT.CSS
 ========================================================= */
