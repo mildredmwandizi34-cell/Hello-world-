@@ -114,8 +114,9 @@ body{
     white-space:nowrap;
 }
 
-   /* =========================================================
-   SHIPMENT RECEIPT BOX — COMPACT
+       /* =========================================================
+   SHIPMENT RECEIPT BOX
+   PROFESSIONAL TOP-RIGHT VERSION
 ========================================================= */
 
 .receipt-header{
@@ -123,7 +124,7 @@ body{
 
     display:grid !important;
 
-    grid-template-columns:minmax(0,1fr) 58mm;
+    grid-template-columns:minmax(0,1fr) 65mm;
 
     align-items:center;
 
@@ -135,20 +136,24 @@ body{
 }
 
 
+/* =========================================================
+   SHIPMENT RECEIPT RECTANGLE
+========================================================= */
+
 .receipt-heading{
-    width:58mm;
+    width:65mm;
 
-    min-width:58mm;
+    min-width:65mm;
 
-    height:20mm;
+    height:24mm;
 
     padding:3mm 4mm;
 
     margin-left:auto;
 
-    border:1.5px solid #083b80;
+    border:1.8px solid #083b80;
 
-    border-radius:4px;
+    border-radius:5px;
 
     background:#fff;
 
@@ -167,21 +172,22 @@ body{
     flex-shrink:0;
 }
 
-
-/* TITLE */
+/* =========================================================
+   SHIPMENT RECEIPT TITLE
+========================================================= */
 
 .receipt-heading h2{
     margin:0;
 
     padding:0;
 
-    font-size:14px;
+    font-size:9px;
 
     line-height:1.1;
 
     font-weight:800;
 
-    letter-spacing:.5px;
+    letter-spacing:.8px;
 
     color:#083b80;
 
@@ -189,7 +195,9 @@ body{
 }
 
 
-/* RECEIPT DETAILS */
+/* =========================================================
+   RECEIPT NUMBER / DATE / DOCUMENT
+========================================================= */
 
 .receipt-meta{
     width:100%;
@@ -198,11 +206,11 @@ body{
 
     grid-template-columns:1fr 1fr 1fr;
 
-    gap:3px;
+    gap:5px;
 
-    margin-top:3px;
+    margin-top:5px;
 
-    padding-top:3px;
+    padding-top:4px;
 
     border-top:1px solid #d7dee8;
 }
@@ -218,7 +226,7 @@ body{
 .receipt-meta span{
     display:block;
 
-    font-size:4.5px;
+    font-size:5.5px;
 
     line-height:1;
 
@@ -233,11 +241,13 @@ body{
 .receipt-meta strong{
     display:block;
 
-    margin-top:1px;
+    margin-top:2px;
 
-    font-size:5.5px;
+    font-size:6.5px;
 
-    line-height:1;
+    line-height:1.1;
+
+    font-weight:700;
 
     color:#101828;
 
