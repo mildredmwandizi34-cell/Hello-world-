@@ -58,209 +58,122 @@ body{
     padding:0;
 }
 
-/* =========================================================
-   COMPACT TOP HEADER
-   AGL LEFT + SMALL RECEIPT BOX RIGHT
-========================================================= */
+/* =====================================================
+   AGL RECEIPT HEADER — LOGO LEFT / RECEIPT RIGHT
+===================================================== */
 
 .receipt-header{
     width:100%;
-
     display:grid !important;
-
-    grid-template-columns:minmax(0,1fr) 43mm !important;
-
-    gap:8px;
-
-    align-items:start;
-
+    grid-template-columns:minmax(0,1fr) 38mm !important;
+    gap:8px !important;
+    align-items:start !important;
     padding-bottom:6px;
-
     border-bottom:2px solid #0b4ea2;
 }
 
-
-/* =========================================================
-   AGL BRANDING — LEFT
-========================================================= */
-
+/* LEFT SIDE — LOGO + COMPANY NAME */
 .brand-area{
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    min-width:0;
-
-    width:100%;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    gap:7px !important;
+    min-width:0 !important;
 }
 
-
 .receipt-logo{
-    width:62px;
-    height:62px;
-
+    width:52px !important;
+    height:52px !important;
     object-fit:contain;
-
     flex-shrink:0;
 }
 
-
 .brand-text{
-    min-width:0;
-
-    flex:1;
+    min-width:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
 }
 
-
 .brand-text h1{
-    margin:0;
-
-    color:#0b4ea2;
-
-    font-size:11px;
-
-    line-height:1.1;
-
-    font-weight:800;
-
-    letter-spacing:.15px;
-
-    white-space:nowrap;
+    margin:0 !important;
+    color:#0b4ea2 !important;
+    font-size:11px !important;
+    line-height:1.1 !important;
+    font-weight:800 !important;
+    white-space:nowrap !important;
 }
 
 .brand-text p{
-    margin-top:3px;
-
-    color:#0b4ea2;
-
-    font-size:6px;
-
-    font-weight:700;
-
-    line-height:1.15;
-
-    letter-spacing:.05px;
-
-    white-space:nowrap;
+    margin:3px 0 0 !important;
+    color:#0b4ea2 !important;
+    font-size:6px !important;
+    line-height:1.15 !important;
+    font-weight:700 !important;
+    white-space:nowrap !important;
 }
 
-
-/* =========================================================
-   SMALL SHIPMENT RECEIPT BOX — TOP RIGHT
-========================================================= */
-
+/* RIGHT SIDE — SMALL VERTICAL RECEIPT BOX */
 .receipt-heading{
-    width:43mm !important;
+    width:38mm !important;
+    min-width:38mm !important;
+    max-width:38mm !important;
+    justify-self:end !important;
+    align-self:start !important;
 
-    min-width:43mm;
-
-    justify-self:end;
-
-    align-self:start;
-
-    border:1.5px solid #0b4ea2;
-
-    border-radius:3px;
-
-    background:#fff;
-
-    overflow:hidden;
+    border:1.5px solid #0b4ea2 !important;
+    border-radius:3px !important;
+    background:#fff !important;
+    overflow:hidden !important;
 }
-
-
-/* RECEIPT TITLE */
 
 .receipt-heading h2{
-    margin:0;
+    margin:0 !important;
+    padding:4px 5px !important;
 
-    padding:4px 3px;
+    background:#0b4ea2 !important;
+    color:#fff !important;
 
-    background:#0b4ea2;
-
-    color:#fff;
-
-    text-align:center;
-
-    font-size:9px;
-
-    font-weight:800;
-
-    line-height:1.15;
-
-    letter-spacing:.25px;
+    font-size:8.5px !important;
+    line-height:1.1 !important;
+    text-align:center !important;
+    font-weight:800 !important;
+    white-space:nowrap !important;
 }
-
-
-/* =========================================================
-   RECEIPT DETAILS — COMPACT VERTICAL
-========================================================= */
 
 .receipt-meta{
-    width:100%;
-
     display:flex !important;
-
     flex-direction:column !important;
-
-    margin:0;
-
-    padding:0;
+    gap:0 !important;
+    padding:3px 5px !important;
 }
-
 
 .receipt-meta div{
-    width:100%;
-
-    min-height:6mm;
-
     display:flex !important;
+    justify-content:space-between !important;
+    align-items:center !important;
+    gap:5px !important;
 
-    flex-direction:row !important;
+    padding:2px 0 !important;
+    border-bottom:1px solid #d9e2ec !important;
 
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:2.5px 5px;
-
-    border-bottom:1px solid #e0e5eb;
-
-    border-right:none !important;
+    font-size:6.5px !important;
+    line-height:1.15 !important;
 }
-
 
 .receipt-meta div:last-child{
-    border-bottom:none;
+    border-bottom:none !important;
 }
-
-
-.receipt-meta span{
-    color:#687582;
-
-    font-size:6px;
-
-    font-weight:800;
-
-    text-transform:uppercase;
-
-    white-space:nowrap;
-}
-
 
 .receipt-meta strong{
-    margin:0;
+    color:#0b4ea2 !important;
+    font-weight:800 !important;
+}
 
-    color:#0b4ea2;
-
-    font-size:6.8px;
-
-    font-weight:800;
-
-    text-align:right;
-
-    white-space:nowrap;
+.receipt-meta span{
+    color:#333 !important;
+    text-align:right !important;
+    white-space:nowrap !important;
 }
 
 
