@@ -301,102 +301,92 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 </div>
 
 </section><!-- =====================================================
-     BARCODE / QR / AUTHORIZATION
-===================================================== --><section class="verification-grid"><!-- BARCODE -->
+     BARCODE / QR / SIGNATURES / SEAL
+===================================================== -->
 
-<div class="verification-box barcode-box">
+<section class="verification-grid">
 
-    <small>TRACKING BARCODE</small>
+    <!-- BARCODE -->
 
-    <svg id="barcodeLarge"></svg>
+    <div class="verification-box barcode-box">
 
-</div>
+        <small>TRACKING BARCODE</small>
 
+        <svg id="barcodeLarge"></svg>
 
-
-<!-- QR -->
-
-<div class="verification-box qr-box">
-
-    <small>VERIFICATION QR</small>
-
-    <canvas id="qrcode"></canvas>
-
-</div>
+    </div>
 
 
+    <!-- QR -->
 
-<!-- OFFICER -->
+    <div class="verification-box qr-box">
 
-<div class="verification-box officer-box">
+        <small>VERIFICATION QR</small>
 
-    <small>AUTHORIZED OFFICER</small>
+        <canvas id="qrcode"></canvas>
 
-    <img
-        src="image/agl-officer-signature.png"
-        class="officer-signature"
-        alt="Authorized Officer"
-    >
-
-    <span>Authorized Officer</span>
-
-</div>
+    </div>
 
 
+    <!-- SENDER SIGNATURE -->
 
-<!-- SEAL -->
+    <div class="verification-box sender-box">
 
-<div class="verification-box seal-box">
+        <small>SENDER'S SIGNATURE</small>
 
-    <small>COMPANY SEAL</small>
+        <div class="signature-area">
 
-    <img
-        src="image/agl-seal.png"
-        class="company-seal"
-        alt="AGL Company Seal"
-    >
+            <img
+                src="image/sender-signature.png"
+                class="sender-signature"
+                alt="Sender's Signature"
+            >
 
-</div>
+        </div>
 
-</section><!-- =====================================================
-     FOOTER
-===================================================== --><footer class="receipt-footer"><div class="footer-company">
+        <div class="signature-line"></div>
 
-    <strong>
-        AMERICAN GLOBAL LOGISTICS
-    </strong>
+        <span>Sender</span>
 
-    <span>
-        Fast • Secure • Reliable Shipping Solutions Across the Globe
-    </span>
-
-</div>
+    </div>
 
 
-<div class="footer-actions">
+    <!-- AUTHORIZED OFFICER -->
 
-    <button
-        type="button"
-        onclick="window.print()">
-        Print Receipt
-    </button>
+    <div class="verification-box officer-box">
+
+        <small>AUTHORIZED OFFICER</small>
+
+        <div class="officer-signature-area">
+
+            <img
+                src="image/agl-officer-signature.png"
+                class="officer-signature"
+                alt="Authorized Officer"
+            >
+
+        </div>
+
+        <div class="signature-line"></div>
+
+        <span>Authorized Officer</span>
+
+    </div>
 
 
-    <button
-        type="button"
-        onclick="window.location.href='track.html'">
-        Track Shipment
-    </button>
+    <!-- COMPANY SEAL -->
 
+    <div class="verification-box seal-box">
 
-    <button
-        type="button"
-        onclick="window.location.href='create-shipment.html'">
-        New Shipment
-    </button>
+        <small>COMPANY SEAL</small>
 
-</div>
+        <img
+            src="image/agl-seal.png"
+            class="company-seal"
+            alt="AGL Company Seal"
+        >
 
-</footer></div><!-- =====================================================
-     RECEIPT JAVASCRIPT
-===================================================== --><script src="js/receipt.js"></script></body></html>
+    </div>
+
+</section>
+        
