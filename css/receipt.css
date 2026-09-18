@@ -47,25 +47,29 @@ body{
 }
 
 
-/* =========================================================
-   HEADER
-========================================================= */
+/* =========================================
+   TOP LEFT RECEIPT HEADER
+   ========================================= */
 
-.receipt-header{
-    width:100%;
-
-    display:grid;
-    grid-template-columns:minmax(0,1fr) 70mm;
-
-    align-items:center;
-
-    column-gap:8mm;
-
-    padding-bottom:6px;
-
-    border-bottom:3px solid #0b4ea2;
+.receipt-header-left {
+    background: #eaf3ff;
+    border-left: 6px solid #0b4ea2;
+    border-top: 1px solid #c9ddf5;
+    border-bottom: 1px solid #c9ddf5;
+    padding: 10px 14px;
+    border-radius: 4px;
 }
 
+.receipt-header-left h1 {
+    color: #0b4ea2;
+    font-weight: 800;
+    margin-bottom: 3px;
+}
+
+.receipt-header-left p {
+    color: #333;
+    margin: 2px 0;
+}
 
 /* ---------- BRAND ---------- */
 
