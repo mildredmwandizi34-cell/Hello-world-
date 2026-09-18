@@ -307,6 +307,7 @@ set("authorizedOfficer", shipment.authorizedOfficer);
 ===================================================== */
 
 set("documentNo", shipment.documentNo);
+set("documentNoFooter", shipment.documentNo);
 set("issueDate", shipment.issueDate);
 
 
