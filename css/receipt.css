@@ -119,28 +119,29 @@ body{
 
     color:#0b4ea2;
 
-    font-size:20px;
+    font-size:11px;
 
-    line-height:1.05;
+    line-height:1.1;
 
     font-weight:800;
 
-    letter-spacing:.2px;
+    letter-spacing:.15px;
 
     white-space:nowrap;
 }
 
-
 .brand-text p{
-    margin-top:4px;
+    margin-top:3px;
 
     color:#0b4ea2;
 
-    font-size:9px;
+    font-size:6px;
 
     font-weight:700;
 
-    line-height:1.2;
+    line-height:1.15;
+
+    letter-spacing:.05px;
 
     white-space:nowrap;
 }
