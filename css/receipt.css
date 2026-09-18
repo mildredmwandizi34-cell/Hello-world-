@@ -1619,3 +1619,9 @@ body{
     margin-top: 3px;
     font-size: 12px;
 }           
+/* AGL Worldwide Shipping tagline */
+
+.brand-text p {
+    color: #0b4ea2 !important;
+    font-weight: 600;
+}
