@@ -1305,6 +1305,43 @@ button{
 
 }
 
+/* =====================================================
+   FINAL HEADER ALIGNMENT
+   LOGO/COMPANY + RECEIPT BOX ON SAME HORIZONTAL LINE
+===================================================== */
+
+.receipt-header{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) 38mm !important;
+    align-items:start !important;
+    position:relative !important;
+}
+
+.brand-area{
+    align-self:start !important;
+    margin-top:0 !important;
+    padding-top:0 !important;
+}
+
+.receipt-heading{
+    align-self:start !important;
+    justify-self:end !important;
+    margin-top:0 !important;
+    padding-top:0 !important;
+    transform:none !important;
+    position:relative !important;
+    top:0 !important;
+}
+
+/* Keep the receipt box compact */
+.receipt-heading h2{
+    margin-top:0 !important;
+}
+
+.receipt-meta{
+    margin-top:0 !important;
+}
+
 /* =========================================================
    END OF RECEIPT.CSS
 ========================================================= */
