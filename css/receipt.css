@@ -1469,3 +1469,104 @@ body{
 
     pointer-events:none;
    }
+
+/* =====================================================
+   SENDER SIGNATURE
+===================================================== */
+
+.sender-box {
+    text-align: center;
+}
+
+.signature-area {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sender-signature {
+    display: block;
+    max-width: 125px;
+    height: 42px;
+    width: auto;
+    object-fit: contain;
+}
+
+.signature-line {
+    width: 75%;
+    height: 1px;
+    margin: 3px auto 3px;
+    background: #555;
+}
+
+.sender-box span,
+.officer-box span {
+    display: block;
+    font-size: 8px;
+    color: #555;
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   OFFICER SIGNATURE
+===================================================== */
+
+.officer-signature-area {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.officer-signature {
+    display: block;
+    max-width: 120px;
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* =====================================================
+   PRINT — COMPACT A4
+===================================================== */
+
+@media print {
+
+    .verification-grid {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    .verification-box {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    .signature-area,
+    .officer-signature-area {
+        height: 42px;
+    }
+
+    .sender-signature {
+        max-width: 110px;
+        height: 36px;
+    }
+
+    .officer-signature {
+        max-width: 110px;
+        height: 35px;
+    }
+
+    .signature-line {
+        width: 72%;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .sender-box span,
+    .officer-box span {
+        font-size: 7px;
+    }
+}
