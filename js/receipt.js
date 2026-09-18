@@ -441,8 +441,9 @@ if (
 }
 
 
-/* =====================================================
+  /* =====================================================
    SHIPPING ROUTE MAP
+   CLEAR ORIGIN → DESTINATION VERSION
 ===================================================== */
 
 if (
@@ -450,17 +451,18 @@ if (
     $("receiptMap")
 ) {
 
-    const map =
-        L.map(
-            "receiptMap",
-            {
-                zoomControl: false,
-                attributionControl: false
-            }
-        );
+    const map = L.map(
+        "receiptMap",
+        {
+            zoomControl: false,
+            attributionControl: false
+        }
+    );
 
 
-    /* MAP TILES */
+    /* =================================================
+       MAP TILES
+    ================================================= */
 
     L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -471,20 +473,189 @@ if (
     ).addTo(map);
 
 
-    /* COORDINATES */
+    /* =================================================
+       COUNTRY / LOCATION FALLBACK COORDINATES
+    ================================================= */
 
-    const originLat =
+    const locationCoordinates = {
+
+        "scotland": [
+            56.4907,
+            -4.2026
+        ],
+
+        "costarica": [
+            9.7489,
+            -83.7534
+        ],
+
+        "costa rica": [
+            9.7489,
+            -83.7534
+        ],
+
+        "kenya": [
+            -0.0236,
+            37.9062
+        ],
+
+        "united states": [
+            39.8283,
+            -98.5795
+        ],
+
+        "usa": [
+            39.8283,
+            -98.5795
+        ],
+
+        "united kingdom": [
+            55.3781,
+            -3.4360
+        ],
+
+        "uk": [
+            55.3781,
+            -3.4360
+        ],
+
+        "canada": [
+            56.1304,
+            -106.3468
+        ],
+
+        "germany": [
+            51.1657,
+            10.4515
+        ],
+
+        "france": [
+            46.2276,
+            2.2137
+        ],
+
+        "italy": [
+            41.8719,
+            12.5674
+        ],
+
+        "spain": [
+            40.4637,
+            -3.7492
+        ],
+
+        "china": [
+            35.8617,
+            104.1954
+        ],
+
+        "japan": [
+            36.2048,
+            138.2529
+        ],
+
+        "australia": [
+            -25.2744,
+            133.7751
+        ],
+
+        "india": [
+            20.5937,
+            78.9629
+        ],
+
+        "south africa": [
+            -30.5595,
+            22.9375
+        ]
+    };
+
+
+    /* =================================================
+       READ SAVED COORDINATES
+    ================================================= */
+
+    let originLat =
         Number(shipment.originLat);
 
-    const originLng =
+    let originLng =
         Number(shipment.originLng);
 
-    const destinationLat =
+    let destinationLat =
         Number(shipment.destinationLat);
 
-    const destinationLng =
+    let destinationLng =
         Number(shipment.destinationLng);
 
+
+    /* =================================================
+       FALLBACK FUNCTION
+    ================================================= */
+
+    function findCoordinates(value) {
+
+        if (!value) return null;
+
+        const key =
+            String(value)
+                .trim()
+                .toLowerCase()
+                .replace(/,/g, "")
+                .replace(/\s+/g, " ");
+
+        return locationCoordinates[key] || null;
+    }
+
+
+    /* =================================================
+       USE LOCATION NAME IF COORDINATES ARE MISSING
+    ================================================= */
+
+    if (
+        !Number.isFinite(originLat) ||
+        !Number.isFinite(originLng)
+    ) {
+
+        const fallbackOrigin =
+            findCoordinates(
+                shipment.origin
+            );
+
+        if (fallbackOrigin) {
+
+            originLat =
+                fallbackOrigin[0];
+
+            originLng =
+                fallbackOrigin[1];
+        }
+    }
+
+
+    if (
+        !Number.isFinite(destinationLat) ||
+        !Number.isFinite(destinationLng)
+    ) {
+
+        const fallbackDestination =
+            findCoordinates(
+                shipment.destination
+            );
+
+        if (fallbackDestination) {
+
+            destinationLat =
+                fallbackDestination[0];
+
+            destinationLng =
+                fallbackDestination[1];
+        }
+    }
+
+
+    /* =================================================
+       CHECK COORDINATES
+    ================================================= */
 
     const validCoordinates =
         Number.isFinite(originLat) &&
@@ -510,45 +681,89 @@ if (
         ];
 
 
-        /* ORIGIN */
+        /* =================================================
+           ORIGIN MARKER
+        ================================================= */
 
-        L.circleMarker(
-            origin,
+        const originMarker =
+            L.circleMarker(
+                origin,
+                {
+                    radius: 7,
+
+                    color: "#ffffff",
+
+                    fillColor: "#0b4ea2",
+
+                    fillOpacity: 1,
+
+                    weight: 3
+                }
+            ).addTo(map);
+
+
+        originMarker.bindTooltip(
+            "ORIGIN: " +
+            (shipment.origin || "Origin"),
             {
-                radius: 6,
-                color: "#083b80",
-                fillColor: "#0b4ea2",
-                fillOpacity: 1,
-                weight: 2
+                permanent: true,
+
+                direction: "top",
+
+                offset: [
+                    0,
+                    -8
+                ],
+
+                className:
+                    "agl-route-label"
             }
-        )
-        .addTo(map)
-        .bindPopup(
-            "<b>Origin</b><br>" +
-            (shipment.origin || "")
         );
 
 
-        /* DESTINATION */
+        /* =================================================
+           DESTINATION MARKER
+        ================================================= */
 
-        L.circleMarker(
-            destination,
+        const destinationMarker =
+            L.circleMarker(
+                destination,
+                {
+                    radius: 7,
+
+                    color: "#ffffff",
+
+                    fillColor: "#ff9800",
+
+                    fillOpacity: 1,
+
+                    weight: 3
+                }
+            ).addTo(map);
+
+
+        destinationMarker.bindTooltip(
+            "DESTINATION: " +
+            (shipment.destination || "Destination"),
             {
-                radius: 6,
-                color: "#b45309",
-                fillColor: "#ff9800",
-                fillOpacity: 1,
-                weight: 2
+                permanent: true,
+
+                direction: "top",
+
+                offset: [
+                    0,
+                    -8
+                ],
+
+                className:
+                    "agl-route-label"
             }
-        )
-        .addTo(map)
-        .bindPopup(
-            "<b>Destination</b><br>" +
-            (shipment.destination || "")
         );
 
 
-        /* ROUTE LINE */
+        /* =================================================
+           ROUTE LINE
+        ================================================= */
 
         const route =
             L.polyline(
@@ -558,12 +773,71 @@ if (
                 ],
                 {
                     color: "#0b4ea2",
+
                     weight: 4,
-                    opacity: 0.95,
-                    dashArray: "8,6"
+
+                    opacity: 1,
+
+                    dashArray: null
                 }
-            )
-            .addTo(map);
+            ).addTo(map);
+
+
+        /* =================================================
+           ROUTE DIRECTION ARROW
+        ================================================= */
+
+        const middleLat =
+            (
+                originLat +
+                destinationLat
+            ) / 2;
+
+        const middleLng =
+            (
+                originLng +
+                destinationLng
+            ) / 2;
+
+
+        const directionIcon =
+            L.divIcon(
+                {
+                    className:
+                        "agl-route-direction",
+
+                    html:
+                        '<div class="agl-route-arrow">➜</div>',
+
+                    iconSize: [
+                        30,
+                        30
+                    ],
+
+                    iconAnchor: [
+                        15,
+                        15
+                    ]
+                }
+            );
+
+
+        L.marker(
+            [
+                middleLat,
+                middleLng
+            ],
+            {
+                icon:
+                    directionIcon,
+
+                interactive:
+                    false,
+
+                zIndexOffset:
+                    500
+            }
+        ).addTo(map);
 
 
         /* =================================================
@@ -571,24 +845,25 @@ if (
         ================================================= */
 
         const airplaneIcon =
-            L.divIcon({
+            L.divIcon(
+                {
+                    className:
+                        "agl-airplane-icon",
 
-                className:
-                    "agl-airplane-icon",
+                    html:
+                        '<div class="agl-airplane">✈</div>',
 
-                html:
-                    '<div class="agl-airplane">✈</div>',
+                    iconSize: [
+                        38,
+                        38
+                    ],
 
-                iconSize: [
-                    34,
-                    34
-                ],
-
-                iconAnchor: [
-                    17,
-                    17
-                ]
-            });
+                    iconAnchor: [
+                        19,
+                        19
+                    ]
+                }
+            );
 
 
         const airplane =
@@ -616,8 +891,7 @@ if (
 
         function animatePlane() {
 
-            progress +=
-                0.003;
+            progress += 0.0025;
 
 
             if (progress >= 1) {
@@ -659,22 +933,42 @@ if (
         animatePlane();
 
 
-        /* FIT MAP */
+        /* =================================================
+           FIT ROUTE INTO MAP
+        ================================================= */
+
+        const routeBounds =
+            L.latLngBounds(
+                [
+                    origin,
+                    destination
+                ]
+            );
+
 
         map.fitBounds(
-            route.getBounds(),
+            routeBounds,
             {
-                padding: [
-                    20,
+                paddingTopLeft: [
+                    25,
                     20
-                ]
+                ],
+
+                paddingBottomRight: [
+                    25,
+                    20
+                ],
+
+                maxZoom: 4
             }
         );
 
 
     } else {
 
-        /* NO COORDINATES */
+        /* =================================================
+           NO LOCATION DATA
+        ================================================= */
 
         map.setView(
             [
@@ -686,7 +980,9 @@ if (
     }
 
 
-    /* FIX MAP SIZE */
+    /* =================================================
+       FIX MAP SIZE
+    ================================================= */
 
     setTimeout(
         function() {
@@ -696,7 +992,7 @@ if (
         },
         500
     );
-}
+}       
 
 
 console.log(
