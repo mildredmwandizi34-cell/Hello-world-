@@ -1408,3 +1408,64 @@ body{
         flex-wrap:wrap;
     }
     }
+
+/* =========================================================
+   ROUTE LABELS
+========================================================= */
+
+.agl-route-label{
+    background:#ffffff !important;
+
+    border:1px solid #d7dee8 !important;
+
+    border-radius:3px !important;
+
+    padding:2px 5px !important;
+
+    font-size:6px !important;
+
+    line-height:1.2 !important;
+
+    font-weight:800 !important;
+
+    color:#083b80 !important;
+
+    box-shadow:0 1px 4px rgba(0,0,0,.25);
+
+    white-space:nowrap;
+}
+
+/* =========================================================
+   ROUTE DIRECTION ARROW
+========================================================= */
+
+.agl-route-direction{
+    background:transparent !important;
+
+    border:0 !important;
+
+    box-shadow:none !important;
+}
+
+.agl-route-arrow{
+    width:30px;
+
+    height:30px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:22px;
+
+    font-weight:900;
+
+    color:#ff9800;
+
+    text-shadow:
+        0 1px 2px rgba(0,0,0,.35);
+
+    pointer-events:none;
+   }
