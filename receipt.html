@@ -376,4 +376,67 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 
     </div>
 
-</section>
+</section><!-- =====================================================
+     RECEIPT FOOTER
+===================================================== -->
+
+<footer class="receipt-footer">
+
+    <div class="footer-left">
+        <strong>AMERICAN GLOBAL LOGISTICS</strong>
+        <span>Worldwide Shipping & Logistics Services</span>
+        <span>Document No.: <b id="documentNoFooter"></b></span>
+        <span>Issued: <b id="issueDate"></b></span>
+    </div>
+
+
+    <div class="footer-center">
+        <span>This receipt is issued as an official shipment document.</span>
+        <span>Please retain this document for your records.</span>
+    </div>
+
+
+    <div class="footer-right">
+        <span>Receipt No.</span>
+        <strong id="receiptNumberBottom"></strong>
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     RECEIPT ACTION BUTTONS
+===================================================== -->
+
+<div class="receipt-actions">
+
+    <button type="button" onclick="window.print()">
+        PRINT RECEIPT
+    </button>
+
+    <button
+        type="button"
+        onclick="window.location.href='track.html'">
+        TRACK SHIPMENT
+    </button>
+
+    <button
+        type="button"
+        onclick="window.location.href='create-shipment.html'">
+        NEW SHIPMENT
+    </button>
+
+</div>
+
+
+</div><!-- END RECEIPT PAGE -->
+
+
+<!-- =====================================================
+     RECEIPT JAVASCRIPT
+===================================================== -->
+
+<script src="js/receipt.js"></script>
+
+</body>
+</html>
