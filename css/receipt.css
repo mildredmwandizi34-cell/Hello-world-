@@ -1415,6 +1415,240 @@ button{
     }
 }
 
+/* =====================================================
+   VERIFICATION SECTION
+   BARCODE + CODE + QR | DIGITAL CERTIFICATE
+===================================================== */
+
+.verification-grid{
+    width:100% !important;
+
+    display:grid !important;
+
+    grid-template-columns:minmax(0,2fr) minmax(0,1fr) !important;
+
+    gap:0 !important;
+
+    align-items:stretch !important;
+
+    margin-top:8px !important;
+
+    border:1px solid #cbd5e1 !important;
+
+    background:#fff !important;
+
+    min-height:78px !important;
+
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
+}
+
+
+/* =====================================================
+   LEFT SIDE
+   VERIFICATION CODE + BARCODE + QR
+===================================================== */
+
+.verification-left{
+    display:grid !important;
+
+    grid-template-columns:.8fr 1.35fr .75fr !important;
+
+    align-items:center !important;
+
+    gap:6px !important;
+
+    padding:6px 8px !important;
+
+    min-width:0 !important;
+}
+
+
+/* Individual verification areas */
+
+.verification-code-box,
+.barcode-box,
+.qr-box{
+    min-width:0 !important;
+
+    display:flex !important;
+
+    flex-direction:column !important;
+
+    justify-content:center !important;
+
+    align-items:center !important;
+
+    text-align:center !important;
+
+    height:100% !important;
+}
+
+
+/* Small headings */
+
+.verification-grid small{
+    display:block !important;
+
+    color:#0b4ea2 !important;
+
+    font-size:6px !important;
+
+    font-weight:800 !important;
+
+    letter-spacing:.3px !important;
+
+    margin-bottom:3px !important;
+}
+
+
+/* Verification code */
+
+.verification-code-box strong{
+    color:#222 !important;
+
+    font-size:10px !important;
+
+    font-weight:800 !important;
+
+    letter-spacing:.5px !important;
+
+    word-break:break-word !important;
+}
+
+
+/* =====================================================
+   BARCODE
+===================================================== */
+
+#barcodeLarge{
+    width:115px !important;
+
+    height:38px !important;
+
+    max-width:100% !important;
+
+    display:block !important;
+}
+
+
+/* =====================================================
+   QR CODE
+===================================================== */
+
+#qrcode{
+    width:52px !important;
+
+    height:52px !important;
+
+    max-width:52px !important;
+
+    max-height:52px !important;
+
+    display:block !important;
+}
+
+
+/* =====================================================
+   DIGITAL VERIFICATION CERTIFICATE
+===================================================== */
+
+.digital-verification{
+    border-left:2px solid #0b4ea2 !important;
+
+    padding:6px 10px !important;
+
+    display:flex !important;
+
+    flex-direction:column !important;
+
+    justify-content:center !important;
+
+    align-items:center !important;
+
+    text-align:center !important;
+
+    min-width:0 !important;
+
+    background:#f8fbff !important;
+}
+
+
+.digital-title{
+    color:#0b4ea2 !important;
+
+    font-size:7.5px !important;
+
+    font-weight:900 !important;
+
+    letter-spacing:.3px !important;
+
+    margin-bottom:4px !important;
+}
+
+
+.digital-content{
+    display:flex !important;
+
+    flex-direction:column !important;
+
+    align-items:center !important;
+
+    gap:2px !important;
+}
+
+
+.digital-content strong{
+    color:#0b4ea2 !important;
+
+    font-size:7px !important;
+
+    font-weight:900 !important;
+}
+
+
+.digital-content span{
+    color:#444 !important;
+
+    font-size:6px !important;
+
+    line-height:1.2 !important;
+}
+
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+@media print{
+
+    .verification-grid{
+        display:grid !important;
+
+        grid-template-columns:minmax(0,2fr) minmax(0,1fr) !important;
+
+        gap:0 !important;
+
+        min-height:78px !important;
+
+        page-break-inside:avoid !important;
+
+        break-inside:avoid !important;
+    }
+
+    .verification-left{
+        display:grid !important;
+
+        grid-template-columns:.8fr 1.35fr .75fr !important;
+
+        gap:6px !important;
+    }
+
+    .digital-verification{
+        border-left:2px solid #0b4ea2 !important;
+    }
+       }
+
 /* =========================================================
    END OF RECEIPT.CSS
 ========================================================= */
