@@ -1024,45 +1024,52 @@ body{
 .receipt-header{
     display:grid !important;
 
-    grid-template-columns:minmax(0,1fr) 58mm !important;
+    grid-template-columns:minmax(0,1fr) 65mm !important;
 
     column-gap:6mm !important;
 }
 
+
 .receipt-heading{
-    width:58mm !important;
+    width:65mm !important;
 
-    min-width:58mm !important;
+    min-width:65mm !important;
 
-    height:20mm !important;
+    height:24mm !important;
 
-    min-height:20mm !important;
+    min-height:24mm !important;
 
     padding:3mm 4mm !important;
 
     margin-left:auto !important;
 
-    border:1.5px solid #083b80 !important;
+    border:1.8px solid #083b80 !important;
 
-    border-radius:4px !important;
+    border-radius:5px !important;
 }
+
 
 .receipt-heading h2{
-    font-size:14px !important;
+    font-size:9px !important;
 }
+
 
 .receipt-meta{
-    margin-top:3px !important;
+    margin-top:5px !important;
 
-    padding-top:3px !important;
+    padding-top:4px !important;
+
+    gap:5px !important;
 }
+
 
 .receipt-meta span{
-    font-size:4.5px !important;
+    font-size:5.5px !important;
 }
 
+
 .receipt-meta strong{
-    font-size:5.5px !important;
+    font-size:6.5px !important;
 }
     
     /* SENDER / RECEIVER */
