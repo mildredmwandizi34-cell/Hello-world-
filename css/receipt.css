@@ -120,84 +120,98 @@ body{
     white-space:nowrap;
 }
 
-
 /* =========================================================
-   RECEIPT TITLE BOX
+   TOP RIGHT — SHIPMENT RECEIPT BOX
 ========================================================= */
 
 .receipt-heading{
     width:65mm;
-    min-height:24mm;
+    min-height:38mm;
 
     justify-self:end;
 
     border:2px solid #0b4ea2;
-    border-radius:4px;
+    border-radius:5px;
 
     overflow:hidden;
+
     background:#fff;
 }
 
 
+/* SHIPMENT RECEIPT TITLE */
+
 .receipt-heading h2{
-    padding:7px 5px;
+    width:100%;
+
+    padding:6px 5px;
 
     text-align:center;
 
     background:#0b4ea2;
     color:#fff;
 
-    font-size:14px;
+    font-size:12px;
     font-weight:800;
 
-    letter-spacing:.5px;
+    letter-spacing:.4px;
 }
 
+
+/* VERTICAL INFORMATION */
 
 .receipt-meta{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
+    display:flex;
 
-    min-height:12mm;
+    flex-direction:column;
+
+    width:100%;
 }
 
 
-.receipt-meta div{
-    display:flex;
-    flex-direction:column;
+/* EACH INFORMATION ROW */
 
-    justify-content:center;
+.receipt-meta div{
+    display:grid;
+
+    grid-template-columns:1fr 1.35fr;
+
     align-items:center;
 
-    padding:4px 3px;
+    min-height:9mm;
 
-    border-right:1px solid #d7dee8;
+    padding:4px 7px;
+
+    border-bottom:1px solid #d7dee8;
 }
 
 
 .receipt-meta div:last-child{
-    border-right:none;
+    border-bottom:none;
 }
 
+
+/* LABEL */
 
 .receipt-meta span{
     color:#687582;
 
     font-size:7px;
+    font-weight:800;
 
     text-transform:uppercase;
-    font-weight:700;
 }
 
 
-.receipt-meta strong{
-    margin-top:2px;
+/* VALUE */
 
+.receipt-meta strong{
     color:#0b4ea2;
 
     font-size:8.5px;
+    font-weight:800;
 
-    text-align:center;
+    text-align:right;
 
     word-break:break-word;
 }
