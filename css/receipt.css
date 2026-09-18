@@ -1,12 +1,12 @@
 /* =========================================================
    AMERICAN GLOBAL LOGISTICS
    RECEIPT.CSS
-   CLEAN VERSION — MATCHES CURRENT receipt.html
+   HORIZONTAL A4 RECEIPT LAYOUT
    ========================================================= */
 
 
 /* =========================================================
-   1. RESET
+   GLOBAL
    ========================================================= */
 
 * {
@@ -23,60 +23,65 @@ body {
     background: #eef2f6;
     color: #17202a;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    line-height: 1.35;
+    font-size: 10px;
+    line-height: 1.3;
 }
 
 
 /* =========================================================
-   2. MAIN A4 RECEIPT
+   MAIN A4 RECEIPT
    ========================================================= */
 
 .receipt-page {
     width: 210mm;
     min-height: 297mm;
 
-    margin: 18px auto;
-    padding: 8mm;
+    margin: 15px auto;
+    padding: 7mm;
 
     background: #ffffff;
 
     border: 1px solid #d4dbe3;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
 
-    position: relative;
+    overflow: hidden;
 }
 
 
 /* =========================================================
-   3. HEADER
+   HEADER
    ========================================================= */
 
 .receipt-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-
     width: 100%;
 
-    padding-bottom: 8px;
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    padding-bottom: 7px;
 
     border-bottom: 3px solid #0b4ea2;
-
-    gap: 12px;
 }
 
 
-/* LEFT BRAND */
+/* LEFT: LOGO + COMPANY */
 
 .brand-area {
+    flex: 1;
+
     display: flex;
+    flex-direction: row;
+
     align-items: center;
 
-    flex: 1;
-    min-width: 0;
-
     gap: 9px;
+
+    min-width: 0;
 }
 
 .receipt-logo {
@@ -102,28 +107,26 @@ body {
 
     line-height: 1.05;
 
-    letter-spacing: 0.2px;
+    white-space: nowrap;
 }
 
 .brand-text p {
     margin: 4px 0 0;
 
-    color: #596570;
+    color: #5e6973;
 
-    font-size: 8.5px;
+    font-size: 8px;
     font-weight: 600;
 
-    line-height: 1.3;
+    white-space: nowrap;
 }
 
 
-/* =========================================================
-   4. SHIPMENT RECEIPT BOX
-   ========================================================= */
+/* RIGHT: RECEIPT BOX */
 
 .receipt-heading {
-    width: 136px;
-    min-width: 136px;
+    width: 140px;
+    min-width: 140px;
 
     padding: 7px 8px;
 
@@ -136,7 +139,7 @@ body {
 }
 
 .receipt-heading h2 {
-    margin: 0 0 6px;
+    margin: 0 0 5px;
 
     color: #083b80;
 
@@ -146,17 +149,14 @@ body {
     line-height: 1.1;
 }
 
-
-/* Receipt metadata inside box */
-
 .receipt-meta {
-    display: block;
-
     width: 100%;
 }
 
 .receipt-meta > div {
     display: flex;
+    flex-direction: row;
+
     justify-content: space-between;
     align-items: center;
 
@@ -170,7 +170,7 @@ body {
 }
 
 .receipt-meta span {
-    color: #69747e;
+    color: #68737d;
 
     font-size: 7px;
     font-weight: 600;
@@ -179,34 +179,33 @@ body {
 .receipt-meta strong {
     color: #17202a;
 
-    font-size: 7.5px;
+    font-size: 7px;
     font-weight: 800;
 
     text-align: right;
-
-    overflow-wrap: anywhere;
 }
 
 
 /* =========================================================
-   5. SUMMARY STRIP
+   SUMMARY
+   FIVE ITEMS IN ONE HORIZONTAL ROW
    ========================================================= */
 
 .summary-strip {
+    width: 100%;
+
     display: grid;
 
     grid-template-columns:
         1.25fr
         1fr
         1fr
-        0.8fr
+        .85fr
         1.1fr;
-
-    width: 100%;
 
     margin-top: 7px;
 
-    border: 1px solid #d3dbe3;
+    border: 1px solid #d4dce4;
     border-radius: 4px;
 
     overflow: hidden;
@@ -233,10 +232,10 @@ body {
 
     color: #6d7780;
 
-    font-size: 7px;
-    font-weight: 700;
+    font-size: 6.5px;
+    font-weight: 800;
 
-    letter-spacing: 0.3px;
+    letter-spacing: .3px;
 }
 
 .summary-strip strong {
@@ -244,7 +243,7 @@ body {
 
     color: #083b80;
 
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 800;
 
     white-space: nowrap;
@@ -254,39 +253,40 @@ body {
 
 
 /* =========================================================
-   6. SECTION HEADINGS
+   SECTION HEADINGS
    ========================================================= */
 
 .section-heading {
     padding: 4px 7px;
 
-    color: #ffffff;
-
     background: #0b4ea2;
+
+    color: #ffffff;
 
     border-radius: 3px 3px 0 0;
 
-    font-size: 8.5px;
+    font-size: 8px;
     font-weight: 800;
 
-    letter-spacing: 0.4px;
+    letter-spacing: .4px;
 
     text-transform: uppercase;
 }
 
 
 /* =========================================================
-   7. SENDER / RECEIVER
+   SENDER + RECEIVER
+   OPPOSITE EACH OTHER
    ========================================================= */
 
 .people-grid {
+    width: 100%;
+
     display: grid;
 
     grid-template-columns: 1fr 1fr;
 
-    gap: 7px;
-
-    width: 100%;
+    gap: 8px;
 
     margin-top: 7px;
 }
@@ -294,8 +294,7 @@ body {
 .person-box {
     min-width: 0;
 
-    border: 1px solid #d3dbe3;
-
+    border: 1px solid #d4dce4;
     border-radius: 4px;
 
     overflow: hidden;
@@ -303,15 +302,34 @@ body {
     background: #ffffff;
 }
 
+
+/* Make sender and receiver visually opposite */
+
+.person-box:first-child {
+    text-align: left;
+}
+
+.person-box:last-child {
+    text-align: right;
+}
+
+.person-box:last-child .section-heading {
+    text-align: right;
+}
+
 .person-content {
+    min-height: 104px;
+
     display: flex;
     flex-direction: column;
 
     gap: 2px;
 
-    min-height: 102px;
+    padding: 6px 8px;
+}
 
-    padding: 6px 7px;
+.person-box:last-child .person-content {
+    align-items: flex-end;
 }
 
 .person-content > strong {
@@ -322,9 +340,7 @@ body {
 }
 
 .person-content > span {
-    display: block;
-
-    color: #3f4a54;
+    color: #3e4953;
 
     font-size: 8px;
 
@@ -332,14 +348,15 @@ body {
 }
 
 .person-content b {
-    color: #68737d;
+    color: #6c7680;
 
     font-weight: 700;
 }
 
 
 /* =========================================================
-   8. SHIPMENT DETAILS
+   SHIPMENT DETAILS
+   ALL SIX ITEMS ACROSS THE PAGE
    ========================================================= */
 
 .shipment-section {
@@ -347,36 +364,33 @@ body {
 
     margin-top: 7px;
 
-    border: 1px solid #d3dbe3;
-
+    border: 1px solid #d4dce4;
     border-radius: 4px;
 
     overflow: hidden;
 }
 
 .shipment-grid {
+    width: 100%;
+
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
-
-    width: 100%;
+        repeat(6, 1fr);
 }
 
 .shipment-item {
     min-width: 0;
 
-    min-height: 39px;
+    min-height: 43px;
 
-    padding: 5px 7px;
+    padding: 5px 6px;
 
-    border-right: 1px solid #e0e5ea;
-    border-top: 1px solid #e0e5ea;
-
-    background: #ffffff;
+    border-top: 1px solid #dfe4e9;
+    border-right: 1px solid #dfe4e9;
 }
 
-.shipment-item:nth-child(3n) {
+.shipment-item:last-child {
     border-right: 0;
 }
 
@@ -387,10 +401,10 @@ body {
 
     color: #707b84;
 
-    font-size: 6.8px;
-    font-weight: 700;
+    font-size: 6px;
+    font-weight: 800;
 
-    letter-spacing: 0.3px;
+    white-space: nowrap;
 }
 
 .shipment-item strong {
@@ -398,25 +412,26 @@ body {
 
     color: #17202a;
 
-    font-size: 8.5px;
-    font-weight: 700;
+    font-size: 7.8px;
+    font-weight: 800;
 
     overflow-wrap: anywhere;
 }
 
 
 /* =========================================================
-   9. ROUTE + CHARGES
+   ROUTE + CHARGES
+   ROUTE TAKES LEFT, CHARGES RIGHT
    ========================================================= */
 
 .route-charges-grid {
+    width: 100%;
+
     display: grid;
 
-    grid-template-columns: 1.55fr 0.75fr;
+    grid-template-columns: 1.55fr .7fr;
 
-    gap: 7px;
-
-    width: 100%;
+    gap: 8px;
 
     margin-top: 7px;
 
@@ -424,22 +439,25 @@ body {
 }
 
 
-/* ROUTE */
+/* =========================================================
+   ROUTE
+   ========================================================= */
 
 .route-box {
     min-width: 0;
 
-    border: 1px solid #d3dbe3;
-
+    border: 1px solid #d4dce4;
     border-radius: 4px;
 
     overflow: hidden;
 }
 
 .route-information {
+    width: 100%;
+
     display: grid;
 
-    grid-template-columns: 1fr 30px 1fr;
+    grid-template-columns: 1fr 45px 1fr;
 
     align-items: center;
 
@@ -451,7 +469,15 @@ body {
 .route-location {
     min-width: 0;
 
-    padding: 5px 7px;
+    padding: 5px 8px;
+}
+
+.route-location:first-child {
+    text-align: left;
+}
+
+.route-location:last-child {
+    text-align: right;
 }
 
 .route-location small {
@@ -459,10 +485,8 @@ body {
 
     color: #707a84;
 
-    font-size: 6.8px;
-    font-weight: 700;
-
-    letter-spacing: 0.3px;
+    font-size: 6px;
+    font-weight: 800;
 }
 
 .route-location strong {
@@ -481,7 +505,7 @@ body {
 .route-arrow {
     color: #ff9800;
 
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 900;
 
     text-align: center;
@@ -489,39 +513,29 @@ body {
 
 
 /* =========================================================
-   10. RECEIPT MAP
+   MAP
    ========================================================= */
 
-.receipt-map {
+.receipt-map,
+#receiptMap {
     width: 100%;
 
     height: 125px;
-
     min-height: 125px;
 
     background: #e8edf2;
 }
 
-#receiptMap {
-    width: 100%;
-
-    height: 125px;
-
-    min-height: 125px;
-}
-
 .leaflet-container {
     width: 100%;
     height: 100%;
-
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 
-/* Map labels */
+/* MAP LABELS */
 
 .agl-route-label {
-    padding: 2px 5px !important;
+    padding: 2px 4px !important;
 
     background: #ffffff !important;
 
@@ -529,11 +543,9 @@ body {
 
     border-radius: 3px !important;
 
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
-
     color: #083b80 !important;
 
-    font-size: 7px !important;
+    font-size: 6.5px !important;
     font-weight: 800 !important;
 }
 
@@ -546,15 +558,13 @@ body {
 .agl-route-arrow {
     color: #ff9800;
 
-    font-size: 19px;
+    font-size: 18px;
 
     line-height: 30px;
 
     text-align: center;
 
-    text-shadow:
-        0 1px 2px #ffffff,
-        0 0 2px #ffffff;
+    text-shadow: 0 0 3px #ffffff;
 }
 
 .agl-airplane-icon {
@@ -566,87 +576,81 @@ body {
 .agl-airplane {
     color: #083b80;
 
-    font-size: 22px;
+    font-size: 21px;
 
     line-height: 38px;
 
     text-align: center;
 
-    text-shadow:
-        0 1px 2px #ffffff,
-        0 0 3px #ffffff;
+    text-shadow: 0 0 3px #ffffff;
 }
 
 
 /* =========================================================
-   11. CHARGES
+   CHARGES
    ========================================================= */
 
 .charges-box {
     min-width: 0;
 
-    border: 1px solid #d3dbe3;
-
+    border: 1px solid #d4dce4;
     border-radius: 4px;
 
     overflow: hidden;
 }
 
 .charge-row {
+    min-height: 31px;
+
     display: flex;
+
+    flex-direction: row;
 
     justify-content: space-between;
     align-items: center;
 
-    min-height: 31px;
-
-    padding: 5px 7px;
-
-    border-bottom: 1px solid #e0e5ea;
-
     gap: 8px;
+
+    padding: 5px 8px;
+
+    border-bottom: 1px solid #dfe4e9;
 }
 
 .charge-row span {
-    color: #5f6973;
+    color: #5d6872;
 
     font-size: 8px;
-    font-weight: 600;
 }
 
 .charge-row strong {
     color: #17202a;
 
-    font-size: 8.5px;
+    font-size: 8px;
     font-weight: 800;
 
-    text-align: right;
+    white-space: nowrap;
 }
 
 .total-row {
-    min-height: 38px;
+    min-height: 39px;
 
-    background: #eef5fc;
+    background: #edf5fd;
 
     border-bottom: 0;
 }
 
-.total-row span {
-    color: #083b80;
-
-    font-size: 9px;
-    font-weight: 800;
-}
-
+.total-row span,
 .total-row strong {
     color: #083b80;
 
-    font-size: 11px;
+    font-size: 9px;
+    font-weight: 900;
 }
 
 
 /* =========================================================
-   12. VERIFICATION SECTION
+   VERIFICATION
+   ALL ITEMS HORIZONTAL
    ========================================================= */
 
 .verification-section {
@@ -655,21 +659,18 @@ body {
     margin-top: 7px;
 }
 
-
-/* Verification top row */
-
 .verification-grid {
+    width: 100%;
+
     display: grid;
 
     grid-template-columns:
-        0.75fr
-        1.45fr
-        0.6fr
+        .7fr
+        1.5fr
+        .65fr
         1fr;
 
-    gap: 6px;
-
-    width: 100%;
+    gap: 7px;
 }
 
 .verification-code-box,
@@ -678,15 +679,20 @@ body {
 .digital-verification {
     min-width: 0;
 
-    min-height: 72px;
+    height: 70px;
+
+    border: 1px solid #d4dce4;
+    border-radius: 4px;
 
     padding: 6px;
 
-    border: 1px solid #d3dbe3;
-
-    border-radius: 4px;
-
     background: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
 
     text-align: center;
 }
@@ -698,47 +704,32 @@ body {
 
     color: #6d7780;
 
-    font-size: 6.5px;
-    font-weight: 700;
-
-    letter-spacing: 0.25px;
+    font-size: 6px;
+    font-weight: 800;
 }
 
-.verification-code-box {
-    display: flex;
-    flex-direction: column;
 
-    justify-content: center;
-}
+/* CODE */
 
 .verification-code-box strong {
     color: #083b80;
 
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 900;
 
     letter-spacing: 1px;
-
-    overflow-wrap: anywhere;
 }
 
 
-/* Barcode */
-
-.barcode-box {
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-}
+/* BARCODE */
 
 #barcodeLarge {
     display: block;
 
     width: 100%;
-    max-width: 230px;
+    max-width: 220px;
 
-    height: 47px;
+    height: 45px;
 
     margin: 0 auto;
 }
@@ -746,44 +737,26 @@ body {
 
 /* QR */
 
-.qr-box {
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-}
-
 #qrcode {
+    width: 52px !important;
+    height: 52px !important;
+
+    max-width: 52px;
+    max-height: 52px;
+
     display: block;
-
-    width: 54px !important;
-    height: 54px !important;
-
-    max-width: 54px;
-    max-height: 54px;
 
     margin: 0 auto;
 }
 
 
-/* Digital verification */
-
-.digital-verification {
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 3px;
-}
+/* DIGITAL VERIFICATION */
 
 .digital-verification strong {
     color: #083b80;
 
-    font-size: 7.5px;
-    font-weight: 800;
+    font-size: 7px;
+    font-weight: 900;
 
     line-height: 1.2;
 }
@@ -791,54 +764,62 @@ body {
 .digital-verification span {
     color: #16803c;
 
-    font-size: 8px;
-    font-weight: 800;
+    font-size: 7.5px;
+    font-weight: 900;
 }
 
 .digital-verification small {
     margin: 0;
 
-    color: #68727c;
+    color: #69737c;
 
-    font-size: 6.5px;
-    font-weight: 500;
+    font-size: 6px;
 
-    line-height: 1.25;
+    line-height: 1.2;
 }
 
 
 /* =========================================================
-   13. SIGNATURES
+   SIGNATURES
+   AUTHORIZED OFFICER + SEAL OPPOSITE EACH OTHER
    ========================================================= */
 
 .signature-grid {
-    display: grid;
-
-    grid-template-columns:
-        1fr
-        1fr
-        0.75fr;
-
-    gap: 6px;
-
     width: 100%;
 
-    margin-top: 6px;
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+
+    margin-top: 7px;
 }
 
-.signature-box {
+
+/* Hide sender signature completely */
+
+.signature-box:first-child {
+    display: none;
+}
+
+
+/* Officer and seal */
+
+.signature-box:nth-child(2),
+.signature-box:nth-child(3) {
+    min-height: 68px;
+
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
     justify-content: center;
 
-    min-height: 72px;
+    padding: 5px;
 
-    padding: 4px 6px;
-
-    border: 1px solid #d3dbe3;
-
+    border: 1px solid #d4dce4;
     border-radius: 4px;
 
     background: #ffffff;
@@ -846,57 +827,43 @@ body {
     text-align: center;
 }
 
+.signature-box:nth-child(2) {
+    border-right: 3px solid #0b4ea2;
+}
+
+.signature-box:nth-child(3) {
+    border-left: 3px solid #ff9800;
+}
+
 .signature-box small {
     display: block;
 
     margin-bottom: 2px;
 
-    color: #6c7680;
+    color: #69737c;
 
-    font-size: 6.5px;
-    font-weight: 700;
+    font-size: 6px;
+    font-weight: 800;
 }
 
 .signature-box span {
     display: block;
 
-    width: 100%;
+    width: 75%;
 
     padding-top: 2px;
 
-    border-top: 1px solid #8b939b;
+    border-top: 1px solid #89929a;
 
     color: #59636d;
 
-    font-size: 6.5px;
+    font-size: 6px;
     font-weight: 700;
 }
 
-
-/* Sender signature:
-   Hidden because the receipt design uses only
-   authorized officer signature + company seal. */
-
-.signature-box:first-child {
-    display: none;
-}
-
-
-/* Make authorized officer and seal use available width */
-
-.signature-box:nth-child(2) {
-    grid-column: 1 / 2;
-}
-
-.signature-box:nth-child(3) {
-    grid-column: 2 / 3;
-}
-
 .officer-signature {
-    display: block;
-
-    width: 110px;
-    height: 42px;
+    width: 105px;
+    height: 38px;
 
     object-fit: contain;
 
@@ -904,32 +871,31 @@ body {
 }
 
 .company-seal {
-    display: block;
-
     width: 48px;
     height: 48px;
 
     object-fit: contain;
 
-    margin: 0 auto 2px;
+    margin: 0 auto 1px;
 }
 
 
 /* =========================================================
-   14. FOOTER
+   FOOTER
+   THREE PARTS HORIZONTALLY
    ========================================================= */
 
 .receipt-footer {
+    width: 100%;
+
     display: grid;
 
     grid-template-columns:
-        1.25fr
-        1.4fr
-        0.65fr;
+        1.2fr
+        1.5fr
+        .65fr;
 
-    gap: 8px;
-
-    width: 100%;
+    gap: 10px;
 
     margin-top: 7px;
 
@@ -941,32 +907,31 @@ body {
 .footer-left,
 .footer-center,
 .footer-right {
+    min-width: 0;
+
     display: flex;
     flex-direction: column;
 
     gap: 2px;
-
-    min-width: 0;
 }
 
 .footer-left strong {
     color: #083b80;
 
-    font-size: 8px;
-    font-weight: 800;
+    font-size: 7.5px;
 }
 
 .footer-left span,
 .footer-center span,
 .footer-right span {
-    color: #69737c;
+    color: #68737d;
 
-    font-size: 6.8px;
-
-    line-height: 1.25;
+    font-size: 6.5px;
 }
 
 .footer-center {
+    align-items: center;
+
     justify-content: center;
 
     text-align: center;
@@ -984,23 +949,26 @@ body {
     color: #083b80;
 
     font-size: 8px;
-    font-weight: 800;
 }
 
 
 /* =========================================================
-   15. ACTION BUTTONS
+   ACTION BUTTONS
    ========================================================= */
 
 .receipt-actions {
+    width: 100%;
+
     display: flex;
+
+    flex-direction: row;
 
     justify-content: center;
     align-items: center;
 
     gap: 7px;
 
-    margin-top: 10px;
+    margin-top: 9px;
 }
 
 .receipt-actions button {
@@ -1023,92 +991,17 @@ body {
     cursor: pointer;
 }
 
-.receipt-actions button:hover {
-    background: #083b80;
-}
-
 .receipt-actions button:nth-child(2) {
     background: #ff9800;
-}
-
-.receipt-actions button:nth-child(2):hover {
-    background: #e68900;
 }
 
 .receipt-actions button:nth-child(3) {
     background: #66717c;
 }
 
-.receipt-actions button:nth-child(3):hover {
-    background: #4f5962;
-}
-
 
 /* =========================================================
-   16. PAYMENT STAMPS
-   ========================================================= */
-
-.stamp {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 4px 8px;
-
-    border: 2px solid currentColor;
-    border-radius: 4px;
-
-    font-size: 9px;
-    font-weight: 900;
-}
-
-.stamp.paid,
-.stamp.received {
-    color: #16803c;
-}
-
-.stamp.pending {
-    color: #d27b00;
-}
-
-.stamp.unpaid {
-    color: #b42318;
-}
-
-
-/* =========================================================
-   17. GENERAL SAFETY
-   ========================================================= */
-
-img,
-svg,
-canvas {
-    max-width: 100%;
-}
-
-strong,
-span,
-small {
-    overflow-wrap: anywhere;
-}
-
-section,
-header,
-footer,
-.person-box,
-.shipment-section,
-.route-box,
-.charges-box,
-.verification-section,
-.signature-grid {
-    break-inside: avoid;
-    page-break-inside: avoid;
-}
-
-
-/* =========================================================
-   18. PRINT — A4
+   PRINT
    ========================================================= */
 
 @page {
@@ -1121,6 +1014,7 @@ footer,
     html,
     body {
         width: 210mm;
+        min-height: 297mm;
 
         margin: 0;
         padding: 0;
@@ -1137,7 +1031,7 @@ footer,
 
         margin: 0;
 
-        padding: 7mm;
+        padding: 6.5mm;
 
         border: 0;
 
@@ -1150,10 +1044,6 @@ footer,
         display: none !important;
     }
 
-    .receipt-header {
-        padding-bottom: 6px;
-    }
-
     .receipt-logo {
         width: 52px;
         height: 52px;
@@ -1163,19 +1053,11 @@ footer,
         font-size: 17px;
     }
 
-    .brand-text p {
-        font-size: 8px;
-    }
-
     .receipt-heading {
-        width: 130px;
-        min-width: 130px;
+        width: 132px;
+        min-width: 132px;
 
         padding: 6px;
-    }
-
-    .receipt-heading h2 {
-        font-size: 12px;
     }
 
     .summary-strip {
@@ -1185,97 +1067,78 @@ footer,
     .people-grid,
     .shipment-section,
     .route-charges-grid,
-    .verification-section {
+    .verification-section,
+    .signature-grid {
         margin-top: 5px;
     }
 
     .person-content {
-        min-height: 91px;
-
-        padding: 5px 6px;
+        min-height: 92px;
     }
 
     .shipment-item {
-        min-height: 35px;
-
-        padding: 4px 6px;
+        min-height: 37px;
     }
 
-    #receiptMap,
-    .receipt-map {
+    .receipt-map,
+    #receiptMap {
         height: 112px;
         min-height: 112px;
-    }
-
-    .route-information {
-        min-height: 39px;
     }
 
     .verification-code-box,
     .barcode-box,
     .qr-box,
     .digital-verification {
-        min-height: 64px;
+        height: 64px;
     }
 
     #barcodeLarge {
-        height: 42px;
+        height: 40px;
     }
 
     #qrcode {
-        width: 48px !important;
-        height: 48px !important;
+        width: 47px !important;
+        height: 47px !important;
     }
 
-    .signature-grid {
-        margin-top: 5px;
-    }
-
-    .signature-box {
-        min-height: 64px;
+    .signature-box:nth-child(2),
+    .signature-box:nth-child(3) {
+        min-height: 60px;
     }
 
     .officer-signature {
-        width: 95px;
-        height: 36px;
+        width: 92px;
+        height: 34px;
     }
 
     .company-seal {
-        width: 42px;
-        height: 42px;
+        width: 40px;
+        height: 40px;
     }
 
     .receipt-footer {
         margin-top: 5px;
-        padding-top: 5px;
     }
 }
 
 
 /* =========================================================
-   19. MOBILE
+   MOBILE
    ========================================================= */
 
 @media screen and (max-width: 800px) {
 
-    body {
-        background: #eef2f6;
-    }
-
     .receipt-page {
-        width: calc(100% - 14px);
+        width: calc(100% - 12px);
 
-        min-height: auto;
-
-        margin: 7px;
+        margin: 6px;
 
         padding: 10px;
     }
 
     .receipt-header {
         flex-direction: column;
-
-        align-items: stretch;
     }
 
     .receipt-heading {
@@ -1283,132 +1146,80 @@ footer,
         min-width: 0;
     }
 
-    .receipt-meta {
-        display: grid;
-
-        grid-template-columns:
-            repeat(3, 1fr);
-
-        gap: 5px;
-    }
-
-    .receipt-meta > div {
-        display: flex;
-        flex-direction: column;
-
-        border-top: 0;
-    }
-
     .summary-strip {
         grid-template-columns:
             repeat(2, 1fr);
     }
 
-    .summary-strip > div {
-        border-bottom: 1px solid #dce2e8;
-    }
-
-    .people-grid,
-    .route-charges-grid {
-        grid-template-columns: 1fr;
+    .people-grid {
+        grid-template-columns: 1fr 1fr;
     }
 
     .shipment-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(3, 1fr);
     }
 
-    .shipment-item:nth-child(3n) {
-        border-right: 1px solid #e0e5ea;
-    }
-
-    .shipment-item:nth-child(2n) {
-        border-right: 0;
+    .route-charges-grid {
+        grid-template-columns:
+            1.4fr .8fr;
     }
 
     .verification-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .signature-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .signature-box:nth-child(2),
-    .signature-box:nth-child(3) {
-        grid-column: auto;
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
     .receipt-footer {
-        grid-template-columns: 1fr;
-    }
-
-    .footer-center,
-    .footer-right {
-        text-align: left;
-
-        align-items: flex-start;
+        grid-template-columns:
+            1fr 1fr 1fr;
     }
 }
 
 
 /* =========================================================
-   20. SMALL PHONES
+   VERY SMALL SCREEN
    ========================================================= */
 
 @media screen and (max-width: 480px) {
 
     .receipt-page {
-        width: calc(100% - 8px);
+        width: calc(100% - 6px);
 
-        margin: 4px;
+        margin: 3px;
 
-        padding: 8px;
-    }
-
-    .brand-area {
-        gap: 6px;
-    }
-
-    .receipt-logo {
-        width: 45px;
-        height: 45px;
+        padding: 7px;
     }
 
     .brand-text h1 {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .brand-text p {
-        font-size: 7px;
+        white-space: normal;
     }
 
-    .summary-strip {
+    .people-grid {
         grid-template-columns: 1fr 1fr;
     }
 
     .shipment-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
-    .shipment-item,
-    .shipment-item:nth-child(2n),
-    .shipment-item:nth-child(3n) {
-        border-right: 0;
+    .route-charges-grid {
+        grid-template-columns:
+            1.2fr .8fr;
     }
 
     .verification-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr 1fr;
     }
 
-    .signature-grid {
-        grid-template-columns: 1fr;
+    .receipt-footer {
+        grid-template-columns:
+            1fr 1fr 1fr;
     }
-
-    .receipt-actions {
-        flex-direction: column;
-    }
-
-    .receipt-actions button {
-        width: 100%;
-    }
-}
+   }
