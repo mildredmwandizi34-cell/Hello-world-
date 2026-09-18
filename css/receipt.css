@@ -1574,4 +1574,48 @@ body{
         font-size: 7px;
     }
 }
-            
+
+ /* =====================================================
+   BLUE RECEIPT DOCUMENT FOOTER
+===================================================== */
+
+.receipt-footer {
+    background: #0b4ea2;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1.2fr 1.5fr 0.8fr;
+    gap: 12px;
+    align-items: center;
+}
+
+.receipt-footer strong,
+.receipt-footer span,
+.receipt-footer b {
+    color: #ffffff;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+    color: #ffffff;
+}
+
+.footer-left span,
+.footer-center span,
+.footer-right span {
+    display: block;
+    color: #ffffff;
+}
+
+.footer-right {
+    text-align: right;
+}
+
+.footer-right strong {
+    display: block;
+    margin-top: 3px;
+    font-size: 12px;
+}           
