@@ -198,9 +198,9 @@ PRIMARY INFORMATION
 
 .primary-info {
 width: 100%;
-min-height: 15mm;
+min-height: 11mm;
 display: grid;
-grid-template-columns: 1.4fr 1.1fr 1fr 0.9fr 0.9fr;
+grid-template-columns: 1.25fr 1fr 0.9fr 0.8fr 0.8fr;
 border: 1px solid #cbd5e1;
 margin-bottom: 3mm;
 background: #ffffff;
@@ -208,7 +208,7 @@ background: #ffffff;
 
 .primary-item {
 min-width: 0;
-padding: 2.2mm 3mm;
+padding: 1.5mm 2.5mm;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -220,17 +220,17 @@ border-right: none;
 }
 
 .primary-item small {
-margin-bottom: 1.2mm;
+margin-bottom: 0.8mm;
 color: #667085;
-font-size: 1.8mm;
+font-size: 1.6mm;
 font-weight: 800;
 letter-spacing: 0.2mm;
 }
 
 .primary-item strong {
 color: #0b4ea2;
-font-size: 2.8mm;
-line-height: 1.25;
+font-size: 2.5mm;
+line-height: 1.2;
 overflow-wrap: anywhere;
 }
 
