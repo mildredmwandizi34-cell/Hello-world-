@@ -1216,3 +1216,177 @@ body {
     #qrcode {
         width: 43px !important;
         height: 43px !i
+      important;
+    }
+
+    .digital-verification {
+        padding: 4px 7px;
+    }
+
+    .digital-verification strong {
+        font-size: 7px;
+    }
+
+    .digital-verification span {
+        font-size: 6.7px;
+    }
+
+    .digital-verification small {
+        font-size: 5.8px;
+    }
+
+    /* ========================================================
+       PRINT SIGNATURES
+       ======================================================== */
+
+    .signature-grid {
+        gap: 4px;
+        margin-top: 3px;
+    }
+
+    .signature-box {
+        min-height: 39px;
+        padding: 2px 4px;
+    }
+
+    .signature-box small {
+        font-size: 5px;
+    }
+
+    .officer-signature {
+        width: 72px;
+        height: 23px;
+    }
+
+    .company-seal {
+        width: 31px;
+        height: 31px;
+    }
+
+    .signature-box span {
+        font-size: 5.5px;
+    }
+
+    /* ========================================================
+       PRINT FOOTER
+       ======================================================== */
+
+    .receipt-footer {
+        margin-top: 3px;
+        padding-top: 3px;
+    }
+
+    .receipt-footer strong {
+        font-size: 5.8px;
+    }
+
+    .receipt-footer span {
+        font-size: 5.2px;
+    }
+
+    .receipt-footer #receiptNumberBottom {
+        font-size: 7.5px;
+    }
+
+    /* ========================================================
+       HIDE BUTTONS WHEN PRINTING
+       ======================================================== */
+
+    .receipt-actions {
+        display: none !important;
+    }
+
+    /* ========================================================
+       KEEP EVERYTHING TOGETHER
+       ======================================================== */
+
+    .receipt-header,
+    .summary-strip,
+    .people-grid,
+    .shipment-section,
+    .route-charges-grid,
+    .verification-section,
+    .receipt-footer {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    /* Remove Leaflet attribution */
+    #receiptMap .leaflet-control-attribution {
+        display: none !important;
+    }
+}
+
+/* ============================================================
+   MOBILE / SMALL SCREEN
+   ============================================================ */
+
+@media screen and (max-width: 900px) {
+
+    body {
+        padding: 5px;
+    }
+
+    .receipt-page {
+        width: 100%;
+        min-height: auto;
+        padding: 9px;
+
+        overflow: visible;
+    }
+
+    .receipt-header {
+        grid-template-columns: 1fr;
+    }
+
+    .brand-text h1 {
+        white-space: normal;
+    }
+
+    .brand-text p {
+        white-space: normal;
+    }
+
+    .receipt-heading {
+        text-align: left;
+        align-items: flex-start;
+    }
+
+    .receipt-meta {
+        text-align: left;
+    }
+
+    .summary-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .people-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .shipment-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .route-charges-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .verification-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .digital-verification {
+        grid-column: 1 / -1;
+    }
+
+    .receipt-footer {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        text-align: center;
+    }
+       }
