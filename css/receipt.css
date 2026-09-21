@@ -338,8 +338,8 @@ ROUTE + CHARGES
 .route-charges-grid {
 width: 100%;
 display: grid;
-grid-template-columns: 1.75fr 0.75fr;
-gap: 4mm;
+grid-template-columns: 1.8fr 0.65fr;
+gap: 3mm;
 margin-bottom: 3mm;
 }
 
@@ -471,8 +471,8 @@ flex-direction: column;
 }
 
 .charge-row {
-min-height: 10mm;
-padding: 2mm 4mm;
+min-height: 7.5mm;
+padding: 1.5mm 3mm;
 display: flex;
 align-items: center;
 justify-content: space-between;
@@ -486,7 +486,7 @@ color: #17202a;
 }
 
 .total-row {
-min-height: 12mm;
+min-height: 9mm;
 background: #f4f7fb;
 border-bottom: none;
 color: #083b80;
@@ -509,22 +509,22 @@ PAYMENT STAMP
 
 .payment-stamp-area {
 flex: 1;
-min-height: 25mm;
+min-height: 18mm;
 display: flex;
 align-items: center;
 justify-content: center;
 }
 
 .stamp {
-width: 29mm;
-height: 29mm;
+width: 23mm;
+height: 23mm;
 border: 2px solid #64748b;
 border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
 transform: rotate(-10deg);
-font-size: 3.4mm;
+font-size: 2.8mm;
 font-weight: 900;
 }
 
