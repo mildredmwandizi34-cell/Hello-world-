@@ -1022,14 +1022,25 @@ class="progress-bar">
 </footer>
 
 <!-- Leaflet JS -->
-
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
- <script>
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+
+    const SUPABASE_URL = "https://aptkocjxcwmfatcycdnv.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+    
 let shipmentMap;
 
-function trackShipment() {
+async function trackShipment() {
 
     let trackingInput = document.getElementById("trackingNumber");
     let tracking = trackingInput.value.trim().toUpperCase();
@@ -1050,13 +1061,54 @@ function trackShipment() {
         errorBox.style.display = "none";
     }
 
-    let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+    /* ==================================================
+   SUPABASE ONLINE SHIPMENT SEARCH
+================================================== */
 
-    let shipment = shipments.find(function(item) {
+let { data: onlineShipment, error } =
+    await supabaseClient
+        .from("shipments")
+        .select("*")
+        .eq("tracking_number", tracking)
+        .maybeSingle();
 
-        return String(item.tracking || "").toUpperCase() === tracking;
+if (error) {
 
-    });
+    console.error("Supabase error:", error);
+
+    if (errorBox) {
+        errorBox.textContent =
+            "Unable to connect to the tracking system. Please try again.";
+        errorBox.style.display = "block";
+    }
+
+    return;
+}
+
+if (!onlineShipment) {
+
+    if (errorBox) {
+        errorBox.textContent =
+            "Tracking number not found. Please check the number and try again.";
+        errorBox.style.display = "block";
+    }
+
+    return;
+}
+
+/* Convert Supabase names to the names
+   already used by your tracking page */
+
+let shipment = {
+    ...onlineShipment,
+
+    tracking: onlineShipment.tracking_number,
+    senderName: onlineShipment.sender_name,
+    receiverName: onlineShipment.receiver_name,
+    delivery: onlineShipment.delivery_date,
+    package: onlineShipment.package,
+    packageType: onlineShipment.package_type
+};
 
     if (!shipment) {
 
