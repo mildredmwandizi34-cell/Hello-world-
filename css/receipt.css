@@ -395,9 +395,9 @@ MAP
 ========================================================= */
 
 .receipt-map {
-width: 90%;
-height: 35mm;
-min-height: 35mm;
+width: 100%;
+height: 25mm;
+min-height: 25mm;
 background: #eef2f6;
 }
 
