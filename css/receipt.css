@@ -892,102 +892,380 @@ PRINT — EXACT ONE A4 LANDSCAPE PAGE
         min-height: 210mm;
         max-height: 210mm;
         margin: 0;
-        padding: 5mm;
+        padding: 4mm;
         border: none;
         box-shadow: none;
         overflow: hidden;
     }
 
+    /* =========================
+       HEADER
+    ========================= */
+
     .receipt-header {
-        min-height: 26mm;
-        height: 26mm;
+        min-height: 25mm;
+        height: 25mm;
+        margin-bottom: 2mm;
+        gap: 5mm;
+        grid-template-columns: 1fr 62mm;
     }
 
     .brand-area {
-        padding: 4mm 5mm;
+        padding: 3mm 5mm;
     }
 
     .brand-logo-box {
-        width: 22mm;
-        height: 22mm;
-        flex-basis: 22mm;
+        width: 23mm;
+        height: 23mm;
+        flex-basis: 23mm;
         margin-right: 4mm;
     }
 
     .receipt-logo {
-        width: 21mm;
-        height: 21mm;
+        width: 22mm;
+        height: 22mm;
     }
+
+    .brand-text h1 {
+        font-size: 5.8mm;
+        margin-bottom: 1.5mm;
+    }
+
+    .brand-text p {
+        font-size: 2.5mm;
+    }
+
+    .receipt-title {
+        padding: 2.5mm 4mm 2mm;
+    }
+
+    .receipt-title span {
+        font-size: 1.8mm;
+    }
+
+    .receipt-title h2 {
+        font-size: 4.8mm;
+    }
+
+    .receipt-meta {
+        padding: 2mm 2.5mm;
+    }
+
+    .meta-item small {
+        font-size: 1.7mm;
+    }
+
+    .meta-item strong {
+        font-size: 2.1mm;
+    }
+
+    /* =========================
+       PRIMARY INFORMATION
+    ========================= */
 
     .primary-info {
         min-height: 10mm;
         height: 10mm;
+        margin-bottom: 2mm;
+    }
+
+    .primary-item {
+        padding: 1.5mm 2.5mm;
+    }
+
+    .primary-item small {
+        font-size: 1.7mm;
+        margin-bottom: 0.8mm;
+    }
+
+    .primary-item strong {
+        font-size: 2.6mm;
+    }
+
+    /* =========================
+       SECTION HEADINGS
+    ========================= */
+
+    .section-heading {
+        min-height: 6mm;
+        padding: 1.3mm 2.5mm;
+    }
+
+    .section-heading span {
+        font-size: 2.5mm;
+    }
+
+    .section-heading small {
+        font-size: 1.6mm;
+    }
+
+    /* =========================
+       SENDER / RECEIVER
+    ========================= */
+
+    .people-grid {
+        gap: 3mm;
+        margin-bottom: 2mm;
     }
 
     .person-content {
-        min-height: 27mm;
+        min-height: 25mm;
+        padding: 2mm 3.5mm;
+        gap: 0.7mm;
+    }
+
+    .person-content > strong {
+        font-size: 2.8mm;
+    }
+
+    .person-content > span,
+    .person-line {
+        font-size: 2mm;
+    }
+
+    /* =========================
+       SHIPMENT DETAILS
+    ========================= */
+
+    .shipment-section {
+        margin-bottom: 2mm;
     }
 
     .shipment-item {
-        min-height: 11mm;
+        min-height: 10mm;
+        padding: 1.8mm 2.5mm;
+    }
+
+    .shipment-item small {
+        font-size: 1.6mm;
+    }
+
+    .shipment-item strong {
+        font-size: 2.1mm;
+    }
+
+    /* =========================
+       ROUTE + CHARGES
+    ========================= */
+
+    .route-charges-grid {
+        grid-template-columns: 1.8fr 0.7fr;
+        gap: 3mm;
+        margin-bottom: 2mm;
     }
 
     .route-information {
-        min-height: 10mm;
+        min-height: 9mm;
+        padding: 1.5mm 3mm;
     }
 
-    .receipt-map {
-        height: 22mm;
-        min-height: 22mm;
+    .route-location small {
+        font-size: 1.6mm;
     }
+
+    .route-location strong {
+        font-size: 2.2mm;
+    }
+
+    .route-arrow {
+        font-size: 5mm;
+    }
+
+    /* IMPORTANT:
+       Keep the map large enough to render properly */
+    .receipt-map {
+        width: 100%;
+        height: 27mm;
+        min-height: 27mm;
+    }
+
+    .agl-route-label {
+        font-size: 8px !important;
+    }
+
+    .agl-route-arrow {
+        font-size: 20px;
+    }
+
+    .agl-airplane {
+        font-size: 24px;
+    }
+
+    /* =========================
+       CHARGES
+    ========================= */
 
     .charge-row {
         min-height: 7mm;
+        padding: 1.5mm 3mm;
+        font-size: 2.1mm;
     }
 
     .total-row {
         min-height: 8mm;
     }
 
+    .total-row span {
+        font-size: 2.4mm;
+    }
+
+    .total-row strong {
+        font-size: 2.9mm;
+    }
+
     .payment-stamp-area {
-        min-height: 15mm;
+        min-height: 17mm;
     }
 
     .stamp {
-        width: 20mm;
-        height: 20mm;
-        font-size: 2.5mm;
+        width: 21mm;
+        height: 21mm;
+        font-size: 2.7mm;
+    }
+
+    /* =========================
+       VERIFICATION
+    ========================= */
+
+    .verification-section {
+        margin-bottom: 2mm;
     }
 
     .verification-grid {
-        min-height: 26mm;
+        min-height: 24mm;
+        height: 24mm;
+    }
+
+    .verification-code-box,
+    .barcode-box,
+    .qr-box,
+    .digital-verification {
+        padding: 2mm 2.5mm;
+    }
+
+    .verification-code-box strong {
+        font-size: 4mm;
+    }
+
+    .verification-code-box span,
+    .digital-verification small {
+        font-size: 1.6mm;
+    }
+
+    .digital-verification strong,
+    .digital-verification span {
+        font-size: 2.1mm;
+    }
+
+    #barcodeLarge {
+        height: 15mm;
+        max-width: 68mm;
+    }
+
+    #qrcode {
+        width: 20mm !important;
+        height: 20mm !important;
+    }
+
+    /* =========================
+       AUTHORIZATION
+    ========================= */
+
+    .authorization-section {
+        margin-bottom: 2mm;
+    }
+
+    .authorization-title {
+        min-height: 6mm;
+        padding: 1.3mm 2.5mm;
+    }
+
+    .authorization-title span {
+        font-size: 2.5mm;
+    }
+
+    .authorization-title small {
+        font-size: 1.6mm;
     }
 
     .authorization-grid {
-        min-height: 23mm;
+        min-height: 21mm;
+        height: 21mm;
+    }
+
+    .signature-box,
+    .authorization-details {
+        padding: 1.5mm 3mm;
     }
 
     .signature-image-area {
-        height: 11mm;
-    }
-
-    .seal-image-area {
-        height: 13mm;
-    }
-
-    .company-seal {
-        width: 14mm;
-        height: 14mm;
+        height: 9mm;
     }
 
     .officer-signature {
-        max-width: 40mm;
-        max-height: 10mm;
+        max-width: 38mm;
+        max-height: 9mm;
     }
 
-    .receipt-footer {
-        min-height: 13mm;
+    .seal-image-area {
+        height: 11mm;
     }
+
+    .company-seal {
+        width: 12mm;
+        height: 12mm;
+    }
+
+    .authorization-details {
+        gap: 3mm;
+    }
+
+    .authorization-details small {
+        font-size: 1.6mm;
+    }
+
+    .authorization-details strong {
+        font-size: 2mm;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .receipt-footer {
+        min-height: 11mm;
+        height: 11mm;
+        padding-top: 1.8mm;
+        gap: 4mm;
+    }
+
+    .footer-left strong {
+        font-size: 2.1mm;
+    }
+
+    .footer-left span {
+        font-size: 1.5mm;
+    }
+
+    .footer-center strong {
+        font-size: 1.8mm;
+    }
+
+    .footer-center span {
+        font-size: 1.5mm;
+    }
+
+    .footer-right span {
+        font-size: 1.6mm;
+    }
+
+    .footer-right strong {
+        font-size: 2.7mm;
+    }
+
+    /* =========================
+       HIDE BUTTONS
+    ========================= */
 
     .receipt-actions {
         display: none !important;
