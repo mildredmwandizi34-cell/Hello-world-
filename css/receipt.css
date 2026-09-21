@@ -38,10 +38,10 @@ HEADER
 
 .receipt-header {
 width: 100%;
-min-height: 31mm;
+min-height: 27mm;
 display: grid;
-grid-template-columns: 1fr 72mm;
-gap: 7mm;
+grid-template-columns: 1fr 58mm;
+gap: 6mm;
 align-items: stretch;
 margin-bottom: 3mm;
 }
@@ -112,7 +112,7 @@ justify-content: space-between;
 }
 
 .receipt-title {
-padding: 3.5mm 5mm 2.5mm;
+padding: 2.5mm 4mm 2mm;
 background: #f4f7fb;
 border-bottom: 1px solid #d4dce6;
 text-align: center;
@@ -130,17 +130,17 @@ letter-spacing: 0.35mm;
 .receipt-title h2 {
 margin: 0;
 color: #0b4ea2;
-font-size: 5.5mm;
+font-size: 4.5mm;
 line-height: 1;
 font-weight: 800;
-letter-spacing: 0.25mm;
+letter-spacing: 0.2mm;
 }
 
 .receipt-meta {
 display: grid;
 grid-template-columns: repeat(3, 1fr);
-padding: 2.5mm 3mm;
-gap: 2mm;
+padding: 1.8mm 2mm;
+gap: 1mm;
 }
 
 .meta-item {
@@ -150,17 +150,17 @@ text-align: center;
 
 .meta-item small {
 display: block;
-margin-bottom: 1mm;
+margin-bottom: 0.7mm;
 color: #667085;
-font-size: 1.8mm;
+font-size: 1.5mm;
 font-weight: 700;
 }
 
 .meta-item strong {
 display: block;
 color: #17202a;
-font-size: 2.3mm;
-line-height: 1.2;
+font-size: 1.9mm;
+line-height: 1.1;
 word-break: break-word;
 }
 
