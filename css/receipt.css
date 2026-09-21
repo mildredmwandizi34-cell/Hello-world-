@@ -912,29 +912,626 @@ body {
 
 /* =========================================================
 SCREEN RESPONSIVE
+KEEP A4 DESIGN — MOBILE FRIENDLY
 ========================================================= */
 
 @media screen and (max-width: 1100px) {
 
-body {
-    overflow-x: auto;
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .receipt-page {
+        width: calc(100% - 20px);
+        max-width: 100%;
+        min-width: 0;
+        margin: 10px auto;
+    }
 }
 
 
-.receipt-page {
-    margin: 10px;
-}
-
-}
+/* =========================================================
+PHONE VIEW
+========================================================= */
 
 @media screen and (max-width: 700px) {
 
-.receipt-page {
-    width: 100%;
-    min-width: 900px;
-    margin: 0;
-    border: none;
-    box-shadow: none;
+    html,
+    body {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .receipt-page {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        min-height: 0;
+        margin: 0;
+        padding: 10px;
+        border: none;
+        box-shadow: none;
+        overflow: hidden;
+    }
+
+
+    /* -------------------------
+       HEADER
+    ------------------------- */
+
+    .receipt-header {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 0;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .brand-area {
+        width: 100%;
+        min-width: 0;
+        padding: 14px;
+    }
+
+    .brand-logo-box {
+        width: 58px;
+        height: 58px;
+        flex: 0 0 58px;
+        margin-right: 12px;
+    }
+
+    .receipt-logo {
+        width: 54px;
+        height: 54px;
+    }
+
+    .brand-text {
+        min-width: 0;
+    }
+
+    .brand-text h1 {
+        font-size: 17px;
+        line-height: 1.15;
+        letter-spacing: 0.4px;
+        white-space: normal;
+    }
+
+    .brand-text p {
+        font-size: 9px;
+        line-height: 1.35;
+        white-space: normal;
+    }
+
+
+    /* -------------------------
+       RECEIPT TITLE
+    ------------------------- */
+
+    .receipt-heading {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .receipt-title {
+        padding: 10px;
+    }
+
+    .receipt-title span {
+        font-size: 8px;
+        margin-bottom: 4px;
+    }
+
+    .receipt-title h2 {
+        font-size: 19px;
+    }
+
+    .receipt-meta {
+        padding: 8px;
+        gap: 4px;
+    }
+
+    .meta-item small {
+        font-size: 7px;
+    }
+
+    .meta-item strong {
+        font-size: 9px;
+    }
+
+
+    /* -------------------------
+       PRIMARY INFORMATION
+    ------------------------- */
+
+    .primary-info {
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .primary-item {
+        min-width: 0;
+        padding: 9px;
+        border-right: 1px solid #d7dee7;
+        border-bottom: 1px solid #d7dee7;
+    }
+
+    .primary-item:nth-child(2n) {
+        border-right: none;
+    }
+
+    .primary-item:nth-last-child(-n + 2) {
+        border-bottom: none;
+    }
+
+    .primary-item small {
+        font-size: 7px;
+    }
+
+    .primary-item strong {
+        font-size: 10px;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* -------------------------
+       SECTION HEADINGS
+    ------------------------- */
+
+    .section-heading,
+    .authorization-title {
+        min-height: 0;
+        padding: 8px 10px;
+    }
+
+    .section-heading span,
+    .authorization-title span {
+        font-size: 10px;
+    }
+
+    .section-heading small,
+    .authorization-title small {
+        font-size: 7px;
+    }
+
+
+    /* -------------------------
+       SENDER / RECEIVER
+    ------------------------- */
+
+    .people-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .person-content {
+        min-height: 0;
+        padding: 11px;
+        gap: 5px;
+    }
+
+    .person-content > strong {
+        font-size: 12px;
+    }
+
+    .person-content > span {
+        font-size: 10px;
+    }
+
+    .person-line {
+        gap: 7px;
+        font-size: 9px;
+        line-height: 1.3;
+    }
+
+    .person-line b {
+        min-width: 48px;
+    }
+
+
+    /* -------------------------
+       SHIPMENT DETAILS
+    ------------------------- */
+
+    .shipment-section {
+        margin-bottom: 8px;
+    }
+
+    .shipment-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .shipment-item {
+        min-height: 52px;
+        padding: 9px;
+        border-right: 1px solid #d7dee7;
+        border-bottom: 1px solid #d7dee7;
+    }
+
+    .shipment-item:nth-child(2n) {
+        border-right: none;
+    }
+
+    .shipment-item:nth-last-child(-n + 2) {
+        border-bottom: none;
+    }
+
+    .shipment-item small {
+        font-size: 7px;
+    }
+
+    .shipment-item strong {
+        font-size: 10px;
+    }
+
+
+    /* -------------------------
+       ROUTE + CHARGES
+    ------------------------- */
+
+    .route-charges-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .route-information {
+        min-height: 0;
+        padding: 9px;
+        grid-template-columns: 1fr 35px 1fr;
+    }
+
+    .route-location small {
+        font-size: 7px;
+    }
+
+    .route-location strong {
+        font-size: 10px;
+    }
+
+    .route-arrow {
+        font-size: 20px;
+    }
+
+
+    /* -------------------------
+       SMALL MOBILE MAP
+    ------------------------- */
+
+    .receipt-map {
+        width: 100%;
+        height: 120px;
+        min-height: 120px;
+        max-height: 120px;
+    }
+
+    .agl-route-label {
+        font-size: 7px !important;
+        padding: 1px 3px !important;
+    }
+
+    .agl-route-arrow {
+        font-size: 17px;
+        line-height: 20px;
+    }
+
+    .agl-airplane {
+        width: 28px;
+        height: 28px;
+        font-size: 20px;
+    }
+
+
+    /* -------------------------
+       CHARGES
+    ------------------------- */
+
+    .charge-row {
+        min-height: 42px;
+        padding: 8px 11px;
+        font-size: 10px;
+    }
+
+    .total-row {
+        min-height: 48px;
+    }
+
+    .total-row span {
+        font-size: 11px;
+    }
+
+    .total-row strong {
+        font-size: 13px;
+    }
+
+    .payment-stamp-area {
+        min-height: 95px;
+    }
+
+    .stamp {
+        width: 68px;
+        height: 68px;
+        font-size: 11px;
+    }
+
+
+    /* -------------------------
+       VERIFICATION
+    ------------------------- */
+
+    .verification-section {
+        margin-bottom: 8px;
+    }
+
+    .verification-grid {
+        min-height: 0;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .verification-code-box,
+    .barcode-box,
+    .qr-box,
+    .digital-verification {
+        padding: 10px;
+        border-right: 1px solid #d7dee7;
+        border-bottom: 1px solid #d7dee7;
+    }
+
+    .verification-code-box {
+        border-right: none;
+    }
+
+    .verification-code-box small,
+    .barcode-box small,
+    .qr-box small {
+        font-size: 7px;
+    }
+
+    .verification-code-box strong {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+
+    .verification-code-box span {
+        font-size: 8px;
+    }
+
+    #barcodeLarge {
+        width: 100%;
+        max-width: 100%;
+        height: 45px;
+    }
+
+    #qrcode {
+        width: 75px !important;
+        height: 75px !important;
+        max-width: 100%;
+    }
+
+    .digital-verification {
+        grid-column: 1 / -1;
+        border-right: none;
+        border-bottom: none;
+    }
+
+    .digital-verification strong {
+        font-size: 10px;
+    }
+
+    .digital-verification span,
+    .digital-verification small {
+        font-size: 8px;
+    }
+
+
+    /* -------------------------
+       AUTHORIZATION
+    ------------------------- */
+
+    .authorization-section {
+        margin-bottom: 8px;
+    }
+
+    .authorization-grid {
+        min-height: 0;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .signature-box,
+    .authorization-details {
+        padding: 10px;
+    }
+
+    .signature-box > small,
+    .authorization-details small {
+        font-size: 7px;
+    }
+
+    .signature-image-area {
+        height: 55px;
+    }
+
+    .officer-signature {
+        max-width: 130px;
+        max-height: 48px;
+    }
+
+    .seal-image-area {
+        height: 55px;
+    }
+
+    .company-seal {
+        width: 55px;
+        height: 55px;
+    }
+
+    .signature-box > span {
+        font-size: 8px;
+    }
+
+    .authorization-details {
+        grid-column: 1 / -1;
+        border-right: none;
+        border-top: 1px solid #d7dee7;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+    }
+
+    .authorization-details strong {
+        font-size: 9px;
+    }
+
+
+    /* -------------------------
+       FOOTER
+    ------------------------- */
+
+    .receipt-footer {
+        grid-template-columns: 1fr;
+        min-height: 0;
+        gap: 10px;
+        padding-top: 10px;
+        text-align: center;
+    }
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-left strong {
+        font-size: 11px;
+    }
+
+    .footer-left span,
+    .footer-center span {
+        font-size: 8px;
+    }
+
+    .footer-center strong {
+        font-size: 9px;
+    }
+
+    .footer-right strong {
+        font-size: 14px;
+    }
+
+
+    /* -------------------------
+       ACTION BUTTONS
+    ------------------------- */
+
+    .receipt-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 7px;
+        margin-top: 10px;
+        padding: 5px 0;
+    }
+
+    .receipt-actions button {
+        width: 100%;
+        padding: 11px;
+        font-size: 12px;
+    }
+
+
+    /* -------------------------
+       PREVENT OVERFLOW
+    ------------------------- */
+
+    .receipt-page *,
+    .receipt-page img,
+    .receipt-page svg,
+    .receipt-page canvas {
+        max-width: 100%;
+    }
+
+    .receipt-page img,
+    .receipt-page svg,
+    .receipt-page canvas {
+        height: auto;
+    }
+
+    .receipt-page .receipt-map,
+    .receipt-page .leaflet-container {
+        max-width: none;
+    }
 }
 
-  }
+
+/* =========================================================
+VERY SMALL PHONES
+========================================================= */
+
+@media screen and (max-width: 380px) {
+
+    .receipt-page {
+        padding: 7px;
+    }
+
+    .brand-area {
+        padding: 11px;
+    }
+
+    .brand-logo-box {
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
+        margin-right: 9px;
+    }
+
+    .receipt-logo {
+        width: 45px;
+        height: 45px;
+    }
+
+    .brand-text h1 {
+        font-size: 14px;
+    }
+
+    .brand-text p {
+        font-size: 7px;
+    }
+
+    .receipt-title h2 {
+        font-size: 16px;
+    }
+
+    .primary-item {
+        padding: 7px;
+    }
+
+    .primary-item strong {
+        font-size: 9px;
+    }
+
+    .receipt-map {
+        height: 105px;
+        min-height: 105px;
+        max-height: 105px;
+    }
+
+    .verification-code-box strong {
+        font-size: 14px;
+    }
+
+    #qrcode {
+        width: 65px !important;
+        height: 65px !important;
+    }
+
+    .company-seal {
+        width: 48px;
+        height: 48px;
+    }
+      }
