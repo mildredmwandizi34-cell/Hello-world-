@@ -1,15 +1,22 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Shipment Receipt | American Global Logistics</title>
-<link rel="stylesheet" href="css/receipt.css"><!-- ================= BARCODE ================= --><script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script><!-- ================= QR CODE ================= --><script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script><!-- ================= LEAFLET ================= --><link rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script></head><body><div class="receipt-page"><!-- =====================================================
-     TOP HEADER
-===================================================== --><header class="receipt-header"><div class="brand-area">
+<!DOCTYPE html><html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Shipment Receipt | American Global Logistics</title><link rel="stylesheet" href="css/receipt.css"><!-- BARCODE --><script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script><!-- QR CODE --><script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script><!-- LEAFLET --><link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script></head><body><div class="receipt-page"><!-- =====================================================
+     HEADER
+===================================================== --><header class="receipt-header"><!-- AGL BRAND -->
+<div class="brand-area">
 
-    <img
-        src="image/agl-logo.png"
-        class="receipt-logo"
-        alt="AGL Logo"
-    >
+    <div class="brand-logo-box">
+
+        <img
+            src="image/agl-logo.png"
+            class="receipt-logo"
+            alt="American Global Logistics Logo"
+        >
+
+    </div>
 
     <div class="brand-text">
 
@@ -24,25 +31,44 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 </div>
 
 
+<!-- SHIPMENT RECEIPT DOCUMENT BOX -->
 <div class="receipt-heading">
 
-    <h2>SHIPMENT RECEIPT</h2>
+    <div class="receipt-title">
+
+        <span>OFFICIAL SHIPPING DOCUMENT</span>
+
+        <h2>SHIPMENT RECEIPT</h2>
+
+    </div>
+
 
     <div class="receipt-meta">
 
-        <div>
-            <span>Receipt No.</span>
-            <strong id="receiptNumber"></strong>
+        <div class="meta-item">
+
+            <small>RECEIPT NO.</small>
+
+            <strong id="receiptNumber">-</strong>
+
         </div>
 
-        <div>
-            <span>Date</span>
-            <strong id="receiptDate"></strong>
+
+        <div class="meta-item">
+
+            <small>DATE</small>
+
+            <strong id="receiptDate">-</strong>
+
         </div>
 
-        <div>
-            <span>Document No.</span>
-            <strong id="documentNo"></strong>
+
+        <div class="meta-item">
+
+            <small>DOCUMENT NO.</small>
+
+            <strong id="documentNo">-</strong>
+
         </div>
 
     </div>
@@ -50,30 +76,49 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 </div>
 
 </header><!-- =====================================================
-     SUMMARY
-===================================================== --><section class="summary-strip"><div>
-    <small>TRACKING</small>
-    <strong id="trackingNumber"></strong>
+     PRIMARY SHIPMENT INFORMATION
+===================================================== --><section class="primary-info"><div class="primary-item">
+
+    <small>TRACKING NUMBER</small>
+
+    <strong id="trackingNumber">-</strong>
+
 </div>
 
-<div>
-    <small>SERVICE</small>
-    <strong id="receiptServiceType"></strong>
+
+<div class="primary-item">
+
+    <small>SERVICE TYPE</small>
+
+    <strong id="receiptServiceType">-</strong>
+
 </div>
 
-<div>
-    <small>DELIVERY</small>
-    <strong id="receiptDelivery"></strong>
+
+<div class="primary-item">
+
+    <small>DELIVERY DATE</small>
+
+    <strong id="receiptDelivery">-</strong>
+
 </div>
 
-<div>
+
+<div class="primary-item">
+
     <small>PAYMENT</small>
-    <strong id="receiptPaymentStatus"></strong>
+
+    <strong id="receiptPaymentStatus">-</strong>
+
 </div>
 
-<div>
+
+<div class="primary-item verification-primary">
+
     <small>VERIFICATION</small>
-    <strong id="verificationCode"></strong>
+
+    <strong id="verificationCode">-</strong>
+
 </div>
 
 </section><!-- =====================================================
@@ -83,36 +128,57 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 <div class="person-box">
 
     <div class="section-heading">
-        SENDER
+
+        <span>SENDER</span>
+
+        <small>SHIPPER INFORMATION</small>
+
     </div>
+
 
     <div class="person-content">
 
-        <strong id="senderName"></strong>
+        <strong id="senderName">-</strong>
 
-        <span id="senderCompany"></span>
+        <span id="senderCompany">-</span>
 
-        <span id="senderAddress"></span>
+        <span id="senderAddress">-</span>
 
-        <span>
+
+        <div class="person-line">
+
             <b>City:</b>
-            <span id="senderCity"></span>
-        </span>
 
-        <span>
+            <span id="senderCity">-</span>
+
+        </div>
+
+
+        <div class="person-line">
+
             <b>Country:</b>
-            <span id="senderCountry"></span>
-        </span>
 
-        <span>
+            <span id="senderCountry">-</span>
+
+        </div>
+
+
+        <div class="person-line">
+
             <b>Phone:</b>
-            <span id="senderPhone"></span>
-        </span>
 
-        <span>
+            <span id="senderPhone">-</span>
+
+        </div>
+
+
+        <div class="person-line">
+
             <b>Email:</b>
-            <span id="senderEmail"></span>
-        </span>
+
+            <span id="senderEmail">-</span>
+
+        </div>
 
     </div>
 
@@ -125,45 +191,70 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 <div class="person-box">
 
     <div class="section-heading">
-        RECEIVER
+
+        <span>RECEIVER</span>
+
+        <small>CONSIGNEE INFORMATION</small>
+
     </div>
+
 
     <div class="person-content">
 
-        <strong id="receiverName"></strong>
+        <strong id="receiverName">-</strong>
 
-        <span id="receiverCompany"></span>
+        <span id="receiverCompany">-</span>
 
-        <span id="receiverAddress"></span>
+        <span id="receiverAddress">-</span>
 
-        <span>
+
+        <div class="person-line">
+
             <b>City:</b>
-            <span id="receiverCity"></span>
-        </span>
 
-        <span>
+            <span id="receiverCity">-</span>
+
+        </div>
+
+
+        <div class="person-line">
+
             <b>Country:</b>
-            <span id="receiverCountry"></span>
-        </span>
 
-        <span>
+            <span id="receiverCountry">-</span>
+
+        </div>
+
+
+        <div class="person-line">
+
             <b>Phone:</b>
-            <span id="receiverPhone"></span>
-        </span>
 
-        <span>
+            <span id="receiverPhone">-</span>
+
+        </div>
+
+
+        <div class="person-line">
+
             <b>Email:</b>
-            <span id="receiverEmail"></span>
-        </span>
+
+            <span id="receiverEmail">-</span>
+
+        </div>
 
     </div>
 
 </div>
 
 </section><!-- =====================================================
-     SHIPMENT DETAILS — HORIZONTAL
+     SHIPMENT DETAILS
 ===================================================== --><section class="shipment-section"><div class="section-heading">
-    SHIPMENT DETAILS
+
+    <span>SHIPMENT DETAILS</span>
+
+    <small>PACKAGE INFORMATION</small>
+
 </div>
 
 
@@ -171,67 +262,91 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 
 
     <div class="shipment-item">
+
         <small>PACKAGE</small>
-        <strong id="package"></strong>
+
+        <strong id="package">-</strong>
+
     </div>
 
 
     <div class="shipment-item">
+
         <small>PACKAGE TYPE</small>
-        <strong id="packageType"></strong>
+
+        <strong id="packageType">-</strong>
+
     </div>
 
 
     <div class="shipment-item">
+
         <small>PIECES</small>
-        <strong id="pieces"></strong>
+
+        <strong id="pieces">-</strong>
+
     </div>
 
 
     <div class="shipment-item">
+
         <small>WEIGHT</small>
-        <strong id="weight"></strong>
+
+        <strong id="weight">-</strong>
+
     </div>
 
 
     <div class="shipment-item">
+
         <small>DIMENSIONS</small>
-        <strong id="dimensions"></strong>
+
+        <strong id="dimensions">-</strong>
+
     </div>
 
 
     <div class="shipment-item">
-        <small>REFERENCE</small>
-        <strong id="customerReference"></strong>
-    </div>
 
+        <small>CUSTOMER REFERENCE</small>
+
+        <strong id="customerReference">-</strong>
+
+    </div>
 
 </div>
 
 </section><!-- =====================================================
      ROUTE + CHARGES
-===================================================== --><section class="route-charges-grid"><!-- ================= ROUTE ================= -->
+===================================================== --><section class="route-charges-grid"><!-- SHIPPING ROUTE -->
 
 <div class="route-box">
 
     <div class="section-heading">
-        SHIPPING ROUTE
+
+        <span>SHIPPING ROUTE</span>
+
+        <small>ORIGIN TO DESTINATION</small>
+
     </div>
 
 
     <div class="route-information">
 
+
         <div class="route-location">
 
             <small>ORIGIN</small>
 
-            <strong id="origin"></strong>
+            <strong id="origin">-</strong>
 
         </div>
 
 
         <div class="route-arrow">
-            →
+
+            <span>→</span>
+
         </div>
 
 
@@ -239,7 +354,7 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 
             <small>DESTINATION</small>
 
-            <strong id="destination"></strong>
+            <strong id="destination">-</strong>
 
         </div>
 
@@ -248,18 +363,25 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 
     <!-- MAP -->
 
-    <div id="receiptMap" class="receipt-map"></div>
+    <div
+        id="receiptMap"
+        class="receipt-map">
+    </div>
 
 </div>
 
 
 
-<!-- ================= CHARGES ================= -->
+<!-- CHARGES -->
 
 <div class="charges-box">
 
     <div class="section-heading">
-        CHARGES
+
+        <span>CHARGES</span>
+
+        <small>SHIPMENT COST SUMMARY</small>
+
     </div>
 
 
@@ -267,7 +389,7 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 
         <span>Shipping Cost</span>
 
-        <strong id="shippingCost"></strong>
+        <strong id="shippingCost">-</strong>
 
     </div>
 
@@ -276,7 +398,7 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 
         <span>Tax</span>
 
-        <strong id="tax"></strong>
+        <strong id="tax">-</strong>
 
     </div>
 
@@ -285,175 +407,280 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unp
 
         <span>Discount</span>
 
-        <strong id="discount"></strong>
+        <strong id="discount">-</strong>
 
     </div>
 
 
     <div class="charge-row total-row">
 
-        <span>TOTAL</span>
+        <span>TOTAL AMOUNT</span>
 
-        <strong id="totalAmount"></strong>
+        <strong id="totalAmount">-</strong>
+
+    </div>
+
+
+    <!-- PAYMENT STAMP -->
+
+    <div class="payment-stamp-area">
+
+        <div
+            id="paymentStamp"
+            class="stamp">
+        </div>
 
     </div>
 
 </div>
 
 </section><!-- =====================================================
-     VERIFICATION + SIGNATURES
-===================================================== -->
+     VERIFICATION
+===================================================== --><section class="verification-section"><div class="section-heading">
 
-<section class="verification-section">
+    <span>DOCUMENT VERIFICATION</span>
 
-    <!-- VERIFICATION ROW -->
+    <small>AUTHENTICITY & TRACKING</small>
 
-    <div class="verification-grid">
+</div>
 
-        <div class="verification-code-box">
-            <small>VERIFICATION CODE</small>
-            <strong id="verificationCode"></strong>
-        </div>
 
-        <div class="barcode-box">
-            <small>TRACKING BARCODE</small>
-            <svg id="barcodeLarge"></svg>
-        </div>
+<div class="verification-grid">
 
-        <div class="qr-box">
-            <small>VERIFICATION QR</small>
-            <canvas id="qrcode"></canvas>
-        </div>
 
-        <div class="digital-verification">
+    <!-- VERIFICATION CODE -->
 
-            <strong>DIGITAL VERIFICATION CERTIFICATE</strong>
+    <div class="verification-code-box">
 
-            <span>✓ DIGITALLY VERIFIED</span>
+        <small>VERIFICATION CODE</small>
 
-            <small>
-                American Global Logistics
-            </small>
+        <strong id="verificationCodeLarge">
+            -
+        </strong>
 
-            <small>
-                This document is electronically verified
-                using the tracking and verification code.
-            </small>
-
-        </div>
+        <span>
+            Use this code to verify this document.
+        </span>
 
     </div>
 
 
-    <!-- SIGNATURE ROW -->
+    <!-- BARCODE -->
 
-    <div class="signature-grid">
+    <div class="barcode-box">
 
-        <div class="signature-box">
+        <small>TRACKING BARCODE</small>
 
-            <small>SENDER'S SIGNATURE</small>
+        <svg id="barcodeLarge"></svg>
 
-            <img
-                src="image/sender-signature.png"
-                class="sender-signature"
-                alt="Sender's Signature"
-            >
-
-            <span>Sender</span>
-
-        </div>
+    </div>
 
 
-        <div class="signature-box">
+    <!-- QR -->
 
-            <small>AUTHORIZED OFFICER</small>
+    <div class="qr-box">
+
+        <small>SCAN TO TRACK</small>
+
+        <canvas id="qrcode"></canvas>
+
+    </div>
+
+
+    <!-- DIGITAL CERTIFICATE -->
+
+    <div class="digital-verification">
+
+        <strong>
+            DIGITAL VERIFICATION CERTIFICATE
+        </strong>
+
+        <span>
+            ✓ DIGITALLY VERIFIED
+        </span>
+
+        <small>
+            American Global Logistics
+        </small>
+
+        <small>
+            This document is electronically verified
+            using the tracking number and verification code.
+        </small>
+
+    </div>
+
+</div>
+
+</section><!-- =====================================================
+     AUTHORIZATION
+===================================================== --><section class="authorization-section"><div class="authorization-title">
+
+    <span>AUTHORIZATION</span>
+
+    <small>
+        OFFICIAL AGL DOCUMENT APPROVAL
+    </small>
+
+</div>
+
+
+<div class="authorization-grid">
+
+
+    <!-- OFFICER -->
+
+    <div class="signature-box">
+
+        <small>AUTHORIZED OFFICER</small>
+
+        <div class="signature-image-area">
 
             <img
                 src="image/agl-officer-signature.png"
                 class="officer-signature"
-                alt="Authorized Officer"
+                alt="Authorized Officer Signature"
             >
-
-            <span>Authorized Officer</span>
 
         </div>
 
+        <span>
+            Authorized Officer
+        </span>
 
-        <div class="signature-box">
+    </div>
 
-            <small>COMPANY SEAL</small>
+
+    <!-- SEAL -->
+
+    <div class="signature-box seal-box">
+
+        <small>COMPANY SEAL</small>
+
+        <div class="seal-image-area">
 
             <img
                 src="image/agl-seal.png"
                 class="company-seal"
-                alt="AGL Company Seal"
+                alt="American Global Logistics Company Seal"
             >
 
         </div>
 
     </div>
 
+
+    <!-- DOCUMENT INFORMATION -->
+
+    <div class="authorization-details">
+
+        <div>
+
+            <small>SHIPMENT ID</small>
+
+            <strong id="shipmentId">-</strong>
+
+        </div>
+
+
+        <div>
+
+            <small>CREATED</small>
+
+            <strong id="createdTime">-</strong>
+
+        </div>
+
+
+        <div>
+
+            <small>REFERENCE</small>
+
+            <strong id="reference">-</strong>
+
+        </div>
+
+    </div>
+
+</div>
+
 </section><!-- =====================================================
-     RECEIPT FOOTER
-===================================================== -->
+     FOOTER
+===================================================== --><footer class="receipt-footer"><div class="footer-left">
 
-<footer class="receipt-footer">
+    <strong>
+        AMERICAN GLOBAL LOGISTICS
+    </strong>
 
-    <div class="footer-left">
-        <strong>AMERICAN GLOBAL LOGISTICS</strong>
-        <span>Worldwide Shipping & Logistics Services</span>
-        <span>Document No.: <b id="documentNoFooter"></b></span>
-        <span>Issued: <b id="issueDate"></b></span>
-    </div>
+    <span>
+        Worldwide Shipping & Logistics Services
+    </span>
 
+    <span>
+        Document No.:
+        <b id="documentNoFooter">-</b>
+    </span>
 
-    <div class="footer-center">
-        <span>This receipt is issued as an official shipment document.</span>
-        <span>Please retain this document for your records.</span>
-    </div>
-
-
-    <div class="footer-right">
-        <span>Receipt No.</span>
-        <strong id="receiptNumberBottom"></strong>
-    </div>
-
-</footer>
-
-
-<!-- =====================================================
-     RECEIPT ACTION BUTTONS
-===================================================== -->
-
-<div class="receipt-actions">
-
-    <button type="button" onclick="window.print()">
-        PRINT RECEIPT
-    </button>
-
-    <button
-        type="button"
-        onclick="window.location.href='track.html'">
-        TRACK SHIPMENT
-    </button>
-
-    <button
-        type="button"
-        onclick="window.location.href='create-shipment.html'">
-        NEW SHIPMENT
-    </button>
+    <span>
+        Issued:
+        <b id="issueDate">-</b>
+    </span>
 
 </div>
 
 
-</div><!-- END RECEIPT PAGE -->
+<div class="footer-center">
+
+    <strong>
+        OFFICIAL SHIPMENT DOCUMENT
+    </strong>
+
+    <span>
+        This receipt is issued as an official shipment document.
+    </span>
+
+    <span>
+        Please retain this document for your records.
+    </span>
+
+</div>
 
 
-<!-- =====================================================
+<div class="footer-right">
+
+    <span>
+        RECEIPT NO.
+    </span>
+
+    <strong id="receiptNumberBottom">
+        -
+    </strong>
+
+</div>
+
+</footer><!-- =====================================================
+     ACTION BUTTONS
+===================================================== --><div class="receipt-actions"><button
+    type="button"
+    onclick="window.print()">
+    PRINT RECEIPT
+</button>
+
+
+<button
+    type="button"
+    onclick="window.location.href='track.html'">
+    TRACK SHIPMENT
+</button>
+
+
+<button
+    type="button"
+    onclick="window.location.href='create-shipment.html'">
+    NEW SHIPMENT
+</button>
+
+</div></div><!-- =====================================================
      RECEIPT JAVASCRIPT
-===================================================== -->
-
-<script src="js/receipt.js"></script>
-
-</body>
-</html>
+===================================================== --><script src="js/receipt.js"></script></body>
+                 </html>
