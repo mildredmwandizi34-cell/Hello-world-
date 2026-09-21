@@ -912,29 +912,481 @@ body {
 
 /* =========================================================
 SCREEN RESPONSIVE
+COMPACT MOBILE VIEW
 ========================================================= */
-
-@media screen and (max-width: 1100px) {
-
-body {
-    overflow-x: auto;
-}
-
-
-.receipt-page {
-    margin: 10px;
-}
-
-}
 
 @media screen and (max-width: 700px) {
 
-.receipt-page {
-    width: 100%;
-    min-width: 900px;
-    margin: 0;
-    border: none;
-    box-shadow: none;
+    html,
+    body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    .receipt-page {
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 7px;
+        border: none;
+        box-shadow: none;
+    }
+
+    /* HEADER */
+
+    .receipt-header {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-height: 0;
+        margin-bottom: 6px;
+    }
+
+    .brand-area {
+        padding: 9px;
+    }
+
+    .brand-logo-box {
+        width: 45px;
+        height: 45px;
+        flex-basis: 45px;
+        margin-right: 8px;
+    }
+
+    .receipt-logo {
+        width: 42px;
+        height: 42px;
+    }
+
+    .brand-text h1 {
+        font-size: 14px;
+        line-height: 1.1;
+        white-space: normal;
+    }
+
+    .brand-text p {
+        font-size: 7px;
+        white-space: normal;
+    }
+
+    /* SHIPMENT RECEIPT */
+
+    .receipt-heading {
+        width: 100%;
+    }
+
+    .receipt-title {
+        padding: 7px;
+    }
+
+    .receipt-title span {
+        font-size: 6px;
+        margin-bottom: 2px;
+    }
+
+    .receipt-title h2 {
+        font-size: 15px;
+    }
+
+    .receipt-meta {
+        padding: 5px;
+        gap: 2px;
+    }
+
+    .meta-item small {
+        font-size: 6px;
+    }
+
+    .meta-item strong {
+        font-size: 7px;
+    }
+
+    /* SUMMARY */
+
+    .primary-info {
+        grid-template-columns: 1fr 1fr;
+        min-height: 0;
+        margin-bottom: 6px;
+    }
+
+    .primary-item {
+        padding: 6px 7px;
+        min-height: 38px;
+    }
+
+    .primary-item small {
+        font-size: 6px;
+        margin-bottom: 2px;
+    }
+
+    .primary-item strong {
+        font-size: 8px;
+    }
+
+    /* SECTION HEADINGS */
+
+    .section-heading,
+    .authorization-title {
+        min-height: 0;
+        padding: 6px 8px;
+    }
+
+    .section-heading span,
+    .authorization-title span {
+        font-size: 8px;
+    }
+
+    .section-heading small,
+    .authorization-title small {
+        font-size: 6px;
+    }
+
+    /* SENDER / RECEIVER */
+
+    .people-grid {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        margin-bottom: 6px;
+    }
+
+    .person-content {
+        min-height: 0;
+        padding: 8px;
+        gap: 3px;
+    }
+
+    .person-content > strong {
+        font-size: 10px;
+    }
+
+    .person-content > span {
+        font-size: 8px;
+    }
+
+    .person-line {
+        font-size: 8px;
+        gap: 5px;
+    }
+
+    .person-line b {
+        min-width: 40px;
+    }
+
+    /* SHIPMENT DETAILS */
+
+    .shipment-section {
+        margin-bottom: 6px;
+    }
+
+    .shipment-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .shipment-item {
+        min-height: 42px;
+        padding: 6px 7px;
+    }
+
+    .shipment-item small {
+        font-size: 6px;
+    }
+
+    .shipment-item strong {
+        font-size: 8px;
+    }
+
+    /* ROUTE + CHARGES */
+
+    .route-charges-grid {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        margin-bottom: 6px;
+    }
+
+    .route-information {
+        min-height: 0;
+        padding: 7px;
+        grid-template-columns: 1fr 25px 1fr;
+    }
+
+    .route-location small {
+        font-size: 6px;
+    }
+
+    .route-location strong {
+        font-size: 8px;
+    }
+
+    .route-arrow {
+        font-size: 16px;
+    }
+
+    /* SMALL MAP */
+
+    .receipt-map {
+        width: 100%;
+        height: 100px;
+        min-height: 100px;
+    }
+
+    .agl-route-label {
+        font-size: 6px !important;
+        padding: 1px 2px !important;
+    }
+
+    .agl-route-arrow {
+        font-size: 15px;
+    }
+
+    .agl-airplane {
+        width: 24px;
+        height: 24px;
+        font-size: 17px;
+    }
+
+    /* CHARGES */
+
+    .charge-row {
+        min-height: 34px;
+        padding: 6px 8px;
+        font-size: 8px;
+    }
+
+    .total-row {
+        min-height: 38px;
+    }
+
+    .total-row span {
+        font-size: 9px;
+    }
+
+    .total-row strong {
+        font-size: 10px;
+    }
+
+    .payment-stamp-area {
+        min-height: 70px;
+    }
+
+    .stamp {
+        width: 55px;
+        height: 55px;
+        font-size: 9px;
+    }
+
+    /* VERIFICATION */
+
+    .verification-grid {
+        grid-template-columns: 1fr 1fr;
+        min-height: 0;
+    }
+
+    .verification-code-box,
+    .barcode-box,
+    .qr-box,
+    .digital-verification {
+        padding: 7px;
+    }
+
+    .verification-code-box small,
+    .barcode-box small,
+    .qr-box small {
+        font-size: 6px;
+    }
+
+    .verification-code-box strong {
+        font-size: 13px;
+        letter-spacing: 1px;
+    }
+
+    .verification-code-box span {
+        font-size: 7px;
+    }
+
+    #barcodeLarge {
+        width: 100%;
+        max-width: 100%;
+        height: 38px;
+    }
+
+    #qrcode {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .digital-verification {
+        grid-column: 1 / -1;
+    }
+
+    .digital-verification strong {
+        font-size: 8px;
+    }
+
+    .digital-verification span,
+    .digital-verification small {
+        font-size: 7px;
+    }
+
+    /* AUTHORIZATION */
+
+    .authorization-grid {
+        grid-template-columns: 1fr 1fr;
+        min-height: 0;
+    }
+
+    .signature-box,
+    .authorization-details {
+        padding: 7px;
+    }
+
+    .signature-box > small,
+    .authorization-details small {
+        font-size: 6px;
+    }
+
+    .signature-image-area {
+        height: 42px;
+    }
+
+    .officer-signature {
+        max-width: 100px;
+        max-height: 38px;
+    }
+
+    .seal-image-area {
+        height: 42px;
+    }
+
+    .company-seal {
+        width: 42px;
+        height: 42px;
+    }
+
+    .signature-box > span {
+        font-size: 7px;
+    }
+
+    .authorization-details {
+        grid-column: 1 / -1;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 5px;
+    }
+
+    .authorization-details strong {
+        font-size: 7px;
+    }
+
+    /* FOOTER */
+
+    .receipt-footer {
+        grid-template-columns: 1fr;
+        min-height: 0;
+        gap: 6px;
+        padding-top: 7px;
+    }
+
+    .footer-left,
+    .footer-center,
+    .footer-right {
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-left strong {
+        font-size: 9px;
+    }
+
+    .footer-left span,
+    .footer-center span {
+        font-size: 6px;
+    }
+
+    .footer-center strong {
+        font-size: 7px;
+    }
+
+    .footer-right strong {
+        font-size: 11px;
+    }
+
+    /* BUTTONS */
+
+    .receipt-actions {
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 7px;
+        padding: 3px 0;
+    }
+
+    .receipt-actions button {
+        width: 100%;
+        padding: 8px;
+        font-size: 10px;
+    }
 }
 
+
+/* =========================================================
+VERY SMALL PHONES
+========================================================= */
+
+@media screen and (max-width: 380px) {
+
+    .receipt-page {
+        padding: 5px;
+    }
+
+    .brand-area {
+        padding: 7px;
+    }
+
+    .brand-logo-box {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+        margin-right: 6px;
+    }
+
+    .receipt-logo {
+        width: 36px;
+        height: 36px;
+    }
+
+    .brand-text h1 {
+        font-size: 12px;
+    }
+
+    .brand-text p {
+        font-size: 6px;
+    }
+
+    .receipt-title h2 {
+        font-size: 13px;
+    }
+
+    .primary-item {
+        padding: 5px;
+        min-height: 34px;
+    }
+
+    .primary-item strong {
+        font-size: 7px;
+    }
+
+    .receipt-map {
+        height: 85px;
+        min-height: 85px;
+    }
+
+    #qrcode {
+        width: 52px !important;
+        height: 52px !important;
+    }
+
+    .company-seal {
+        width: 38px;
+        height: 38px;
+    }
 }
