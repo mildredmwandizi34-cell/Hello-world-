@@ -866,49 +866,138 @@ background: #083b80;
 }
 
 /* =========================================================
-PRINT
+PRINT — EXACT ONE A4 LANDSCAPE PAGE
 ========================================================= */
 
 @page {
-size: A4 landscape;
-margin: 0;
+    size: A4 landscape;
+    margin: 0;
 }
 
 @media print {
 
-html,
-body {
-    width: 297mm;
-    height: 210mm;
-    margin: 0;
-    padding: 0;
-    background: #ffffff;
-}
+    html,
+    body {
+        width: 297mm;
+        height: 210mm;
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        overflow: hidden;
+    }
 
+    .receipt-page {
+        width: 297mm;
+        height: 210mm;
+        min-height: 210mm;
+        max-height: 210mm;
+        margin: 0;
+        padding: 5mm;
+        border: none;
+        box-shadow: none;
+        overflow: hidden;
+    }
 
-.receipt-page {
-    width: 297mm;
-    height: 210mm;
-    min-height: 210mm;
-    margin: 0;
-    padding: 6mm;
-    border: none;
-    box-shadow: none;
-    overflow: hidden;
-}
+    .receipt-header {
+        min-height: 26mm;
+        height: 26mm;
+    }
 
+    .brand-area {
+        padding: 4mm 5mm;
+    }
 
-.receipt-actions {
-    display: none !important;
-}
+    .brand-logo-box {
+        width: 22mm;
+        height: 22mm;
+        flex-basis: 22mm;
+        margin-right: 4mm;
+    }
 
+    .receipt-logo {
+        width: 21mm;
+        height: 21mm;
+    }
 
-* {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-}
+    .primary-info {
+        min-height: 10mm;
+        height: 10mm;
+    }
 
-}
+    .person-content {
+        min-height: 27mm;
+    }
+
+    .shipment-item {
+        min-height: 11mm;
+    }
+
+    .route-information {
+        min-height: 10mm;
+    }
+
+    .receipt-map {
+        height: 22mm;
+        min-height: 22mm;
+    }
+
+    .charge-row {
+        min-height: 7mm;
+    }
+
+    .total-row {
+        min-height: 8mm;
+    }
+
+    .payment-stamp-area {
+        min-height: 15mm;
+    }
+
+    .stamp {
+        width: 20mm;
+        height: 20mm;
+        font-size: 2.5mm;
+    }
+
+    .verification-grid {
+        min-height: 26mm;
+    }
+
+    .authorization-grid {
+        min-height: 23mm;
+    }
+
+    .signature-image-area {
+        height: 11mm;
+    }
+
+    .seal-image-area {
+        height: 13mm;
+    }
+
+    .company-seal {
+        width: 14mm;
+        height: 14mm;
+    }
+
+    .officer-signature {
+        max-width: 40mm;
+        max-height: 10mm;
+    }
+
+    .receipt-footer {
+        min-height: 13mm;
+    }
+
+    .receipt-actions {
+        display: none !important;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+      }
 
 /* =========================================================
 SCREEN RESPONSIVE
