@@ -1,1033 +1,761 @@
-/* =========================================
+/* =========================================================
    AMERICAN GLOBAL LOGISTICS
-   RECEIPT.JS — CLEAN REPLACEMENT
-   ========================================= */
+   SHIPMENT RECEIPT — A4 LANDSCAPE
+   ========================================================= */
 
-"use strict";
-
-/* =========================================
-   BASIC HELPERS
-   ========================================= */
-
-function setText(id, value) {
-    const element = document.getElementById(id);
-    if (!element) return;
-
-    element.textContent =
-        value !== undefined &&
-        value !== null &&
-        value !== ""
-            ? value
-            : "-";
+@page {
+    size: A4 landscape;
+    margin: 0;
 }
 
-function getValue(primary, fallback) {
-    if (
-        primary !== undefined &&
-        primary !== null &&
-        primary !== ""
-    ) {
-        return primary;
-    }
-
-    return fallback;
+* {
+    box-sizing: border-box;
 }
 
-/* =========================================
-   LOAD SHIPMENT
-   ========================================= */
-
-const params = new URLSearchParams(window.location.search);
-const trackingFromURL = params.get("tracking");
-
-let shipments = [];
-
-try {
-    shipments = JSON.parse(
-        localStorage.getItem("shipments") || "[]"
-    );
-} catch (error) {
-    shipments = [];
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #dfe5ec;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #17212b;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
-let shipment = null;
-
-/* Find shipment from URL first */
-if (trackingFromURL) {
-    shipment = shipments.find(function (item) {
-        return (
-            item.trackingNumber === trackingFromURL ||
-            item.tracking === trackingFromURL
-        );
-    });
+body {
+    padding: 8px;
 }
 
-/* Fallback to most recently saved shipment */
-if (!shipment) {
-    try {
-        shipment = JSON.parse(
-            localStorage.getItem("shipment") || "null"
-        );
-    } catch (error) {
-        shipment = null;
-    }
+
+/* =========================================================
+   MAIN A4 RECEIPT
+   ========================================================= */
+
+.receipt-page {
+    width: 297mm;
+    min-height: 210mm;
+    margin: 0 auto;
+    padding: 5mm;
+    background: #ffffff;
+    overflow: hidden;
 }
 
-/* Stop if shipment cannot be found */
-if (!shipment) {
-    alert("Shipment not found.");
-    window.location.href = "create-shipment.html";
-    throw new Error("Shipment not found.");
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.receipt-header {
+    width: 100%;
+    min-height: 27mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 5mm;
+    margin-bottom: 3mm;
 }
 
-/* =========================================
-   CREATE MISSING DOCUMENT VALUES
-   ========================================= */
-
-shipment.trackingNumber =
-    shipment.trackingNumber ||
-    shipment.tracking ||
-    "-";
-
-shipment.receiptNumber =
-    shipment.receiptNumber ||
-    "RCP-" + Date.now();
-
-shipment.receiptDate =
-    shipment.receiptDate ||
-    new Date().toLocaleDateString();
-
-shipment.issueDate =
-    shipment.issueDate ||
-    shipment.receiptDate;
-
-shipment.documentNo =
-    shipment.documentNo ||
-    "DOC-" +
-        Math.floor(
-            100000 +
-            Math.random() * 900000
-        );
-
-shipment.verificationCode =
-    shipment.verificationCode ||
-    Math.random()
-        .toString(36)
-        .substring(2, 10)
-        .toUpperCase();
-
-/* =========================================
-   SAVE UPDATED SHIPMENT
-   ========================================= */
-
-localStorage.setItem(
-    "shipment",
-    JSON.stringify(shipment)
-);
-
-const shipmentIndex = shipments.findIndex(
-    function (item) {
-        return (
-            item.trackingNumber ===
-                shipment.trackingNumber ||
-            item.tracking ===
-                shipment.trackingNumber
-        );
-    }
-);
-
-if (shipmentIndex >= 0) {
-    shipments[shipmentIndex] = shipment;
-
-    localStorage.setItem(
-        "shipments",
-        JSON.stringify(shipments)
-    );
+.brand-block {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    padding: 3mm 4mm;
+    background: #0b4ea2;
+    border: 2px solid #083b80;
 }
 
-/* =========================================
-   PAYMENT STATUS
-   ========================================= */
+.receipt-logo {
+    width: 25mm;
+    height: 25mm;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-right: 4mm;
+}
 
-const paymentStatus = getValue(
-    shipment.paymentStatus,
-    shipment.payment
-);
+.brand-text {
+    min-width: 0;
+    color: #ffffff;
+}
 
-/* =========================================
-   HEADER INFORMATION
-   ========================================= */
+.brand-text h1 {
+    margin: 0 0 2mm;
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
 
-setText(
-    "receiptNumber",
-    shipment.receiptNumber
-);
+.brand-text p {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+}
 
-setText(
-    "receiptDate",
-    shipment.receiptDate
-);
+.document-box {
+    width: 76mm;
+    flex-shrink: 0;
+    border: 2px solid #0b4ea2;
+    background: #eaf3ff;
+    padding: 3mm;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-setText(
-    "documentNo",
-    shipment.documentNo
-);
+.document-label {
+    font-size: 8px;
+    font-weight: 700;
+    color: #0b4ea2;
+    letter-spacing: 0.7px;
+}
 
-setText(
-    "trackingNumber",
-    shipment.trackingNumber
-);
+.document-title {
+    margin: 1mm 0;
+    font-size: 16px;
+    font-weight: 900;
+    color: #083b80;
+    letter-spacing: 0.5px;
+}
 
-setText(
-    "receiptDelivery",
-    shipment.delivery
-);
+.document-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1mm;
+}
 
-setText(
-    "receiptPaymentStatus",
-    paymentStatus
-);
+.document-meta div {
+    padding: 1.5mm 1mm;
+    background: #ffffff;
+    border: 1px solid #b7cee8;
+    font-size: 7px;
+    font-weight: 700;
+    overflow: hidden;
+    word-break: break-word;
+}
 
-setText(
-    "verificationCode",
-    shipment.verificationCode
-);
 
-/* =========================================
-   FOOTER
-   ========================================= */
+/* =========================================================
+   SUMMARY BAR
+   ========================================================= */
 
-setText(
-    "footerDocumentNo",
-    shipment.documentNo
-);
+.summary-strip {
+    width: 100%;
+    min-height: 14mm;
+    display: grid;
+    grid-template-columns: 1.25fr 1.2fr 1fr 1fr 1.1fr;
+    border: 2px solid #0b4ea2;
+    background: #eaf3ff;
+    margin-bottom: 3mm;
+}
 
-setText(
-    "footerIssueDate",
-    shipment.issueDate
-);
+.summary-item {
+    min-width: 0;
+    padding: 2mm 2.5mm;
+    border-right: 1px solid #aac5e3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-setText(
-    "receiptNumberBottom",
-    shipment.receiptNumber
-);
+.summary-item:last-child {
+    border-right: 0;
+}
 
-setText(
-    "trackingNumberBottom",
-    shipment.trackingNumber
-);
+.summary-label {
+    font-size: 7px;
+    font-weight: 800;
+    color: #0b4ea2;
+    letter-spacing: 0.6px;
+    margin-bottom: 1mm;
+}
 
-setText(
-    "verificationCodeBottom",
-    shipment.verificationCode
-);
+.summary-value {
+    font-size: 10px;
+    font-weight: 800;
+    color: #17212b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
-/* =========================================
-   SENDER
-   ========================================= */
+#receiptPaymentStatus {
+    color: #16803c;
+}
 
-setText(
-    "senderName",
-    shipment.senderName
-);
+#verificationCode {
+    color: #16803c;
+}
 
-setText(
-    "senderCompany",
-    shipment.senderCompany
-);
 
-setText(
-    "senderAddress",
-    shipment.senderAddress
-);
+/* =========================================================
+   THREE HORIZONTAL INFORMATION BOXES
+   ========================================================= */
 
-setText(
-    "senderCity",
-    shipment.senderCity
-);
+.people-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.08fr;
+    gap: 3mm;
+    margin-bottom: 3mm;
+    align-items: stretch;
+}
 
-setText(
-    "senderCountry",
-    shipment.senderCountry
-);
+.person-card,
+.shipment-details {
+    min-width: 0;
+    min-height: 50mm;
+    border: 2px solid #0b4ea2;
+    background: #f4f9ff;
+    overflow: hidden;
+}
 
-setText(
-    "senderPhone",
-    shipment.senderPhone
-);
+.shipment-details {
+    margin: 0;
+}
 
-setText(
-    "senderEmail",
-    shipment.senderEmail
-);
 
-/* =========================================
-   RECEIVER
-   ========================================= */
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
 
-setText(
-    "receiverName",
-    shipment.receiverName
-);
+.section-heading {
+    min-height: 9mm;
+    padding: 2.2mm 3mm;
+    background: #0b4ea2;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.4px;
+    display: flex;
+    align-items: center;
+}
 
-setText(
-    "receiverCompany",
-    shipment.receiverCompany
-);
 
-setText(
-    "receiverAddress",
-    shipment.receiverAddress
-);
+/* =========================================================
+   SENDER / RECEIVER
+   ========================================================= */
 
-setText(
-    "receiverCity",
-    shipment.receiverCity
-);
+.person-content {
+    padding: 2.5mm 3mm;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3mm;
+}
 
-setText(
-    "receiverCountry",
-    shipment.receiverCountry
-);
+.person-content div {
+    min-height: 4mm;
+    padding-bottom: 1mm;
+    border-bottom: 1px solid #d6e3f0;
+    font-size: 8.5px;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
 
-setText(
-    "receiverPhone",
-    shipment.receiverPhone
-);
+.person-content div:first-child {
+    font-size: 10px;
+    font-weight: 800;
+    color: #083b80;
+}
 
-setText(
-    "receiverEmail",
-    shipment.receiverEmail
-);
+.person-content div:nth-child(2) {
+    font-weight: 700;
+}
 
-/* =========================================
+
+/* =========================================================
    SHIPMENT DETAILS
-   ========================================= */
+   ========================================================= */
 
-setText(
-    "referenceNumber",
-    getValue(
-        shipment.referenceNumber,
-        shipment.reference
-    )
-);
-
-setText(
-    "customerReference",
-    shipment.customerReference
-);
-
-setText(
-    "package",
-    shipment.package
-);
-
-setText(
-    "packageType",
-    getValue(
-        shipment.packageType,
-        shipment.descriptionType
-    )
-);
-
-setText(
-    "pieces",
-    shipment.pieces
-);
-
-setText(
-    "weight",
-    shipment.weight
-);
-
-setText(
-    "dimensions",
-    shipment.dimensions
-);
-
-/* =========================================
-   DECLARED VALUE
-   ========================================= */
-
-let declaredValue = getValue(
-    shipment.declaredValue,
-    shipment.value
-);
-
-if (
-    declaredValue !== undefined &&
-    declaredValue !== null &&
-    declaredValue !== ""
-) {
-    setText(
-        "declaredValue",
-        "$" + declaredValue
-    );
-} else {
-    setText(
-        "declaredValue",
-        "-"
-    );
+.details-grid {
+    padding: 2.2mm 3mm;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3mm;
+    row-gap: 1.2mm;
 }
 
-/* =========================================
-   SERVICE INFORMATION
-   ========================================= */
-
-setText(
-    "service",
-    shipment.service
-);
-
-setText(
-    "insurance",
-    shipment.insurance
-);
-
-setText(
-    "paymentStatus",
-    paymentStatus
-);
-
-setText(
-    "delivery",
-    shipment.delivery
-);
-
-setText(
-    "instructions",
-    shipment.instructions
-);
-
-/* =========================================
-   SERVICE ICON
-   ========================================= */
-
-const service =
-    String(shipment.service || "")
-        .trim()
-        .toLowerCase();
-
-let serviceIcon = "✈";
-
-if (service.includes("ocean")) {
-    serviceIcon = "🚢";
-} else if (service.includes("road")) {
-    serviceIcon = "🚚";
-} else if (service.includes("express")) {
-    serviceIcon = "⚡";
-} else if (service.includes("air")) {
-    serviceIcon = "✈";
+.detail-item {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1mm;
+    border-bottom: 1px solid #d6e3f0;
 }
 
-setText(
-    "serviceIcon",
-    serviceIcon
-);
+.detail-item label {
+    font-size: 6.5px;
+    font-weight: 800;
+    color: #0b4ea2;
+    text-transform: uppercase;
+}
 
-setText(
-    "serviceText",
-    shipment.service
-);
+.detail-item span {
+    margin-top: 0.5mm;
+    font-size: 7.5px;
+    font-weight: 700;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+}
 
-/* =========================================
-   SHIPPING ROUTE
-   ========================================= */
 
-setText(
-    "origin",
-    shipment.origin
-);
+/* =========================================================
+   ROUTE + CHARGES
+   ========================================================= */
 
-setText(
-    "currentLocation",
-    getValue(
-        shipment.location,
-        getValue(
-            shipment.currentLocation,
-            shipment.origin
-        )
-    )
-);
+.route-charges-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2.05fr 0.95fr;
+    gap: 3mm;
+    margin-bottom: 3mm;
+    align-items: stretch;
+}
 
-setText(
-    "destination",
-    shipment.destination
-);
+.route-panel,
+.charges-panel {
+    min-width: 0;
+    border: 2px solid #0b4ea2;
+    background: #f4f9ff;
+    overflow: hidden;
+}
 
-/* =========================================
-   MONEY
-   ========================================= */
+.route-points {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2mm;
+    padding: 2mm 3mm;
+}
 
-function formatMoney(value) {
-    if (
-        value === undefined ||
-        value === null ||
-        value === ""
-    ) {
-        return "-";
+.route-point {
+    min-width: 0;
+}
+
+.route-point label {
+    display: block;
+    margin-bottom: 1mm;
+    font-size: 6.5px;
+    font-weight: 900;
+    color: #0b4ea2;
+}
+
+.route-point span {
+    display: block;
+    font-size: 8px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
+.map-wrapper {
+    position: relative;
+    height: 31mm;
+    margin: 0 3mm 3mm;
+    border: 1px solid #9ebbd8;
+    background: #dcecff;
+    overflow: hidden;
+}
+
+#receiptMap {
+    width: 100%;
+    height: 100%;
+}
+
+.leaflet-control-attribution {
+    display: none !important;
+}
+
+.agl-airplane {
+    position: absolute;
+    z-index: 999;
+    left: 48%;
+    top: 43%;
+    font-size: 20px;
+    color: #ff9800;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    animation: aglFlight 4s linear infinite;
+}
+
+@keyframes aglFlight {
+    0% {
+        transform: translateX(-35px) translateY(8px) rotate(-8deg);
     }
 
-    return "$" + value;
-}
+    50% {
+        transform: translateX(0) translateY(-3px) rotate(0deg);
+    }
 
-let shippingCost = shipment.shippingCost;
-let tax = shipment.tax;
-let discount = shipment.discount;
-let totalAmount = shipment.totalAmount;
-
-/* Calculate total if it wasn't supplied */
-if (
-    totalAmount === undefined ||
-    totalAmount === null ||
-    totalAmount === ""
-) {
-    const shippingNumber =
-        parseFloat(shippingCost) || 0;
-
-    const taxNumber =
-        parseFloat(tax) || 0;
-
-    const discountNumber =
-        parseFloat(discount) || 0;
-
-    totalAmount =
-        shippingNumber +
-        taxNumber -
-        discountNumber;
-}
-
-setText(
-    "shippingCost",
-    formatMoney(shippingCost)
-);
-
-setText(
-    "tax",
-    formatMoney(tax)
-);
-
-setText(
-    "discount",
-    formatMoney(discount)
-);
-
-setText(
-    "totalAmount",
-    formatMoney(totalAmount)
-);
-
-/*
-   Your current HTML uses paymentStatusBottom
-   for the TOTAL AMOUNT area.
-   Support that existing ID too.
-*/
-setText(
-    "paymentStatusBottom",
-    formatMoney(totalAmount)
-);
-
-/* =========================================
-   PAYMENT GREEN STATUS
-   ========================================= */
-
-function applyPaymentStyle() {
-    const ids = [
-        "receiptPaymentStatus",
-        "paymentStatus"
-    ];
-
-    ids.forEach(function (id) {
-        const element =
-            document.getElementById(id);
-
-        if (!element) return;
-
-        const value =
-            String(paymentStatus || "")
-                .trim()
-                .toLowerCase();
-
-        const isPaid =
-            value.includes("paid") ||
-            value.includes("completed");
-
-        element.classList.toggle(
-            "payment-paid",
-            isPaid
-        );
-    });
-}
-
-applyPaymentStyle();
-
-/* =========================================
-   DIGITAL VERIFICATION
-   ========================================= */
-
-setText(
-    "verificationReceiptNumber",
-    shipment.receiptNumber
-);
-
-setText(
-    "verificationTrackingNumber",
-    shipment.trackingNumber
-);
-
-setText(
-    "verificationDocumentNo",
-    shipment.documentNo
-);
-
-setText(
-    "verificationCodeDisplay",
-    shipment.verificationCode
-);
-
-setText(
-    "verificationStatus",
-    "VERIFIED & APPROVED"
-);
-
-setText(
-    "verificationIssuer",
-    "AMERICAN GLOBAL LOGISTICS"
-);
-
-setText(
-    "authorizedStatus",
-    "AUTHORIZED"
-);
-
-setText(
-    "verificationType",
-    "AGL DIGITAL VERIFICATION SYSTEM"
-);
-
-/* =========================================
-   BARCODE
-   ========================================= */
-
-if (
-    typeof JsBarcode !== "undefined" &&
-    document.getElementById("barcodeLarge")
-) {
-    try {
-        JsBarcode(
-            "#barcodeLarge",
-            shipment.trackingNumber,
-            {
-                format: "CODE128",
-                width: 2,
-                height: 48,
-                displayValue: true,
-                fontSize: 11,
-                margin: 4
-            }
-        );
-    } catch (error) {
-        console.error(
-            "Barcode generation failed:",
-            error
-        );
+    100% {
+        transform: translateX(35px) translateY(8px) rotate(8deg);
     }
 }
 
-/* =========================================
-   QR CODE
-   ========================================= */
 
-const qrContainer =
-    document.getElementById("qrcode");
+/* =========================================================
+   CHARGES
+   ========================================================= */
 
-if (
-    qrContainer &&
-    typeof QRCode !== "undefined"
-) {
-    qrContainer.innerHTML = "";
+.charges-list {
+    padding: 3mm;
+}
 
-    const trackingURL =
-        "https://mildredmwandizi34-cell.github.io/Hello-world-/track.html?tracking=" +
-        encodeURIComponent(
-            shipment.trackingNumber
-        );
+.charge-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 3mm;
+    padding: 2.2mm 0;
+    border-bottom: 1px solid #d6e3f0;
+    font-size: 8px;
+    font-weight: 700;
+}
 
-    try {
-        new QRCode(
-            qrContainer,
-            {
-                text: trackingURL,
-                width: 90,
-                height: 90,
-                correctLevel:
-                    QRCode.CorrectLevel.M
-            }
-        );
-    } catch (error) {
-        console.error(
-            "QR code generation failed:",
-            error
-        );
+.charge-row span:last-child {
+    font-weight: 800;
+    text-align: right;
+}
+
+.charge-divider {
+    height: 1px;
+    background: #0b4ea2;
+    margin: 3mm 0;
+}
+
+.charge-total {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5mm;
+    padding: 2.5mm;
+    background: #e3f1ff;
+    border: 1px solid #9ebbd8;
+}
+
+.charge-total span {
+    font-size: 7px;
+    font-weight: 900;
+    color: #083b80;
+}
+
+.charge-total strong {
+    font-size: 15px;
+    color: #0b4ea2;
+}
+
+
+/* =========================================================
+   VERIFICATION
+   ========================================================= */
+
+.verification-section {
+    width: 100%;
+    border: 2px solid #0b4ea2;
+    background: #f4f9ff;
+    margin-bottom: 3mm;
+    overflow: hidden;
+}
+
+.verification-status {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    padding: 2mm 3mm;
+    border-bottom: 1px solid #c4d8ed;
+}
+
+.verification-icon {
+    width: 8mm;
+    height: 8mm;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #16803c;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.verification-status-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+}
+
+.verification-status-text strong {
+    color: #16803c;
+    font-size: 9px;
+}
+
+.verification-status-text span {
+    font-size: 7px;
+}
+
+.authorized-badge {
+    padding: 2mm 3mm;
+    border: 1px solid #16803c;
+    color: #16803c;
+    background: #edf9f1;
+    font-size: 8px;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   VERIFICATION MESSAGE
+   ========================================================= */
+
+.verification-message {
+    display: none;
+}
+
+.verification-identifiers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2mm;
+    padding: 2mm 3mm;
+}
+
+.verification-identifiers > div {
+    min-width: 0;
+    padding: 1.5mm 2mm;
+    background: #ffffff;
+    border: 1px solid #b7cee8;
+}
+
+.verification-identifiers label {
+    display: block;
+    font-size: 6px;
+    font-weight: 900;
+    color: #0b4ea2;
+    margin-bottom: 1mm;
+}
+
+.verification-identifiers span {
+    display: block;
+    font-size: 7.5px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   BARCODE / QR / OFFICER
+   ========================================================= */
+
+.verification-tools {
+    display: grid;
+    grid-template-columns: 1.5fr 0.7fr 1fr;
+    gap: 3mm;
+    padding: 0 3mm 2mm;
+    align-items: center;
+}
+
+.barcode-box,
+.qr-box,
+.officer-box {
+    min-height: 22mm;
+    background: #ffffff;
+    border: 1px solid #b7cee8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.barcode-box {
+    padding: 2mm;
+}
+
+#barcodeLarge {
+    width: 100%;
+    height: 17mm;
+    max-width: 100%;
+}
+
+.qr-box {
+    flex-direction: column;
+    gap: 1mm;
+    padding: 1.5mm;
+}
+
+#qrcode {
+    width: 16mm;
+    height: 16mm;
+}
+
+#qrcode img,
+#qrcode canvas {
+    width: 16mm !important;
+    height: 16mm !important;
+}
+
+.qr-box span {
+    font-size: 5.5px;
+    font-weight: 900;
+    color: #0b4ea2;
+}
+
+.officer-box {
+    position: relative;
+    gap: 2mm;
+    padding: 1.5mm;
+}
+
+.officer-box img:first-child {
+    width: 30mm;
+    max-height: 11mm;
+    object-fit: contain;
+}
+
+.officer-box img:nth-child(2) {
+    width: 16mm;
+    height: 16mm;
+    object-fit: contain;
+}
+
+.officer-box #authorizedStatus {
+    position: absolute;
+    right: 2mm;
+    bottom: 1.5mm;
+    font-size: 6px;
+    font-weight: 900;
+    color: #16803c;
+}
+
+.verification-footnote {
+    padding: 1.5mm 3mm;
+    border-top: 1px solid #c4d8ed;
+    text-align: center;
+    font-size: 6px;
+    font-weight: 800;
+    color: #0b4ea2;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.receipt-footer {
+    width: 100%;
+    min-height: 18mm;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.2fr;
+    gap: 3mm;
+    padding: 3mm 4mm;
+    background: #0b4ea2;
+    color: #ffffff;
+    border: 2px solid #083b80;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.footer-center {
+    align-items: center;
+    text-align: center;
+    border-left: 1px solid rgba(255,255,255,0.3);
+    border-right: 1px solid rgba(255,255,255,0.3);
+}
+
+.footer-right {
+    align-items: flex-end;
+    text-align: right;
+}
+
+.receipt-footer strong {
+    font-size: 8px;
+    margin-bottom: 1mm;
+}
+
+.receipt-footer span {
+    font-size: 6.5px;
+    line-height: 1.35;
+}
+
+
+/* =========================================================
+   PAID / VERIFIED
+   ========================================================= */
+
+.payment-paid,
+#paymentStatus,
+#receiptPaymentStatus,
+#verificationStatus,
+#authorizedStatus,
+#authorizedStatusTop {
+    color: #16803c !important;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+@media print {
+
+    html,
+    body {
+        width: 297mm;
+        height: 210mm;
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+    }
+
+    body {
+        overflow: hidden;
+    }
+
+    .receipt-page {
+        width: 297mm;
+        height: 210mm;
+        min-height: 210mm;
+        margin: 0;
+        padding: 5mm;
+        overflow: hidden;
+    }
+
+    .receipt-header,
+    .summary-strip,
+    .people-grid,
+    .route-charges-grid,
+    .verification-section,
+    .receipt-footer {
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 }
 
-/* =========================================
-   SHIPPING ROUTE MAP
-   ========================================= */
 
-const mapContainer =
-    document.getElementById("receiptMap");
+/* =========================================================
+   MOBILE PREVIEW
+   ========================================================= */
 
-if (
-    mapContainer &&
-    typeof L !== "undefined"
-) {
-    const map = L.map(
-        "receiptMap",
-        {
-            zoomControl: false,
-            attributionControl: false
-        }
-    );
+@media screen and (max-width: 900px) {
 
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            maxZoom: 18,
-            attribution: ""
-        }
-    ).addTo(map);
-
-    /* =====================================
-       LOCATION DATABASE
-       ===================================== */
-
-    const coordinates = {
-
-        "nairobi": [
-            -1.2864,
-            36.8172
-        ],
-
-        "kenya": [
-            -0.0236,
-            37.9062
-        ],
-
-        "london": [
-            51.5074,
-            -0.1278
-        ],
-
-        "united kingdom": [
-            55.3781,
-            -3.4360
-        ],
-
-        "uk": [
-            55.3781,
-            -3.4360
-        ],
-
-        "new york": [
-            40.7128,
-            -74.0060
-        ],
-
-        "united states": [
-            39.8283,
-            -98.5795
-        ],
-
-        "usa": [
-            39.8283,
-            -98.5795
-        ],
-
-        "los angeles": [
-            34.0522,
-            -118.2437
-        ],
-
-        "dubai": [
-            25.2048,
-            55.2708
-        ],
-
-        "uae": [
-            23.4241,
-            53.8478
-        ],
-
-        "costa rica": [
-            9.7489,
-            -83.7534
-        ],
-
-        "guatemala": [
-            15.7835,
-            -90.2308
-        ],
-
-        "canada": [
-            56.1304,
-            -106.3468
-        ],
-
-        "germany": [
-            51.1657,
-            10.4515
-        ],
-
-        "france": [
-            46.2276,
-            2.2137
-        ],
-
-        "italy": [
-            41.8719,
-            12.5674
-        ],
-
-        "spain": [
-            40.4637,
-            -3.7492
-        ],
-
-        "china": [
-            35.8617,
-            104.1954
-        ],
-
-        "japan": [
-            36.2048,
-            138.2529
-        ],
-
-        "australia": [
-            -25.2744,
-            133.7751
-        ],
-
-        "india": [
-            20.5937,
-            78.9629
-        ],
-
-        "south africa": [
-            -30.5595,
-            22.9375
-        ],
-
-        "scotland": [
-            56.4907,
-            -4.2026
-        ]
-    };
-
-    /* =====================================
-       FIND LOCATION
-       ===================================== */
-
-    function findLocation(value) {
-
-        if (!value) {
-            return null;
-        }
-
-        const key =
-            String(value)
-                .trim()
-                .toLowerCase();
-
-        if (coordinates[key]) {
-            return coordinates[key];
-        }
-
-        for (
-            const name in coordinates
-        ) {
-            if (
-                key.includes(name) ||
-                name.includes(key)
-            ) {
-                return coordinates[name];
-            }
-        }
-
-        return null;
+    body {
+        padding: 0;
+        overflow-x: auto;
     }
 
-    const origin =
-        findLocation(
-            shipment.origin
-        );
-
-    const destination =
-        findLocation(
-            shipment.destination
-        );
-
-    /* =====================================
-       DRAW ROUTE
-       ===================================== */
-
-    if (
-        origin &&
-        destination
-    ) {
-
-        const routePoints = [
-            origin,
-            destination
-        ];
-
-        /* ORIGIN MARKER */
-
-        L.circleMarker(
-            origin,
-            {
-                radius: 7,
-                color: "#ffffff",
-                weight: 3,
-                fillColor: "#0b4ea2",
-                fillOpacity: 1
-            }
-        )
-        .addTo(map)
-        .bindTooltip(
-            "ORIGIN: " +
-                shipment.origin,
-            {
-                permanent: true,
-                direction: "top",
-                offset: [
-                    0,
-                    -8
-                ]
-            }
-        );
-
-        /* DESTINATION MARKER */
-
-        L.circleMarker(
-            destination,
-            {
-                radius: 7,
-                color: "#ffffff",
-                weight: 3,
-                fillColor: "#ff9800",
-                fillOpacity: 1
-            }
-        )
-        .addTo(map)
-        .bindTooltip(
-            "DESTINATION: " +
-                shipment.destination,
-            {
-                permanent: true,
-                direction: "top",
-                offset: [
-                    0,
-                    -8
-                ]
-            }
-        );
-
-        /* ROUTE LINE */
-
-        L.polyline(
-            routePoints,
-            {
-                color: "#0b4ea2",
-                weight: 3,
-                opacity: 0.9,
-                dashArray: "6, 8",
-                lineCap: "round"
-            }
-        ).addTo(map);
-
-        /* =================================
-           AIRPLANE POSITION
-           ================================= */
-
-        const midpoint = [
-            (
-                origin[0] +
-                destination[0]
-            ) / 2,
-
-            (
-                origin[1] +
-                destination[1]
-            ) / 2
-        ];
-
-        const airplane =
-            L.divIcon({
-                className:
-                    "agl-airplane-icon",
-
-                html:
-                    '<div class="agl-airplane">✈</div>',
-
-                iconSize: [
-                    36,
-                    36
-                ],
-
-                iconAnchor: [
-                    18,
-                    18
-                ]
-            });
-
-        L.marker(
-            midpoint,
-            {
-                icon: airplane,
-                interactive: false,
-                zIndexOffset: 1000
-            }
-        ).addTo(map);
-
-        /* =================================
-           FIT MAP TO ROUTE
-           ================================= */
-
-        map.fitBounds(
-            routePoints,
-            {
-                padding: [
-                    25,
-                    25
-                ]
-            }
-        );
-
-        /* Fix Leaflet sizing after layout */
-        setTimeout(
-            function () {
-                map.invalidateSize();
-            },
-            300
-        );
-
-    } else {
-
-        map.setView(
-            [0, 20],
-            2
-        );
+    .receipt-page {
+        margin: 0;
+        transform-origin: top left;
     }
 }
-
-/* =========================================
-   FINAL CONSOLE MESSAGE
-   ========================================= */
-
-console.log(
-    "AGL Receipt loaded successfully:",
-    shipment.trackingNumber
-);
