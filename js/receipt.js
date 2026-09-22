@@ -1149,36 +1149,29 @@ function generateVerificationCode() {
    BARCODE
    ========================================================= */
 
-function createBarcode(
-    tracking
-) {
-
-    if (
-        typeof JsBarcode ===
-        "undefined"
-    ) {
-
-        return;
-
-    }
-
+function createBarcode(tracking) {
 
     const barcode =
-        document.getElementById(
-            "barcodeLarge"
-        );
-
+        document.getElementById("barcodeLarge");
 
     if (!barcode) {
         return;
     }
 
+    if (typeof JsBarcode === "undefined") {
+
+        console.error(
+            "JsBarcode library was not loaded."
+        );
+
+        return;
+    }
 
     try {
 
         JsBarcode(
             barcode,
-            tracking,
+            String(tracking),
             {
                 format: "CODE128",
                 width: 1.5,
@@ -1192,12 +1185,11 @@ function createBarcode(
     } catch (error) {
 
         console.error(
-            "Barcode error:",
+            "Barcode generation error:",
             error
         );
 
     }
-
 }
 
 
@@ -1205,45 +1197,34 @@ function createBarcode(
    QR CODE
    ========================================================= */
 
-function createQRCode(
-    tracking
-) {
+function createQRCode(tracking) {
 
     const qr =
-        document.getElementById(
-            "qrcode"
-        );
-
+        document.getElementById("qrcode");
 
     if (!qr) {
         return;
     }
 
-
     qr.innerHTML = "";
 
+    if (typeof QRCode === "undefined") {
 
-    if (
-        typeof QRCode ===
-        "undefined"
-    ) {
+        console.error(
+            "QRCode library was not loaded."
+        );
 
         return;
-
     }
-
 
     const trackURL =
         window.location.origin +
-        window.location.pathname
-            .replace(
-                /receipt\.html$/i,
-                "track.html"
-            ) +
+        window.location.pathname.replace(
+            /receipt\.html$/i,
+            "track.html"
+        ) +
         "?tracking=" +
-        encodeURIComponent(
-            tracking
-        );
+        encodeURIComponent(tracking);
 
 
     try {
@@ -1262,16 +1243,16 @@ function createQRCode(
     } catch (error) {
 
         console.error(
-            "QR error:",
+            "QR code generation error:",
             error
         );
 
     }
-
 }
 
+
 /* =========================================================
-   MAP
+   ROUTE MAP
    ========================================================= */
 
 function createRouteMap(
@@ -1279,20 +1260,18 @@ function createRouteMap(
     destination
 ) {
 
-    if (
-        typeof L ===
-        "undefined"
-    ) {
+    if (typeof L === "undefined") {
+
+        console.error(
+            "Leaflet library was not loaded."
+        );
 
         return;
-
     }
 
 
     const mapElement =
-        document.getElementById(
-            "receiptMap"
-        );
+        document.getElementById("receiptMap");
 
 
     if (!mapElement) {
@@ -1300,15 +1279,21 @@ function createRouteMap(
     }
 
 
+    /*
+       Prevent duplicate maps if this function
+       is ever called more than once.
+    */
+
+    if (mapElement._leaflet_id) {
+        return;
+    }
+
+
     const originPoint =
-        findCoordinates(
-            origin
-        );
+        findCoordinates(origin);
 
     const destinationPoint =
-        findCoordinates(
-            destination
-        );
+        findCoordinates(destination);
 
 
     const map =
@@ -1321,7 +1306,8 @@ function createRouteMap(
                 doubleClickZoom: false,
                 boxZoom: false,
                 keyboard: false,
-                touchZoom: false
+                touchZoom: false,
+                attributionControl: false
             }
         );
 
@@ -1334,15 +1320,19 @@ function createRouteMap(
     ).addTo(map);
 
 
-    const points = [
+    const routePoints = [
         originPoint,
         destinationPoint
     ];
 
 
-    const line =
+    /*
+       Route line
+    */
+
+    const routeLine =
         L.polyline(
-            points,
+            routePoints,
             {
                 color: "#0b4ea2",
                 weight: 3,
@@ -1351,6 +1341,10 @@ function createRouteMap(
             }
         ).addTo(map);
 
+
+    /*
+       Origin marker
+    */
 
     L.circleMarker(
         originPoint,
@@ -1361,9 +1355,12 @@ function createRouteMap(
             fillOpacity: 1,
             weight: 3
         }
-    )
-    .addTo(map);
+    ).addTo(map);
 
+
+    /*
+       Destination marker
+    */
 
     L.circleMarker(
         destinationPoint,
@@ -1374,12 +1371,16 @@ function createRouteMap(
             fillOpacity: 1,
             weight: 3
         }
-    )
-    .addTo(map);
+    ).addTo(map);
 
 
     /*
-       Stationary airplane in the middle
+       STATIONARY AIRPLANE
+       -----------------------------------------
+       No animation.
+       No movement.
+       No setInterval.
+       No setTimeout.
     */
 
     const middleLat =
@@ -1396,39 +1397,56 @@ function createRouteMap(
         ) / 2;
 
 
-    const airplane =
-        L.marker(
-            [
-                middleLat,
-                middleLng
-            ],
+    const airplaneIcon =
+        L.divIcon(
             {
-                interactive: false,
-                icon:
-                    L.divIcon(
-                        {
-                            className:
-                                "agl-airplane-marker",
-                            html:
-                                '<i class="fa-solid fa-plane agl-airplane"></i>',
-                            iconSize:
-                                [30, 30],
-                            iconAnchor:
-                                [15, 15]
-                        }
-                    )
+                className:
+                    "agl-airplane-marker",
+
+                html:
+                    '<i class="fa-solid fa-plane agl-airplane"></i>',
+
+                iconSize: [30, 30],
+
+                iconAnchor: [15, 15]
             }
         );
 
 
-    airplane.addTo(map);
+    L.marker(
+        [
+            middleLat,
+            middleLng
+        ],
+        {
+            icon: airplaneIcon,
+            interactive: false
+        }
+    ).addTo(map);
 
+
+    /*
+       Fit route inside map
+    */
 
     map.fitBounds(
-        line.getBounds(),
+        routeLine.getBounds(),
         {
             padding: [20, 20]
         }
+    );
+
+
+    /*
+       Leaflet sometimes needs a refresh
+       after the receipt layout is displayed.
+    */
+
+    setTimeout(
+        function () {
+            map.invalidateSize();
+        },
+        150
     );
 
 }
@@ -1438,114 +1456,108 @@ function createRouteMap(
    COORDINATES
    ========================================================= */
 
-function findCoordinates(
-    location
-) {
+function findCoordinates(location) {
 
     const text =
-        String(
-            location || ""
-        ).toLowerCase();
+        String(location || "")
+            .toLowerCase()
+            .replace(/[^a-z0-9]/g, "");
 
 
     const locations = {
 
-        kenya:
-            [-1.286389, 36.817223],
+        kenya: [-1.286389, 36.817223],
 
-        nairobi:
-            [-1.286389, 36.817223],
+        nairobi: [-1.286389, 36.817223],
 
-        uganda:
-            [1.373333, 32.290275],
+        uganda: [1.373333, 32.290275],
 
-        tanzania:
-            [-6.369028, 34.888822],
+        kampala: [0.347596, 32.582520],
 
-        rwanda:
-            [-1.940278, 29.873888],
+        tanzania: [-6.369028, 34.888822],
 
-        nigeria:
-            [9.082, 8.6753],
+        dar: [-6.792354, 39.208328],
 
-        ghana:
-            [7.9465, -1.0232],
+        rwanda: [-1.940278, 29.873888],
 
-        southafrica:
-            [-30.5595, 22.9375],
+        nigeria: [9.082000, 8.675277],
 
-        ethiopia:
-            [9.145, 40.4897],
+        lagos: [6.524379, 3.379206],
 
-        usa:
-            [39.8283, -98.5795],
+        ghana: [7.946527, -1.023194],
 
-        america:
-            [39.8283, -98.5795],
+        accra: [5.603717, -0.186964],
 
-        newyork:
-            [40.7128, -74.0060],
+        southafrica: [-30.559482, 22.937506],
 
-        losangeles:
-            [34.0522, -118.2437],
+        ethiopia: [9.145000, 40.489673],
 
-        canada:
-            [56.1304, -106.3468],
+        addisababa: [9.030000, 38.740000],
 
-        uk:
-            [55.3781, -3.4360],
+        usa: [39.828300, -98.579500],
 
-        london:
-            [51.5074, -0.1278],
+        america: [39.828300, -98.579500],
 
-        scotland:
-            [56.4907, -4.2026],
+        newyork: [40.712800, -74.006000],
 
-        germany:
-            [51.1657, 10.4515],
+        losangeles: [34.052200, -118.243700],
 
-        france:
-            [46.2276, 2.2137],
+        miami: [25.761700, -80.191800],
 
-        italy:
-            [41.8719, 12.5674],
+        canada: [56.130400, -106.346800],
 
-        spain:
-            [40.4637, -3.7492],
+        toronto: [43.653200, -79.383200],
 
-        china:
-            [35.8617, 104.1954],
+        uk: [55.378100, -3.436000],
 
-        japan:
-            [36.2048, 138.2529],
+        london: [51.507400, -0.127800],
 
-        india:
-            [20.5937, 78.9629],
+        scotland: [56.490700, -4.202600],
 
-        australia:
-            [-25.2744, 133.7751],
+        germany: [51.165700, 10.451500],
 
-        brazil:
-            [-14.2350, -51.9253],
+        france: [46.227600, 2.213700],
 
-        costa:
-            [9.7489, -83.7534]
+        paris: [48.856600, 2.352200],
+
+        italy: [41.871900, 12.567400],
+
+        rome: [41.902800, 12.496400],
+
+        spain: [40.463700, -3.749200],
+
+        madrid: [40.416800, -3.703800],
+
+        china: [35.861700, 104.195400],
+
+        beijing: [39.904200, 116.407400],
+
+        japan: [36.204800, 138.252900],
+
+        tokyo: [35.676200, 139.650300],
+
+        india: [20.593700, 78.962900],
+
+        delhi: [28.613900, 77.209000],
+
+        australia: [-25.274400, 133.775100],
+
+        sydney: [-33.868800, 151.209300],
+
+        brazil: [-14.235000, -51.925300],
+
+        costa: [9.748900, -83.753400],
+
+        costarica: [9.748900, -83.753400]
 
     };
 
 
     for (
-        const key of Object.keys(
-            locations
-        )
+        const key of Object.keys(locations)
     ) {
 
-        if (
-            text.replace(
-                /[^a-z]/g,
-                ""
-            ).includes(key)
-        ) {
+        if (text.includes(key)) {
 
             return locations[key];
 
@@ -1555,29 +1567,22 @@ function findCoordinates(
 
 
     /*
-       Default world route
+       Default world position
     */
 
-    return [
-        0,
-        20
-    ];
+    return [0, 20];
 
 }
 
 
 /* =========================================================
-   ERROR
+   ERROR MESSAGE
    ========================================================= */
 
-function showReceiptError(
-    message
-) {
+function showReceiptError(message) {
 
     const page =
-        document.querySelector(
-            ".receipt-page"
-        );
+        document.querySelector(".receipt-page");
 
 
     if (!page) {
@@ -1604,7 +1609,8 @@ function showReceiptError(
                     height:80px;
                     object-fit:contain;
                 "
-                alt="AGL">
+                alt="AGL"
+            >
 
             <h2 style="
                 color:#0b4ea2;
@@ -1630,7 +1636,8 @@ function showReceiptError(
                     text-decoration:none;
                     border-radius:5px;
                     font-weight:bold;
-                ">
+                "
+            >
                 Create Shipment
             </a>
 
@@ -1638,4 +1645,4 @@ function showReceiptError(
 
     `;
 
-           }
+}
