@@ -99,16 +99,11 @@ body {
    ========================================================= */
 
 .receipt-heading {
-    width: 91mm;
-    flex: 0 0 91mm;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: #ffffff;
-    border: 2px solid #083b80;
-    padding: 6px;
+    background: #eaf3ff;
+    border: 2px solid #0b4ea2;
+    border-radius: 6px;
+    padding: 10px 14px;
+    color: #083b80;
 }
 
 .official-label {
