@@ -1300,49 +1300,28 @@ if (
    QR CODE
    ========================================================= */
 
-function createQRCode(
-    tracking
-) {
+function createQRCode(tracking) {
 
     const qr =
-        document.getElementById(
-            "qrcode"
-        );
-
+        document.getElementById("qrcode");
 
     if (!qr) {
         return;
     }
 
-
-    /*
-       Clear previous QR
-    */
-
     qr.innerHTML = "";
 
-
-    if (
-        typeof QRCode ===
-        "undefined"
-    ) {
+    if (typeof QRCode === "undefined") {
 
         console.error(
             "QRCode library was not loaded."
         );
 
         return;
-
     }
 
-
     /*
-       Build the REAL tracking page URL.
-
-       Example:
-
-       https://mildredmwandizi34-cell.github.io/
-       Hello-world-/track.html?tracking=AGL123456
+       Build the actual live tracking URL.
     */
 
     const trackPath =
@@ -1351,38 +1330,33 @@ function createQRCode(
             "track.html"
         );
 
-
     const trackURL =
         window.location.origin +
         trackPath +
         "?tracking=" +
-        encodeURIComponent(
-            tracking
-        );
-
+        encodeURIComponent(tracking);
 
     console.log(
-        "AGL QR tracking URL:",
+        "AGL QR URL:",
         trackURL
     );
 
-
     try {
+
+        /*
+           Use 72px instead of 90px.
+           This fits the current A4 receipt
+           while remaining much easier to scan.
+        */
 
         new QRCode(
             qr,
             {
                 text: trackURL,
-
-                width: 90,
-
-                height: 90,
-
-                correctLevel:
-                    QRCode.CorrectLevel.H
+                width: 72,
+                height: 72
             }
         );
-
 
     } catch (error) {
 
@@ -1392,7 +1366,6 @@ function createQRCode(
         );
 
     }
-
 }
 
 
