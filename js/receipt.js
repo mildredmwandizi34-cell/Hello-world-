@@ -405,7 +405,7 @@ document.addEventListener("DOMContentLoaded", function () {
         getValue(
             shipment,
             ["paymentStatus"],
-            "Pending"
+            "Paid"
         );
 
     put(
