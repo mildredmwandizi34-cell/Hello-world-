@@ -1563,8 +1563,8 @@ function createBarcode(
 
         new QRCode(qrContainer, {
             text: trackURL,
-            width: 90,
-            height: 90,
+            width: 140,
+            height: 140,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.M
