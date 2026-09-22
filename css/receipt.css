@@ -99,37 +99,49 @@ body {
    ========================================================= */
 
 .receipt-heading {
+    flex: 0 0 78mm;
+    min-width: 78mm;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     background: #eaf3ff;
     border: 2px solid #0b4ea2;
-    border-radius: 6px;
-    padding: 10px 14px;
+    border-radius: 5px;
+
+    padding: 6px 10px;
     color: #083b80;
+    text-align: center;
 }
 
 .official-label {
     color: #0b4ea2;
-    font-size: 6.5px;
+    font-size: 6px;
     font-weight: 900;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
 }
 
 .receipt-title {
-    margin: 2px 0 4px;
+    margin: 3px 0 5px;
     color: #083b80;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.1;
     font-weight: 900;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
 }
 
 .document-meta {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 7px;
+    gap: 5px 8px;
+
     color: #536b7f;
-    font-size: 6.5px;
+    font-size: 6px;
 }
 
 .document-meta strong {
