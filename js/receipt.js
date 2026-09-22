@@ -655,7 +655,6 @@ if (
 const mapContainer =
     document.getElementById("receiptMap");
 
-
 if (
     mapContainer &&
     typeof L !== "undefined"
@@ -669,7 +668,6 @@ if (
                 attributionControl: false
             }
         );
-
 
     L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -687,53 +685,36 @@ if (
     const coordinates = {
 
         "nairobi": [-1.2864, 36.8172],
-
         "kenya": [-0.0236, 37.9062],
 
         "london": [51.5074, -0.1278],
-
         "united kingdom": [55.3781, -3.4360],
-
         "uk": [55.3781, -3.4360],
 
         "new york": [40.7128, -74.0060],
-
         "united states": [39.8283, -98.5795],
-
-         "usa": [39.8283, -98.5795],
+        "usa": [39.8283, -98.5795],
 
         "los angeles": [34.0522, -118.2437],
 
         "dubai": [25.2048, 55.2708],
-
         "uae": [23.4241, 53.8478],
 
         "costa rica": [9.7489, -83.7534],
-
         "guatemala": [15.7835, -90.2308],
 
         "canada": [56.1304, -106.3468],
-
         "germany": [51.1657, 10.4515],
-
         "france": [46.2276, 2.2137],
-
         "italy": [41.8719, 12.5674],
-
         "spain": [40.4637, -3.7492],
 
         "china": [35.8617, 104.1954],
-
         "japan": [36.2048, 138.2529],
-
         "australia": [-25.2744, 133.7751],
-
         "india": [20.5937, 78.9629],
-
         "south africa": [-30.5595, 22.9375],
-
         "scotland": [56.4907, -4.2026]
-
     };
 
 
@@ -747,27 +728,17 @@ if (
                 .toLowerCase();
 
         if (coordinates[key]) {
-
             return coordinates[key];
-
         }
 
-
-        /* Try matching part of a location */
-
-        for (
-            const name in coordinates
-        ) {
+        for (const name in coordinates) {
 
             if (
                 key.includes(name) ||
                 name.includes(key)
             ) {
-
                 return coordinates[name];
-
             }
-
         }
 
         return null;
@@ -778,7 +749,6 @@ if (
         findLocation(
             shipment.origin
         );
-
 
     const destination =
         findLocation(
@@ -801,7 +771,9 @@ if (
         ];
 
 
-        /* Origin */
+        /* =================================
+           ORIGIN MARKER
+           ================================= */
 
         L.circleMarker(
             origin,
@@ -825,7 +797,9 @@ if (
         );
 
 
-        /* Destination */
+        /* =================================
+           DESTINATION MARKER
+           ================================= */
 
         L.circleMarker(
             destination,
@@ -849,21 +823,39 @@ if (
         );
 
 
-        /* Route line */
+        /* =================================
+           DOTTED ROUTE LINE
+           ================================= */
 
         L.polyline(
             routePoints,
             {
                 color: "#0b4ea2",
-                weight: 4,
-                opacity: 0.9
+                weight: 3,
+                opacity: 0.9,
+                dashArray: "6, 8",
+                lineCap: "round"
             }
         ).addTo(map);
 
 
         /* =================================
-           AIRPLANE
+           STATIC AIRPLANE
+           EXACTLY IN THE MIDDLE
            ================================= */
+
+        const midpoint = [
+            (
+                origin[0] +
+                destination[0]
+            ) / 2,
+
+            (
+                origin[1] +
+                destination[1]
+            ) / 2
+        ];
+
 
         const airplane =
             L.divIcon(
@@ -887,72 +879,18 @@ if (
             );
 
 
-        const plane =
-            L.marker(
-                origin,
-                {
-                    icon: airplane,
-                    interactive: false,
-                    zIndexOffset: 1000
-                }
-            ).addTo(map);
-
-
-        /* =================================
-           ANIMATE AIRPLANE
-           ================================= */
-
-        let progress = 0;
-
-
-        function movePlane() {
-
-            progress += 0.002;
-
-
-            if (progress >= 1) {
-
-                progress = 0;
-
+        L.marker(
+            midpoint,
+            {
+                icon: airplane,
+                interactive: false,
+                zIndexOffset: 1000
             }
-
-
-            const lat =
-                origin[0] +
-                (
-                    destination[0] -
-                    origin[0]
-                ) * progress;
-
-
-            const lng =
-                origin[1] +
-                (
-                    destination[1] -
-                    origin[1]
-                ) * progress;
-
-
-            plane.setLatLng(
-                [
-                    lat,
-                    lng
-                ]
-            );
-
-
-            requestAnimationFrame(
-                movePlane
-            );
-
-        }
-
-
-        movePlane();
+        ).addTo(map);
 
 
         /* =================================
-           FIT MAP
+           FIT MAP TO ROUTE
            ================================= */
 
         map.fitBounds(
@@ -964,7 +902,6 @@ if (
                 ]
             }
         );
-
 
     } else {
 
@@ -981,12 +918,3 @@ if (
     }
 
 }
-
-/* =========================================
-   RECEIPT.JS — FINAL CHECK
-   ========================================= */
-
-console.log(
-    "AGL Shipment Receipt loaded successfully:",
-    shipment.trackingNumber
-);
