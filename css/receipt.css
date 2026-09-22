@@ -821,68 +821,27 @@ body {
    QR CODE
    ========================================================= */
 
-.qr-box {
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    overflow: visible;
-}
-
 #qrcode {
-    width: 140px !important;
-    height: 140px !important;
-
-    min-width: 140px !important;
-    min-height: 140px !important;
-
-    display: block !important;
-
-    background: #ffffff;
-
+    width: 136px !important;
+    height: 136px !important;
+    min-width: 136px !important;
+    min-height: 136px !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     overflow: visible !important;
 }
 
-#qrcode canvas {
-    display: block !important;
-
-    width: 140px !important;
-    height: 140px !important;
-
-    max-width: none !important;
-    max-height: none !important;
-}
-
+#qrcode canvas,
 #qrcode img {
     display: block !important;
-
-    width: 140px !important;
-    height: 140px !important;
-
-    max-width: none !important;
-    max-height: none !important;
-}
-
-.qr-box small {
-    display: block;
-
-    margin-top: 2px;
-
-    font-size: 5px;
-    line-height: 1;
-
-    font-weight: 800;
-
-    color: #64798a;
-
-    white-space: nowrap;
+    width: 120px !important;
+    height: 120px !important;
+    max-width: 120px !important;
+    max-height: 120px !important;
 }
 
 /* =========================================================
