@@ -1,7 +1,7 @@
 /* =========================================================
    AMERICAN GLOBAL LOGISTICS
-   SHIPMENT RECEIPT
-   CLEAN A4 LANDSCAPE RECEIPT CSS
+   NEW SHIPMENT RECEIPT
+   A4 LANDSCAPE
    ========================================================= */
 
 * {
@@ -12,10 +12,9 @@ html,
 body {
     margin: 0;
     padding: 0;
-    width: 100%;
     min-height: 100%;
     font-family: Arial, Helvetica, sans-serif;
-    background: #e9edf2;
+    background: #e8edf3;
     color: #17324d;
 }
 
@@ -24,17 +23,20 @@ body {
 }
 
 /* =========================================================
-   MAIN RECEIPT PAGE
+   RECEIPT PAGE
    ========================================================= */
 
 .receipt-page {
-    position: relative;
     width: 297mm;
     min-height: 210mm;
     margin: 8px auto;
     padding: 3.5mm;
+
     background: #ffffff;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.18);
+
+    box-shadow:
+        0 3px 18px rgba(0, 0, 0, 0.18);
+
     overflow: visible;
 }
 
@@ -44,35 +46,46 @@ body {
 
 .receipt-header {
     width: 100%;
-    height: 24mm;
+    height: 25mm;
+
     display: flex;
     align-items: stretch;
     justify-content: space-between;
+
     gap: 8px;
     padding: 5px;
+
     background: #0b4ea2;
     border: 2px solid #083b80;
 }
 
-/* LEFT BRAND AREA */
+/* LEFT SIDE */
 
 .brand-area {
-    flex: 1 1 auto;
+    flex: 1;
     min-width: 0;
+
     display: flex;
     align-items: center;
-    gap: 9px;
+
+    gap: 10px;
+
     color: #ffffff;
 }
 
 .receipt-logo {
-    width: 52px;
-    height: 52px;
-    flex: 0 0 52px;
+    width: 55px;
+    height: 55px;
+
+    flex: 0 0 55px;
+
     object-fit: contain;
+
     background: #ffffff;
+
     padding: 3px;
-    border-radius: 4px;
+
+    border-radius: 5px;
 }
 
 .brand-text {
@@ -81,75 +94,106 @@ body {
 
 .brand-text h1 {
     margin: 0;
+
     color: #ffffff;
+
     font-size: 19px;
     line-height: 1.1;
+
     font-weight: 900;
+
     letter-spacing: 0.3px;
 }
 
 .brand-text p {
-    margin: 4px 0 0;
+    margin: 5px 0 0;
+
     color: #ffffff;
+
     font-size: 7.5px;
-    line-height: 1.2;
+
     font-weight: 700;
 }
 
+.brand-contact {
+    margin-top: 5px;
+
+    display: flex;
+    gap: 12px;
+
+    color: #dcecff;
+
+    font-size: 6px;
+    font-weight: 700;
+}
+
+.brand-contact span {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
 /* =========================================================
-   SHIPMENT RECEIPT BOX
-   ONLY THIS BOX HAS LIGHT BLUE SHADE
+   TOP RIGHT SHIPMENT RECEIPT
    ========================================================= */
 
 .receipt-heading {
-    flex: 0 0 76mm;
-    min-width: 76mm;
-    height: 100%;
+    width: 78mm;
+    flex: 0 0 78mm;
 
     display: flex;
     flex-direction: column;
+
     align-items: center;
     justify-content: center;
 
-    padding: 6px 9px;
+    text-align: center;
+
+    padding: 7px;
 
     background: #eaf3ff;
+
     border: 2px solid #0b4ea2;
+
     border-radius: 5px;
 
     color: #083b80;
-    text-align: center;
 }
 
 .official-label {
-    margin: 0;
     color: #0b4ea2;
+
     font-size: 6px;
-    line-height: 1;
     font-weight: 900;
+
     letter-spacing: 0.8px;
 }
 
 .receipt-title {
-    margin: 3px 0 5px;
+    margin: 4px 0;
+
     color: #083b80;
+
     font-size: 15px;
-    line-height: 1.1;
+
     font-weight: 900;
-    letter-spacing: 0.2px;
+}
+
+.receipt-title i {
+    margin-right: 4px;
 }
 
 .document-meta {
-    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-wrap: wrap;
-    gap: 4px 8px;
 
-    color: #536b7f;
-    font-size: 6px;
-    line-height: 1.2;
+    justify-content: center;
+
+    gap: 5px 8px;
+
+    color: #5a7185;
+
+    font-size: 5.8px;
 }
 
 .document-meta strong {
@@ -157,57 +201,78 @@ body {
 }
 
 /* =========================================================
-   SUMMARY BAR
+   SUMMARY
    ========================================================= */
 
 .summary-bar {
     width: 100%;
-    height: 11mm;
+    height: 12mm;
+
     margin-top: 3px;
 
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+
+    grid-template-columns:
+        repeat(8, 1fr);
 
     border: 1.5px solid #0b4ea2;
+
     background: #f4f9ff;
 }
 
 .summary-item {
     min-width: 0;
-    padding: 3px 4px;
 
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
-    border-right: 1px solid #b7cee5;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 2px 3px;
+
+    border-right: 1px solid #c5d8e9;
+
     text-align: center;
 }
 
 .summary-item:last-child {
-    border-right: 0;
+    border-right: none;
+}
+
+.summary-icon {
+    color: #0b4ea2;
+
+    font-size: 8px;
+
+    margin-bottom: 1px;
 }
 
 .summary-label {
-    margin-bottom: 2px;
-    color: #0b4ea2;
-    font-size: 5.7px;
-    line-height: 1;
+    color: #64798b;
+
+    font-size: 5px;
+
     font-weight: 900;
-    text-transform: uppercase;
 }
 
 .summary-value {
     max-width: 100%;
+
+    margin-top: 1px;
+
     color: #17324d;
-    font-size: 7px;
-    line-height: 1.1;
-    font-weight: 800;
+
+    font-size: 6.5px;
+
+    font-weight: 900;
+
+    white-space: nowrap;
 
     overflow: hidden;
+
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .verified {
@@ -215,207 +280,325 @@ body {
 }
 
 /* =========================================================
-   INFORMATION AREA
-   SENDER / RECEIVER / SHIPMENT INFO
+   SENDER / RECEIVER
    ========================================================= */
 
-.information-grid {
+.people-grid {
     width: 100%;
-    height: 45mm;
+
+    height: 43mm;
+
     margin-top: 3px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr 1.08fr;
+
+    grid-template-columns: 1fr 1fr;
+
     gap: 4px;
 }
 
-.info-card {
+.person-card {
     min-width: 0;
-    height: 100%;
 
     background: #ffffff;
+
     border: 1.5px solid #0b4ea2;
 
     overflow: hidden;
 }
 
-.info-card h2,
-.route-card h2,
-.charges-card h2,
-.verification-section h2 {
+.section-heading {
     height: 7mm;
-    margin: 0;
-    padding: 4px 7px;
 
     display: flex;
+
     align-items: center;
+
     gap: 5px;
 
+    padding: 4px 7px;
+
     background: #0b4ea2;
+
     color: #ffffff;
 
-    font-size: 7.5px;
-    line-height: 1;
+    font-size: 7px;
+
     font-weight: 900;
-    letter-spacing: 0.1px;
 }
 
-.info-card h2 i,
-.route-card h2 i,
-.charges-card h2 i,
-.verification-section h2 i {
+.section-heading i {
     font-size: 8px;
 }
 
-.info-body {
-    padding: 5px 7px;
+.person-body {
+    padding: 4px 7px;
 }
 
-.info-row {
-    min-height: 5mm;
-    display: grid;
-    grid-template-columns: 32% 68%;
+.person-name {
+    margin-bottom: 3px;
+
+    color: #083b80;
+
+    font-size: 8px;
+
+    font-weight: 900;
+}
+
+.person-row {
+    min-height: 4.1mm;
+
+    display: flex;
+
     align-items: center;
 
-    border-bottom: 1px solid #e0e8ef;
+    gap: 5px;
+
+    border-bottom: 1px solid #e3eaf0;
 }
 
-.info-row:last-child {
-    border-bottom: 0;
+.person-row:last-child {
+    border-bottom: none;
 }
 
-.info-label {
-    color: #64798b;
-    font-size: 6px;
+.person-row i {
+    width: 11px;
+
+    color: #0b4ea2;
+
+    text-align: center;
+}
+
+.person-row span {
+    min-width: 0;
+
+    color: #334e63;
+
+    font-size: 6.2px;
+
+    font-weight: 700;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+/* =========================================================
+   SHIPMENT DETAILS
+   ========================================================= */
+
+.shipment-details {
+    width: 100%;
+
+    height: 25mm;
+
+    margin-top: 3px;
+
+    border: 1.5px solid #0b4ea2;
+
+    overflow: hidden;
+}
+
+.details-grid {
+    height: calc(100% - 7mm);
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    grid-template-rows:
+        repeat(2, 1fr);
+}
+
+.details-grid > div {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    padding: 3px 7px;
+
+    border-right: 1px solid #dce6ee;
+    border-bottom: 1px solid #dce6ee;
+}
+
+.details-grid > div:nth-child(4n) {
+    border-right: none;
+}
+
+.details-grid > div:nth-child(n + 5) {
+    border-bottom: none;
+}
+
+.details-grid span {
+    color: #657b8d;
+
+    font-size: 5.5px;
+
     font-weight: 700;
 }
 
-.info-value {
-    min-width: 0;
+.details-grid strong {
+    margin-top: 2px;
+
     color: #17324d;
-    font-size: 6.8px;
-    font-weight: 800;
+
+    font-size: 6.7px;
+
+    font-weight: 900;
 
     overflow: hidden;
-    text-overflow: ellipsis;
+
     white-space: nowrap;
+
+    text-overflow: ellipsis;
 }
 
 /* =========================================================
    ROUTE + CHARGES
    ========================================================= */
 
-.route-charges-grid {
+.route-charges {
     width: 100%;
-    height: 41mm;
+
+    height: 43mm;
+
     margin-top: 3px;
 
     display: grid;
-    grid-template-columns: 2.05fr 0.95fr;
+
+    grid-template-columns:
+        2.1fr 0.9fr;
+
     gap: 4px;
 }
 
-/* ROUTE CARD */
+/* ROUTE */
 
 .route-card {
     min-width: 0;
-    height: 100%;
+
+    border: 1.5px solid #0b4ea2;
 
     background: #ffffff;
-    border: 1.5px solid #0b4ea2;
 
     overflow: hidden;
 }
 
-.route-card h2,
-.charges-card h2 {
-    height: 7mm;
-}
-
-/* ROUTE TOP INFORMATION */
-
-.route-summary {
+.route-top {
     height: 9mm;
 
     display: grid;
-    grid-template-columns: 1fr 30mm 1fr;
+
+    grid-template-columns: 1fr 25mm 1fr;
+
     align-items: center;
 
-    border-bottom: 1px solid #c9d9e8;
-    background: #f5faff;
+    background: #f4f9ff;
+
+    border-bottom: 1px solid #c8d9e8;
 }
 
-.route-location {
-    padding: 2px 7px;
-}
+.route-place {
+    min-width: 0;
 
-.route-location strong {
-    display: block;
-    color: #0b4ea2;
-    font-size: 7px;
-    font-weight: 900;
-}
-
-.route-location span {
-    display: block;
-    margin-top: 1px;
-    color: #5d7387;
-    font-size: 5.8px;
-    font-weight: 600;
-}
-
-.route-center {
-    text-align: center;
-    color: #0b4ea2;
-    font-size: 10px;
-    font-weight: 900;
-}
-
-.route-arrow {
     display: flex;
+
     align-items: center;
-    justify-content: center;
+
+    gap: 5px;
+
+    padding: 3px 7px;
+}
+
+.route-place > i {
     color: #0b4ea2;
-    font-size: 12px;
+
+    font-size: 9px;
+}
+
+.route-place small {
+    display: block;
+
+    color: #708596;
+
+    font-size: 4.8px;
+
+    font-weight: 900;
+}
+
+.route-place strong {
+    display: block;
+
+    color: #17324d;
+
+    font-size: 6.5px;
+
+    font-weight: 900;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+.route-plane {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #ff9800;
+
+    font-size: 15px;
 }
 
 /* MAP */
 
 #receiptMap {
     position: relative;
-    width: 100%;
-    height: 25mm;
 
-    border-top: 1px solid #9abddd;
+    width: 100%;
+
+    height: calc(100% - 9mm);
+
     background: #dcecff;
 }
 
-#receiptMap .leaflet-control-container {
-    display: none;
+#receiptMap .leaflet-control-attribution {
+    display: none !important;
+}
+
+#receiptMap .leaflet-control-zoom {
+    display: none !important;
 }
 
 /* STATIONARY AIRPLANE */
 
 .agl-airplane {
     position: absolute;
-    z-index: 999;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 28px;
-    height: 28px;
+    z-index: 1000;
 
     color: #ff9800;
+
     font-size: 20px;
 
     pointer-events: none;
 
-    transform: translate(-50%, -50%);
-
     animation: none !important;
+
     transition: none !important;
+
+    transform: translate(-50%, -50%);
 }
 
 /* =========================================================
@@ -424,10 +607,10 @@ body {
 
 .charges-card {
     min-width: 0;
-    height: 100%;
+
+    border: 1.5px solid #0b4ea2;
 
     background: #ffffff;
-    border: 1.5px solid #0b4ea2;
 
     overflow: hidden;
 }
@@ -440,40 +623,57 @@ body {
     min-height: 5.2mm;
 
     display: flex;
-    align-items: center;
+
     justify-content: space-between;
 
-    border-bottom: 1px solid #e0e8ef;
+    align-items: center;
+
+    border-bottom: 1px solid #e1e9ef;
 }
 
-.charge-row:last-child {
-    border-bottom: 0;
-}
+.charge-row span {
+    color: #64798a;
 
-.charge-label {
-    color: #60778a;
     font-size: 6px;
+
     font-weight: 700;
 }
 
-.charge-value {
+.charge-row strong {
     color: #17324d;
-    font-size: 6.8px;
-    font-weight: 800;
+
+    font-size: 6.5px;
+
+    font-weight: 900;
 }
 
-.total-row {
-    margin-top: 2px;
-    padding: 3px 4px;
+.charge-total {
+    margin-top: 3px;
+
+    padding: 5px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
 
     background: #eaf3ff;
-    border: 1px solid #9abddd;
+
+    border: 1px solid #9dbddd;
+
+    color: #083b80;
 }
 
-.total-row .charge-label,
-.total-row .charge-value {
-    color: #083b80;
-    font-size: 7.5px;
+.charge-total span {
+    font-size: 6.5px;
+
+    font-weight: 900;
+}
+
+.charge-total strong {
+    font-size: 8px;
+
     font-weight: 900;
 }
 
@@ -483,59 +683,75 @@ body {
 
 .verification-section {
     width: 100%;
+
     height: 27mm;
+
     margin-top: 3px;
 
-    background: #ffffff;
     border: 1.5px solid #0b4ea2;
+
+    background: #ffffff;
 
     overflow: hidden;
 }
 
 .verification-body {
-    height: 20mm;
+    height: calc(100% - 7mm);
 
     display: grid;
-    grid-template-columns: 1.18fr 1.2fr 0.75fr 0.95fr;
+
+    grid-template-columns:
+        1.35fr 1.15fr 0.75fr 0.85fr;
+
     align-items: center;
 
     gap: 6px;
+
     padding: 3px 7px;
 }
 
-.verification-info {
+.verification-data {
     min-width: 0;
 }
 
 .verification-row {
-    min-height: 4.2mm;
+    min-height: 4.3mm;
 
     display: grid;
-    grid-template-columns: 43% 57%;
+
+    grid-template-columns:
+        42% 58%;
+
     align-items: center;
 
-    border-bottom: 1px solid #e0e8ef;
+    border-bottom: 1px solid #e1e9ef;
 }
 
 .verification-row:last-child {
-    border-bottom: 0;
+    border-bottom: none;
 }
 
-.verification-label {
-    color: #63798a;
-    font-size: 5.8px;
+.verification-row span {
+    color: #687e8f;
+
+    font-size: 5.5px;
+
     font-weight: 700;
 }
 
-.verification-value {
+.verification-row strong {
     min-width: 0;
 
     color: #17324d;
-    font-size: 6.4px;
-    font-weight: 800;
+
+    font-size: 6px;
+
+    font-weight: 900;
 
     overflow: hidden;
+
     text-overflow: ellipsis;
+
     white-space: nowrap;
 }
 
@@ -543,94 +759,100 @@ body {
 
 .barcode-box {
     min-width: 0;
-    text-align: center;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
 }
 
 #barcodeLarge {
-    display: block;
     width: 100%;
+
     max-width: 125px;
-    height: 31px;
-    margin: 0 auto;
+
+    height: 38px;
 }
 
-.barcode-label {
+.barcode-box small,
+.qr-box small {
     margin-top: 2px;
-    color: #536b7f;
-    font-size: 5.5px;
-    font-weight: 700;
+
+    color: #64798a;
+
+    font-size: 5px;
+
+    font-weight: 800;
 }
 
-/* QR CODE */
+/* QR */
 
 .qr-box {
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
     justify-content: center;
 }
 
 #qrcode {
-    width: 58px !important;
-    height: 58px !important;
+    width: 55px !important;
+    height: 55px !important;
 }
 
 #qrcode canvas,
 #qrcode img {
-    width: 58px !important;
-    height: 58px !important;
-    display: block;
+    width: 55px !important;
+    height: 55px !important;
 }
 
-.qr-label {
-    margin-top: 2px;
-    color: #536b7f;
-    font-size: 5.5px;
-    font-weight: 700;
-}
-
-/* AUTHORIZED OFFICER */
+/* OFFICER */
 
 .officer-box {
-    min-width: 0;
     height: 100%;
 
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
     justify-content: center;
 
     text-align: center;
 }
 
-.officer-label {
+.officer-title {
     margin-bottom: 2px;
+
     color: #0b4ea2;
-    font-size: 5.8px;
+
+    font-size: 5.5px;
+
     font-weight: 900;
-    text-transform: uppercase;
 }
 
 .officer-signature {
-    width: 72px;
-    max-width: 100%;
-    height: 28px;
+    width: 70px;
+
+    height: 25px;
+
     object-fit: contain;
-    object-position: center;
 }
 
 .officer-seal {
-    width: 34px;
-    height: 34px;
-    margin-top: 1px;
-    object-fit: contain;
-}
+    width: 31px;
 
-.officer-name {
+    height: 31px;
+
     margin-top: 1px;
-    color: #17324d;
-    font-size: 5.5px;
-    font-weight: 800;
+
+    object-fit: contain;
 }
 
 /* =========================================================
@@ -639,14 +861,20 @@ body {
 
 .receipt-footer {
     width: 100%;
+
     min-height: 15mm;
+
     margin-top: 3px;
 
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1.2fr;
+
+    grid-template-columns:
+        1.5fr 1fr 1.2fr;
 
     background: #083b80;
+
     border: 1.5px solid #062e63;
+
     color: #ffffff;
 }
 
@@ -654,11 +882,14 @@ body {
 .footer-center,
 .footer-right {
     min-width: 0;
-    padding: 5px 7px;
 
     display: flex;
+
     flex-direction: column;
+
     justify-content: center;
+
+    padding: 4px 7px;
 }
 
 .footer-left {
@@ -667,107 +898,103 @@ body {
 
 .footer-center {
     align-items: center;
+
     text-align: center;
-    border-left: 1px solid rgba(255,255,255,0.2);
-    border-right: 1px solid rgba(255,255,255,0.2);
+
+    border-left: 1px solid rgba(255,255,255,.2);
+    border-right: 1px solid rgba(255,255,255,.2);
 }
 
 .footer-right {
     align-items: flex-end;
+
     text-align: right;
 }
 
-.footer-title {
-    margin: 0 0 2px;
-    color: #ffffff;
-    font-size: 7px;
+.footer-left strong,
+.footer-center strong,
+.footer-right strong {
+    font-size: 6.5px;
+
     font-weight: 900;
-    letter-spacing: 0.2px;
 }
 
-.footer-text {
-    margin: 0;
+.footer-left span,
+.footer-center span,
+.footer-right span {
+    margin-top: 1px;
+
     color: #dcecff;
-    font-size: 5.7px;
+
+    font-size: 5px;
+
     line-height: 1.3;
+
     font-weight: 600;
 }
 
-.footer-document {
-    margin: 1px 0 0;
+.footer-right > span:nth-child(2) {
     color: #ffffff;
-    font-size: 5.5px;
-    font-weight: 700;
-}
 
-.footer-official {
-    color: #ffffff;
-    font-size: 6.2px;
-    font-weight: 900;
-    text-transform: uppercase;
-}
-
-.footer-receipt {
-    color: #ffffff;
     font-size: 7px;
-    font-weight: 900;
-}
 
-.footer-receipt span {
-    color: #dcecff;
-    font-weight: 600;
+    font-weight: 900;
 }
 
 /* =========================================================
-   ACTION BUTTONS
+   ACTIONS
    ========================================================= */
 
 .receipt-actions {
     width: 100%;
+
     margin-top: 5px;
 
     display: flex;
-    justify-content: center;
+
     align-items: center;
+
+    justify-content: center;
+
     gap: 7px;
 }
 
 .receipt-actions button,
 .receipt-actions a {
-    min-height: 30px;
-
     display: inline-flex;
+
     align-items: center;
+
     justify-content: center;
+
     gap: 5px;
+
+    min-height: 29px;
 
     padding: 6px 13px;
 
-    border: 0;
+    border: none;
+
     border-radius: 4px;
 
     background: #0b4ea2;
+
     color: #ffffff;
 
     font-family: Arial, Helvetica, sans-serif;
+
     font-size: 7px;
+
     font-weight: 800;
 
     text-decoration: none;
+
     cursor: pointer;
 }
 
 .receipt-actions button:hover,
 .receipt-actions a:hover {
     background: #083b80;
-}
-
-/* =========================================================
-   GENERAL ICONS
-   ========================================================= */
-
-.receipt-page i {
-    flex-shrink: 0;
 }
 
 /* =========================================================
@@ -785,8 +1012,10 @@ body {
     body {
         width: 297mm;
         height: 210mm;
+
         margin: 0;
         padding: 0;
+
         background: #ffffff;
     }
 
@@ -797,15 +1026,14 @@ body {
 
     .receipt-page {
         width: 297mm;
-        min-height: 210mm;
         height: 210mm;
 
         margin: 0;
+
         padding: 3.5mm;
 
-        background: #ffffff;
-
         box-shadow: none;
+
         overflow: hidden;
     }
 
@@ -813,32 +1041,17 @@ body {
         display: none !important;
     }
 
-    .receipt-header,
-    .summary-bar,
-    .information-grid,
-    .route-charges-grid,
-    .verification-section,
-    .receipt-footer {
-        break-inside: avoid;
-        page-break-inside: avoid;
-    }
-
-    .receipt-page * {
+    * {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
 }
 
 /* =========================================================
-   MOBILE / PHONE VIEW
+   PHONE
    ========================================================= */
 
 @media screen and (max-width: 900px) {
-
-    html,
-    body {
-        min-width: 0;
-    }
 
     body {
         overflow-x: auto;
@@ -847,14 +1060,4 @@ body {
     .receipt-page {
         margin: 5px;
     }
-}
-
-/* =========================================================
-   SAFETY: NEVER ANIMATE THE ROUTE AIRPLANE
-   ========================================================= */
-
-.agl-airplane,
-.agl-airplane * {
-    animation: none !important;
-    transition: none !important;
    }
