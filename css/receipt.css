@@ -27,14 +27,15 @@ body {
    A4 LANDSCAPE RECEIPT
    ========================================================= */
 
-.receipt-page {
+    .receipt-page {
     position: relative;
     width: 297mm;
-    height: 210mm;
+    min-height: 210mm;
+    height: auto;
     margin: 8px auto;
     padding: 4.5mm;
     background: #ffffff;
-    overflow: hidden;
+    overflow: visible;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.18);
 }
 
