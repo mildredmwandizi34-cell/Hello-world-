@@ -1547,12 +1547,11 @@ function createBarcode(
 
     qrContainer.innerHTML = "";
 
-    // PUBLIC AGL TRACKING PAGE
     const trackURL =
         "https://mildredmwandizi34-cell.github.io/Hello-world-/track.html?tracking="
         + encodeURIComponent(tracking);
 
-    console.log("AGL PUBLIC QR URL:", trackURL);
+    console.log("AGL QR URL:", trackURL);
 
     try {
 
@@ -1563,21 +1562,19 @@ function createBarcode(
 
         new QRCode(qrContainer, {
             text: trackURL,
-            width: 140,
-            height: 140,
+            width: 120,
+            height: 120,
             colorDark: "#000000",
             colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.M
+            correctLevel: QRCode.CorrectLevel.L
         });
 
-        console.log("QR CODE CREATED:", trackURL);
+        console.log("AGL QR generated successfully.");
 
     } catch (error) {
-
         console.error("QR generation failed:", error);
-
     }
-            }
+}
 
 /* =========================================================
    ROUTE MAP
