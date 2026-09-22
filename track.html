@@ -1,2278 +1,1606 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Track Shipment | American Global Logistics</title>
+<title>Track Your Shipment | American Global Logistics</title>
 
 <link rel="stylesheet" href="style.css">
 
 <link rel="stylesheet"
-href="https://unpkg.com/leaflet.awesome-markers@2.0.5/dist/leaflet.awesome-markers.css">
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
- *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-font-family:Arial,Helvetica,sans-serif;
-background:#f4f7fb;
-color:#333;
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f7fb;
+  color: #222;
 }
 
-.header{
-background:#0b4ea2;
-color:#fff;
-text-align:center;
-padding:30px 20px;
+/* HEADER */
+
+.site-header {
+  background: #083b80;
+  color: white;
+  padding: 14px 20px;
 }
 
-.logo{
-width:90px;
-margin-bottom:10px;
+.header-inner {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
 }
 
-.navbar{
-background:#083b80;
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.navbar a{
-color:#fff;
-text-decoration:none;
-padding:15px 20px;
-font-weight:bold;
-transition:.3s;
+.brand img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
 }
 
-.navbar a:hover{
-background:#0b4ea2;
+.brand-text h1 {
+  margin: 0;
+  font-size: 21px;
 }
 
-.container{
-width:95%;
-max-width:1100px;
-margin:40px auto;
+.brand-text p {
+  margin: 4px 0 0;
+  font-size: 11px;
 }
 
-.card{
-background:#fff;
-border-radius:12px;
-padding:25px;
-margin-bottom:25px;
-box-shadow:0 6px 18px rgba(0,0,0,.1);
+/* NAVIGATION */
+
+.navbar {
+  background: #0b4ea2;
 }
 
-.card h2{
-margin-bottom:20px;
-color:#0b4ea2;
-text-align:center;
+.nav-inner {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-input{
-width:100%;
-padding:15px;
-font-size:18px;
-border:1px solid #ccc;
-border-radius:8px;
-outline:none;
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 14px 17px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
-input:focus{
-border-color:#0b4ea2;
+.navbar a:hover,
+.navbar a.active {
+  background: #083b80;
 }
 
-button{
-width:100%;
-padding:15px;
-margin-top:15px;
-border:none;
-border-radius:8px;
-background:#ff9800;
-color:#fff;
-font-size:18px;
-cursor:pointer;
-font-weight:bold;
-transition:.3s;
+/* MAIN */
+
+.main-container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 18px;
 }
 
-button:hover{
-background:#e68900;
+.page-title {
+  text-align: center;
+  margin-bottom: 24px;
 }
 
-.card p{
-margin:12px 0;
-font-size:18px;
+.page-title h2 {
+  margin: 0;
+  color: #083b80;
+  font-size: 30px;
 }
 
-.card strong{
-color:#0b4ea2;
+.page-title p {
+  margin: 8px 0 0;
+  color: #666;
 }
 
-.progress{
-width:100%;
-height:30px;
-background:#ddd;
-border-radius:30px;
-overflow:hidden;
+/* SEARCH */
+
+.search-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0,0,0,.08);
+  margin-bottom: 25px;
 }
 
-.progress-bar{
-height:100%;
-width:0%;
-background:#28a745;
-color:#fff;
-font-weight:bold;
-display:flex;
-justify-content:center;
-align-items:center;
-transition:1s;
+.search-card label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #083b80;
 }
 
-/* Timeline */
-
-.timeline-item{
-position:relative;
-padding-left:60px;
-padding-bottom:30px;
-border-left:4px solid #0b4ea2;
-margin-left:18px;
+.search-row {
+  display: flex;
+  gap: 10px;
 }
 
-.timeline-item:last-child{
-border-left:none;
+.search-row input {
+  flex: 1;
+  padding: 14px;
+  border: 1px solid #ccd5df;
+  border-radius: 6px;
+  font-size: 16px;
+  text-transform: uppercase;
 }
 
-.timeline-icon{
-position:absolute;
-left:-18px;
-top:0;
-width:35px;
-height:35px;
-border-radius:50%;
-background:#0b4ea2;
-color:#fff;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:18px;
+.track-btn {
+  border: none;
+  background: #0b4ea2;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.timeline-title{
-font-size:20px;
-font-weight:bold;
-color:#0b4ea2;
-margin-bottom:8px;
+.track-btn:hover {
+  background: #083b80;
 }
 
-.timeline-location{
-margin-bottom:5px;
-color:#555;
+/* MESSAGES */
+
+.message {
+  display: none;
+  padding: 14px;
+  border-radius: 7px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.timeline-time{
-font-size:14px;
-color:#888;
+.message.error {
+  display: block;
+  background: #ffe9e9;
+  color: #b00020;
 }
 
-/* Map */
-
-#map{
-    width:100%;
-    height:500px;
-    border-radius:12px;
-    border:2px solid #0b4ea2;
-    overflow:hidden;
-    }
-
-/* Shipment Status Badges */
-
-.badge{
-display:inline-block;
-padding:8px 18px;
-border-radius:25px;
-font-weight:bold;
-color:#fff;
+.message.loading {
+  display: block;
+  background: #eef5ff;
+  color: #0b4ea2;
 }
 
-.created{
-background:#607d8b;
+/* RESULT */
+
+#trackingResult {
+  display: none;
 }
 
-.pickup{
-background:#ff9800;
+.result-header {
+  background: white;
+  padding: 22px;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0,0,0,.08);
+  margin-bottom: 20px;
 }
 
-.transit{
-background:#2196f3;
+.result-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
-.customs{
-background:#673ab7;
+.result-top h3 {
+  margin: 0;
+  color: #083b80;
+  font-size: 22px;
 }
 
-.delivery{
-background:#ff5722;
+.tracking-code {
+  font-size: 18px;
+  font-weight: bold;
+  color: #0b4ea2;
 }
 
-.delivered{
-background:#28a745;
+.status-badge {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: #e8f1ff;
+  color: #0b4ea2;
+  font-weight: bold;
 }
 
-/* Footer */
+/* PROGRESS */
 
-footer{
-background:#0b4ea2;
-color:#fff;
-text-align:center;
-padding:25px;
-margin-top:40px;
+.progress-area {
+  margin-top: 20px;
 }
 
-footer p{
-margin:10px 0;
+.progress-bar {
+  width: 100%;
+  height: 16px;
+  background: #e1e6ec;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-/* Mobile */
-
-@media(max-width:768px){
-
-.navbar{
-flex-direction:column;
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #0b4ea2;
+  border-radius: 20px;
+  transition: width .5s ease;
 }
 
-.navbar a{
-text-align:center;
-border-bottom:1px solid rgba(255,255,255,.15);
+.progress-text {
+  text-align: right;
+  margin-top: 6px;
+  font-weight: bold;
+  color: #083b80;
 }
 
-.card{
-padding:20px;
+/* INFORMATION */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-#map{
-height:350px;
+.info-card {
+  background: white;
+  padding: 18px;
+  border-radius: 9px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.07);
 }
 
-.card p{
-font-size:16px;
+.info-card h4 {
+  margin: 0 0 8px;
+  color: #777;
+  font-size: 13px;
+  text-transform: uppercase;
 }
 
-/* Status Badges */
-
-.badge{
-    display:inline-block;
-    padding:8px 18px;
-    border-radius:30px;
-    color:#fff;
-    font-weight:bold;
-    font-size:15px;
+.info-card p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #222;
 }
 
-.created{background:#607D8B;}
-.pickup{background:#ff9800;}
-.transit{background:#2196F3;}
-.customs{background:#9C27B0;}
-.delivery{background:#4CAF50;}
-.delivered{background:#2E7D32;}
+/* SECTIONS */
 
-/* Map */
-
-#map{
-    width:100%;
-    height:420px;
-    border-radius:12px;
-    overflow:hidden;
-    margin-top:20px;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
+.section-card {
+  background: white;
+  padding: 22px;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0,0,0,.08);
+  margin-bottom: 20px;
 }
 
-/* Information Cards */
-
-.info-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:18px;
+.section-card h3 {
+  margin: 0 0 18px;
+  color: #083b80;
+  font-size: 20px;
 }
 
-.info-box{
-    background:#f7f9fc;
-    border-left:5px solid #0b4ea2;
-    border-radius:8px;
-    padding:15px;
+/* ROUTE */
+
+.route-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
 }
 
-.info-box h4{
-    margin:0 0 8px;
-    color:#0b4ea2;
+.route-box {
+  padding: 16px;
+  border: 1px solid #e0e5eb;
+  border-radius: 8px;
 }
 
-.info-box p{
-    margin:0;
-    color:#444;
+.route-box strong {
+  display: block;
+  color: #083b80;
+  margin-bottom: 6px;
 }
 
-/* Timeline Animation */
-
-.timeline-item{
-    animation:fadeIn .5s ease;
+.route-box span {
+  color: #555;
 }
 
-@keyframes fadeIn{
+/* PACKAGE */
 
-from{
-opacity:0;
-transform:translateY(20px);
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
 }
 
-to{
-opacity:1;
-transform:translateY(0);
+.package-item {
+  padding: 14px;
+  background: #f7f9fc;
+  border-radius: 7px;
 }
+
+.package-item strong {
+  display: block;
+  color: #083b80;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.package-item span {
+  font-size: 14px;
+}
+
+/* MAP */
+
+#shipmentMap {
+  width: 100%;
+  height: 360px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* HISTORY */
+
+.history-item {
+  border-left: 3px solid #0b4ea2;
+  padding: 10px 15px;
+  margin-bottom: 12px;
+  background: #f7f9fc;
+  border-radius: 0 7px 7px 0;
+}
+
+.history-item strong {
+  color: #083b80;
+}
+
+.history-item small {
+  display: block;
+  color: #777;
+  margin-top: 4px;
+}
+
+/* BUTTONS */
+
+.action-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 25px 0;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  background: #0b4ea2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.action-btn.secondary {
+  background: #666;
+}
+
+/* FOOTER */
+
+.site-footer {
+  background: #083b80;
+  color: white;
+  text-align: center;
+  padding: 25px 15px;
+  margin-top: 35px;
+  font-size: 13px;
+}
+
+/* MOBILE */
+
+@media (max-width: 800px) {
+
+  .info-grid,
+  .route-grid,
+  .package-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .search-row {
+    flex-direction: column;
+  }
+
+  .info-grid,
+  .route-grid,
+  .package-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .result-top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  #shipmentMap {
+    height: 300px;
+  }
+
+  .navbar a {
+    padding: 11px 10px;
+    font-size: 12px;
+  }
 
 }
 
 </style>
-
 </head>
 
 <body>
 
-<header class="header">
+<header class="site-header">
 
-<img src="image/agl-logo.png"
-class="logo">
+  <div class="header-inner">
 
-<h1>Track Your Shipment</h1>
+    <div class="brand">
 
-<p>Fast • Secure • Reliable Worldwide Shipping</p>
+      <img src="image/agl-logo.png" alt="AGL Logo">
+
+      <div class="brand-text">
+
+        <h1>American Global Logistics</h1>
+
+        <p>
+          Worldwide Shipping • Air • Ocean • Road • Express Delivery
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </header>
 
+
 <nav class="navbar">
 
-<a href="index.html">Home</a>
+  <div class="nav-inner">
 
-<a href="about.html">About</a>
+    <a href="index.html">Home</a>
 
-<a href="services.html">Services</a>
+    <a href="track.html" class="active">
+      Track Your Shipment
+    </a>
 
-<a href="create-shipment.html">Create Shipment</a>
+    <a href="about.html">
+      About the Company
+    </a>
 
-<a href="track.html">Track Shipment</a>
+    <a href="services.html">
+      Services
+    </a>
 
-<a href="contact.html">Contact</a>
+    <a href="contact.html">
+      Contacts
+    </a>
+
+  </div>
 
 </nav>
 
-<div class="container">
 
+<main class="main-container">
 
-<div class="card tracking-search-card">
-    <div class="tracking-search-header">
-        <div>
-            <span class="tracking-label">SHIPMENT TRACKING</span>
-            <h2>Track Your Shipment</h2>
-        </div>
-        <div class="tracking-icon">🔎</div>
-    </div>
+  <div class="page-title">
 
-    <p class="tracking-description">
-        Enter your tracking number below to view the latest shipment status and location.
+    <h2>Track Your Shipment</h2>
+
+    <p>
+      Enter your AGL tracking number to view the latest shipment information.
     </p>
 
-    <input
+  </div>
+
+
+  <div class="search-card">
+
+    <label for="trackingNumber">
+      Tracking Number
+    </label>
+
+    <div class="search-row">
+
+      <input
         type="text"
         id="trackingNumber"
-        placeholder="e.g. AGL123456"
+        placeholder="Example: AGL123456"
         autocomplete="off"
-    >
+      >
 
-    <button onclick="trackShipment()">Track Shipment</button>
+      <button
+        class="track-btn"
+        onclick="trackShipment()"
+      >
+        Track Shipment
+      </button>
 
-    <div id="trackingError" class="tracking-error" style="display:none;"></div>
-</div>
-
-<!-- RESULTS -->
-    
-<h2 class="dashboard-title">
-    
-    📊 Shipment Control Center
-</h2>
-<div id="result" style="display:none;">
-
-<div class="card" id="trackingDashboard">
-
-<h2>📦 Shipment Dashboard</h2>
-
-<div style="text-align:center;margin-bottom:20px;">
-
-<span style="
-background:#28a745;
-color:white;
-padding:8px 18px;
-border-radius:25px;
-font-weight:bold;
-display:inline-block;
-animation:pulse 2s infinite;">
-
-🟢 LIVE TRACKING ACTIVE
-
-</span>
-
-</div>
-
-<div class="info-grid">
-
-<div class="info-box">
-<h4>Tracking Number</h4>
-<p id="dashboardTracking"></p>
-</div>
-
-<div class="info-box">
-<h4>Current Status</h4>
-<p id="dashboardStatus"></p>
-</div>
-
-<div class="info-box">
-<h4>Origin</h4>
-<p id="dashboardOrigin"></p>
-</div>
-
-<div class="info-box">
-<h4>Current Location</h4>
-<p id="dashboardLocation"></p>
-</div>
-
-<div class="info-box">
-<h4>Destination</h4>
-<p id="dashboardDestination"></p>
-</div>
-
-<div class="info-box">
-<h4>Estimated Delivery</h4>
-<p id="dashboardDelivery"></p>
-</div>
-
-<div class="info-box">
-<h4>Shipping Service</h4>
-<p id="dashboardService"></p>
-</div>
-
-<div class="info-box">
-<h4>Shipment Progress</h4>
-
-<div class="progress">
-<div class="progress-bar" id="dashboardProgress">
-0%
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-    <div class="info-box">
-    <h4>🕒 Last Updated</h4>
-    <p id="lastUpdated"></p>
-</div>
-
-<div class="info-box">
-    <h4>🚚 Vehicle Status</h4>
-    <p id="vehicleStatus"></p>
-</div>
-
-<div class="info-box">
-    <h4>📦 Barcode</h4>
-    <p id="trackingBarcode"
-       style="font-family:'Courier New',monospace;
-              letter-spacing:3px;
-              font-size:20px;">
-    </p>
-    
-    <hr style="margin:15px 0;">
-
-<h3>📈 Delivery Summary</h3>
-
-<p id="deliverySummary"></p>
-    
-  <hr style="margin:15px 0;">
-
-<h3>🚚 Shipment Journey</h3>
-
-<ul id="journeySteps" style="list-style:none;padding:0;line-height:2;"></ul>  
-
-   <hr style="margin:15px 0;">
-
-<h3>📊 Shipment Statistics</h3>
-
-<div class="info-grid">
-
-    <div class="info-box">
-        <h4>Progress</h4>
-        <p id="statsProgress"></p>
     </div>
 
-    <div class="info-box">
-        <h4>Current Status</h4>
-        <p id="statsStatus"></p>
+  </div>
+
+
+  <div id="message" class="message"></div>
+
+
+  <div id="trackingResult">
+
+    <div class="result-header">
+
+      <div class="result-top">
+
+        <div>
+
+          <h3>Shipment Tracking</h3>
+
+          <div
+            id="displayTracking"
+            class="tracking-code"
+          >
+          </div>
+
+        </div>
+
+        <div
+          id="displayStatus"
+          class="status-badge"
+        >
+        </div>
+
+      </div>
+
+
+      <div class="progress-area">
+
+        <div class="progress-bar">
+
+          <div
+            id="progressFill"
+            class="progress-fill"
+          >
+          </div>
+
+        </div>
+
+        <div
+          id="progressText"
+          class="progress-text"
+        >
+          0%
+        </div>
+
+      </div>
+
     </div>
 
-    <div class="info-box">
-        <h4>Current Location</h4>
-        <p id="statsLocation"></p>
-    </div>
 
-    <div class="info-box">
-        <h4>Shipping Method</h4>
-        <p id="statsService"></p>
-    </div>
+    <div class="info-grid">
 
-</div> 
+      <div class="info-card">
 
-    <hr style="margin:15px 0;">
-
-<h3>🌍 Route Summary</h3>
-
-<div class="info-grid">
-
-    <div class="info-box">
         <h4>Origin</h4>
-        <p id="routeOrigin"></p>
-    </div>
 
-    <div class="info-box">
+        <p id="displayOrigin">-</p>
+
+      </div>
+
+
+      <div class="info-card">
+
         <h4>Current Location</h4>
-        <p id="routeCurrent"></p>
-    </div>
 
-    <div class="info-box">
+        <p id="displayLocation">-</p>
+
+      </div>
+
+
+      <div class="info-card">
+
         <h4>Destination</h4>
-        <p id="routeDestination"></p>
-    </div>
 
-    <div class="info-box">
+        <p id="displayDestination">-</p>
+
+      </div>
+
+
+      <div class="info-card">
+
         <h4>Estimated Delivery</h4>
-        <p id="routeETA"></p>
-    </div>
 
-</div>
+        <p id="displayDelivery">-</p>
 
-    <hr style="margin:15px 0;">
+      </div>
 
-<h3>📦 Shipment Information</h3>
 
-<div class="info-grid">
+      <div class="info-card">
 
-    <div class="info-box">
-        <h4>Reference No.</h4>
-        <p id="infoReference"></p>
-    </div>
+        <h4>Service</h4>
 
-    <div class="info-box">
-        <h4>Package Type</h4>
-        <p id="infoPackage"></p>
-    </div>
+        <p id="displayService">-</p>
 
-    <div class="info-box">
-        <h4>Weight</h4>
-        <p id="infoWeight"></p>
-    </div>
+      </div>
 
-    <div class="info-box">
-        <h4>Shipping Service</h4>
-        <p id="infoService"></p>
-    </div>
 
-</div>
+      <div class="info-card">
 
-    <hr style="margin:20px 0;">
+        <h4>Payment</h4>
 
-<h3>⚙️ Quick Actions</h3>
+        <p id="displayPayment">-</p>
 
-<div class="dashboard-actions">
-
-    <button onclick="window.print()" class="action-btn">
-        🖨️ Print Tracking
-    </button>
-
-    <button onclick="trackShipment()" class="action-btn">
-        🔄 Refresh Tracking
-    </button>
-
-    <button onclick="copyTrackingNumber()" class="action-btn">
-        📋 Copy Tracking Number
-    </button>
-    
-    <button onclick="newSearch()" class="action-btn">
-    🔍 Track Another Shipment
-    </button>
-
-</div>
-
-    <hr style="margin:20px 0;">
-
-<h3>🔔 Latest Notifications</h3>
-
-<div id="notifications" class="info-box">
-    Waiting for shipment updates...
-</div>
-    
-</div>
-
-<!-- Package Information -->
-
-<div class="card">
-
-<h2>📦 Package Information</h2>
-
-<div class="info-grid">
-
-<div class="info-box">
-<h4>Package Type</h4>
-<p id="packageType"></p>
-</div>
-
-<div class="info-box">
-<h4>Weight</h4>
-<p id="packageWeight"></p>
-</div>
-
-<div class="info-box">
-<h4>Dimensions</h4>
-<p id="dimensions"></p>
-</div>
-
-<div class="info-box">
-<h4>Declared Value</h4>
-<p id="declaredValue"></p>
-</div>
-
-<div class="info-box">
-<h4>Insurance</h4>
-<p id="insurance"></p>
-</div>
-
-<div class="info-box">
-<h4>Pieces</h4>
-<p id="pieces"></p>
-</div>
-
-</div>
-
-</div>
-
-<!-- Shipment Notification -->
-
-<div class="card">
-
-<h2>🔔 Latest Shipment Update</h2>
-
-<p id="shipmentNotification"></p>
-
-</div>
-
-<!-- Delivery Proof -->
-
-<div class="card" id="deliveryProofCard" style="display:none;">
-
-<h2>✅ Delivery Proof</h2>
-
-<p><strong>Recipient</strong>
-<span id="proofRecipient"></span></p>
-
-<p><strong>Date</strong>
-<span id="proofDate"></span></p>
-
-<p><strong>Time</strong>
-<span id="proofTime"></span></p>
-
-<p><strong>Signed By</strong>
-<span id="proofSignature"></span></p>
-
-</div>
-    
-<!-- ==========================================
-     PREMIUM SHIPMENT STATUS
-========================================== -->
-
-<div class="card shipment-status-card">
-
-    <div class="status-header">
-
-        <div>
-            <span class="status-label">CURRENT SHIPMENT STATUS</span>
-            <h2>Shipment Status</h2>
-        </div>
-
-        <div class="status-live">
-            <span class="live-dot"></span>
-            LIVE
-        </div>
+      </div>
 
     </div>
 
-    <div class="main-status">
 
-        <div class="status-icon">
-            📦
-        </div>
+    <div class="section-card">
 
-        <div class="status-main-content">
+      <h3>Shipment Route</h3>
 
-            <div id="status" class="status-value">
-                Shipment Created
-            </div>
+      <div class="route-grid">
 
-            <p id="statusMessage">
-                Your shipment is being processed.
-            </p>
+        <div class="route-box">
+
+          <strong>Origin</strong>
+
+          <span id="routeOrigin">-</span>
 
         </div>
+
+
+        <div class="route-box">
+
+          <strong>Current Location</strong>
+
+          <span id="routeCurrent">-</span>
+
+        </div>
+
+
+        <div class="route-box">
+
+          <strong>Destination</strong>
+
+          <span id="routeDestination">-</span>
+
+        </div>
+
+      </div>
 
     </div>
 
-    <div class="status-info-grid">
 
-        <div class="status-info-box">
+    <div class="section-card">
 
-            <span class="status-info-label">
-                📍 CURRENT LOCATION
-            </span>
+      <h3>Package Information</h3>
 
-            <strong id="location">
-                —
-            </strong>
+      <div class="package-grid">
 
-        </div>
+        <div class="package-item">
 
-        <div class="status-info-box">
+          <strong>Package</strong>
 
-            <span class="status-info-label">
-                🏁 DESTINATION
-            </span>
-
-            <strong id="destination">
-    —
-            </strong>
+          <span id="packageInfo">-</span>
 
         </div>
 
-        <div class="status-info-box">
 
-            <span class="status-info-label">
-                📅 ESTIMATED DELIVERY
-            </span>
+        <div class="package-item">
 
-            <strong id="delivery">
-                —
-            </strong>
+          <strong>Package Type</strong>
+
+          <span id="packageType">-</span>
 
         </div>
 
-        <div class="status-info-box">
 
-            <span class="status-info-label">
-                🛣️ SHIPPING ROUTE
-            </span>
+        <div class="package-item">
 
-            <strong id="route">
-                —
-            </strong>
+          <strong>Weight</strong>
+
+          <span id="packageWeight">-</span>
 
         </div>
+
+
+        <div class="package-item">
+
+          <strong>Pieces</strong>
+
+          <span id="packagePieces">-</span>
+
+        </div>
+
+
+        <div class="package-item">
+
+          <strong>Dimensions</strong>
+
+          <span id="packageDimensions">-</span>
+
+        </div>
+
+      </div>
 
     </div>
 
-</div>
 
-<!-- PROGRESS -->
+    <div class="section-card">
 
-<div class="card">
+      <h3>Shipment Map</h3>
 
-<h2>Shipment Progress</h2>
-
-<div class="progress">
-
-<div id="progressBar"
-class="progress-bar">
-
-0%
-
-</div>
-
-</div>
-    
-
-<!-- ==========================================
-     SHIPMENT DETAILS
-========================================== -->
-
-<div class="card shipment-details-card">
-
-    <h2>Shipment Details</h2>
-
-    <div class="details-grid">
-
-        <div class="detail-box">
-            <span>TRACKING NUMBER</span>
-            <strong id="trackingDisplay">—</strong>
-        </div>
-
-        <div class="detail-box">
-            <span>SENDER</span>
-            <strong id="sender">—</strong>
-        </div>
-
-        <div class="detail-box">
-            <span>RECEIVER</span>
-            <strong id="receiver">—</strong>
-        </div>
-
-        <div class="detail-box">
-            <span>PACKAGE TYPE</span>
-            <strong id="package">—</strong>
-        </div>
-
-        <div class="detail-box">
-            <span>WEIGHT</span>
-            <strong id="weight">—</strong>
-        </div>
-
-        <div class="detail-box">
-            <span>SHIPPING SERVICE</span>
-            <strong id="service">—</strong>
-        </div>
+      <div id="shipmentMap"></div>
 
     </div>
 
-</div>
 
-    
-<!-- VEHICLE -->
- <!-- ==========================================
-     LIVE SHIPMENT MAP
-========================================== -->
+    <div class="section-card">
 
-<div class="card live-map-card">
+      <h3>Shipment History</h3>
 
-    <div class="map-header">
-
-        <div>
-            <span class="map-label">LIVE TRACKING</span>
-            <h2>🌍 Shipment Route</h2>
-        </div>
-
-        <div class="map-live">
-            <span class="live-dot"></span>
-            LIVE
-        </div>
+      <div id="shipmentHistory"></div>
 
     </div>
 
-    <p class="map-description">
-        Follow your shipment's current route and destination in real time.
-    </p>
 
-    <div id="map"></div>
+    <div class="action-row">
 
-    <div class="map-legend">
+      <button
+        class="action-btn"
+        onclick="copyTrackingNumber()"
+      >
+        Copy Tracking Number
+      </button>
 
-        <div class="legend-item">
-            <span class="legend-dot origin-dot"></span>
-            Origin
-        </div>
-
-        <div class="legend-item">
-            <span class="legend-dot route-dot"></span>
-            Shipment Route
-        </div>
-
-        <div class="legend-item">
-            <span class="legend-dot destination-dot"></span>
-            Destination
-        </div>
+      <button
+        class="action-btn secondary"
+        onclick="newSearch()"
+      >
+        New Search
+      </button>
 
     </div>
 
-</div>
-    
-<!-- ==========================================
-     LIVE VEHICLE INFORMATION
-========================================== -->
+  </div>
 
-<div class="card vehicle-card">
+</main>
 
-    <div class="vehicle-header">
 
-        <div>
-            <span class="vehicle-label">LIVE TRANSPORT STATUS</span>
-            <h2>🚚 Vehicle Information</h2>
-        </div>
+<footer class="site-footer">
 
-        <div class="vehicle-live">
-            <span class="live-dot"></span>
-            ACTIVE
-        </div>
+  <strong>AMERICAN GLOBAL LOGISTICS</strong>
 
-    </div>
+  <br>
 
-    <div class="vehicle-main">
+  Worldwide Shipping & Logistics Services
 
-        <div class="vehicle-icon">
-            🚚
-        </div>
+  <br>
 
-        <div>
-            <span class="vehicle-small-label">VEHICLE ID</span>
+  Air • Ocean • Road • Express Delivery
 
-            <strong id="vehicleId">
-                —
-            </strong>
-        </div>
+  <br><br>
 
-    </div>
-
-    <div class="vehicle-grid">
-
-        <div class="vehicle-info-box">
-            <span>DRIVER</span>
-            <strong id="driver">—</strong>
-        </div>
-
-        <div class="vehicle-info-box">
-            <span>VEHICLE</span>
-            <strong id="vehicleType">—</strong>
-        </div>
-
-        <div class="vehicle-info-box">
-            <span>CURRENT SPEED</span>
-            <strong id="speed">—</strong>
-        </div>
-
-        <div class="vehicle-info-box">
-            <span>FUEL LEVEL</span>
-            <strong id="fuel">—</strong>
-        </div>
-
-        <div class="vehicle-info-box">
-            <span>DESTINATION</span>
-            <strong id="vehicleDestination">—</strong>
-        </div>
-
-        <div class="vehicle-info-box">
-            <span>ESTIMATED ARRIVAL</span>
-            <strong id="eta">—</strong>
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ==========================================
-     SHIPMENT HISTORY
-========================================== -->
-
-<div class="card history-card">
-
-    <div class="history-header">
-
-        <div>
-            <span class="history-label">SHIPMENT ACTIVITY</span>
-            <h2>📋 Shipment History</h2>
-        </div>
-
-        <div class="history-count">
-            LIVE UPDATES
-        </div>
-
-    </div>
-
-    <p class="history-description">
-        A chronological record of your shipment's movement and status updates.
-    </p>
-
-    <div id="history" class="shipment-history"></div>
-
-</div>
-
-</div>
-
-</div>
-
-<footer>
-
-<p><strong>American Global Logistics</strong></p>
-
-<p>Fast • Secure • Reliable Worldwide Shipping</p>
-
-<p>&copy; 2026 American Global Logistics. All Rights Reserved.</p>
+  © 2026 American Global Logistics. All Rights Reserved.
 
 </footer>
 
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
-    const SUPABASE_URL = "https://aptkocjxcwmfatcycdnv.supabase.co";
+/* ================================
+   SUPABASE CONNECTION
+================================ */
 
-const SUPABASE_KEY = "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
+const SUPABASE_URL =
+  "https://aptkocjxcwmfatcycdnv.supabase.co";
 
-const supabaseClient = window.supabase.createClient(
+const SUPABASE_KEY =
+  "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
+
+const supabaseClient =
+  window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
-);
-    
-let shipmentMap;
+  );
+
+
+/* ================================
+   MAP VARIABLES
+================================ */
+
+let shipmentMap = null;
+
+let routeLine = null;
+
+
+/* ================================
+   LOCATION DATABASE
+================================ */
+
+const locationCoordinates = {
+
+  "Nairobi, Kenya":
+    [-1.286389, 36.817223],
+
+  "Nairobi":
+    [-1.286389, 36.817223],
+
+  "London, UK":
+    [51.5074, -0.1278],
+
+  "London":
+    [51.5074, -0.1278],
+
+  "New York, USA":
+    [40.7128, -74.0060],
+
+  "New York":
+    [40.7128, -74.0060],
+
+  "Los Angeles, USA":
+    [34.0522, -118.2437],
+
+  "Los Angeles":
+    [34.0522, -118.2437],
+
+  "Dubai, UAE":
+    [25.2048, 55.2708],
+
+  "Dubai":
+    [25.2048, 55.2708],
+
+  "Costa Rica":
+    [9.7489, -83.7534],
+
+  "Guatemala":
+    [15.7835, -90.2308],
+
+  "Canada":
+    [56.1304, -106.3468],
+
+  "Germany":
+    [51.1657, 10.4515],
+
+  "France":
+    [46.2276, 2.2137],
+
+  "Italy":
+    [41.8719, 12.5674],
+
+  "Spain":
+    [40.4637, -3.7492],
+
+  "China":
+    [35.8617, 104.1954],
+
+  "Japan":
+    [36.2048, 138.2529],
+
+  "Australia":
+    [-25.2744, 133.7751],
+
+  "India":
+    [20.5937, 78.9629],
+
+  "South Africa":
+    [-30.5595, 22.9375]
+
+};
+
+
+/* ================================
+   STATUS PROGRESS
+================================ */
+
+function getProgress(status) {
+
+  const value =
+    String(status || "")
+      .toLowerCase()
+      .trim();
+
+  if (
+    value === "delivered"
+  ) return 100;
+
+  if (
+    value === "out for delivery"
+  ) return 90;
+
+  if (
+    value === "arrived at destination hub" ||
+    value === "arrived hub"
+  ) return 75;
+
+  if (
+    value === "customs cleared"
+  ) return 65;
+
+  if (
+    value === "in transit"
+  ) return 50;
+
+  if (
+    value === "picked up"
+  ) return 25;
+
+  if (
+    value === "awaiting pickup"
+  ) return 15;
+
+  return 5;
+}
+
+
+/* ================================
+   MESSAGE
+================================ */
+
+function showMessage(text, type) {
+
+  const box =
+    document.getElementById("message");
+
+  box.textContent = text;
+
+  box.className =
+    "message " + type;
+
+}
+
+
+/* ================================
+   TRACK SHIPMENT
+================================ */
 
 async function trackShipment() {
 
-    let trackingInput = document.getElementById("trackingNumber");
-    let tracking = trackingInput.value.trim().toUpperCase();
+  const input =
+    document.getElementById("trackingNumber");
 
-    const errorBox = document.getElementById("trackingError");
+  const tracking =
+    input.value.trim().toUpperCase();
 
-    if (tracking === "") {
 
-        if (errorBox) {
-            errorBox.textContent = "Please enter a tracking number.";
-            errorBox.style.display = "block";
-        }
+  if (!tracking) {
 
-        return;
-    }
+    showMessage(
+      "Please enter your tracking number.",
+      "error"
+    );
 
-    if (errorBox) {
-        errorBox.style.display = "none";
-    }
+    return;
+  }
 
-    /* ==================================================
-   SUPABASE ONLINE SHIPMENT SEARCH
-================================================== */
 
-let { data: onlineShipment, error } =
-    await supabaseClient
+  showMessage(
+    "Searching for your shipment...",
+    "loading"
+  );
+
+
+  document.getElementById(
+    "trackingResult"
+  ).style.display = "none";
+
+
+  try {
+
+    const { data, error } =
+      await supabaseClient
         .from("shipments")
         .select("*")
         .eq("tracking_number", tracking)
         .maybeSingle();
 
-if (error) {
 
-    console.error("Supabase error:", error);
+    if (error) {
 
-    if (errorBox) {
-        errorBox.textContent =
-            "Unable to connect to the tracking system. Please try again.";
-        errorBox.style.display = "block";
-    }
-
-    return;
-}
-
-if (!onlineShipment) {
-
-    if (errorBox) {
-        errorBox.textContent =
-            "Tracking number not found. Please check the number and try again.";
-        errorBox.style.display = "block";
-    }
-
-    return;
-}
-
-/* Convert Supabase names to the names
-   already used by your tracking page */
-
-let shipment = {
-    ...onlineShipment,
-
-    tracking: onlineShipment.tracking_number,
-    senderName: onlineShipment.sender_name,
-    receiverName: onlineShipment.receiver_name,
-    delivery: onlineShipment.delivery_date,
-    package: onlineShipment.package,
-    packageType: onlineShipment.package_type
-};
-
-    if (!shipment) {
-
-    if (errorBox) {
-        errorBox.textContent =
-            "Tracking number not found. Please check the number and try again.";
-        errorBox.style.display = "block";
-    }
-
-    return;
-}
-
-/* Show tracking result */
-let result = document.getElementById("result");
-
-if (result) {
-    result.style.display = "block";
-}
-
-
-    /* ==================================================
-       STATUS BADGE
-       ================================================== */
-
-    let badge = "";
-
-    switch (shipment.status) {
-
-        case "Shipment Created":
-            badge = '<span class="badge created">📦 Shipment Created</span>';
-            break;
-
-        case "Awaiting Pickup":
-            badge = '<span class="badge pickup">📍 Awaiting Pickup</span>';
-            break;
-
-        case "Picked Up":
-            badge = '<span class="badge pickup">📦 Picked Up</span>';
-            break;
-
-        case "In Transit":
-            badge = '<span class="badge transit">✈️ In Transit</span>';
-            break;
-
-        case "Customs Cleared":
-            badge = '<span class="badge customs">🛃 Customs Cleared</span>';
-            break;
-
-        case "Arrived at Destination Hub":
-            badge = '<span class="badge customs">📍 Arrived at Destination Hub</span>';
-            break;
-
-        case "Out for Delivery":
-            badge = '<span class="badge delivery">🚚 Out for Delivery</span>';
-            break;
-
-        case "Delivered":
-            badge = '<span class="badge delivered">✅ Delivered</span>';
-            break;
-
-        default:
-            badge = shipment.status || "Unknown Status";
+      throw error;
 
     }
 
-    let statusElement = document.getElementById("status");
 
-    if (statusElement) {
-        statusElement.innerHTML = badge;
+    if (!data) {
+
+      showMessage(
+        "Shipment not found. Please check your tracking number and try again.",
+        "error"
+      );
+
+      return;
     }
 
 
-    /* ==================================================
-       SHIPMENT PROGRESS
-       ================================================== */
+    displayShipment(data);
 
-    let progress = 0;
 
-    switch (shipment.status) {
+    document.getElementById(
+      "message"
+    ).style.display = "none";
 
-        case "Shipment Created":
-            progress = 5;
-            break;
 
-        case "Awaiting Pickup":
-            progress = 15;
-            break;
+    document.getElementById(
+      "trackingResult"
+    ).style.display = "block";
 
-        case "Picked Up":
-            progress = 25;
-            break;
 
-        case "In Transit":
-            progress = 50;
-            break;
-
-        case "Customs Cleared":
-            progress = 65;
-            break;
-
-        case "Arrived at Destination Hub":
-            progress = 75;
-            break;
-
-        case "Out for Delivery":
-            progress = 90;
-            break;
-
-        case "Delivered":
-            progress = 100;
-            break;
-
-        default:
-            progress = Number(shipment.progress) || 0;
-
-    }
-
-    let progressBar = document.getElementById("progressBar");
-
-    if (progressBar) {
-
-        progressBar.style.width = progress + "%";
-        progressBar.textContent = progress + "%";
-
-    }
-
-    /* ==========================================
-   PROFESSIONAL TRACKING DASHBOARD
-========================================== */
-
-document.getElementById("dashboardTracking").textContent =
-    shipment.tracking || "";
-
-document.getElementById("dashboardStatus").innerHTML =
-    badge;
-
-document.getElementById("dashboardOrigin").textContent =
-    shipment.origin || "";
-
-document.getElementById("dashboardLocation").textContent =
-    shipment.location || "";
-
-document.getElementById("dashboardDestination").textContent =
-    shipment.destination || "";
-
-document.getElementById("dashboardDelivery").textContent =
-    shipment.delivery || "";
-
-document.getElementById("dashboardService").textContent =
-    shipment.service || "";
-
-     document.getElementById("lastUpdated").textContent =
-    new Date().toLocaleString();
-
-document.getElementById("vehicleStatus").textContent =
-    shipment.status === "Delivered"
-        ? "🟢 Delivery Complete"
-        : "🟢 Vehicle Online";
-
-document.getElementById("trackingBarcode").textContent =
-    "|" + shipment.tracking + "|";
-    
-  /* Generate QR Code */
-
-const qrContainer = document.getElementById("qrcode");
-
-if (qrContainer) {
-
-    qrContainer.innerHTML = "";
-
-    new QRCode(qrContainer, {
-
-        text:
-            window.location.origin +
-            "/track.html?tracking=" +
-            shipment.tracking,
-
-        width:180,
-        height:180
-
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
     });
 
-     }  
-    document.getElementById("lastUpdated").textContent =
-    new Date().toLocaleString();
 
-document.getElementById("vehicleStatus").textContent =
-    shipment.status === "Delivered"
-        ? "🟢 Delivery Complete"
-        : "🟢 Vehicle Online";
+  } catch (error) {
 
-document.getElementById("trackingBarcode").textContent =
-    "|" + shipment.tracking + "|";
+    console.error(error);
 
-/* Delivery Summary */
+    showMessage(
+      "Unable to connect to the tracking system. Please try again.",
+      "error"
+    );
 
-let remaining = 100 - progress;
-
-if (remaining < 0) {
-    remaining = 0;
-}
-
-document.getElementById("deliverySummary").innerHTML =
-`
-<b>${progress}%</b> of the shipment journey is complete.<br>
-Remaining journey: <b>${remaining}%</b>.
-`;
-
-    const steps = [
-    "Shipment Created",
-    "Awaiting Pickup",
-    "Picked Up",
-    "In Transit",
-    "Customs Cleared",
-    "Arrived at Destination Hub",
-    "Out for Delivery",
-    "Delivered"
-];
-
-const current = steps.indexOf(shipment.status);
-
-let html = "";
-
-steps.forEach(function(step, index) {
-
-    let icon = "⏳";
-
-    if (index < current) {
-        icon = "✅";
-    } else if (index === current) {
-        icon = "🟢";
-    }
-
-    html += `<li>${icon} ${step}</li>`;
-
-});
-
-document.getElementById("journeySteps").innerHTML = html;
-    
-document.getElementById("statsProgress").textContent = progress + "%";
-
-document.getElementById("statsStatus").textContent = shipment.status;
-
-    const statsStatus = document.getElementById("statsStatus");
-
-if (statsStatus) {
-
-    let color = "#607d8b";
-
-    switch (shipment.status) {
-
-        case "In Transit":
-            color = "#2196f3";
-            break;
-
-        case "Customs Cleared":
-            color = "#9c27b0";
-            break;
-
-        case "Out for Delivery":
-            color = "#ff9800";
-            break;
-
-        case "Delivered":
-            color = "#28a745";
-            break;
-    }
-
-    statsStatus.style.color = color;
-    statsStatus.style.fontWeight = "bold";
-     }
-
-document.getElementById("statsLocation").textContent =
-    shipment.location || "Unknown";
-
-document.getElementById("statsService").textContent =
-    shipment.service || "Standard";
-
-    document.getElementById("routeOrigin").textContent =
-    shipment.origin || "Unknown";
-
-document.getElementById("routeCurrent").textContent =
-    shipment.location || "Unknown";
-
-document.getElementById("routeDestination").textContent =
-    shipment.destination || "Unknown";
-
-document.getElementById("routeETA").textContent =
-    shipment.delivery || "Pending";
-
- document.getElementById("infoReference").textContent =
-    shipment.tracking || "";
-
-document.getElementById("infoPackage").textContent =
-    shipment.package || "General Cargo";
-
-document.getElementById("infoWeight").textContent =
-    shipment.weight || "N/A";
-
-document.getElementById("infoService").textContent =
-    shipment.service || "Standard";
-
-    let message = "";
-
-switch (shipment.status) {
-
-    case "Shipment Created":
-        message = "📦 Your shipment has been created and is awaiting processing.";
-        break;
-
-    case "Awaiting Pickup":
-        message = "🚚 A courier has been assigned for pickup.";
-        break;
-
-    case "Picked Up":
-        message = "📍 Your shipment has been picked up successfully.";
-        break;
-
-    case "In Transit":
-        message = "✈️ Your shipment is currently in transit.";
-        break;
-
-    case "Customs Cleared":
-        message = "🛃 Customs inspection has been completed successfully.";
-        break;
-
-    case "Arrived at Destination Hub":
-        message = "🏢 Your shipment has reached the destination hub.";
-        break;
-
-    case "Out for Delivery":
-        message = "🚛 Your shipment is out for delivery.";
-        break;
-
-    case "Delivered":
-        message = "✅ Your shipment has been delivered successfully.";
-        break;
-
-    default:
-        message = "ℹ️ Shipment status updated.";
-}
-
-document.getElementById("notifications").innerHTML = message;
-    
-/* Dashboard Progress */
-
-let dashboardProgress =
-    document.getElementById("dashboardProgress");
-
-if (dashboardProgress) {
-
-    dashboardProgress.style.width = progress + "%";
-    dashboardProgress.textContent = progress + "%";
+  }
 
 }
 
-/* Package Information */
 
-document.getElementById("packageType").textContent =
-    shipment.package || "General Cargo";
+/* ================================
+   DISPLAY SHIPMENT
+================================ */
 
-document.getElementById("packageWeight").textContent =
-    shipment.weight || "N/A";
+function displayShipment(shipment) {
 
-document.getElementById("dimensions").textContent =
-    shipment.dimensions || "Not specified";
+  const progress =
+    Number(shipment.progress) ||
+    getProgress(shipment.status);
 
-document.getElementById("declaredValue").textContent =
-    shipment.value || "$0";
 
-document.getElementById("insurance").textContent =
-    shipment.insurance || "Standard";
+  document.getElementById(
+    "displayTracking"
+  ).textContent =
+    shipment.tracking_number || "-";
 
-document.getElementById("pieces").textContent =
-    shipment.pieces || "1";
 
-/* Latest Notification */
+  document.getElementById(
+    "displayStatus"
+  ).textContent =
+    shipment.status || "Shipment Created";
 
-let notification =
-    "📦 Shipment is progressing normally.";
 
-switch (shipment.status) {
+  document.getElementById(
+    "progressFill"
+  ).style.width =
+    progress + "%";
 
-    case "Shipment Created":
-        notification = "📦 Shipment has been created successfully.";
-        break;
 
-    case "Awaiting Pickup":
-        notification = "🚚 Shipment is awaiting pickup.";
-        break;
+  document.getElementById(
+    "progressText"
+  ).textContent =
+    progress + "%";
 
-    case "Picked Up":
-        notification = "📍 Shipment has been picked up.";
-        break;
 
-    case "In Transit":
-        notification = "✈️ Shipment is currently in transit.";
-        break;
+  document.getElementById(
+    "displayOrigin"
+  ).textContent =
+    shipment.origin || "-";
 
-    case "Customs Cleared":
-        notification = "🛃 Shipment has cleared customs.";
-        break;
 
-    case "Arrived at Destination Hub":
-        notification = "🏢 Shipment has arrived at the destination hub.";
-        break;
+  document.getElementById(
+    "displayLocation"
+  ).textContent =
+    shipment.location || "-";
 
-    case "Out for Delivery":
-        notification = "🚚 Shipment is out for delivery.";
-        break;
 
-    case "Delivered":
-        notification = "✅ Shipment has been delivered successfully.";
-        break;
-}
+  document.getElementById(
+    "displayDestination"
+  ).textContent =
+    shipment.destination || "-";
 
-document.getElementById("shipmentNotification").textContent =
-    notification;
 
-/* Delivery Proof */
+  document.getElementById(
+    "displayDelivery"
+  ).textContent =
+    shipment.delivery_date || "-";
 
-let proofCard =
-    document.getElementById("deliveryProofCard");
 
-if (shipment.status === "Delivered") {
+  document.getElementById(
+    "displayService"
+  ).textContent =
+    shipment.service || "-";
 
-    proofCard.style.display = "block";
 
-    document.getElementById("proofRecipient").textContent =
-        shipment.receiverName || "";
+  document.getElementById(
+    "displayPayment"
+  ).textContent =
+    shipment.payment || "-";
 
-    document.getElementById("proofDate").textContent =
-        shipment.delivery || "";
 
-    document.getElementById("proofTime").textContent =
-        new Date().toLocaleTimeString();
+  document.getElementById(
+    "routeOrigin"
+  ).textContent =
+    shipment.origin || "-";
 
-    document.getElementById("proofSignature").textContent =
-        shipment.receiverName || "Received";
 
-} else {
+  document.getElementById(
+    "routeCurrent"
+  ).textContent =
+    shipment.location || "-";
 
-    proofCard.style.display = "none";
 
-     }
+  document.getElementById(
+    "routeDestination"
+  ).textContent =
+    shipment.destination || "-";
 
 
-    /* ==================================================
-       DYNAMIC STATUS PROGRESS LIST
-       ================================================== */
+  document.getElementById(
+    "packageInfo"
+  ).textContent =
+    shipment.package || "-";
 
-    const progressList =
-        document.getElementById("progressList");
 
-    if (progressList) {
+  document.getElementById(
+    "packageType"
+  ).textContent =
+    shipment.package_type || "-";
 
-        const statusSteps = [
 
-            "Shipment Created",
-            "Awaiting Pickup",
-            "Picked Up",
-            "In Transit",
-            "Customs Cleared",
-            "Arrived at Destination Hub",
-            "Out for Delivery",
-            "Delivered"
+  document.getElementById(
+    "packageWeight"
+  ).textContent =
+    shipment.weight || "-";
 
-        ];
 
-        const currentStatusIndex =
-            statusSteps.indexOf(shipment.status);
+  document.getElementById(
+    "packagePieces"
+  ).textContent =
+    shipment.pieces || "-";
 
-        progressList.innerHTML = "";
 
-        statusSteps.forEach(function(step, index) {
+  document.getElementById(
+    "packageDimensions"
+  ).textContent =
+    shipment.dimensions || "-";
 
-            let icon = "⬜";
 
-            if (index < currentStatusIndex) {
+  displayHistory(
+    shipment.history
+  );
 
-                icon = "✅";
 
-            }
-            else if (index === currentStatusIndex) {
+  displayMap(
+    shipment.origin,
+    shipment.location,
+    shipment.destination
+  );
 
-                icon = "🟡";
-
-            }
-
-            progressList.innerHTML += `
-
-                <li>
-                    ${icon} ${step}
-                </li>
-
-            `;
-
-        });
-
-    }
-
-
-    /* ==================================================
-       SHIPMENT DETAILS
-       ================================================== */
-
-    let locationElement =
-        document.getElementById("location");
-
-    if (locationElement) {
-        locationElement.textContent =
-            shipment.location || "";
-    }
-
-
-    let deliveryElement =
-        document.getElementById("delivery");
-
-    if (deliveryElement) {
-        deliveryElement.textContent =
-            shipment.delivery || "";
-    }
-
-
-    let routeElement =
-        document.getElementById("route");
-
-    if (routeElement) {
-        routeElement.textContent =
-            shipment.route || "";
-    }
-
-
-    let trackingDisplay =
-        document.getElementById("trackingDisplay");
-
-    if (trackingDisplay) {
-        trackingDisplay.textContent =
-            shipment.tracking || "";
-    }
-
-
-    let senderElement =
-        document.getElementById("sender");
-
-    if (senderElement) {
-        senderElement.textContent =
-            shipment.senderName || "";
-    }
-
-
-    let receiverElement =
-        document.getElementById("receiver");
-
-    if (receiverElement) {
-        receiverElement.textContent =
-            shipment.receiverName || "";
-    }
-
-
-    let packageElement =
-        document.getElementById("package");
-
-    if (packageElement) {
-        packageElement.textContent =
-            shipment.package || "";
-    }
-
-
-    let weightElement =
-        document.getElementById("weight");
-
-    if (weightElement) {
-        weightElement.textContent =
-            shipment.weight || "";
-    }
-
-
-    let serviceElement =
-        document.getElementById("service");
-
-    if (serviceElement) {
-        serviceElement.textContent =
-            shipment.service || "";
-    }
-
-
-    let destinationElement = document.getElementById("destination");
-
-if (destinationElement) {
-    destinationElement.textContent = shipment.destination || "Destination Pending";
 }
 
 
-    /* ==================================================
-       LIVE VEHICLE INFORMATION
-       ================================================== */
+/* ================================
+   HISTORY
+================================ */
 
-    let vehicleId =
-        document.getElementById("vehicleId");
+function displayHistory(historyData) {
 
-    let driver =
-        document.getElementById("driver");
-
-    let vehicleType =
-        document.getElementById("vehicleType");
-
-    let speed =
-        document.getElementById("speed");
-
-    let fuel =
-        document.getElementById("fuel");
-
-    let eta =
-        document.getElementById("eta");
+  const container =
+    document.getElementById(
+      "shipmentHistory"
+    );
 
 
-    if (shipment.service === "Air Freight") {
+  container.innerHTML = "";
 
-        if (vehicleId)
-            vehicleId.innerHTML =
-                "FL-" + String(shipment.tracking || "").slice(-4);
 
-        if (driver)
-            driver.innerHTML =
-                "Captain James Wilson";
+  let history = [];
 
-        if (vehicleType)
-            vehicleType.innerHTML =
-                "Boeing 777 Freighter";
 
-        if (speed)
-            speed.innerHTML =
-                "890 km/h";
+  try {
 
-        if (fuel)
-            fuel.innerHTML =
-                "91%";
+    if (Array.isArray(historyData)) {
 
-        if (eta)
-            eta.innerHTML =
-                "3 Hours";
+      history = historyData;
+
+    } else if (historyData) {
+
+      history =
+        JSON.parse(historyData);
 
     }
 
-    else if (shipment.service === "Ocean Freight") {
+  } catch (e) {
 
-        if (vehicleId)
-            vehicleId.innerHTML =
-                "MV-" + String(shipment.tracking || "").slice(-4);
+    history = [];
 
-        if (driver)
-            driver.innerHTML =
-                "Captain Michael Brown";
+  }
 
-        if (vehicleType)
-            vehicleType.innerHTML =
-                "Container Cargo Ship";
 
-        if (speed)
-            speed.innerHTML =
-                "32 km/h";
+  if (!history.length) {
 
-        if (fuel)
-            fuel.innerHTML =
-                "76%";
+    container.innerHTML =
+      "<p>No shipment history available.</p>";
 
-        if (eta)
-            eta.innerHTML =
-                "6 Days";
+    return;
+  }
 
+
+  history.forEach(item => {
+
+    const div =
+      document.createElement("div");
+
+    div.className =
+      "history-item";
+
+
+    const status =
+      item.status ||
+      item.event ||
+      "Shipment Update";
+
+
+    const location =
+      item.location ||
+      "";
+
+
+    const date =
+      item.date ||
+      item.time ||
+      item.created_at ||
+      "";
+
+
+    div.innerHTML = `
+
+      <strong>${escapeHTML(status)}</strong>
+
+      ${
+        location
+          ? `<div>${escapeHTML(location)}</div>`
+          : ""
+      }
+
+      ${
+        date
+          ? `<small>${escapeHTML(date)}</small>`
+          : ""
+      }
+
+    `;
+
+
+    container.appendChild(div);
+
+  });
+
+}
+
+
+/* ================================
+   MAP
+================================ */
+
+function displayMap(
+  origin,
+  current,
+  destination
+) {
+
+  const originCoords =
+    findCoordinates(origin);
+
+  const currentCoords =
+    findCoordinates(current);
+
+  const destinationCoords =
+    findCoordinates(destination);
+
+
+  if (
+    !originCoords ||
+    !destinationCoords
+  ) {
+
+    return;
+  }
+
+
+  if (shipmentMap) {
+
+    shipmentMap.remove();
+
+    shipmentMap = null;
+
+  }
+
+
+  shipmentMap =
+    L.map("shipmentMap", {
+      attributionControl: false
+    });
+
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 18
     }
-
-    else if (shipment.service === "Road Transport") {
-
-        if (vehicleId)
-            vehicleId.innerHTML =
-                "TRK-" + String(shipment.tracking || "").slice(-4);
-
-        if (driver)
-            driver.innerHTML =
-                "Daniel Carter";
-
-        if (vehicleType)
-            vehicleType.innerHTML =
-                "Mercedes-Benz Actros";
-
-        if (speed)
-            speed.innerHTML =
-                "78 km/h";
-
-        if (fuel)
-            fuel.innerHTML =
-                "82%";
-
-        if (eta)
-            eta.innerHTML =
-                "1 Hour 15 Minutes";
-
-    }
-
-    else {
-
-        if (vehicleId)
-            vehicleId.innerHTML =
-                "VAN-" + String(shipment.tracking || "").slice(-4);
-
-        if (driver)
-            driver.innerHTML =
-                "Kevin Adams";
-
-        if (vehicleType)
-            vehicleType.innerHTML =
-                "Mercedes Sprinter";
-
-        if (speed)
-            speed.innerHTML =
-                "95 km/h";
-
-        if (fuel)
-            fuel.innerHTML =
-                "88%";
-
-        if (eta)
-            eta.innerHTML =
-                "45 Minutes";
-
-    }
+  ).addTo(shipmentMap);
 
 
-    /* ==================================================
-       SHIPMENT HISTORY TIMELINE
-       ================================================== */
-
-    const historyContainer =
-        document.getElementById("history");
-
-    if (historyContainer) {
-
-        historyContainer.innerHTML = "";
-
-        let shipmentHistory =
-            shipment.history || [];
-
-        if (!Array.isArray(shipmentHistory)) {
-
-            shipmentHistory = [];
-
-        }
-
-        if (shipmentHistory.length === 0) {
-
-            shipmentHistory = [
-
-                {
-                    status: "Shipment Created",
-                    location:
-                        shipment.location || "Warehouse",
-                    date:
-                        new Date().toLocaleString()
-                }
-
-            ];
-
-        }
-
-        shipmentHistory.forEach(function(item) {
-
-            historyContainer.innerHTML += `
-
-                <div class="timeline-item">
-
-                    <div class="timeline-icon">
-                        📦
-                    </div>
-
-                    <div class="timeline-title">
-                        ${item.status || "Shipment Update"}
-                    </div>
-
-                    <div class="timeline-location">
-                        📍 ${item.location || "Location unavailable"}
-                    </div>
-
-                    <div class="timeline-time">
-                        🕒 ${item.date || ""}
-                    </div>
-
-                </div>
-
-            `;
-
-        });
-
-    }
+  const points = [];
 
 
-    /* ==================================================
-       MAP
-       ================================================== */
-
-    if (shipmentMap) {
-
-        shipmentMap.remove();
-
-    }
-
-    let mapElement =
-        document.getElementById("map");
-
-    if (!mapElement) {
-
-        console.warn("Map element not found.");
-        return;
-
-    }
-
-    shipmentMap =
-        L.map("map").setView([20, 0], 2);
+  L.marker(originCoords)
+    .addTo(shipmentMap)
+    .bindPopup(
+      "<strong>Origin</strong><br>" +
+      escapeHTML(origin || "")
+    );
 
 
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            attribution:
-                "&copy; OpenStreetMap contributors"
-        }
+  points.push(originCoords);
+
+
+  if (currentCoords) {
+
+    L.marker(currentCoords)
+      .addTo(shipmentMap)
+      .bindPopup(
+        "<strong>Current Location</strong><br>" +
+        escapeHTML(current || "")
+      );
+
+    points.push(currentCoords);
+
+  }
+
+
+  L.marker(destinationCoords)
+    .addTo(shipmentMap)
+    .bindPopup(
+      "<strong>Destination</strong><br>" +
+      escapeHTML(destination || "")
+    );
+
+
+  points.push(destinationCoords);
+
+
+  routeLine =
+    L.polyline(
+      points,
+      {
+        color: "#0b4ea2",
+        weight: 4,
+        opacity: .85,
+        dashArray: "8,8"
+      }
     ).addTo(shipmentMap);
 
 
-    /* ==================================================
-       WORLD LOCATIONS
-       ================================================== */
-
-    let coordinates = {
-
-        "New York": [40.7128, -74.0060],
-
-        "London": [51.5074, -0.1278],
-
-        "Costa Rica": [9.7489, -83.7534],
-
-        "Dubai": [25.2048, 55.2708],
-
-        "Nairobi": [-1.2864, 36.8172],
-
-        "Los Angeles": [34.0522, -118.2437],
-
-        "Guatemala": [14.6349, -90.5069]
-
-    };
-
-
-    let start =
-        coordinates[shipment.origin];
-
-    let end =
-        coordinates[shipment.destination];
-
-
-    if (start && end) {
-
-
-        /* Origin */
-
-        L.marker(start)
-            .addTo(shipmentMap)
-            .bindPopup(
-                "📦 Origin<br><strong>" +
-                shipment.origin +
-                "</strong>"
-            );
-
-
-        /* Destination */
-
-        L.marker(end)
-            .addTo(shipmentMap)
-            .bindPopup(
-                "🏁 Destination<br><strong>" +
-                shipment.destination +
-                "</strong>"
-            );
-
-
-        /* Route */
-
-        L.polyline(
-            [start, end],
-            {
-                color: "#0b4ea2",
-                weight: 5
-            }
-        ).addTo(shipmentMap);
-
-
-        /* ==================================================
-           VEHICLE ICON
-           ================================================== */
-
-        let vehicleEmoji = "🚚";
-
-
-        if (shipment.service === "Air Freight") {
-
-            vehicleEmoji = "✈️";
-
-        }
-
-        else if (shipment.service === "Ocean Freight") {
-
-            vehicleEmoji = "🚢";
-
-        }
-
-        else if (shipment.service === "Road Transport") {
-
-            vehicleEmoji = "🚛";
-
-        }
-
-        else if (shipment.service === "Express Delivery") {
-
-            vehicleEmoji = "🚚";
-
-        }
-
-
-        /* Moving vehicle */
-
-        let vehicle =
-            L.marker(
-                start,
-                {
-
-                    icon: L.divIcon({
-
-                        className: "",
-
-                        html:
-                            "<div style='font-size:34px;'>" +
-                            vehicleEmoji +
-                            "</div>",
-
-                        iconSize: [34, 34],
-
-                        iconAnchor: [17, 17]
-
-                    })
-
-                }
-            ).addTo(shipmentMap);
-
-
-        /* ==================================================
-           MOVING VEHICLE POSITION
-           ================================================== */
-
-        let vehicleProgress =
-            Number(shipment.currentProgress) ||
-            (progress / 100);
-
-
-        let currentLat =
-            start[0] +
-            (end[0] - start[0]) *
-            vehicleProgress;
-
-
-        let currentLng =
-            start[1] +
-            (end[1] - start[1]) *
-            vehicleProgress;
-
-
-        vehicle.setLatLng([
-            currentLat,
-            currentLng
-        ]);
-
-
-        /* ==================================================
-           ANIMATE VEHICLE
-           ================================================== */
-
-        let animation =
-            setInterval(function() {
-
-                let animationSpeed = 0.003;
-
-
-                switch (shipment.service) {
-
-                    case "Air Freight":
-                        animationSpeed = 0.008;
-                        break;
-
-                    case "Express Delivery":
-                        animationSpeed = 0.005;
-                        break;
-
-                    case "Road Transport":
-                        animationSpeed = 0.003;
-                        break;
-
-                    case "Ocean Freight":
-                        animationSpeed = 0.0015;
-                        break;
-
-                }
-
-
-                vehicleProgress +=
-                    animationSpeed;
-
-
-                shipment.currentProgress =
-                    vehicleProgress;
-
-
-                /* Save vehicle position */
-
-                shipments =
-                    JSON.parse(
-                        localStorage.getItem("shipments")
-                    ) || [];
-
-
-                let index =
-                    shipments.findIndex(function(item) {
-
-                        return item.tracking ===
-                            shipment.tracking;
-
-                    });
-
-
-                if (index !== -1) {
-
-                    shipments[index] =
-                        shipment;
-
-                    localStorage.setItem(
-                        "shipments",
-                        JSON.stringify(shipments)
-                    );
-
-                }
-
-
-                if (vehicleProgress >= 1) {
-
-                    clearInterval(animation);
-
-                    vehicle.setLatLng(end);
-
-                    return;
-
-                }
-
-
-                let lat =
-                    start[0] +
-                    (end[0] - start[0]) *
-                    vehicleProgress;
-
-
-                let lng =
-                    start[1] +
-                    (end[1] - start[1]) *
-                    vehicleProgress;
-
-
-                vehicle.setLatLng([
-                    lat,
-                    lng
-                ]);
-
-            }, 30);
-
-
-        /* Fit map to route */
-
-        shipmentMap.fitBounds(
-            [start, end],
-            {
-                padding: [50, 50]
-            }
-        );
-
+  shipmentMap.fitBounds(
+    routeLine.getBounds(),
+    {
+      padding: [30, 30]
     }
+  );
 
 }
 
-     function copyTrackingNumber() {
 
-    const tracking =
-        document.getElementById("trackingDisplay").textContent;
+    /* ================================
+       FIND COORDINATES
+    ================================ */
 
-    if (!tracking) {
-        alert("No tracking number available.");
-        return;
-    }
+    function findCoordinates(place) {
 
-    navigator.clipboard.writeText(tracking);
+      if (!place) return null;
 
-    alert("Tracking number copied successfully.");
-     }
+      const text =
+        String(place).trim();
 
-     function newSearch() {
+      if (locationCoordinates[text]) {
+        return locationCoordinates[text];
+      }
 
-    document.getElementById("trackingNumber").value = "";
+      const lower =
+        text.toLowerCase();
 
-    document.getElementById("result").style.display = "none";
+      for (
+        const key in locationCoordinates
+      ) {
 
-    const errorBox = document.getElementById("trackingError");
+        if (
+          key.toLowerCase().includes(lower) ||
+          lower.includes(key.toLowerCase())
+        ) {
 
-    if (errorBox) {
-        errorBox.style.display = "none";
-    }
-
-    document.getElementById("trackingNumber").focus();
-
-     }
-
-/* ==================================================
-   AUTOMATIC TRACKING FROM QR CODE
-   ================================================== */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        const params =
-            new URLSearchParams(
-                window.location.search
-            );
-
-        const tracking =
-            params.get("tracking");
-
-
-        if (tracking) {
-
-            const trackingInput =
-                document.getElementById(
-                    "trackingNumber"
-                );
-
-            if (trackingInput) {
-
-                trackingInput.value =
-                    tracking;
-
-                trackShipment();
-
-            }
+          return locationCoordinates[key];
 
         }
 
-    }
-);
+      }
 
-</script>   
-    
+      return null;
+    }
+
+
+    /* ================================
+       ESCAPE HTML
+    ================================ */
+
+    function escapeHTML(value) {
+
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* ================================
+       COPY TRACKING NUMBER
+    ================================ */
+
+    function copyTrackingNumber() {
+
+      const value =
+        document.getElementById(
+          "displayTracking"
+        ).textContent;
+
+      if (!value) return;
+
+      navigator.clipboard
+        .writeText(value)
+        .then(() => {
+
+          alert(
+            "Tracking number copied: " +
+            value
+          );
+
+        })
+        .catch(() => {
+
+          alert(
+            "Tracking number: " +
+            value
+          );
+
+        });
+
+    }
+
+
+    /* ================================
+       NEW SEARCH
+    ================================ */
+
+    function newSearch() {
+
+      document.getElementById(
+        "trackingNumber"
+      ).value = "";
+
+      document.getElementById(
+        "trackingResult"
+      ).style.display = "none";
+
+      document.getElementById(
+        "message"
+      ).style.display = "none";
+
+      document.getElementById(
+        "trackingNumber"
+      ).focus();
+
+      if (shipmentMap) {
+
+        shipmentMap.remove();
+
+        shipmentMap = null;
+
+      }
+
+    }
+
+
+    /* ================================
+       QR TRACKING
+    ================================ */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function() {
+
+        const params =
+          new URLSearchParams(
+            window.location.search
+          );
+
+        const tracking =
+          params.get("tracking");
+
+        if (tracking) {
+
+          const input =
+            document.getElementById(
+              "trackingNumber"
+            );
+
+          if (input) {
+
+            input.value =
+              tracking.toUpperCase();
+
+            trackShipment();
+
+          }
+
+        }
+
+      }
+    );
+
+
+    /* ================================
+       ENTER KEY
+    ================================ */
+
+    document.getElementById(
+      "trackingNumber"
+    ).addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+
+          trackShipment();
+
+        }
+
+      }
+    );
+
+</script>
+
 </body>
 </html>
