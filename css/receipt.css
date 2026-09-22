@@ -554,4 +554,182 @@ body {
 #barcodeLarge {
   width: 100%;
   height: 17mm;
- 
+ max-width: 70mm;
+}
+
+.qr-box {
+  text-align: center;
+}
+
+#qrcode {
+  width: 20mm;
+  height: 20mm;
+  margin: 0 auto;
+}
+
+#qrcode img,
+#qrcode canvas {
+  width: 20mm !important;
+  height: 20mm !important;
+}
+
+.officer-box {
+  text-align: center;
+}
+
+.officer-signature {
+  display: block;
+  width: 32mm;
+  height: 12mm;
+  object-fit: contain;
+  margin: 0 auto 1mm;
+}
+
+.officer-line {
+  width: 42mm;
+  margin: 0 auto 1.5mm;
+  border-bottom: 1px solid #555;
+}
+
+.officer-box strong {
+  display: block;
+  color: #083b80;
+  font-size: 8px;
+}
+
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.receipt-footer {
+  min-height: 27mm;
+  background: #083b80;
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1.25fr 1.4fr 1fr;
+  gap: 6mm;
+  padding: 4mm 7mm;
+  margin-top: 2mm;
+  align-items: center;
+}
+
+.receipt-footer > div {
+  min-width: 0;
+}
+
+.footer-left strong,
+.footer-center strong {
+  display: block;
+  font-size: 9px;
+  margin-bottom: 1.5mm;
+}
+
+.footer-left span,
+.footer-center span {
+  display: block;
+  font-size: 6.5px;
+  line-height: 1.5;
+  opacity: .92;
+}
+
+.footer-center {
+  text-align: center;
+  padding: 0 5mm;
+  border-left: 1px solid rgba(255,255,255,.25);
+  border-right: 1px solid rgba(255,255,255,.25);
+}
+
+.footer-right {
+  text-align: right;
+}
+
+.footer-right span {
+  display: block;
+  font-size: 6.5px;
+  margin-bottom: 1mm;
+  opacity: .9;
+}
+
+.footer-right strong {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 2mm;
+}
+
+
+/* =========================================
+   PRINT
+   ========================================= */
+
+@media print {
+
+  html,
+  body {
+    width: 297mm;
+    height: 210mm;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  .receipt-page {
+    width: 297mm;
+    height: 210mm;
+    min-height: 210mm;
+    margin: 0;
+    box-shadow: none;
+    overflow: hidden;
+  }
+
+  .receipt-header,
+  .summary-strip,
+  .people-grid,
+  .receipt-section,
+  .route-charges-grid,
+  .verification-section,
+  .receipt-footer {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .receipt-footer {
+    margin-top: 2mm;
+  }
+
+  #receiptMap {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .receipt-header,
+  .receipt-footer,
+  .summary-strip,
+  .section-heading,
+  .verification-heading,
+  .payment-box {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+}
+
+
+/* =========================================
+   SCREEN RESPONSIVENESS
+   ========================================= */
+
+@media screen and (max-width: 1100px) {
+
+  body {
+    overflow-x: auto;
+  }
+
+  .receipt-page {
+    margin: 0;
+  }
+
+}
+
+   
