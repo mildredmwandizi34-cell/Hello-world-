@@ -1534,59 +1534,50 @@ function createBarcode(
     const qrContainer = document.getElementById("qrcode");
 
     if (!qrContainer) {
-        console.error("QR container #qrcode was not found.");
+        console.error("QR container not found.");
         return;
     }
-
-    /* Clear anything already inside */
-    qrContainer.innerHTML = "";
 
     tracking = String(tracking || "").trim();
 
     if (!tracking) {
-        console.error("No tracking number available for QR code.");
+        console.error("Tracking number is missing.");
         return;
     }
 
-    /* Build the real tracking page URL */
-    const trackURL = new URL(
-        "track.html",
-        window.location.href
-    );
+    qrContainer.innerHTML = "";
 
-    trackURL.searchParams.set("tracking", tracking);
+    // PUBLIC AGL TRACKING PAGE
+    const trackURL =
+        "https://mildredmwandizi34-cell.github.io/Hello-world-/track.html?tracking="
+        + encodeURIComponent(tracking);
 
-    const finalURL = trackURL.href;
-
-    console.log("AGL QR Tracking URL:", finalURL);
+    console.log("AGL PUBLIC QR URL:", trackURL);
 
     try {
 
-        if (typeof QRCode !== "function") {
+        if (typeof QRCode === "undefined") {
             console.error("QRCode library is not loaded.");
             return;
         }
 
         new QRCode(qrContainer, {
-            text: finalURL,
-            width: 80,
-            height: 80,
+            text: trackURL,
+            width: 90,
+            height: 90,
             colorDark: "#000000",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.M
         });
 
-        console.log("AGL QR code generated successfully.");
+        console.log("QR CODE CREATED:", trackURL);
 
     } catch (error) {
 
-        console.error(
-            "AGL QR code generation failed:",
-            error
-        );
+        console.error("QR generation failed:", error);
 
     }
-           }
+            }
 
 /* =========================================================
    ROUTE MAP
