@@ -925,20 +925,15 @@ body {
 .officer-signature {
     width: 100px;
     height: 36px;
-
     object-fit: contain;
-
     display: block;
 }
 
 .officer-seal {
     width: 48px;
     height: 48px;
-
     margin-top: 2px;
-
     object-fit: contain;
-
     display: block;
 }
 
