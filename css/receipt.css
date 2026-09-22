@@ -843,8 +843,8 @@ body {
 }
 
 #qrcode {
-    width: 55px !important;
-    height: 55px !important;
+    width: 90px !important;
+    height: 90px !important;
 
     display: flex;
 
@@ -854,8 +854,10 @@ body {
 
 #qrcode canvas,
 #qrcode img {
-    width: 55px !important;
-    height: 55px !important;
+    width: 90px !important;
+    height: 90px !important;
+
+    display: block;
 }
 
 /* =========================================================
