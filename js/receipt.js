@@ -646,15 +646,54 @@ function populateReceipt(
         );
 
 
-    const paymentStatus =
-        getValue(
-            shipment,
-            [
-                "paymentStatus",
-                "payment_status"
-            ],
-            "Pending"
-        );
+    /* =====================================================
+   PAYMENT STATUS
+   ===================================================== */
+
+let paymentStatus =
+    getValue(
+        shipment,
+        [
+            "paymentStatus",
+            "payment_status",
+            "payment",
+            "payment_status_text"
+        ],
+        "Pending"
+    );
+
+
+/*
+   Normalize payment status so the receipt
+   always displays a clean value.
+*/
+
+const paymentText =
+    String(paymentStatus)
+        .trim()
+        .toLowerCase();
+
+
+if (
+    paymentText === "paid" ||
+    paymentText === "complete" ||
+    paymentText === "completed"
+) {
+
+    paymentStatus = "Paid";
+
+} else if (
+    paymentText === "cash on delivery" ||
+    paymentText === "cod"
+) {
+
+    paymentStatus = "Cash on Delivery";
+
+} else {
+
+    paymentStatus = "Pending";
+
+}
 
 
     const packageName =
@@ -1257,13 +1296,104 @@ function populateReceipt(
     );
 
 
-    /* =====================================================
-       QR CODE
-       ===================================================== */
+    /* =========================================================
+   QR CODE
+   ========================================================= */
 
-    createQRCode(
-        tracking
+function createQRCode(
+    tracking
+) {
+
+    const qr =
+        document.getElementById(
+            "qrcode"
+        );
+
+
+    if (!qr) {
+        return;
+    }
+
+
+    /*
+       Clear previous QR
+    */
+
+    qr.innerHTML = "";
+
+
+    if (
+        typeof QRCode ===
+        "undefined"
+    ) {
+
+        console.error(
+            "QRCode library was not loaded."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Build the REAL tracking page URL.
+
+       Example:
+
+       https://mildredmwandizi34-cell.github.io/
+       Hello-world-/track.html?tracking=AGL123456
+    */
+
+    const trackPath =
+        window.location.pathname.replace(
+            /receipt\.html$/i,
+            "track.html"
+        );
+
+
+    const trackURL =
+        window.location.origin +
+        trackPath +
+        "?tracking=" +
+        encodeURIComponent(
+            tracking
+        );
+
+
+    console.log(
+        "AGL QR tracking URL:",
+        trackURL
     );
+
+
+    try {
+
+        new QRCode(
+            qr,
+            {
+                text: trackURL,
+
+                width: 90,
+
+                height: 90,
+
+                correctLevel:
+                    QRCode.CorrectLevel.H
+            }
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "QR code generation error:",
+            error
+        );
+
+    }
+
+}
 
 
     /* =====================================================
