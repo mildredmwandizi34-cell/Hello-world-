@@ -1593,208 +1593,64 @@ function createBarcode(
    SELF-CONTAINED QR GENERATOR
    ========================================================= */
 
-function createQRCode(tracking) {
+           function createQRCode(tracking) {
 
-    const qr =
-        document.getElementById("qrcode");
+    const qrContainer = document.getElementById("qrcode");
 
-    if (!qr) {
-        console.error("AGL: #qrcode element not found.");
+    if (!qrContainer) {
+        console.error("QR container #qrcode was not found.");
         return;
     }
 
-    qr.innerHTML = "";
+    /* Clear anything already inside */
+    qrContainer.innerHTML = "";
 
-    const trackingNumber =
-        String(tracking || "").trim();
+    tracking = String(tracking || "").trim();
 
-    if (!trackingNumber || trackingNumber === "—") {
-        console.error("AGL: No valid tracking number for QR.");
+    if (!tracking) {
+        console.error("No tracking number available for QR code.");
         return;
     }
 
-    /*
-       Build the REAL tracking URL.
-    */
-
-    const trackURL =
-        new URL(
-            "track.html",
-            window.location.href
-        );
-
-    trackURL.searchParams.set(
-        "tracking",
-        trackingNumber
+    /* Build the real tracking page URL */
+    const trackURL = new URL(
+        "track.html",
+        window.location.href
     );
 
-    const qrURL =
-        trackURL.toString();
+    trackURL.searchParams.set("tracking", tracking);
 
-    console.log(
-        "AGL QR tracking URL:",
-        qrURL
-    );
+    const finalURL = trackURL.href;
 
+    console.log("AGL QR Tracking URL:", finalURL);
 
-    /*
-       Generate QR after library is available.
-    */
+    try {
 
-    function generate() {
-
-        if (
-            typeof window.QRCode !==
-            "function"
-        ) {
-
-            console.error(
-                "AGL: QRCode library is unavailable."
-            );
-
+        if (typeof QRCode !== "function") {
+            console.error("QRCode library is not loaded.");
             return;
-
         }
 
-        try {
+        new QRCode(qrContainer, {
+            text: finalURL,
+            width: 80,
+            height: 80,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.M
+        });
 
-            new window.QRCode(
-                qr,
-                {
-                    text: qrURL,
-                    width: 80,
-                    height: 80,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
-                    correctLevel:
-                        window.QRCode.CorrectLevel
-                            ? window.QRCode.CorrectLevel.M
-                            : 0
-                }
-            );
+        console.log("AGL QR code generated successfully.");
 
-            /*
-               Make sure the generated image/canvas
-               is visible.
-            */
+    } catch (error) {
 
-            const canvas =
-                qr.querySelector("canvas");
-
-            const image =
-                qr.querySelector("img");
-
-            if (canvas) {
-
-                canvas.style.display =
-                    "block";
-
-                canvas.style.width =
-                    "80px";
-
-                canvas.style.height =
-                    "80px";
-
-            }
-
-            if (image) {
-
-                image.style.display =
-                    "block";
-
-                image.style.width =
-                    "80px";
-
-                image.style.height =
-                    "80px";
-
-            }
-
-            console.log(
-                "AGL QR code generated successfully."
-            );
-
-        } catch (error) {
-
-            console.error(
-                "AGL QR generation failed:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /*
-       If QRCode.js is already loaded,
-       use it immediately.
-    */
-
-    if (
-        typeof window.QRCode ===
-        "function"
-    ) {
-
-        generate();
-
-        return;
-    }
-
-
-    /*
-       Otherwise load QRCode.js automatically.
-    */
-
-    const existingScript =
-        document.querySelector(
-            'script[data-agl-qrcode="true"]'
+        console.error(
+            "AGL QR code generation failed:",
+            error
         );
 
-    if (existingScript) {
-
-        existingScript.addEventListener(
-            "load",
-            generate,
-            {
-                once: true
-            }
-        );
-
-        return;
     }
-
-
-    const script =
-        document.createElement(
-            "script"
-        );
-
-    script.src =
-        "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
-
-    script.async = true;
-
-    script.dataset.aglQrcode =
-        "true";
-
-    script.onload =
-        generate;
-
-    script.onerror =
-        function () {
-
-            console.error(
-                "AGL: Unable to load QRCode.js."
-            );
-
-        };
-
-    document.head.appendChild(
-        script
-    );
-
-    }
+           }
 
 /* =========================================================
    ROUTE MAP
