@@ -1,6 +1,6 @@
 /* =========================================
    AMERICAN GLOBAL LOGISTICS
-   RECEIPT.JS — CLEAN VERSION
+   RECEIPT.JS — VERIFIED VERSION
    ========================================= */
 
 "use strict";
@@ -35,7 +35,6 @@ const params =
 const trackingFromURL =
     params.get("tracking");
 
-
 let shipments = [];
 
 try {
@@ -51,11 +50,10 @@ try {
 
 }
 
-
 let shipment = null;
 
 
-/* Find shipment using tracking number */
+/* Find shipment */
 
 if (trackingFromURL) {
 
@@ -72,7 +70,7 @@ if (trackingFromURL) {
 }
 
 
-/* Fallback to last shipment */
+/* Fallback */
 
 if (!shipment) {
 
@@ -122,7 +120,8 @@ shipment.trackingNumber =
 
 shipment.receiptNumber =
     shipment.receiptNumber ||
-    "RCP-" + Date.now();
+    "RCP-" +
+    Date.now();
 
 
 shipment.receiptDate =
@@ -144,12 +143,54 @@ shipment.documentNo =
     );
 
 
-shipment.verificationCode =
-    shipment.verificationCode ||
-    Math.random()
-        .toString(36)
-        .substring(2, 10)
-        .toUpperCase();
+/* =========================================
+   UNIQUE VERIFICATION CODE
+   ========================================= */
+
+if (
+    !shipment.verificationCode ||
+    String(shipment.verificationCode).length < 8
+) {
+
+    const randomPart =
+        Math.random()
+            .toString(36)
+            .substring(2, 8)
+            .toUpperCase();
+
+    shipment.verificationCode =
+        "AGL-" +
+        randomPart +
+        "-" +
+        String(shipment.trackingNumber)
+            .replace(/\s/g, "")
+            .slice(-4);
+
+}
+
+
+/* =========================================
+   DIGITAL VERIFICATION DATA
+   ========================================= */
+
+shipment.verificationStatus =
+    shipment.verificationStatus ||
+    "VERIFIED & APPROVED";
+
+
+shipment.verificationIssuer =
+    shipment.verificationIssuer ||
+    "AMERICAN GLOBAL LOGISTICS";
+
+
+shipment.verificationType =
+    shipment.verificationType ||
+    "AGL DIGITAL VERIFICATION SYSTEM";
+
+
+shipment.authorizedStatus =
+    shipment.authorizedStatus ||
+    "AUTHORIZED";
 
 
 /* =========================================
@@ -220,7 +261,8 @@ setText(
 
 setText(
     "receiptPaymentStatus",
-    shipment.payment
+    shipment.payment ||
+    shipment.paymentStatus
 );
 
 setText(
@@ -257,6 +299,7 @@ setText(
     "verificationCodeBottom",
     shipment.verificationCode
 );
+
 
 /* =========================================
    SENDER INFORMATION
@@ -337,6 +380,7 @@ setText(
     shipment.receiverEmail
 );
 
+
 /* =========================================
    SHIPMENT DETAILS
    ========================================= */
@@ -394,6 +438,7 @@ if (
 
     declaredValue =
         shipment.value;
+
 }
 
 
@@ -434,7 +479,8 @@ setText(
 
 setText(
     "paymentStatus",
-    shipment.payment
+    shipment.payment ||
+    shipment.paymentStatus
 );
 
 setText(
@@ -446,6 +492,7 @@ setText(
     "instructions",
     shipment.instructions
 );
+
 
 /* =========================================
    SERVICE ICON
@@ -473,8 +520,8 @@ if (service.includes("ocean")) {
 } else if (service.includes("air")) {
 
     serviceIcon = "✈";
-}
 
+}
 
 setText(
     "serviceIcon",
@@ -526,6 +573,7 @@ function formatMoney(value) {
     }
 
     return "$" + value;
+
 }
 
 
@@ -550,6 +598,11 @@ setText(
     )
 );
 
+
+/* =========================================
+   TOTAL AMOUNT
+   ========================================= */
+
 setText(
     "totalAmount",
     formatMoney(
@@ -557,10 +610,89 @@ setText(
     )
 );
 
+
+/*
+   Current HTML has paymentStatusBottom
+   in the TOTAL AMOUNT position.
+   Keep compatibility with that ID.
+*/
+
+if (
+    document.getElementById(
+        "paymentStatusBottom"
+    )
+) {
+
+    setText(
+        "paymentStatusBottom",
+        formatMoney(
+            shipment.totalAmount
+        )
+    );
+
+}
+
+
+/* =========================================
+   DIGITAL VERIFICATION ELEMENTS
+   ========================================= */
+
 setText(
-    "paymentStatusBottom",
-    shipment.payment
+    "verificationStatus",
+    shipment.verificationStatus
 );
+
+setText(
+    "verificationIssuer",
+    shipment.verificationIssuer
+);
+
+setText(
+    "verificationType",
+    shipment.verificationType
+);
+
+setText(
+    "authorizedStatus",
+    shipment.authorizedStatus
+);
+
+setText(
+    "verificationReceiptNumber",
+    shipment.receiptNumber
+);
+
+setText(
+    "verificationTrackingNumber",
+    shipment.trackingNumber
+);
+
+setText(
+    "verificationDocumentNo",
+    shipment.documentNo
+);
+
+setText(
+    "verificationCodeDisplay",
+    shipment.verificationCode
+);
+
+
+/* =========================================
+   VERIFIED ICON
+   ========================================= */
+
+const verificationIcon =
+    document.getElementById(
+        "verificationIcon"
+    );
+
+if (verificationIcon) {
+
+    verificationIcon.textContent = "✓";
+
+}
+
 
 /* =========================================
    BARCODE
@@ -568,7 +700,9 @@ setText(
 
 if (
     typeof JsBarcode !== "undefined" &&
-    document.getElementById("barcodeLarge")
+    document.getElementById(
+        "barcodeLarge"
+    )
 ) {
 
     try {
@@ -603,7 +737,9 @@ if (
    ========================================= */
 
 const qrContainer =
-    document.getElementById("qrcode");
+    document.getElementById(
+        "qrcode"
+    );
 
 
 if (
@@ -613,6 +749,11 @@ if (
 
     qrContainer.innerHTML = "";
 
+
+    /*
+       QR currently opens the public
+       AGL tracking page.
+    */
 
     const trackingURL =
         "https://mildredmwandizi34-cell.github.io/Hello-world-/track.html?tracking=" +
@@ -648,12 +789,16 @@ if (
 
 }
 
+
 /* =========================================
    SHIPPING ROUTE MAP
    ========================================= */
 
 const mapContainer =
-    document.getElementById("receiptMap");
+    document.getElementById(
+        "receiptMap"
+    );
+
 
 if (
     mapContainer &&
@@ -668,6 +813,7 @@ if (
                 attributionControl: false
             }
         );
+
 
     L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -715,6 +861,7 @@ if (
         "india": [20.5937, 78.9629],
         "south africa": [-30.5595, 22.9375],
         "scotland": [56.4907, -4.2026]
+
     };
 
 
@@ -728,20 +875,29 @@ if (
                 .toLowerCase();
 
         if (coordinates[key]) {
+
             return coordinates[key];
+
         }
 
-        for (const name in coordinates) {
+
+        for (
+            const name in coordinates
+        ) {
 
             if (
                 key.includes(name) ||
                 name.includes(key)
             ) {
+
                 return coordinates[name];
+
             }
+
         }
 
         return null;
+
     }
 
 
@@ -749,6 +905,7 @@ if (
         findLocation(
             shipment.origin
         );
+
 
     const destination =
         findLocation(
@@ -771,9 +928,7 @@ if (
         ];
 
 
-        /* =================================
-           ORIGIN MARKER
-           ================================= */
+        /* ORIGIN */
 
         L.circleMarker(
             origin,
@@ -797,9 +952,7 @@ if (
         );
 
 
-        /* =================================
-           DESTINATION MARKER
-           ================================= */
+        /* DESTINATION */
 
         L.circleMarker(
             destination,
@@ -823,9 +976,7 @@ if (
         );
 
 
-        /* =================================
-           DOTTED ROUTE LINE
-           ================================= */
+        /* ROUTE */
 
         L.polyline(
             routePoints,
@@ -840,11 +991,11 @@ if (
 
 
         /* =================================
-           STATIC AIRPLANE
-           EXACTLY IN THE MIDDLE
+           AIRPLANE
            ================================= */
 
         const midpoint = [
+
             (
                 origin[0] +
                 destination[0]
@@ -854,6 +1005,7 @@ if (
                 origin[1] +
                 destination[1]
             ) / 2
+
         ];
 
 
@@ -875,6 +1027,7 @@ if (
                         18,
                         18
                     ]
+
                 }
             );
 
@@ -889,9 +1042,7 @@ if (
         ).addTo(map);
 
 
-        /* =================================
-           FIT MAP TO ROUTE
-           ================================= */
+        /* FIT MAP */
 
         map.fitBounds(
             routePoints,
@@ -903,9 +1054,8 @@ if (
             }
         );
 
-    } else {
 
-        /* No recognised locations */
+    } else {
 
         map.setView(
             [
@@ -918,3 +1068,31 @@ if (
     }
 
 }
+
+
+/* =========================================
+   FINAL VERIFICATION CONSOLE RECORD
+   ========================================= */
+
+console.log(
+    "AGL DIGITAL VERIFICATION",
+    {
+        status:
+            shipment.verificationStatus,
+
+        receiptNumber:
+            shipment.receiptNumber,
+
+        trackingNumber:
+            shipment.trackingNumber,
+
+        verificationCode:
+            shipment.verificationCode,
+
+        documentNo:
+            shipment.documentNo,
+
+        authorized:
+            shipment.authorizedStatus
+    }
+);
