@@ -831,32 +831,27 @@ body {
 }
 
 /* =========================================================
-   AGL QR CODE
+   QR CODE
    ========================================================= */
 
 .qr-box {
     min-width: 0;
-
+    height: 100%;
     display: flex;
     flex-direction: column;
-
     align-items: center;
     justify-content: center;
-
     text-align: center;
-
     overflow: visible;
 }
 
 #qrcode {
     width: 80px !important;
     height: 80px !important;
-
     min-width: 80px !important;
     min-height: 80px !important;
 
     display: flex !important;
-
     align-items: center;
     justify-content: center;
 
@@ -887,14 +882,14 @@ body {
 
 .qr-box small {
     display: block;
-
     margin-top: 2px;
 
-    color: #64798a;
-
     font-size: 4.7px;
-
+    line-height: 1;
     font-weight: 800;
+
+    color: #64798a;
+    white-space: nowrap;
 }
 
 /* =========================================================
