@@ -1,6 +1,6 @@
 /* =========================================================
    AMERICAN GLOBAL LOGISTICS
-   NEW RECEIPT SYSTEM
+   RECEIPT SYSTEM
    SUPABASE + LOCALSTORAGE
    ========================================================= */
 
@@ -51,7 +51,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   HELPERS
+   BASIC HELPERS
    ========================================================= */
 
 function clean(value) {
@@ -66,10 +66,18 @@ function clean(value) {
 
     }
 
-    return String(value);
+    return String(value).trim();
 
 }
 
+
+/* =========================================================
+   GET VALUE
+   Supports:
+   - normal fields
+   - alternate field names
+   - nested sender / receiver objects
+   ========================================================= */
 
 function getValue(
     object,
@@ -81,7 +89,12 @@ function getValue(
         return fallback;
     }
 
+
     for (const key of keys) {
+
+        /*
+           Direct value
+        */
 
         if (
             object[key] !== undefined &&
@@ -93,14 +106,69 @@ function getValue(
 
         }
 
+
+        /*
+           Nested object support
+           Example:
+
+           sender: {
+               name: "George Lucas",
+               phone: "..."
+           }
+        */
+
+        const parts =
+            key.split(".");
+
+
+        let current =
+            object;
+
+        let exists = true;
+
+
+        for (const part of parts) {
+
+            if (
+                current &&
+                current[part] !== undefined &&
+                current[part] !== null
+            ) {
+
+                current =
+                    current[part];
+
+            } else {
+
+                exists = false;
+                break;
+
+            }
+
+        }
+
+
+        if (
+            exists &&
+            current !== undefined &&
+            current !== null &&
+            String(current).trim() !== ""
+        ) {
+
+            return current;
+
+        }
+
     }
 
+
     return fallback;
+
 }
 
 
 /* =========================================================
-   URL TRACKING NUMBER
+   TRACKING NUMBER FROM URL
    ========================================================= */
 
 function getTrackingFromURL() {
@@ -109,6 +177,7 @@ function getTrackingFromURL() {
         new URLSearchParams(
             window.location.search
         );
+
 
     return (
         params.get("tracking") ||
@@ -136,13 +205,6 @@ async function getShipmentFromSupabase(
 
     }
 
-
-    /*
-       Different Supabase table designs can use
-       different column names.
-
-       We try the common versions.
-    */
 
     const columnNames = [
         "tracking_number",
@@ -178,7 +240,7 @@ async function getShipmentFromSupabase(
         } catch (error) {
 
             console.warn(
-                "Supabase lookup failed for:",
+                "Supabase lookup failed:",
                 column,
                 error
             );
@@ -189,6 +251,7 @@ async function getShipmentFromSupabase(
 
 
     return null;
+
 }
 
 
@@ -218,17 +281,21 @@ function getShipmentFromLocalStorage(
                 shipments.find(
                     shipment => {
 
+                        const shipmentTracking =
+                            getValue(
+                                shipment,
+                                [
+                                    "trackingNumber",
+                                    "tracking_number",
+                                    "tracking"
+                                ],
+                                ""
+                            );
+
+
                         return (
                             String(
-                                getValue(
-                                    shipment,
-                                    [
-                                        "trackingNumber",
-                                        "tracking_number",
-                                        "tracking"
-                                    ],
-                                    ""
-                                )
+                                shipmentTracking
                             ).trim() ===
                             tracking
                         );
@@ -246,6 +313,10 @@ function getShipmentFromLocalStorage(
         }
 
 
+        /*
+           Single shipment fallback
+        */
+
         const single =
             JSON.parse(
                 localStorage.getItem(
@@ -257,21 +328,21 @@ function getShipmentFromLocalStorage(
         if (single) {
 
             const singleTracking =
-                String(
-                    getValue(
-                        single,
-                        [
-                            "trackingNumber",
-                            "tracking_number",
-                            "tracking"
-                        ],
-                        ""
-                    )
-                ).trim();
+                getValue(
+                    single,
+                    [
+                        "trackingNumber",
+                        "tracking_number",
+                        "tracking"
+                    ],
+                    ""
+                );
 
 
             if (
-                singleTracking === tracking
+                String(
+                    singleTracking
+                ).trim() === tracking
             ) {
 
                 return single;
@@ -291,6 +362,104 @@ function getShipmentFromLocalStorage(
 
 
     return null;
+
+}
+
+
+/* =========================================================
+   MERGE SHIPMENT DATA
+   =========================================================
+
+   IMPORTANT:
+
+   Supabase may contain only part of a shipment.
+
+   LocalStorage may contain the complete shipment.
+
+   Therefore:
+
+   1. LocalStorage is loaded.
+   2. Supabase is loaded.
+   3. Supabase values override LOCAL values
+      only when they actually contain data.
+   4. Empty Supabase fields do NOT erase
+      useful LocalStorage information.
+   ========================================================= */
+
+function mergeShipmentData(
+    localShipment,
+    supabaseShipment
+) {
+
+    const local =
+        localShipment || {};
+
+    const remote =
+        supabaseShipment || {};
+
+
+    const merged = {
+        ...local
+    };
+
+
+    Object.keys(remote).forEach(
+        key => {
+
+            const value =
+                remote[key];
+
+
+            if (
+                value !== undefined &&
+                value !== null &&
+                String(value).trim() !== ""
+            ) {
+
+                merged[key] = value;
+
+            }
+
+        }
+    );
+
+
+    /*
+       Preserve nested sender object
+    */
+
+    if (
+        local.sender &&
+        typeof local.sender === "object"
+    ) {
+
+        merged.sender = {
+            ...local.sender,
+            ...(remote.sender || {})
+        };
+
+    }
+
+
+    /*
+       Preserve nested receiver object
+    */
+
+    if (
+        local.receiver &&
+        typeof local.receiver === "object"
+    ) {
+
+        merged.receiver = {
+            ...local.receiver,
+            ...(remote.receiver || {})
+        };
+
+    }
+
+
+    return merged;
+
 }
 
 
@@ -315,34 +484,56 @@ async function loadReceipt() {
     }
 
 
-    let shipment = null;
+    /*
+       IMPORTANT:
+       Get BOTH sources.
+
+       We no longer stop at Supabase.
+    */
+
+    let localShipment = null;
+    let supabaseShipment = null;
 
 
     /*
-       1. TRY SUPABASE FIRST
+       LOCAL STORAGE
     */
 
-    shipment =
+    localShipment =
+        getShipmentFromLocalStorage(
+            tracking
+        );
+
+
+    /*
+       SUPABASE
+    */
+
+    supabaseShipment =
         await getShipmentFromSupabase(
             tracking
         );
 
 
     /*
-       2. LOCAL STORAGE FALLBACK
+       MERGE BOTH SOURCES
     */
 
-    if (!shipment) {
-
-        shipment =
-            getShipmentFromLocalStorage(
-                tracking
-            );
-
-    }
+    const shipment =
+        mergeShipmentData(
+            localShipment,
+            supabaseShipment
+        );
 
 
-    if (!shipment) {
+    /*
+       Make sure something was actually found.
+    */
+
+    if (
+        !localShipment &&
+        !supabaseShipment
+    ) {
 
         showReceiptError(
             "Shipment not found."
@@ -373,6 +564,11 @@ async function loadReceipt() {
 function populateReceipt(
     shipment
 ) {
+
+
+    /* =====================================================
+       BASIC INFORMATION
+       ===================================================== */
 
     const tracking =
         clean(
@@ -444,7 +640,8 @@ function populateReceipt(
             [
                 "deliveryDate",
                 "delivery_date",
-                "estimatedDelivery"
+                "estimatedDelivery",
+                "estimated_delivery"
             ]
         );
 
@@ -484,7 +681,9 @@ function populateReceipt(
         getValue(
             shipment,
             [
-                "origin"
+                "origin",
+                "originLocation",
+                "origin_location"
             ]
         );
 
@@ -493,7 +692,9 @@ function populateReceipt(
         getValue(
             shipment,
             [
-                "destination"
+                "destination",
+                "destinationLocation",
+                "destination_location"
             ]
         );
 
@@ -507,23 +708,30 @@ function populateReceipt(
         receiptNumber
     );
 
+
     put(
         "documentNo",
         documentNo
     );
 
+
+    const createdDate =
+        getValue(
+            shipment,
+            [
+                "createdTime",
+                "created_at",
+                "createdAt",
+                "createdDate"
+            ],
+            new Date()
+        );
+
+
     put(
         "issueDate",
         formatDate(
-            getValue(
-                shipment,
-                [
-                    "createdTime",
-                    "created_at",
-                    "createdAt"
-                ],
-                new Date()
-            )
+            createdDate
         )
     );
 
@@ -537,30 +745,36 @@ function populateReceipt(
         service
     );
 
+
     put(
         "trackingNumber",
         tracking
     );
+
 
     put(
         "receiptDelivery",
         deliveryDate
     );
 
+
     put(
         "receiptPaymentStatus",
         paymentStatus
     );
+
 
     put(
         "receiptPackage",
         packageName
     );
 
+
     put(
         "receiptWeight",
         weight
     );
+
 
     put(
         "receiptRoute",
@@ -568,6 +782,7 @@ function populateReceipt(
         " → " +
         clean(destination)
     );
+
 
     put(
         "verificationCodeDisplay",
@@ -577,7 +792,18 @@ function populateReceipt(
 
     /* =====================================================
        SENDER
-       ===================================================== */
+       =====================================================
+
+       Supports both:
+
+       senderName
+
+       AND
+
+       sender: {
+           name: ...
+       }
+    */
 
     put(
         "senderName",
@@ -585,10 +811,14 @@ function populateReceipt(
             shipment,
             [
                 "senderName",
-                "sender_name"
+                "sender_name",
+                "sender.name",
+                "sender.fullName",
+                "sender.full_name"
             ]
         )
     );
+
 
     put(
         "senderCompany",
@@ -596,10 +826,12 @@ function populateReceipt(
             shipment,
             [
                 "senderCompany",
-                "sender_company"
+                "sender_company",
+                "sender.company"
             ]
         )
     );
+
 
     put(
         "senderAddress",
@@ -607,10 +839,12 @@ function populateReceipt(
             shipment,
             [
                 "senderAddress",
-                "sender_address"
+                "sender_address",
+                "sender.address"
             ]
         )
     );
+
 
     put(
         "senderCity",
@@ -618,10 +852,12 @@ function populateReceipt(
             shipment,
             [
                 "senderCity",
-                "sender_city"
+                "sender_city",
+                "sender.city"
             ]
         )
     );
+
 
     put(
         "senderCountry",
@@ -629,10 +865,12 @@ function populateReceipt(
             shipment,
             [
                 "senderCountry",
-                "sender_country"
+                "sender_country",
+                "sender.country"
             ]
         )
     );
+
 
     put(
         "senderPhone",
@@ -640,10 +878,12 @@ function populateReceipt(
             shipment,
             [
                 "senderPhone",
-                "sender_phone"
+                "sender_phone",
+                "sender.phone"
             ]
         )
     );
+
 
     put(
         "senderEmail",
@@ -651,7 +891,8 @@ function populateReceipt(
             shipment,
             [
                 "senderEmail",
-                "sender_email"
+                "sender_email",
+                "sender.email"
             ]
         )
     );
@@ -667,10 +908,14 @@ function populateReceipt(
             shipment,
             [
                 "receiverName",
-                "receiver_name"
+                "receiver_name",
+                "receiver.name",
+                "receiver.fullName",
+                "receiver.full_name"
             ]
         )
     );
+
 
     put(
         "receiverCompany",
@@ -678,10 +923,12 @@ function populateReceipt(
             shipment,
             [
                 "receiverCompany",
-                "receiver_company"
+                "receiver_company",
+                "receiver.company"
             ]
         )
     );
+
 
     put(
         "receiverAddress",
@@ -689,10 +936,12 @@ function populateReceipt(
             shipment,
             [
                 "receiverAddress",
-                "receiver_address"
+                "receiver_address",
+                "receiver.address"
             ]
         )
     );
+
 
     put(
         "receiverCity",
@@ -700,10 +949,12 @@ function populateReceipt(
             shipment,
             [
                 "receiverCity",
-                "receiver_city"
+                "receiver_city",
+                "receiver.city"
             ]
         )
     );
+
 
     put(
         "receiverCountry",
@@ -711,10 +962,12 @@ function populateReceipt(
             shipment,
             [
                 "receiverCountry",
-                "receiver_country"
+                "receiver_country",
+                "receiver.country"
             ]
         )
     );
+
 
     put(
         "receiverPhone",
@@ -722,10 +975,12 @@ function populateReceipt(
             shipment,
             [
                 "receiverPhone",
-                "receiver_phone"
+                "receiver_phone",
+                "receiver.phone"
             ]
         )
     );
+
 
     put(
         "receiverEmail",
@@ -733,7 +988,8 @@ function populateReceipt(
             shipment,
             [
                 "receiverEmail",
-                "receiver_email"
+                "receiver_email",
+                "receiver.email"
             ]
         )
     );
@@ -755,6 +1011,7 @@ function populateReceipt(
         )
     );
 
+
     put(
         "pieces",
         getValue(
@@ -765,10 +1022,12 @@ function populateReceipt(
         )
     );
 
+
     put(
         "dimensionsWeight",
         weight
     );
+
 
     put(
         "dimensions",
@@ -779,6 +1038,7 @@ function populateReceipt(
             ]
         )
     );
+
 
     put(
         "declaredValue",
@@ -791,6 +1051,7 @@ function populateReceipt(
         )
     );
 
+
     put(
         "insurance",
         getValue(
@@ -800,6 +1061,7 @@ function populateReceipt(
             ]
         )
     );
+
 
     put(
         "referenceNumber",
@@ -813,6 +1075,7 @@ function populateReceipt(
             ]
         )
     );
+
 
     put(
         "trackingBarcode",
@@ -838,6 +1101,7 @@ function populateReceipt(
         origin
     );
 
+
     put(
         "destinationLocation",
         destination
@@ -860,6 +1124,7 @@ function populateReceipt(
         )
     );
 
+
     putMoney(
         "tax",
         getValue(
@@ -870,6 +1135,7 @@ function populateReceipt(
             0
         )
     );
+
 
     putMoney(
         "discount",
@@ -882,17 +1148,19 @@ function populateReceipt(
         )
     );
 
+
     putMoney(
         "insuranceCharge",
         getValue(
             shipment,
             [
-                "insuranceCost",
+                               "insuranceCost",
                 "insurance_cost"
             ],
             0
         )
     );
+
 
     putMoney(
         "totalAmount",
@@ -916,15 +1184,18 @@ function populateReceipt(
         tracking
     );
 
+
     put(
         "verificationReceipt",
         receiptNumber
     );
 
+
     put(
         "verificationDocument",
         documentNo
     );
+
 
     put(
         "verificationCode",
@@ -941,20 +1212,14 @@ function populateReceipt(
         documentNo
     );
 
+
     put(
         "footerIssueDate",
         formatDate(
-            getValue(
-                shipment,
-                [
-                    "createdTime",
-                    "created_at",
-                    "createdAt"
-                ],
-                new Date()
-            )
+            createdDate
         )
     );
+
 
     put(
         "receiptNumberBottom",
@@ -970,6 +1235,7 @@ function populateReceipt(
         document.getElementById(
             "trackButton"
         );
+
 
     if (trackButton) {
 
@@ -992,7 +1258,7 @@ function populateReceipt(
 
 
     /* =====================================================
-       QR
+       QR CODE
        ===================================================== */
 
     createQRCode(
@@ -1013,7 +1279,7 @@ function populateReceipt(
 
 
 /* =========================================================
-   PUT TEXT
+   PUT TEXT INTO ELEMENT
    ========================================================= */
 
 function put(
@@ -1022,7 +1288,10 @@ function put(
 ) {
 
     const element =
-        document.getElementById(id);
+        document.getElementById(
+            id
+        );
+
 
     if (element) {
 
@@ -1044,7 +1313,10 @@ function putMoney(
 ) {
 
     const element =
-        document.getElementById(id);
+        document.getElementById(
+            id
+        );
+
 
     if (!element) {
         return;
@@ -1054,11 +1326,16 @@ function putMoney(
     const number =
         Number(
             String(value)
-                .replace(/[^0-9.-]/g, "")
+                .replace(
+                    /[^0-9.-]/g,
+                    ""
+                )
         );
 
 
-    if (Number.isNaN(number)) {
+    if (
+        Number.isNaN(number)
+    ) {
 
         element.textContent =
             clean(value);
@@ -1092,9 +1369,11 @@ function formatDate(
         new Date(value);
 
 
-    if (Number.isNaN(
-        date.getTime()
-    )) {
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
 
         return String(value);
 
@@ -1112,7 +1391,6 @@ function formatDate(
 
 }
 
-
 /* =========================================================
    VERIFICATION CODE
    ========================================================= */
@@ -1122,7 +1400,9 @@ function generateVerificationCode() {
     const characters =
         "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
+
     let result = "";
+
 
     for (
         let i = 0;
@@ -1140,6 +1420,7 @@ function generateVerificationCode() {
 
     }
 
+
     return result;
 
 }
@@ -1149,23 +1430,34 @@ function generateVerificationCode() {
    BARCODE
    ========================================================= */
 
-function createBarcode(tracking) {
+function createBarcode(
+    tracking
+) {
 
     const barcode =
-        document.getElementById("barcodeLarge");
+        document.getElementById(
+            "barcodeLarge"
+        );
+
 
     if (!barcode) {
         return;
     }
 
-    if (typeof JsBarcode === "undefined") {
+
+    if (
+        typeof JsBarcode ===
+        "undefined"
+    ) {
 
         console.error(
             "JsBarcode library was not loaded."
         );
 
         return;
+
     }
+
 
     try {
 
@@ -1190,6 +1482,7 @@ function createBarcode(tracking) {
         );
 
     }
+
 }
 
 
@@ -1197,34 +1490,56 @@ function createBarcode(tracking) {
    QR CODE
    ========================================================= */
 
-function createQRCode(tracking) {
+function createQRCode(
+    tracking
+) {
 
     const qr =
-        document.getElementById("qrcode");
+        document.getElementById(
+            "qrcode"
+        );
+
 
     if (!qr) {
         return;
     }
 
+
     qr.innerHTML = "";
 
-    if (typeof QRCode === "undefined") {
+
+    if (
+        typeof QRCode ===
+        "undefined"
+    ) {
 
         console.error(
             "QRCode library was not loaded."
         );
 
         return;
+
     }
+
+
+    const currentPath =
+        window.location.pathname;
+
+
+    const trackPath =
+        currentPath.replace(
+            /receipt\.html$/i,
+            "track.html"
+        );
+
 
     const trackURL =
         window.location.origin +
-        window.location.pathname.replace(
-            /receipt\.html$/i,
-            "track.html"
-        ) +
+        trackPath +
         "?tracking=" +
-        encodeURIComponent(tracking);
+        encodeURIComponent(
+            tracking
+        );
 
 
     try {
@@ -1248,6 +1563,7 @@ function createQRCode(tracking) {
         );
 
     }
+
 }
 
 
@@ -1260,18 +1576,24 @@ function createRouteMap(
     destination
 ) {
 
-    if (typeof L === "undefined") {
+    if (
+        typeof L ===
+        "undefined"
+    ) {
 
         console.error(
             "Leaflet library was not loaded."
         );
 
         return;
+
     }
 
 
     const mapElement =
-        document.getElementById("receiptMap");
+        document.getElementById(
+            "receiptMap"
+        );
 
 
     if (!mapElement) {
@@ -1280,20 +1602,28 @@ function createRouteMap(
 
 
     /*
-       Prevent duplicate maps if this function
-       is ever called more than once.
+       Prevent duplicate Leaflet maps.
     */
 
-    if (mapElement._leaflet_id) {
+    if (
+        mapElement._leaflet_id
+    ) {
+
         return;
+
     }
 
 
     const originPoint =
-        findCoordinates(origin);
+        findCoordinates(
+            origin
+        );
+
 
     const destinationPoint =
-        findCoordinates(destination);
+        findCoordinates(
+            destination
+        );
 
 
     const map =
@@ -1301,12 +1631,19 @@ function createRouteMap(
             mapElement,
             {
                 zoomControl: false,
+
                 dragging: false,
+
                 scrollWheelZoom: false,
+
                 doubleClickZoom: false,
+
                 boxZoom: false,
+
                 keyboard: false,
+
                 touchZoom: false,
+
                 attributionControl: false
             }
         );
@@ -1320,19 +1657,16 @@ function createRouteMap(
     ).addTo(map);
 
 
-    const routePoints = [
-        originPoint,
-        destinationPoint
-    ];
-
-
-    /*
-       Route line
-    */
+    /* =====================================================
+       ROUTE LINE
+       ===================================================== */
 
     const routeLine =
         L.polyline(
-            routePoints,
+            [
+                originPoint,
+                destinationPoint
+            ],
             {
                 color: "#0b4ea2",
                 weight: 3,
@@ -1342,45 +1676,62 @@ function createRouteMap(
         ).addTo(map);
 
 
-    /*
-       Origin marker
-    */
+    /* =====================================================
+       ORIGIN MARKER
+       ===================================================== */
 
     L.circleMarker(
         originPoint,
         {
             radius: 6,
-            color: "#0b4ea2",
+
+            color: "#ff9800",
+
             fillColor: "#ffffff",
+
             fillOpacity: 1,
+
             weight: 3
         }
     ).addTo(map);
 
 
-    /*
-       Destination marker
-    */
+    /* =====================================================
+       DESTINATION MARKER
+       ===================================================== */
 
     L.circleMarker(
         destinationPoint,
         {
             radius: 6,
-            color: "#ff9800",
+
+            color: "#0b4ea2",
+
             fillColor: "#ffffff",
+
             fillOpacity: 1,
+
             weight: 3
         }
     ).addTo(map);
 
 
-    /*
+    /* =====================================================
        STATIONARY AIRPLANE
-       -----------------------------------------
-       No animation.
-       No movement.
-       No setInterval.
-       No setTimeout.
+       =====================================================
+
+       IMPORTANT:
+
+       The airplane is created ONCE.
+
+       There is:
+       - NO animation
+       - NO setInterval
+       - NO setTimeout movement
+       - NO transition
+       - NO changing coordinates
+
+       Therefore the airplane remains stationary.
     */
 
     const middleLat =
@@ -1406,9 +1757,15 @@ function createRouteMap(
                 html:
                     '<i class="fa-solid fa-plane agl-airplane"></i>',
 
-                iconSize: [30, 30],
+                iconSize: [
+                    30,
+                    30
+                ],
 
-                iconAnchor: [15, 15]
+                iconAnchor: [
+                    15,
+                    15
+                ]
             }
         );
 
@@ -1419,32 +1776,43 @@ function createRouteMap(
             middleLng
         ],
         {
-            icon: airplaneIcon,
-            interactive: false
+            icon:
+                airplaneIcon,
+
+            interactive:
+                false,
+
+            keyboard:
+                false
         }
     ).addTo(map);
 
 
-    /*
-       Fit route inside map
-    */
+    /* =====================================================
+       FIT ROUTE
+       ===================================================== */
 
     map.fitBounds(
         routeLine.getBounds(),
         {
-            padding: [20, 20]
+            padding: [
+                20,
+                20
+            ]
         }
     );
 
 
     /*
-       Leaflet sometimes needs a refresh
-       after the receipt layout is displayed.
+       Refresh Leaflet after layout.
+       This does NOT move the airplane.
     */
 
     setTimeout(
         function () {
+
             map.invalidateSize();
+
         },
         150
     );
@@ -1453,111 +1821,292 @@ function createRouteMap(
 
 
 /* =========================================================
-   COORDINATES
+   FIND MAP COORDINATES
    ========================================================= */
 
-function findCoordinates(location) {
+function findCoordinates(
+    location
+) {
 
     const text =
-        String(location || "")
-            .toLowerCase()
-            .replace(/[^a-z0-9]/g, "");
+        String(
+            location || ""
+        )
+        .toLowerCase()
+        .replace(
+            /[^a-z0-9]/g,
+            ""
+        );
 
 
     const locations = {
 
-        kenya: [-1.286389, 36.817223],
+        /* AFRICA */
 
-        nairobi: [-1.286389, 36.817223],
+        kenya: [
+            -1.286389,
+            36.817223
+        ],
 
-        uganda: [1.373333, 32.290275],
+        nairobi: [
+            -1.286389,
+            36.817223
+        ],
 
-        kampala: [0.347596, 32.582520],
+        uganda: [
+            1.373333,
+            32.290275
+        ],
 
-        tanzania: [-6.369028, 34.888822],
+        kampala: [
+            0.347596,
+            32.582520
+        ],
 
-        dar: [-6.792354, 39.208328],
+        tanzania: [
+            -6.369028,
+            34.888822
+        ],
 
-        rwanda: [-1.940278, 29.873888],
+        dar: [
+            -6.792354,
+            39.208328
+        ],
 
-        nigeria: [9.082000, 8.675277],
+        rwanda: [
+            -1.940278,
+            29.873888
+        ],
 
-        lagos: [6.524379, 3.379206],
+        nigeria: [
+            9.082000,
+            8.675277
+        ],
 
-        ghana: [7.946527, -1.023194],
+        lagos: [
+            6.524379,
+            3.379206
+        ],
 
-        accra: [5.603717, -0.186964],
+        ghana: [
+            7.946527,
+            -1.023194
+        ],
 
-        southafrica: [-30.559482, 22.937506],
+        accra: [
+            5.603717,
+            -0.186964
+        ],
 
-        ethiopia: [9.145000, 40.489673],
+        southafrica: [
+            -30.559482,
+            22.937506
+        ],
 
-        addisababa: [9.030000, 38.740000],
+        ethiopia: [
+            9.145000,
+            40.489673
+        ],
 
-        usa: [39.828300, -98.579500],
+        addisababa: [
+            9.030000,
+            38.740000
+        ],
 
-        america: [39.828300, -98.579500],
 
-        newyork: [40.712800, -74.006000],
+        /* NORTH AMERICA */
 
-        losangeles: [34.052200, -118.243700],
+        usa: [
+            39.828300,
+            -98.579500
+        ],
 
-        miami: [25.761700, -80.191800],
+        unitedstates: [
+            39.828300,
+            -98.579500
+        ],
 
-        canada: [56.130400, -106.346800],
+        america: [
+            39.828300,
+            -98.579500
+        ],
 
-        toronto: [43.653200, -79.383200],
+        newyork: [
+            40.712800,
+            -74.006000
+        ],
 
-        uk: [55.378100, -3.436000],
+        losangeles: [
+            34.052200,
+            -118.243700
+        ],
 
-        london: [51.507400, -0.127800],
+        miami: [
+            25.761700,
+            -80.191800
+        ],
 
-        scotland: [56.490700, -4.202600],
+        canada: [
+            56.130400,
+            -106.346800
+        ],
 
-        germany: [51.165700, 10.451500],
+        toronto: [
+            43.653200,
+            -79.383200
+        ],
 
-        france: [46.227600, 2.213700],
 
-        paris: [48.856600, 2.352200],
+        /* EUROPE */
 
-        italy: [41.871900, 12.567400],
+        uk: [
+            55.378100,
+            -3.436000
+        ],
 
-        rome: [41.902800, 12.496400],
+        unitedkingdom: [
+            55.378100,
+            -3.436000
+        ],
 
-        spain: [40.463700, -3.749200],
+        britain: [
+            55.378100,
+            -3.436000
+        ],
 
-        madrid: [40.416800, -3.703800],
+        england: [
+            52.355500,
+            -1.174300
+        ],
 
-        china: [35.861700, 104.195400],
+        london: [
+            51.507400,
+            -0.127800
+        ],
 
-        beijing: [39.904200, 116.407400],
+        scotland: [
+            56.490700,
+            -4.202600
+        ],
 
-        japan: [36.204800, 138.252900],
+        germany: [
+            51.165700,
+            10.451500
+        ],
 
-        tokyo: [35.676200, 139.650300],
+        france: [
+            46.227600,
+            2.213700
+        ],
 
-        india: [20.593700, 78.962900],
+        paris: [
+            48.856600,
+            2.352200
+        ],
 
-        delhi: [28.613900, 77.209000],
+        italy: [
+            41.871900,
+            12.567400
+        ],
 
-        australia: [-25.274400, 133.775100],
+        rome: [
+            41.902800,
+            12.496400
+        ],
 
-        sydney: [-33.868800, 151.209300],
+        spain: [
+            40.463700,
+            -3.749200
+        ],
 
-        brazil: [-14.235000, -51.925300],
+        madrid: [
+            40.416800,
+            -3.703800
+        ],
 
-        costa: [9.748900, -83.753400],
 
-        costarica: [9.748900, -83.753400]
+        /* ASIA */
+
+        china: [
+            35.861700,
+            104.195400
+        ],
+
+        beijing: [
+            39.904200,
+            116.407400
+        ],
+
+        japan: [
+            36.204800,
+            138.252900
+        ],
+
+        tokyo: [
+            35.676200,
+            139.650300
+        ],
+
+        india: [
+            20.593700,
+            78.962900
+        ],
+
+        delhi: [
+            28.613900,
+            77.209000
+        ],
+
+
+        /* AUSTRALIA */
+
+        australia: [
+            -25.274400,
+            133.775100
+        ],
+
+        sydney: [
+            -33.868800,
+            151.209300
+        ],
+
+
+        /* SOUTH AMERICA */
+
+        brazil: [
+            -14.235000,
+            -51.925300
+        ],
+
+
+        /* CENTRAL AMERICA */
+
+        costa: [
+            9.748900,
+            -83.753400
+        ],
+
+        costarica: [
+            9.748900,
+            -83.753400
+        ]
 
     };
 
 
+    /*
+       Search known locations.
+    */
+
     for (
-        const key of Object.keys(locations)
+        const key of Object.keys(
+            locations
+        )
     ) {
 
-        if (text.includes(key)) {
+        if (
+            text.includes(key)
+        ) {
 
             return locations[key];
 
@@ -1567,22 +2116,28 @@ function findCoordinates(location) {
 
 
     /*
-       Default world position
+       Default world position.
     */
 
-    return [0, 20];
+    return [
+        0,
+        20
+    ];
 
-}
-
+           }
 
 /* =========================================================
    ERROR MESSAGE
    ========================================================= */
 
-function showReceiptError(message) {
+function showReceiptError(
+    message
+) {
 
     const page =
-        document.querySelector(".receipt-page");
+        document.querySelector(
+            ".receipt-page"
+        );
 
 
     if (!page) {
@@ -1645,4 +2200,4 @@ function showReceiptError(message) {
 
     `;
 
-}
+       }
