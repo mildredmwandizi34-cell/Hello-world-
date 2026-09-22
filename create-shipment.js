@@ -617,110 +617,52 @@ async function createShipment(event) {
 
 }
 
-
 // ===========================================
-// Calculate Shipping Cost
+// BILLING INFORMATION
+// MANUAL ENTRY MODE
 // ===========================================
 
 function calculateShippingCost() {
 
-    const weight =
-        parseFloat(
-            document.getElementById(
-                "weight"
-            ).value
-        ) || 0;
+    // Billing is manually entered by the user.
+    // This function intentionally does not
+    // overwrite shipping cost, tax, discount,
+    // or total amount.
 
-
-    const service =
-        document.getElementById(
-            "service"
-        ).value;
-
-
-    const discountInput =
-        document.getElementById(
-            "discount"
-        );
-
-
-    const discountValue =
-        parseFloat(
-            discountInput.value
-        ) || 0;
-
-
-    let rate = 8;
-
-
-    switch (service) {
-
-        case "Air Freight":
-            rate = 12;
-            break;
-
-        case "Ocean Freight":
-            rate = 5;
-            break;
-
-        case "Road Transport":
-            rate = 7;
-            break;
-
-        case "Express Delivery":
-            rate = 15;
-            break;
-
-    }
-
-
-    const shipping =
-        weight * rate;
-
+    const shippingCost =
+        document.getElementById("shippingCost");
 
     const tax =
-        shipping * 0.16;
-
-
-    const maximumDiscount =
-        shipping + tax;
-
+        document.getElementById("tax");
 
     const discount =
-        Math.min(
-            Math.max(
-                0,
-                discountValue
-            ),
-            maximumDiscount
-        );
+        document.getElementById("discount");
+
+    const totalAmount =
+        document.getElementById("totalAmount");
 
 
-    const total =
-        shipping +
-        tax -
-        discount;
+    // Keep empty fields empty.
+    // Only format values that the user has entered.
 
+    if (shippingCost && shippingCost.value !== "") {
+        shippingCost.value =
+            parseFloat(shippingCost.value).toFixed(2);
+    }
 
-    document.getElementById(
-        "shippingCost"
-    ).value =
-        shipping.toFixed(2);
+    if (tax && tax.value !== "") {
+        tax.value =
+            parseFloat(tax.value).toFixed(2);
+    }
 
+    if (discount && discount.value !== "") {
+        discount.value =
+            parseFloat(discount.value).toFixed(2);
+    }
 
-    document.getElementById(
-        "tax"
-    ).value =
-        tax.toFixed(2);
+    if (totalAmount && totalAmount.value !== "") {
+        totalAmount.value =
+            parseFloat(totalAmount.value).toFixed(2);
+    }
 
-
-    discountInput.value =
-        discount.toFixed(2);
-
-
-    document.getElementById(
-        "totalAmount"
-    ).value =
-        total.toFixed(2);
-
-        }
+}
