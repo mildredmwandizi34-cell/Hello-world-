@@ -327,15 +327,33 @@ readonly>
 
 <h3>Billing Information</h3>
 
-<input type="number" id="shippingCost" placeholder="Shipping Cost (USD)" readonly>
+<input
+type="number"
+id="shippingCost"
+placeholder="Shipping Cost (USD)"
+step="0.01"
+min="0">
 
-<input type="number" id="tax" placeholder="Tax / VAT (USD)" readonly>
+<input
+type="number"
+id="tax"
+placeholder="Tax / VAT (USD)"
+step="0.01"
+min="0">
 
-<input type="number" id="discount" oninput="calculateShippingCost()">
+<input
+type="number"
+id="discount"
+placeholder="Discount (USD)"
+step="0.01"
+min="0">
 
-<input type="number" id="totalAmount" placeholder="Total Amount (USD)" readonly>
-
-<hr style="margin:25px 0;">
+<input
+type="number"
+id="totalAmount"
+placeholder="Total Amount (USD)"
+step="0.01"
+min="0">
 
 <h3>Authorization</h3>
 
