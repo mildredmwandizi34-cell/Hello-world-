@@ -1288,87 +1288,23 @@ if (
 
 
     /* =====================================================
-       BARCODE
-       ===================================================== */
+   BARCODE
+   ===================================================== */
 
-    createBarcode(
-        tracking
-    );
+createBarcode(
+    tracking
+);
 
 
-    /* =========================================================
+/* =====================================================
    QR CODE
-   ========================================================= */
+   ===================================================== */
 
-function createQRCode(tracking) {
+createQRCode(
+    tracking
+);
 
-    const qr =
-        document.getElementById("qrcode");
-
-    if (!qr) {
-        return;
-    }
-
-    qr.innerHTML = "";
-
-    if (typeof QRCode === "undefined") {
-
-        console.error(
-            "QRCode library was not loaded."
-        );
-
-        return;
-    }
-
-    /*
-       Build the actual live tracking URL.
-    */
-
-    const trackPath =
-        window.location.pathname.replace(
-            /receipt\.html$/i,
-            "track.html"
-        );
-
-    const trackURL =
-        window.location.origin +
-        trackPath +
-        "?tracking=" +
-        encodeURIComponent(tracking);
-
-    console.log(
-        "AGL QR URL:",
-        trackURL
-    );
-
-    try {
-
-        /*
-           Use 72px instead of 90px.
-           This fits the current A4 receipt
-           while remaining much easier to scan.
-        */
-
-        new QRCode(
-            qr,
-            {
-                text: trackURL,
-                width: 72,
-                height: 72
-            }
-        );
-
-    } catch (error) {
-
-        console.error(
-            "QR code generation error:",
-            error
-        );
-
-    }
-}
-
-
+    
     /* =====================================================
        MAP
        ===================================================== */
