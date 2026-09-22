@@ -592,83 +592,219 @@
 
   </section>
 
-        <!-- =================================
-       DOCUMENT VERIFICATION
-       ================================= -->
+      <!-- =================================
+     DIGITAL DOCUMENT VERIFICATION
+     ================================= -->
 
-  <section class="verification-section">
+<section class="verification-section">
 
-    <div class="section-heading">
-      <strong>🛡 DOCUMENT VERIFICATION</strong>
-      <span>AUTHENTICITY &amp; DIGITAL VERIFICATION</span>
+  <div class="section-heading">
+    <strong>🛡 DIGITAL DOCUMENT VERIFICATION</strong>
+    <span>AUTHENTICITY &amp; DIGITAL VERIFICATION</span>
+  </div>
+
+
+  <!-- VERIFIED STATUS -->
+
+  <div class="verification-status">
+
+    <div class="verification-icon" id="verificationIcon">
+      ✓
     </div>
 
-    <div class="verification-grid">
+    <div class="verification-status-text">
 
-      <!-- Verification Code -->
+      <strong id="verificationStatus">
+        VERIFIED &amp; APPROVED
+      </strong>
 
-      <div class="verification-code-box">
-
-        <span>🔐 VERIFICATION CODE</span>
-
-        <strong id="verificationCodeBottom">-</strong>
-
-        <small>
-          Use this code to verify this document.
-        </small>
-
-      </div>
-
-
-      <!-- Barcode -->
-
-      <div class="barcode-box">
-
-        <span>🔎 TRACKING BARCODE</span>
-
-        <svg id="barcodeLarge"></svg>
-
-      </div>
-
-
-      <!-- QR Code -->
-
-      <div class="qr-box">
-
-        <span>📱 SCAN TO TRACK</span>
-
-        <div id="qrcode"></div>
-
-      </div>
-
-
-      <!-- Authorized Officer -->
-
-      <div class="officer-box">
-
-        <span>✍ AUTHORIZED OFFICER</span>
-
-        <img
-          src="image/agl-officer-signature.png"
-          alt="Authorized Officer Signature"
-          class="officer-signature"
-        >
-
-        <img
-          src="image/agl-seal.png"
-          alt="AGL Official Seal"
-          class="agl-seal"
-        >
-
-        <small>
-          Authorized by American Global Logistics
-        </small>
-
-      </div>
+      <span>
+        This shipment document is associated with an
+        authorized AGL shipment record.
+      </span>
 
     </div>
 
-  </section>
+    <div class="authorized-badge">
+      ✓ AUTHORIZED
+    </div>
+
+  </div>
+
+
+  <!-- VERIFICATION MESSAGE -->
+
+  <div class="verification-message">
+
+    <strong>
+      AMERICAN GLOBAL LOGISTICS VERIFICATION SYSTEM
+    </strong>
+
+    <p>
+      This document has been digitally recorded by the
+      American Global Logistics verification system.
+      The receipt number, tracking number, verification
+      code, barcode and QR code are uniquely associated
+      with this shipment record.
+    </p>
+
+    <span>
+      Issuer:
+      <b id="verificationIssuer">
+        AMERICAN GLOBAL LOGISTICS
+      </b>
+    </span>
+
+  </div>
+
+
+  <!-- VERIFICATION IDENTIFIERS -->
+
+  <div class="verification-identifiers">
+
+
+    <!-- RECEIPT NUMBER -->
+
+    <div class="verification-id">
+
+      <span>🧾 RECEIPT NUMBER</span>
+
+      <strong id="verificationReceiptNumber">
+        -
+      </strong>
+
+    </div>
+
+
+    <!-- TRACKING NUMBER -->
+
+    <div class="verification-id">
+
+      <span>🔎 TRACKING NUMBER</span>
+
+      <strong id="verificationTrackingNumber">
+        -
+      </strong>
+
+    </div>
+
+
+    <!-- DOCUMENT NUMBER -->
+
+    <div class="verification-id">
+
+      <span>📄 DOCUMENT NUMBER</span>
+
+      <strong id="verificationDocumentNo">
+        -
+      </strong>
+
+    </div>
+
+
+    <!-- VERIFICATION CODE -->
+
+    <div class="verification-id verification-code-highlight">
+
+      <span>🔐 VERIFICATION CODE</span>
+
+      <strong id="verificationCodeDisplay">
+        -
+      </strong>
+
+    </div>
+
+  </div>
+
+
+  <!-- DIGITAL VERIFICATION TOOLS -->
+
+  <div class="verification-tools">
+
+
+    <!-- BARCODE -->
+
+    <div class="barcode-box">
+
+      <span>🔎 TRACKING BARCODE</span>
+
+      <svg id="barcodeLarge"></svg>
+
+      <small>
+        Encoded shipment tracking identifier
+      </small>
+
+    </div>
+
+
+    <!-- QR CODE -->
+
+    <div class="qr-box">
+
+      <span>📱 SCAN TO TRACK</span>
+
+      <div id="qrcode"></div>
+
+      <small>
+        Scan with a smartphone camera
+      </small>
+
+    </div>
+
+
+    <!-- AUTHORIZED OFFICER -->
+
+    <div class="officer-box">
+
+      <span>✍ AUTHORIZED OFFICER</span>
+
+      <img
+        src="image/agl-officer-signature.png"
+        alt="Authorized Officer Signature"
+        class="officer-signature"
+      >
+
+      <img
+        src="image/agl-seal.png"
+        alt="AGL Official Seal"
+        class="agl-seal"
+      >
+
+      <strong id="authorizedStatus">
+        AUTHORIZED
+      </strong>
+
+      <small>
+        Authorized by American Global Logistics
+      </small>
+
+    </div>
+
+  </div>
+
+
+  <!-- VERIFICATION FOOTNOTE -->
+
+  <div class="verification-footnote">
+
+    <span>
+      <b>AGL DIGITAL VERIFICATION</b>
+    </span>
+
+    <span>
+      Verification Type:
+      <b id="verificationType">
+        AGL DIGITAL VERIFICATION SYSTEM
+      </b>
+    </span>
+
+    <span>
+      ✓ Document record associated with shipment
+    </span>
+
+  </div>
+
+</section>  
 
   <!-- =================================
        FOOTER
