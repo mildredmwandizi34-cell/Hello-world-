@@ -909,8 +909,6 @@ body {
     justify-content: center;
 
     text-align: center;
-
-    overflow: visible;
 }
 
 .officer-title {
@@ -918,24 +916,24 @@ body {
 
     color: #0b4ea2;
 
-    font-size: 5.5px;
-
+    font-size: 5px;
     font-weight: 900;
-
-    white-space: nowrap;
 }
 
 .officer-signature {
     width: 100px;
-    height: 36px;
+    height: 38px;
+
     object-fit: contain;
     display: block;
 }
 
 .officer-seal {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
+
     margin-top: 2px;
+
     object-fit: contain;
     display: block;
 }
