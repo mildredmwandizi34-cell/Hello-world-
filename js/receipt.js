@@ -1,791 +1,1078 @@
 /* =========================================================
    AMERICAN GLOBAL LOGISTICS
-   SHIPMENT RECEIPT
-   A4 LANDSCAPE — HORIZONTAL PROFESSIONAL LAYOUT
+   SHIPMENT RECEIPT SYSTEM
    ========================================================= */
 
-@page {
-    size: A4 landscape;
-    margin: 0;
-}
-
-* {
-    box-sizing: border-box;
-}
-
-html,
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #dfe5ec;
-    color: #17212b;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-}
-
-body {
-    padding: 8px;
-}
-
-
-/* =========================================================
-   A4 PAGE
-   ========================================================= */
-
-.receipt-page {
-    width: 297mm;
-    height: 210mm;
-    margin: 0 auto;
-    padding: 4mm;
-    background: #ffffff;
-    overflow: hidden;
-}
-
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-.receipt-header {
-    width: 100%;
-    height: 27mm;
-    display: grid;
-    grid-template-columns: 1fr 72mm;
-    gap: 3mm;
-    margin-bottom: 2.5mm;
-}
-
-.brand-area {
-    display: flex;
-    align-items: center;
-    min-width: 0;
-    padding: 3mm 4mm;
-    background: #0b4ea2;
-    border: 2px solid #083b80;
-}
-
-.receipt-logo {
-    width: 23mm;
-    height: 23mm;
-    object-fit: contain;
-    flex-shrink: 0;
-    margin-right: 4mm;
-}
-
-.brand-text {
-    min-width: 0;
-    color: #ffffff;
-}
-
-.brand-text h1 {
-    margin: 0 0 2mm;
-    font-size: 18px;
-    font-weight: 900;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-}
-
-.brand-text p {
-    margin: 0;
-    font-size: 8.5px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.receipt-heading {
-    min-width: 0;
-    padding: 2.5mm;
-    border: 2px solid #0b4ea2;
-    background: #eaf3ff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-}
-
-.official-label {
-    font-size: 6.5px;
-    font-weight: 900;
-    color: #0b4ea2;
-    letter-spacing: 0.6px;
-}
-
-.receipt-title {
-    margin: 1mm 0 2mm;
-    font-size: 14px;
-    font-weight: 900;
-    color: #083b80;
-    letter-spacing: 0.5px;
-}
-
-.document-meta {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1mm;
-}
-
-.document-meta div {
-    min-width: 0;
-    padding: 1.2mm;
-    background: #ffffff;
-    border: 1px solid #a9c4e0;
-}
-
-.document-meta span {
-    display: block;
-    font-size: 5px;
-    font-weight: 900;
-    color: #0b4ea2;
-}
-
-.document-meta strong {
-    display: block;
-    margin-top: 0.6mm;
-    font-size: 6px;
-    overflow-wrap: anywhere;
-}
-
-
-/* =========================================================
-   SUMMARY BAR
-   ========================================================= */
-
-.summary-bar {
-    width: 100%;
-    height: 13mm;
-    display: grid;
-    grid-template-columns:
-        1fr
-        0.9fr
-        0.9fr
-        1fr
-        0.8fr
-        1.35fr
-        0.9fr
-        0.9fr;
-    border: 2px solid #0b4ea2;
-    background: #eaf3ff;
-    margin-bottom: 2.5mm;
-}
-
-.summary-item {
-    min-width: 0;
-    padding: 1.5mm 2mm;
-    border-right: 1px solid #b4cbe3;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.summary-item:last-child {
-    border-right: 0;
-}
-
-.summary-item label {
-    font-size: 5.5px;
-    font-weight: 900;
-    color: #0b4ea2;
-    letter-spacing: 0.4px;
-    margin-bottom: 0.8mm;
-}
-
-.summary-item strong {
-    font-size: 7.5px;
-    font-weight: 800;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-#summaryPayment,
-#summaryVerify {
-    color: #16803c;
-}
-
-
-/* =========================================================
-   THREE MAIN HORIZONTAL BOXES
-   ========================================================= */
-
-.information-grid {
-    width: 100%;
-    height: 52mm;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1.12fr;
-    gap: 2.5mm;
-    margin-bottom: 2.5mm;
-}
-
-.info-card {
-    min-width: 0;
-    height: 52mm;
-    border: 2px solid #0b4ea2;
-    background: #f4f9ff;
-    overflow: hidden;
-}
-
-.section-heading {
-    height: 8mm;
-    padding: 1.8mm 2.5mm;
-    display: flex;
-    align-items: center;
-    background: #0b4ea2;
-    color: #ffffff;
-    font-size: 7.5px;
-    font-weight: 900;
-    letter-spacing: 0.4px;
-}
-
-
-/* =========================================================
-   SENDER / RECEIVER
-   ========================================================= */
-
-.person-details {
-    padding: 2mm 2.5mm;
-}
-
-.person-details div {
-    min-width: 0;
-    display: grid;
-    grid-template-columns: 18mm 1fr;
-    gap: 2mm;
-    padding: 1.1mm 0;
-    border-bottom: 1px solid #d4e1ee;
-}
-
-.person-details label {
-    font-size: 5.5px;
-    font-weight: 900;
-    color: #0b4ea2;
-}
-
-.person-details strong {
-    min-width: 0;
-    font-size: 7px;
-    line-height: 1.1;
-    overflow-wrap: anywhere;
-}
-
-.person-details div:first-child strong {
-    color: #083b80;
-    font-size: 8px;
-}
-
-
-/* =========================================================
-   SHIPMENT DETAILS
-   ========================================================= */
-
-.shipment-detail-grid {
-    padding: 1.8mm 2.5mm;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 3mm;
-    row-gap: 1mm;
-}
-
-.shipment-detail-grid > div {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 0.9mm;
-    border-bottom: 1px solid #d4e1ee;
-}
-
-.shipment-detail-grid label {
-    font-size: 5px;
-    font-weight: 900;
-    color: #0b4ea2;
-}
-
-.shipment-detail-grid strong {
-    margin-top: 0.5mm;
-    font-size: 6.5px;
-    line-height: 1.05;
-    overflow-wrap: anywhere;
-}
-
-.shipment-detail-grid .wide-detail {
-    grid-column: 1 / -1;
-}
-
-
-/* =========================================================
-   ROUTE + CHARGES
-   ========================================================= */
-
-.route-charges-grid {
-    width: 100%;
-    height: 43mm;
-    display: grid;
-    grid-template-columns: 2.05fr 0.95fr;
-    gap: 2.5mm;
-    margin-bottom: 2.5mm;
-}
-
-.route-card,
-.charges-card {
-    min-width: 0;
-    height: 43mm;
-    border: 2px solid #0b4ea2;
-    background: #f4f9ff;
-    overflow: hidden;
-}
-
-
-/* =========================================================
-   ROUTE INFORMATION
-   ========================================================= */
-
-.route-information {
-    height: 10mm;
-    padding: 1.5mm 2.5mm;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr auto 1fr;
-    align-items: center;
-    gap: 2mm;
-}
-
-.route-location {
-    min-width: 0;
-}
-
-.route-location label {
-    display: block;
-    font-size: 5px;
-    font-weight: 900;
-    color: #0b4ea2;
-    margin-bottom: 0.6mm;
-}
-
-.route-location strong {
-    display: block;
-    font-size: 6.5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.route-arrow {
-    color: #ff9800;
-    font-size: 13px;
-    font-weight: 900;
-}
-
-
-/* =========================================================
-   MAP
-   ========================================================= */
-
-.map-wrapper {
-    position: relative;
-    height: 21mm;
-    margin: 0 2.5mm 2.5mm;
-    border: 1px solid #9dbbd9;
-    overflow: hidden;
-    background: #dcecff;
-}
-
-#receiptMap {
-    width: 100%;
-    height: 100%;
-}
-
-.leaflet-control-attribution {
-    display: none !important;
-}
-
-.leaflet-control-zoom {
-    transform: scale(0.7);
-    transform-origin: top left;
-}
-
-.agl-airplane {
-    position: absolute;
-    z-index: 1000;
-    left: 48%;
-    top: 42%;
-    color: #ff9800;
-    font-size: 18px;
-    font-weight: 900;
-    pointer-events: none;
-    animation: aglPlane 4s ease-in-out infinite;
-}
-
-@keyframes aglPlane {
-
-    0% {
-        transform: translateX(-30px) translateY(7px) rotate(-8deg);
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =====================================================
+       HELPERS
+       ===================================================== */
+
+    function setText(id, value) {
+        const el = document.getElementById(id);
+
+        if (el) {
+            el.textContent =
+                value === undefined ||
+                value === null ||
+                value === ""
+                    ? "-"
+                    : String(value);
+        }
     }
 
-    50% {
-        transform: translateX(0) translateY(-3px) rotate(0deg);
+
+    function getValue(obj, keys, fallback = "") {
+
+        for (const key of keys) {
+
+            if (
+                obj &&
+                obj[key] !== undefined &&
+                obj[key] !== null &&
+                obj[key] !== ""
+            ) {
+                return obj[key];
+            }
+        }
+
+        return fallback;
     }
 
-    100% {
-        transform: translateX(30px) translateY(7px) rotate(8deg);
-    }
-}
 
+    function money(value) {
 
-/* =========================================================
-   CHARGES
-   ========================================================= */
+        const number = Number(value);
 
-.charges-content {
-    padding: 2mm 2.5mm;
-}
+        if (isNaN(number)) {
+            return "0.00";
+        }
 
-.charge-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 1.7mm 0;
-    border-bottom: 1px solid #d4e1ee;
-    font-size: 7px;
-    font-weight: 700;
-}
-
-.charge-row strong {
-    color: #083b80;
-}
-
-.charge-line {
-    height: 1px;
-    background: #0b4ea2;
-    margin: 2mm 0;
-}
-
-.total-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2mm;
-    background: #e3f1ff;
-    border: 1px solid #9dbbd9;
-}
-
-.total-row span {
-    font-size: 6px;
-    font-weight: 900;
-    color: #083b80;
-}
-
-.total-row strong {
-    font-size: 11px;
-    font-weight: 900;
-    color: #0b4ea2;
-}
-
-.payment-result {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 2mm;
-    font-size: 6.5px;
-    font-weight: 900;
-}
-
-.payment-result strong {
-    color: #16803c;
-}
-
-
-/* =========================================================
-   VERIFICATION
-   ========================================================= */
-
-.verification-section {
-    width: 100%;
-    height: 43mm;
-    border: 2px solid #0b4ea2;
-    background: #f4f9ff;
-    overflow: hidden;
-    margin-bottom: 2.5mm;
-}
-
-.verification-top {
-    height: 8mm;
-    padding: 1.2mm 2.5mm;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #c8d9e9;
-}
-
-.verified-status {
-    display: flex;
-    align-items: center;
-    gap: 2mm;
-}
-
-.verified-circle {
-    width: 5.5mm;
-    height: 5.5mm;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #16803c;
-    color: #ffffff;
-    font-size: 9px;
-    font-weight: 900;
-}
-
-.verified-status div:last-child {
-    display: flex;
-    flex-direction: column;
-}
-
-.verified-status strong {
-    font-size: 7px;
-    color: #16803c;
-}
-
-.verified-status span {
-    font-size: 5.5px;
-}
-
-.authorized-status {
-    padding: 1.2mm 3mm;
-    border: 1px solid #16803c;
-    background: #edf9f1;
-    color: #16803c;
-    font-size: 6.5px;
-    font-weight: 900;
-}
-
-
-/* =========================================================
-   VERIFICATION IDENTIFIERS
-   ========================================================= */
-
-.verification-identifiers {
-    height: 9mm;
-    padding: 1.2mm 2.5mm;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2mm;
-}
-
-.verification-identifiers > div {
-    min-width: 0;
-    padding: 1mm 1.5mm;
-    background: #ffffff;
-    border: 1px solid #b7cee5;
-}
-
-.verification-identifiers label {
-    display: block;
-    font-size: 4.5px;
-    font-weight: 900;
-    color: #0b4ea2;
-}
-
-.verification-identifiers strong {
-    display: block;
-    margin-top: 0.5mm;
-    font-size: 6.5px;
-    overflow-wrap: anywhere;
-}
-
-
-/* =========================================================
-   VERIFICATION TOOLS
-   ========================================================= */
-
-.verification-tools {
-    height: 22mm;
-    padding: 0 2.5mm 2mm;
-    display: grid;
-    grid-template-columns: 1.5fr 0.7fr 1fr;
-    gap: 2.5mm;
-}
-
-.barcode-area,
-.qr-area,
-.officer-area {
-    min-width: 0;
-    background: #ffffff;
-    border: 1px solid #b7cee5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.barcode-area {
-    flex-direction: column;
-    padding: 1mm 2mm;
-}
-
-.barcode-area label,
-.qr-area label {
-    align-self: flex-start;
-    font-size: 4.5px;
-    font-weight: 900;
-    color: #0b4ea2;
-}
-
-#barcodeLarge {
-    width: 100%;
-    height: 14mm;
-}
-
-.qr-area {
-    flex-direction: column;
-    gap: 0.5mm;
-}
-
-#qrcode {
-    width: 15mm;
-    height: 15mm;
-}
-
-#qrcode img,
-#qrcode canvas {
-    width: 15mm !important;
-    height: 15mm !important;
-}
-
-.qr-area span {
-    font-size: 4.5px;
-    font-weight: 900;
-    color: #0b4ea2;
-}
-
-.officer-area {
-    position: relative;
-    flex-direction: column;
-    gap: 1mm;
-    padding: 1mm;
-}
-
-.officer-title {
-    font-size: 5px;
-    font-weight: 900;
-    color: #0b4ea2;
-}
-
-.officer-signature {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2mm;
-    height: 13mm;
-}
-
-.officer-signature img:first-child {
-    width: 30mm;
-    max-height: 10mm;
-    object-fit: contain;
-}
-
-.officer-signature img:last-child {
-    width: 14mm;
-    height: 14mm;
-    object-fit: contain;
-}
-
-.officer-area > strong {
-    font-size: 5.5px;
-    color: #16803c;
-}
-
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-.receipt-footer {
-    width: 100%;
-    height: 17mm;
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1.2fr;
-    background: #0b4ea2;
-    color: #ffffff;
-    border: 2px solid #083b80;
-}
-
-.footer-company,
-.footer-official,
-.footer-receipt {
-    min-width: 0;
-    padding: 2mm 3mm;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.footer-official {
-    align-items: center;
-    text-align: center;
-    border-left: 1px solid rgba(255,255,255,0.35);
-    border-right: 1px solid rgba(255,255,255,0.35);
-}
-
-.footer-receipt {
-    align-items: flex-end;
-    text-align: right;
-}
-
-.receipt-footer strong {
-    font-size: 7px;
-    margin-bottom: 0.7mm;
-}
-
-.receipt-footer span {
-    font-size: 5.5px;
-    line-height: 1.3;
-}
-
-.footer-receipt strong {
-    font-size: 7px;
-    margin: 0 0 0.5mm;
-}
-
-
-/* =========================================================
-   PRINT
-   ========================================================= */
-
-@media print {
-
-    html,
-    body {
-        width: 297mm;
-        height: 210mm;
-        margin: 0;
-        padding: 0;
-        background: #ffffff;
+        return number.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
     }
 
-    body {
-        overflow: hidden;
+
+    function cleanText(value) {
+
+        if (
+            value === undefined ||
+            value === null ||
+            value === ""
+        ) {
+            return "-";
+        }
+
+        return String(value);
     }
 
-    .receipt-page {
-        width: 297mm;
-        height: 210mm;
-        min-height: 210mm;
-        margin: 0;
-        padding: 4mm;
-        overflow: hidden;
+
+    /* =====================================================
+       FIND TRACKING NUMBER
+       ===================================================== */
+
+    const params = new URLSearchParams(window.location.search);
+
+    const trackingFromURL =
+        params.get("tracking");
+
+
+    /* =====================================================
+       LOAD SHIPMENT
+       ===================================================== */
+
+    let shipments = [];
+
+    try {
+        shipments =
+            JSON.parse(
+                localStorage.getItem("shipments") || "[]"
+            );
+    } catch (error) {
+        shipments = [];
     }
-}
 
 
-/* =========================================================
-   SCREEN
-   ========================================================= */
+    let shipment = null;
 
-@media screen and (max-width: 1000px) {
 
-    body {
-        overflow-x: auto;
+    if (trackingFromURL) {
+
+        shipment =
+            shipments.find(function (item) {
+
+                return (
+                    String(item.trackingNumber || "")
+                        .toUpperCase() ===
+                    String(trackingFromURL)
+                        .toUpperCase()
+                    ||
+                    String(item.tracking || "")
+                        .toUpperCase() ===
+                    String(trackingFromURL)
+                        .toUpperCase()
+                );
+
+            });
     }
 
-    .receipt-page {
-        margin-left: 0;
-        margin-right: 0;
+
+    /* =====================================================
+       FALLBACK TO SINGLE SHIPMENT
+       ===================================================== */
+
+    if (!shipment) {
+
+        try {
+
+            const saved =
+                JSON.parse(
+                    localStorage.getItem("shipment") || "null"
+                );
+
+            if (saved) {
+                shipment = saved;
+            }
+
+        } catch (error) {
+            shipment = null;
+        }
     }
+
+
+    /* =====================================================
+       IF NOTHING FOUND
+       ===================================================== */
+
+    if (!shipment) {
+
+        document.body.innerHTML = `
+            <div style="
+                min-height:100vh;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-family:Arial,sans-serif;
+                background:#f2f5f8;
+            ">
+                <div style="
+                    background:#fff;
+                    border:2px solid #0b4ea2;
+                    padding:35px;
+                    text-align:center;
+                    max-width:420px;
+                ">
+                    <h2 style="color:#0b4ea2;">
+                        Shipment Not Found
+                    </h2>
+
+                    <p>
+                        The requested shipment could not be found.
+                    </p>
+
+                    <a href="create-shipment.html"
+                       style="
+                           display:inline-block;
+                           padding:10px 18px;
+                           background:#0b4ea2;
+                           color:#fff;
+                           text-decoration:none;
+                           font-weight:bold;
+                       ">
+                        Create Shipment
+                    </a>
+                </div>
+            </div>
+        `;
+
+        return;
     }
+
+
+    /* =====================================================
+       CORE VALUES
+       ===================================================== */
+
+    const tracking =
+        getValue(
+            shipment,
+            ["trackingNumber", "tracking"],
+            trackingFromURL || "-"
+        );
+
+
+    const receiptNumber =
+        getValue(
+            shipment,
+            ["receiptNumber"],
+            "RCP-" + Date.now()
+        );
+
+
+    const documentNo =
+        getValue(
+            shipment,
+            ["documentNo", "documentNumber"],
+            "DOC-" +
+            Math.floor(
+                100000 +
+                Math.random() * 900000
+            )
+        );
+
+
+    const verificationCode =
+        getValue(
+            shipment,
+            ["verificationCode"],
+            "AGL-" +
+            Math.random()
+                .toString(36)
+                .substring(2, 8)
+                .toUpperCase()
+        );
+
+
+    const issueDate =
+        getValue(
+            shipment,
+            ["createdTime", "issueDate", "createdAt"],
+            new Date().toISOString()
+        );
+
+
+    const formattedDate =
+        new Date(issueDate).toLocaleDateString(
+            "en-GB"
+        );
+
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    setText(
+        "receiptNumber",
+        receiptNumber
+    );
+
+    setText(
+        "receiptDate",
+        formattedDate
+    );
+
+    setText(
+        "documentNo",
+        documentNo
+    );
+
+
+    /* =====================================================
+       SENDER
+       ===================================================== */
+
+    setText(
+        "senderName",
+        getValue(
+            shipment,
+            ["senderName", "sender"]
+        )
+    );
+
+    setText(
+        "senderCompany",
+        getValue(
+            shipment,
+            ["senderCompany"]
+        )
+    );
+
+    setText(
+        "senderAddress",
+        getValue(
+            shipment,
+            ["senderAddress"]
+        )
+    );
+
+    setText(
+        "senderCity",
+        getValue(
+            shipment,
+            ["senderCity"]
+        )
+    );
+
+    setText(
+        "senderCountry",
+        getValue(
+            shipment,
+            ["senderCountry"]
+        )
+    );
+
+    setText(
+        "senderPhone",
+        getValue(
+            shipment,
+            ["senderPhone"]
+        )
+    );
+
+    setText(
+        "senderEmail",
+        getValue(
+            shipment,
+            ["senderEmail"]
+        )
+    );
+
+
+    /* =====================================================
+       RECEIVER
+       ===================================================== */
+
+    setText(
+        "receiverName",
+        getValue(
+            shipment,
+            ["receiverName", "receiver"]
+        )
+    );
+
+    setText(
+        "receiverCompany",
+        getValue(
+            shipment,
+            ["receiverCompany"]
+        )
+    );
+
+    setText(
+        "receiverAddress",
+        getValue(
+            shipment,
+            ["receiverAddress"]
+        )
+    );
+
+    setText(
+        "receiverCity",
+        getValue(
+            shipment,
+            ["receiverCity"]
+        )
+    );
+
+    setText(
+        "receiverCountry",
+        getValue(
+            shipment,
+            ["receiverCountry"]
+        )
+    );
+
+    setText(
+        "receiverPhone",
+        getValue(
+            shipment,
+            ["receiverPhone"]
+        )
+    );
+
+    setText(
+        "receiverEmail",
+        getValue(
+            shipment,
+            ["receiverEmail"]
+        )
+    );
+
+
+    /* =====================================================
+       SHIPMENT DETAILS
+       ===================================================== */
+
+    const reference =
+        getValue(
+            shipment,
+            ["referenceNumber", "reference"]
+        );
+
+    const customerReference =
+        getValue(
+            shipment,
+            ["customerReference"]
+        );
+
+    const packageName =
+        getValue(
+            shipment,
+            ["package"]
+        );
+
+    const packageType =
+        getValue(
+            shipment,
+            ["packageType"]
+        );
+
+    const pieces =
+        getValue(
+            shipment,
+            ["pieces"],
+            "1"
+        );
+
+    const weight =
+        getValue(
+            shipment,
+            ["weight"]
+        );
+
+    const dimensions =
+        getValue(
+            shipment,
+            ["dimensions"]
+        );
+
+    const declaredValue =
+        getValue(
+            shipment,
+            ["declaredValue"],
+            "0"
+        );
+
+    const service =
+        getValue(
+            shipment,
+            ["service"],
+            "Air Freight"
+        );
+
+    const insurance =
+        getValue(
+            shipment,
+            ["insurance"],
+            "No"
+        );
+
+    const paymentStatus =
+        getValue(
+            shipment,
+            ["paymentStatus", "payment"],
+            "Pending"
+        );
+
+    const delivery =
+        getValue(
+            shipment,
+            ["deliveryDate", "delivery"]
+        );
+
+    const instructions =
+        getValue(
+            shipment,
+            ["instructions"],
+            "None"
+        );
+
+
+    setText("referenceNumber", reference);
+    setText("customerReference", customerReference);
+    setText("package", packageName);
+    setText("packageType", packageType);
+    setText("pieces", pieces);
+    setText("weight", weight);
+    setText("dimensions", dimensions);
+
+    setText(
+        "declaredValue",
+        declaredValue
+            ? money(declaredValue)
+            : "-"
+    );
+
+    setText("service", service);
+    setText("insurance", insurance);
+    setText("paymentStatus", paymentStatus);
+    setText("delivery", delivery);
+    setText("instructions", instructions);
+
+
+    /* =====================================================
+       ROUTE
+       ===================================================== */
+
+    const origin =
+        getValue(
+            shipment,
+            ["origin"],
+            "Origin"
+        );
+
+    const destination =
+        getValue(
+            shipment,
+            ["destination"],
+            "Destination"
+        );
+
+    const currentLocation =
+        getValue(
+            shipment,
+            ["currentLocation", "location"],
+            origin
+        );
+
+
+    setText("origin", origin);
+    setText("currentLocation", currentLocation);
+    setText("destination", destination);
+
+
+    /* =====================================================
+       SUMMARY BAR
+       ===================================================== */
+
+    let transport = service;
+
+    if (
+        String(service)
+            .toLowerCase()
+            .includes("air")
+    ) {
+        transport = "AIR";
+    } else if (
+        String(service)
+            .toLowerCase()
+            .includes("ocean")
+    ) {
+        transport = "OCEAN";
+    } else if (
+        String(service)
+            .toLowerCase()
+            .includes("road")
+    ) {
+        transport = "ROAD";
+    } else if (
+        String(service)
+            .toLowerCase()
+            .includes("express")
+    ) {
+        transport = "EXPRESS";
+    }
+
+
+    setText(
+        "summaryService",
+        service
+    );
+
+    setText(
+        "summaryTransport",
+        transport
+    );
+
+
+    /* =====================================================
+       CHARGES
+       ===================================================== */
+
+    const shippingCost =
+        Number(
+            getValue(
+                shipment,
+                ["shippingCost"],
+                0
+            )
+        ) || 0;
+
+
+    const tax =
+        Number(
+            getValue(
+                shipment,
+                ["tax"],
+                0
+            )
+        ) || 0;
+
+
+    const discount =
+        Number(
+            getValue(
+                shipment,
+                ["discount"],
+                0
+            )
+        ) || 0;
+
+
+    let totalAmount =
+        Number(
+            getValue(
+                shipment,
+                ["totalAmount"],
+                0
+            )
+        ) || 0;
+
+
+    if (totalAmount === 0) {
+
+        totalAmount =
+            shippingCost +
+            tax -
+            discount;
+
+    }
+
+
+    setText(
+        "shippingCost",
+        money(shippingCost)
+    );
+
+    setText(
+        "tax",
+        money(tax)
+    );
+
+    setText(
+        "discount",
+        money(discount)
+    );
+
+    setText(
+        "totalAmount",
+        money(totalAmount)
+    );
+
+
+    setText(
+        "paymentStatusBottom",
+        paymentStatus
+    );
+
+
+    setText(
+        "summaryShipping",
+        money(shippingCost)
+    );
+
+    setText(
+        "summaryPackage",
+        packageType || packageName
+    );
+
+    setText(
+        "summaryWeight",
+        weight
+    );
+
+    setText(
+        "summaryRoute",
+        origin + " → " + destination
+    );
+
+    setText(
+        "summaryPayment",
+        paymentStatus
+    );
+
+    setText(
+        "summaryVerify",
+        verificationCode
+    );
+
+
+    /* =====================================================
+       PAYMENT COLORS
+       ===================================================== */
+
+    const paymentElements = [
+        document.getElementById("paymentStatus"),
+        document.getElementById("paymentStatusBottom"),
+        document.getElementById("summaryPayment")
+    ];
+
+    paymentElements.forEach(function (element) {
+
+        if (!element) {
+            return;
+        }
+
+        const value =
+            element.textContent
+                .toLowerCase();
+
+        if (
+            value.includes("paid") ||
+            value.includes("completed")
+        ) {
+            element.style.color =
+                "#16803c";
+        }
+
+    });
+
+
+    /* =====================================================
+       VERIFICATION
+       ===================================================== */
+
+    setText(
+        "verificationStatus",
+        "VERIFIED & APPROVED"
+    );
+
+    setText(
+        "verificationReceiptNumber",
+        receiptNumber
+    );
+
+    setText(
+        "verificationTrackingNumber",
+        tracking
+    );
+
+    setText(
+        "verificationDocumentNo",
+        documentNo
+    );
+
+    setText(
+        "verificationCodeDisplay",
+        verificationCode
+    );
+
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
+    setText(
+        "footerDocumentNo",
+        documentNo
+    );
+
+    setText(
+        "footerIssueDate",
+        formattedDate
+    );
+
+    setText(
+        "receiptNumberBottom",
+        receiptNumber
+    );
+
+    setText(
+        "trackingNumberBottom",
+        tracking
+    );
+
+
+    /* =====================================================
+       BARCODE
+       ===================================================== */
+
+    if (
+        typeof JsBarcode !== "undefined"
+    ) {
+
+        try {
+
+            JsBarcode(
+                "#barcodeLarge",
+                tracking,
+                {
+                    format: "CODE128",
+                    width: 1.4,
+                    height: 55,
+                    displayValue: true,
+                    fontSize: 10,
+                    margin: 2
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Barcode error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       QR CODE
+       ===================================================== */
+
+    const qrElement =
+        document.getElementById("qrcode");
+
+
+    if (
+        qrElement &&
+        typeof QRCode !== "undefined"
+    ) {
+
+        qrElement.innerHTML = "";
+
+        try {
+
+            const trackingURL =
+                "https://mildredmwandizi34-cell.github.io/Hello-world-/track.html?tracking=" +
+                encodeURIComponent(tracking);
+
+
+            new QRCode(
+                qrElement,
+                {
+                    text: trackingURL,
+                    width: 100,
+                    height: 100,
+                    correctLevel:
+                        QRCode.CorrectLevel.M
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "QR code error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       MAP
+       ===================================================== */
+
+    initializeMap(
+        origin,
+        destination,
+        currentLocation
+    );
+
+
+    /* =====================================================
+       MAP FUNCTION
+       ===================================================== */
+
+    function initializeMap(
+        originText,
+        destinationText,
+        currentText
+    ) {
+
+        const mapElement =
+            document.getElementById(
+                "receiptMap"
+            );
+
+        if (
+            !mapElement ||
+            typeof L === "undefined"
+        ) {
+            return;
+        }
+
+
+        const locations = {
+
+            "kenya": [-1.286389, 36.817223],
+
+            "nairobi": [-1.286389, 36.817223],
+
+            "usa": [39.8283, -98.5795],
+
+            "united states": [39.8283, -98.5795],
+
+            "new york": [40.7128, -74.0060],
+
+            "uk": [55.3781, -3.4360],
+
+            "united kingdom": [55.3781, -3.4360],
+
+            "london": [51.5074, -0.1278],
+
+            "scotland": [56.4907, -4.2026],
+
+            "canada": [56.1304, -106.3468],
+
+            "germany": [51.1657, 10.4515],
+
+            "france": [46.2276, 2.2137],
+
+            "italy": [41.8719, 12.5674],
+
+            "spain": [40.4637, -3.7492],
+
+            "china": [35.8617, 104.1954],
+
+            "japan": [36.2048, 138.2529],
+
+            "australia": [-25.2744, 133.7751],
+
+            "india": [20.5937, 78.9629],
+
+            "south africa": [-30.5595, 22.9375],
+
+            "costa rica": [9.7489, -83.7534]
+
+        };
+
+
+        function findCoordinates(text) {
+
+            const value =
+                String(text || "")
+                    .toLowerCase()
+                    .trim();
+
+
+            for (const key in locations) {
+
+                if (
+                    value.includes(key)
+                ) {
+                    return locations[key];
+                }
+
+            }
+
+
+            return null;
+        }
+
+
+        const originCoords =
+            findCoordinates(
+                originText
+            ) ||
+            locations.kenya;
+
+
+        const destinationCoords =
+            findCoordinates(
+                destinationText
+            ) ||
+            locations.uk;
+
+
+        const currentCoords =
+            findCoordinates(
+                currentText
+            ) ||
+            originCoords;
+
+
+        const map =
+            L.map(
+                mapElement,
+                {
+                    zoomControl: false,
+                    attributionControl: false
+                }
+            );
+
+
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 18
+            }
+        ).addTo(map);
+
+
+        L.marker(
+            originCoords
+        )
+        .addTo(map)
+        .bindTooltip(
+            "Origin",
+            {
+                permanent: false
+            }
+        );
+
+
+        L.marker(
+            destinationCoords
+        )
+        .addTo(map)
+        .bindTooltip(
+            "Destination",
+            {
+                permanent: false
+            }
+        );
+
+
+        L.marker(
+            currentCoords
+        )
+        .addTo(map)
+        .bindTooltip(
+            "Current Location",
+            {
+                permanent: false
+            }
+        );
+
+
+        const routeLine =
+            L.polyline(
+                [
+                    originCoords,
+                    currentCoords,
+                    destinationCoords
+                ],
+                {
+                    weight: 3,
+                    dashArray: "7 5"
+                }
+            )
+            .addTo(map);
+
+
+        try {
+
+            map.fitBounds(
+                routeLine.getBounds(),
+                {
+                    padding: [10, 10]
+                }
+            );
+
+        } catch (error) {
+
+            map.setView(
+                originCoords,
+                2
+            );
+
+        }
+
+
+        setTimeout(function () {
+
+            map.invalidateSize();
+
+        }, 300);
+
+    }
+
+});
