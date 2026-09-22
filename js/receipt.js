@@ -921,86 +921,17 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-            /* =================================================
-               MOVING AIRPLANE
-               ================================================= */
+      /* =================================================
+   STATIONARY AIRPLANE
+   ================================================= */
 
-            const airplane =
-                document.querySelector(
-                    ".agl-airplane"
-                );
+const airplane =
+    document.querySelector(".agl-airplane");
 
-
-            if (airplane) {
-
-                let progress = 0;
-
-                function moveAirplane() {
-
-                    progress += 0.003;
-
-                    if (progress > 1) {
-                        progress = 0;
-                    }
-
-                    const latitude =
-                        originCoordinates[0] +
-                        (
-                            destinationCoordinates[0] -
-                            originCoordinates[0]
-                        ) *
-                        progress;
-
-                    const longitude =
-                        originCoordinates[1] +
-                        (
-                            destinationCoordinates[1] -
-                            originCoordinates[1]
-                        ) *
-                        progress;
-
-
-                    const point =
-                        map.latLngToContainerPoint(
-                            [
-                                latitude,
-                                longitude
-                            ]
-                        );
-
-
-                    airplane.style.left =
-                        point.x + "px";
-
-                    airplane.style.top =
-                        point.y + "px";
-
-
-                    requestAnimationFrame(
-                        moveAirplane
-                    );
-                }
-
-
-                moveAirplane();
-            }
-
-
-            setTimeout(
-                function () {
-                    map.invalidateSize();
-                },
-                500
-            );
-        }
-
-    } catch (error) {
-
-        console.warn(
-            "AGL map error:",
-            error
-        );
-    }
+if (airplane) {
+    airplane.style.animation = "none";
+    airplane.style.transform = "translate(-50%, -50%)";
+}
 
 
     /* =====================================================
