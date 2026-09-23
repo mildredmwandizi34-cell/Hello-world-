@@ -1,187 +1,455 @@
-function trackShipment() {
+/* =========================================================
+   AMERICAN GLOBAL LOGISTICS
+   CUSTOMER TRACKING
+   SUPABASE LIVE VERSION
+   ========================================================= */
 
-    const tracking = document.getElementById("trackingNumber").value.trim().toUpperCase();
+"use strict";
 
-    const shipments = {
+/* =========================================================
+   SUPABASE
+   ========================================================= */
 
-        "AGL123456": {
-            status: "In Transit",
-            location: "New York Distribution Center",
-            delivery: "15 July 2026",
-            route: "New York → London",
-            trackNo: "AGL123456",
-            sender: "American Global Logistics",
-            recipient: "John Smith",
-            origin: "New York, USA",
-            destination: "London, United Kingdom",
-            service: "Express Air Freight",
-            weight: "12.5 kg",
-            receiverName: "Not Delivered",
-            deliveryDate: "Pending",
-            deliveryTime: "Pending",
-            signature: "Pending Delivery",
-            progress: `
-<li>✅ Shipment Created</li>
-<li>✅ Picked Up</li>
-<li>✅ Arrived at International Hub</li>
-<li>🟡 Customs Clearance</li>
-<li>⬜ Out for Delivery</li>
-<li>⬜ Delivered</li>
-`,
-            history: `
-                <tr>
-                    <td>10 Jul 2026</td>
-                    <td>09:15</td>
-                    <td>Shipment Created</td>
-                    <td>New York, USA</td>
-                </tr>
+const SUPABASE_URL =
+    "https://aptkocjxcwmfatcycdnv.supabase.co";
 
-                <tr>
-                    <td>11 Jul 2026</td>
-                    <td>07:40</td>
-                    <td>Picked Up</td>
-                    <td>New York, USA</td>
-                </tr>
+const SUPABASE_KEY =
+    "PASTE_YOUR_EXISTING_SUPABASE_KEY_HERE";
 
-                <tr>
-                    <td>12 Jul 2026</td>
-                    <td>18:20</td>
-                    <td>Departed International Hub</td>
-                    <td>New York, USA</td>
-                </tr>
-            `
-        },
 
-        "AGL654321": {
-            status: "Delivered",
-            location: "Toronto, Canada",
-            delivery: "Delivered on 10 July 2026",
-            route: "Los Angeles → Toronto",
-            trackNo: "AGL654321",
-            sender: "American Global Logistics",
-            recipient: "Sarah Johnson",
-            origin: "Los Angeles, USA",
-            destination: "Toronto, Canada",
-            service: "Express Air Freight",
-            weight: "8.4 kg",
-            receiverName: "Sarah Johnson",
-            deliveryDate: "10 July 2026",
-            deliveryTime: "2:45 PM",
-            signature: "Sarah Johnson",
-            progress: `
-<li>✅ Shipment Created</li>
-<li>✅ Picked Up</li>
-<li>✅ Arrived at International Hub</li>
-<li>✅ Customs Clearance</li>
-<li>✅ Out for Delivery</li>
-<li>✅ Delivered</li>
-`,
-            history: `
-                <tr>
-                    <td>08 Jul 2026</td>
-                    <td>10:30</td>
-                    <td>Shipment Created</td>
-                    <td>Los Angeles, USA</td>
-                </tr>
+/* =========================================================
+   HELPERS
+   ========================================================= */
 
-                <tr>
-                    <td>09 Jul 2026</td>
-                    <td>08:50</td>
-                    <td>Out for Delivery</td>
-                    <td>Toronto, Canada</td>
-                </tr>
+function getElement(id) {
+    return document.getElementById(id);
+}
 
-                <tr>
-                    <td>10 Jul 2026</td>
-                    <td>14:45</td>
-                    <td>Delivered</td>
-                    <td>Toronto, Canada</td>
-                </tr>
-            `
-        },
+function setText(id, value) {
+    const element = getElement(id);
 
-        "AGL987654": {
-            status: "Customs Clearance",
-            location: "Dubai, UAE",
-            delivery: "17 July 2026",
-            route: "Dubai → Nairobi",
-            trackNo: "AGL987654",
-            sender: "American Global Logistics",
-            recipient: "Michael Brown",
-            origin: "Dubai, UAE",
-            destination: "Nairobi, Kenya",
-            service: "Priority Air Cargo",
-            weight: "18.2 kg",
-            receiverName: "Not Delivered",
-            deliveryDate: "Pending",
-            deliveryTime: "Pending",
-            signature: "Pending Delivery",
-            progress: `
-<li>✅ Shipment Created</li>
-<li>✅ Picked Up</li>
-<li>✅ Arrived at International Hub</li>
-<li>🟡 Customs Clearance</li>
-<li>⬜ Out for Delivery</li>
-<li>⬜ Delivered</li>
-`,
-            history: `
-                <tr>
-                    <td>13 Jul 2026</td>
-                    <td>08:20</td>
-                    <td>Shipment Created</td>
-                    <td>Dubai, UAE</td>
-                </tr>
+    if (!element) return;
 
-                <tr>
-                    <td>14 Jul 2026</td>
-                    <td>12:40</td>
-                    <td>Arrived at Hub</td>
-                    <td>Dubai, UAE</td>
-                </tr>
+    element.textContent =
+        value !== undefined &&
+        value !== null &&
+        value !== ""
+            ? value
+            : "-";
+}
 
-                <tr>
-                    <td>15 Jul 2026</td>
-                    <td>16:10</td>
-                    <td>Customs Clearance</td>
-                    <td>Dubai, UAE</td>
-                </tr>
-            `
-        }
 
-    };
+/* =========================================================
+   FIND TRACKING NUMBER
+   ========================================================= */
 
-    const shipments = {
-   ...
-};
+function getTrackingNumber() {
 
-const shipment = shipments[tracking];
+    const params =
+        new URLSearchParams(window.location.search);
 
-    if (!shipment) {
+    const urlTracking =
+        params.get("tracking");
 
-        alert("Tracking number not found.");
-
-        return;
-
+    if (urlTracking) {
+        return urlTracking.trim().toUpperCase();
     }
 
-    document.getElementById("status").textContent = shipment.status;
-    document.getElementById("location").textContent = shipment.location;
-    document.getElementById("delivery").textContent = shipment.delivery;
-    document.getElementById("route").textContent = shipment.route;
-    document.getElementById("trackNo").textContent = shipment.trackNo;
-    document.getElementById("sender").textContent = shipment.sender;
-    document.getElementById("recipient").textContent = shipment.receiver;
-    document.getElementById("origin").textContent = shipment.origin;
-    document.getElementById("destination").textContent = shipment.destination;
-    document.getElementById("service").textContent = shipment.service;
-    document.getElementById("weight").textContent = shipment.weight;
-    document.getElementById("receiverName").textContent = shipment.receiverName;
-    document.getElementById("deliveryDate").textContent = shipment.deliveryDate;
-    document.getElementById("deliveryTime").textContent = shipment.deliveryTime;
-    document.getElementById("signatureBox").textContent = shipment.signature;
-    document.getElementById("progressList").innerHTML = shipment.progress;
-    document.getElementById("historyTable").innerHTML = shipment.history;
+    const input =
+        getElement("trackingSearch");
 
-    document.getElementById("result").style.display = "block";
+    if (input && input.value.trim()) {
+        return input.value.trim().toUpperCase();
+    }
 
-          }
+    return "";
+}
+
+
+/* =========================================================
+   SEARCH SHIPMENT
+   ========================================================= */
+
+async function trackShipment() {
+
+    const tracking =
+        getTrackingNumber();
+
+    if (!tracking) {
+
+        alert("Please enter a tracking number.");
+
+        return;
+    }
+
+    const button =
+        getElement("trackButton");
+
+    if (button) {
+        button.disabled = true;
+        button.textContent = "Searching...";
+    }
+
+    try {
+
+        const url =
+            SUPABASE_URL +
+            "/rest/v1/shipments" +
+            "?tracking_number=eq." +
+            encodeURIComponent(tracking) +
+            "&select=*";
+
+        const response =
+            await fetch(url, {
+
+                method: "GET",
+
+                headers: {
+
+                    "apikey":
+                        SUPABASE_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_KEY,
+
+                    "Content-Type":
+                        "application/json"
+
+                }
+
+            });
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Supabase error: " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.length) {
+
+            alert(
+                "Shipment not found. Please check your tracking number."
+            );
+
+            hideTrackingResult();
+
+            return;
+        }
+
+
+        const shipment =
+            data[0];
+
+
+        displayShipment(shipment);
+
+
+    } catch (error) {
+
+        console.error(
+            "Tracking error:",
+            error
+        );
+
+        alert(
+            "Unable to connect to the tracking system. Please try again."
+        );
+
+    } finally {
+
+        if (button) {
+
+            button.disabled = false;
+
+            button.textContent =
+                "Track Shipment";
+
+        }
+
+    }
+}
+
+
+/* =========================================================
+   DISPLAY SHIPMENT
+   ========================================================= */
+
+function displayShipment(shipment) {
+
+    /* -----------------------------------------
+       BASIC INFORMATION
+    ----------------------------------------- */
+
+    setText(
+        "trackingNumber",
+        shipment.tracking_number
+    );
+
+    setText(
+        "status",
+        shipment.status
+    );
+
+    setText(
+        "location",
+        shipment.location
+    );
+
+    setText(
+        "origin",
+        shipment.origin
+    );
+
+    setText(
+        "destination",
+        shipment.destination
+    );
+
+    setText(
+        "delivery",
+        shipment.delivery_date
+    );
+
+    setText(
+        "service",
+        shipment.service
+    );
+
+    setText(
+        "package",
+        shipment.package
+    );
+
+    setText(
+        "weight",
+        shipment.weight
+    );
+
+    setText(
+        "packageType",
+        shipment.package_type
+    );
+
+    setText(
+        "pieces",
+        shipment.pieces
+    );
+
+    setText(
+        "dimensions",
+        shipment.dimensions
+    );
+
+    setText(
+        "payment",
+        shipment.payment
+    );
+
+
+    /* -----------------------------------------
+       SENDER / RECEIVER
+    ----------------------------------------- */
+
+    setText(
+        "senderName",
+        shipment.sender_name
+    );
+
+    setText(
+        "receiverName",
+        shipment.receiver_name
+    );
+
+
+    /* -----------------------------------------
+       PROGRESS
+    ----------------------------------------- */
+
+    updateProgress(
+        shipment.progress
+    );
+
+
+    /* -----------------------------------------
+       SHOW RESULT
+    ----------------------------------------- */
+
+    showTrackingResult();
+
+
+    /* -----------------------------------------
+       SAVE ONLY AS LOCAL CACHE
+       NOT THE DATABASE SOURCE
+    ----------------------------------------- */
+
+    localStorage.setItem(
+        "currentShipment",
+        JSON.stringify(shipment)
+    );
+}
+
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+function updateProgress(progress) {
+
+    let value =
+        Number(progress);
+
+    if (
+        Number.isNaN(value)
+    ) {
+        value = 0;
+    }
+
+    value =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                value
+            )
+        );
+
+
+    const progressBar =
+        getElement("progressBar");
+
+    if (progressBar) {
+
+        progressBar.style.width =
+            value + "%";
+
+        progressBar.textContent =
+            value + "%";
+    }
+
+
+    const progressText =
+        getElement("progressText");
+
+    if (progressText) {
+
+        progressText.textContent =
+            value + "%";
+    }
+
+
+    const progressValue =
+        getElement("progress");
+
+    if (progressValue) {
+
+        progressValue.textContent =
+            value + "%";
+    }
+}
+
+
+/* =========================================================
+   SHOW / HIDE
+   ========================================================= */
+
+function showTrackingResult() {
+
+    const result =
+        getElement("trackingResult");
+
+    if (result) {
+
+        result.style.display =
+            "block";
+    }
+}
+
+
+function hideTrackingResult() {
+
+    const result =
+        getElement("trackingResult");
+
+    if (result) {
+
+        result.style.display =
+            "none";
+    }
+}
+
+
+/* =========================================================
+   AUTO SEARCH FROM URL
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const tracking =
+            params.get("tracking");
+
+
+        const input =
+            getElement("trackingSearch");
+
+
+        if (
+            tracking &&
+            input
+        ) {
+
+            input.value =
+                tracking;
+
+            trackShipment();
+        }
+
+
+        const button =
+            getElement("trackButton");
+
+
+        if (button) {
+
+            button.addEventListener(
+                "click",
+                trackShipment
+            );
+        }
+
+
+        if (input) {
+
+            input.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        trackShipment();
+                    }
+
+                }
+            );
+        }
+
+    }
+);
