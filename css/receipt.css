@@ -270,7 +270,7 @@ body {
 
     color: #17324d;
 
-    font-size: 8.5px;
+    font-size: 7.5px;
 
     font-weight: 900;
 
@@ -279,6 +279,8 @@ body {
     overflow: hidden;
 
     text-overflow: ellipsis;
+
+    line-height: 1.1;
 }
 
 .verified {
@@ -654,65 +656,93 @@ body {
 .charges-body {
     height: calc(100% - 7mm);
 
-    padding: 4px 8px;
+    padding: 3px 8px;
+
+    overflow: hidden;
 }
 
 .charge-row {
-    min-height: 5.4mm;
+    min-height: 5.5mm;
 
-    display: flex;
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) auto;
+
     align-items: center;
-    justify-content: space-between;
 
-    gap: 4px;
+    gap: 6px;
 
     border-bottom: 1px solid #e1e9ef;
 }
 
 .charge-row span {
+    min-width: 0;
+
     color: #64798a;
 
-    font-size: 8px;
+    font-size: 7px;
 
     font-weight: 700;
+
+    white-space: normal;
+
+    line-height: 1.15;
 }
 
 .charge-row strong {
+    min-width: 0;
+
     color: #17324d;
 
-    font-size: 8.5px;
+    font-size: 7.5px;
 
     font-weight: 900;
 
     white-space: nowrap;
+
+    text-align: right;
 }
 
 .charge-total {
     margin-top: 4px;
 
-    padding: 5px 6px;
+    padding: 5px 7px;
 
-    display: flex;
+    display: grid;
+
+    grid-template-columns: auto 1fr;
+
     align-items: center;
-    justify-content: space-between;
+
+    gap: 5px;
 
     background: #eaf3ff;
 
     border: 1px solid #9dbddd;
 
     color: #083b80;
+
+    overflow: hidden;
 }
 
 .charge-total span {
-    font-size: 8px;
+    font-size: 7.5px;
 
     font-weight: 900;
+
+    white-space: nowrap;
 }
 
 .charge-total strong {
-    font-size: 10px;
+    min-width: 0;
+
+    font-size: 8.5px;
 
     font-weight: 900;
+
+    white-space: nowrap;
+
+    text-align: right;
 }
 
 /* =========================================================
@@ -721,9 +751,9 @@ body {
 
 .verification-section {
     width: 100%;
-    height: 41mm;
+    height: 44mm;
 
-    margin-top: 2px;
+    margin-top: 3px;
 
     border: 1.5px solid #0b4ea2;
 
@@ -751,15 +781,19 @@ body {
 }
 
 .verification-row {
-    min-height: 4mm;
+    min-height: 4.2mm;
 
     display: grid;
 
-    grid-template-columns: 42% 58%;
+    grid-template-columns: 44% 56%;
 
     align-items: center;
 
+    gap: 3px;
+
     border-bottom: 1px solid #e1e9ef;
+
+    overflow: hidden;
 }
 
 .verification-row:last-child {
@@ -767,11 +801,15 @@ body {
 }
 
 .verification-row span {
+    min-width: 0;
+
     color: #687e8f;
 
-    font-size: 7px;
+    font-size: 6.5px;
 
     font-weight: 700;
+
+    line-height: 1.1;
 }
 
 .verification-row strong {
@@ -779,7 +817,7 @@ body {
 
     color: #17324d;
 
-    font-size: 8px;
+    font-size: 7px;
 
     font-weight: 900;
 
@@ -798,19 +836,26 @@ body {
     min-width: 0;
 
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
+
     justify-content: center;
+
+    overflow: hidden;
 }
 
 #barcodeLarge {
     display: block;
 
-    width: 145px;
+    width: 120px;
+
     max-width: 100%;
 
-    height: 45px;
+    height: 36px;
+
+    object-fit: contain;
 }
 
 .barcode-box small,
@@ -822,6 +867,10 @@ body {
     font-size: 5.5px;
 
     font-weight: 800;
+
+    text-align: center;
+
+    white-space: nowrap;
 }
 
 /* =========================================================
@@ -829,11 +878,13 @@ body {
    ========================================================= */
 
 #qrcode {
-    width: 108px !important;
-    height: 108px !important;
+    width: 125px !important;
 
-    min-width: 108px !important;
-    min-height: 108px !important;
+    height: 125px !important;
+
+    min-width: 125px !important;
+
+    min-height: 125px !important;
 
     padding: 5px !important;
 
@@ -843,21 +894,24 @@ body {
 
     display: flex !important;
 
-    align-items: center;
-    justify-content: center;
+    align-items: center !important;
 
-    overflow: visible !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
 }
 
 #qrcode canvas,
 #qrcode img {
     display: block !important;
 
-    width: 98px !important;
-    height: 98px !important;
+    width: 115px !important;
 
-    max-width: 98px !important;
-    max-height: 98px !important;
+    height: 115px !important;
+
+    max-width: 115px !important;
+
+    max-height: 115px !important;
 }
 
 /* =========================================================
