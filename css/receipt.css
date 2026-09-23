@@ -258,8 +258,7 @@ body {
 
 .summary-label {
     color: #64798b;
-
-    font-size: 5.7px;
+    font-size: 7px;
 
     font-weight: 900;
 }
@@ -271,7 +270,7 @@ body {
 
     color: #17324d;
 
-    font-size: 7.2px;
+    font-size: 8.5px;
 
     font-weight: 900;
 
@@ -328,7 +327,7 @@ body {
 
     color: #fff;
 
-    font-size: 7.5px;
+    font-size: 8.5px;
 
     font-weight: 900;
 }
@@ -348,7 +347,7 @@ body {
 
     color: #083b80;
 
-    font-size: 9px;
+    font-size: 10.5px;
 
     font-weight: 900;
 }
@@ -377,7 +376,7 @@ body {
 
     text-align: center;
 
-    font-size: 7px;
+    font-size: 8.2px;
 }
 
 .person-row span {
@@ -448,7 +447,7 @@ body {
 .details-grid span {
     color: #657b8d;
 
-    font-size: 5.8px;
+    font-size: 6.8px;
 
     font-weight: 700;
 }
@@ -460,7 +459,7 @@ body {
 
     color: #17324d;
 
-    font-size: 7.2px;
+    font-size: 8.5px;
 
     font-weight: 900;
 
@@ -538,7 +537,7 @@ body {
 
     color: #708596;
 
-    font-size: 5.5px;
+    font-size: 6.5px;
 
     font-weight: 900;
 }
@@ -550,7 +549,7 @@ body {
 
     color: #17324d;
 
-    font-size: 7.5px;
+    font-size: 8.5px;
 
     font-weight: 900;
 
@@ -673,7 +672,7 @@ body {
 .charge-row span {
     color: #64798a;
 
-    font-size: 6.8px;
+    font-size: 8px;
 
     font-weight: 700;
 }
@@ -681,7 +680,7 @@ body {
 .charge-row strong {
     color: #17324d;
 
-    font-size: 7px;
+    font-size: 8.5px;
 
     font-weight: 900;
 
@@ -705,13 +704,13 @@ body {
 }
 
 .charge-total span {
-    font-size: 7px;
+    font-size: 8px;
 
     font-weight: 900;
 }
 
 .charge-total strong {
-    font-size: 8.5px;
+    font-size: 10px;
 
     font-weight: 900;
 }
@@ -770,7 +769,7 @@ body {
 .verification-row span {
     color: #687e8f;
 
-    font-size: 5.8px;
+    font-size: 7px;
 
     font-weight: 700;
 }
@@ -780,7 +779,7 @@ body {
 
     color: #17324d;
 
-    font-size: 6.5px;
+    font-size: 8px;
 
     font-weight: 900;
 
@@ -976,7 +975,7 @@ body {
 .footer-left strong,
 .footer-center strong,
 .footer-right strong {
-    font-size: 7px;
+    font-size: 8px;
 
     font-weight: 900;
 }
@@ -988,7 +987,7 @@ body {
 
     color: #dcecff;
 
-    font-size: 5.5px;
+    font-size: 6.5px;
 
     line-height: 1.25;
 
