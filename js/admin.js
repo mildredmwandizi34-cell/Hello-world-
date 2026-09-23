@@ -1,34 +1,31 @@
-// ======================================================
-// American Global Logistics
-// Admin Dashboard v4.1
-// Clean Complete Version
-// ======================================================
+/* =========================================================
+   AMERICAN GLOBAL LOGISTICS
+   ADMIN DASHBOARD
+   SUPABASE + LOCALSTORAGE
+   ========================================================= */
 
 "use strict";
 
-// ======================================================
-// SUPABASE CONNECTION
-// ======================================================
+/* =========================================================
+   SUPABASE CONFIGURATION
+   ========================================================= */
 
 const SUPABASE_URL =
     "https://aptkocjxcwmfatcycdnv.supabase.co";
 
+/*
+   Keep your existing Supabase publishable/anon key here.
+   Use the SAME key already used by your create-shipment.js.
+*/
 const SUPABASE_KEY =
-    "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
+    "YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY";
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
 
-// ======================================================
-// STORAGE
-// ======================================================
+/* =========================================================
+   GLOBAL DATA
+   ========================================================= */
 
-let shipments =
-    JSON.parse(localStorage.getItem("shipments")) || [];
-
+let shipments = [];
 let customerMessages =
     JSON.parse(localStorage.getItem("customerMessages")) || [];
 
@@ -37,36 +34,58 @@ let activityLog =
 
 let currentShipmentIndex = -1;
 
-let statusChartInstance = null;
-let serviceChartInstance = null;
 
+/* =========================================================
+   SUPABASE REQUEST HELPER
+   ========================================================= */
 
-// ======================================================
-// SHIPMENT STATUS PROGRESS
-// ======================================================
+async function supabaseRequest(
+    endpoint,
+    options = {}
+) {
 
-function getShipmentProgress(status) {
+    const response = await fetch(
+        SUPABASE_URL + endpoint,
+        {
+            ...options,
 
-    const progressMap = {
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization":
+                    "Bearer " + SUPABASE_KEY,
+                "Content-Type":
+                    "application/json",
+                "Prefer":
+                    "return=representation",
 
-        "Shipment Created": 5,
-        "Awaiting Pickup": 15,
-        "Picked Up": 25,
-        "In Transit": 50,
-        "Customs Cleared": 65,
-        "Arrived at Destination Hub": 75,
-        "Out for Delivery": 90,
-        "Delivered": 100
+                ...(options.headers || {})
+            }
+        }
+    );
 
-    };
+    if (!response.ok) {
 
-    return progressMap[status] || 0;
+        const errorText =
+            await response.text();
+
+        throw new Error(
+            "Supabase error: " +
+            response.status +
+            " " +
+            errorText
+        );
+    }
+
+    const text =
+        await response.text();
+
+    return text ? JSON.parse(text) : [];
 }
 
 
-// ======================================================
-// STORAGE HELPERS
-// ======================================================
+/* =========================================================
+   LOCAL STORAGE
+   ========================================================= */
 
 function saveShipments() {
 
@@ -74,7 +93,6 @@ function saveShipments() {
         "shipments",
         JSON.stringify(shipments)
     );
-
 }
 
 
@@ -84,7 +102,6 @@ function saveMessages() {
         "customerMessages",
         JSON.stringify(customerMessages)
     );
-
 }
 
 
@@ -94,1662 +111,646 @@ function saveActivity() {
         "activityLog",
         JSON.stringify(activityLog)
     );
-
 }
 
 
-// ======================================================
-// SAFE VALUE HELPER
-// ======================================================
+/* =========================================================
+   LOAD SHIPMENTS FROM SUPABASE
+   ========================================================= */
 
-function safeValue(value) {
+async function loadShipmentsFromSupabase() {
 
-    if (value === null || value === undefined) {
-        return "";
+    try {
+
+        const data =
+            await supabaseRequest(
+                "/rest/v1/shipments?select=*&order=created_at.desc"
+            );
+
+        shipments =
+            Array.isArray(data)
+                ? data
+                : [];
+
+        /*
+           Save a backup copy locally.
+        */
+
+        saveShipments();
+
+        console.log(
+            "Supabase shipments loaded:",
+            shipments.length
+        );
+
+        renderShipments();
+
+        updateDashboard();
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load Supabase shipments:",
+            error
+        );
+
+        /*
+           If Supabase cannot be reached,
+           use the local backup instead.
+        */
+
+        shipments =
+            JSON.parse(
+                localStorage.getItem("shipments")
+            ) || [];
+
+        renderShipments();
+
+        updateDashboard();
+
+        return false;
     }
-
-    return String(value);
-
 }
 
 
-// ======================================================
-// ACTIVITY LOG
-// ======================================================
-
-function addActivity(message, icon = "📦") {
-
-    activityLog.unshift({
-
-        message: message,
-        icon: icon,
-        time: new Date().toLocaleString()
-
-    });
-
-    if (activityLog.length > 50) {
-
-        activityLog = activityLog.slice(0, 50);
-
-    }
-
-    saveActivity();
-
-    loadActivity();
-
-}
-
-
-// ======================================================
-// DASHBOARD STATISTICS
-// ======================================================
+/* =========================================================
+   DASHBOARD COUNTERS
+   ========================================================= */
 
 function updateDashboard() {
 
     const total =
-        document.getElementById("totalShipments");
+        document.getElementById(
+            "totalShipments"
+        );
 
     const awaiting =
-        document.getElementById("awaiting");
+        document.getElementById(
+            "awaiting"
+        );
 
-    const transit =
-        document.getElementById("inTransit");
+    const inTransit =
+        document.getElementById(
+            "inTransit"
+        );
 
     const delivered =
-        document.getElementById("delivered");
+        document.getElementById(
+            "delivered"
+        );
 
     if (total) {
 
         total.textContent =
             shipments.length;
-
     }
 
     if (awaiting) {
 
         awaiting.textContent =
-            shipments.filter(function (shipment) {
-
-                return shipment.status === "Awaiting Pickup";
-
-            }).length;
-
+            shipments.filter(
+                s =>
+                    String(s.status || "")
+                        .toLowerCase()
+                        .includes("awaiting")
+            ).length;
     }
 
-    if (transit) {
+    if (inTransit) {
 
-        transit.textContent =
-            shipments.filter(function (shipment) {
-
-                return shipment.status === "In Transit";
-
-            }).length;
-
+        inTransit.textContent =
+            shipments.filter(
+                s =>
+                    String(s.status || "")
+                        .toLowerCase()
+                        .includes("transit")
+            ).length;
     }
 
     if (delivered) {
 
         delivered.textContent =
-            shipments.filter(function (shipment) {
-
-                return shipment.status === "Delivered";
-
-            }).length;
-
+            shipments.filter(
+                s =>
+                    String(s.status || "")
+                        .toLowerCase()
+                        .includes("delivered")
+            ).length;
     }
 
     const messageCount =
-        document.getElementById("messageCount");
+        document.getElementById(
+            "messageCount"
+        );
 
     if (messageCount) {
 
         messageCount.textContent =
             customerMessages.length;
-
     }
-
 }
 
 
-// ======================================================
-// NORMALIZE EXISTING SHIPMENTS
-// ======================================================
-
-function normalizeShipments() {
-
-    shipments.forEach(function (shipment) {
-
-        if (!shipment) {
-            return;
-        }
-
-        // --------------------------------------------------
-        // Tracking
-        // --------------------------------------------------
-
-        if (!shipment.tracking &&
-            shipment.trackingNumber) {
-
-            shipment.tracking =
-                shipment.trackingNumber;
-
-        }
-
-
-        // --------------------------------------------------
-        // Progress
-        // --------------------------------------------------
-
-        if (shipment.status) {
-
-            shipment.progress =
-                getShipmentProgress(
-                    shipment.status
-                );
-
-        }
-
-
-        // --------------------------------------------------
-        // History
-        // --------------------------------------------------
-
-        if (!Array.isArray(shipment.history)) {
-
-            shipment.history = [];
-
-        }
-
-
-        // --------------------------------------------------
-        // Create initial history entry for old shipments
-        // --------------------------------------------------
-
-        if (
-            shipment.history.length === 0 &&
-            shipment.status
-        ) {
-
-            shipment.history.push({
-
-                status: shipment.status,
-
-                location:
-                    shipment.location || "",
-
-                date:
-                    shipment.createdAt ||
-                    new Date().toLocaleString()
-
-            });
-
-        }
-
-    });
-
-}
-
-
-// ======================================================
-// LOAD SHIPMENTS
-// ======================================================
-
-function loadShipments() {
-
-    shipments =
-        JSON.parse(
-            localStorage.getItem("shipments")
-        ) || [];
-
-    normalizeShipments();
-
-    saveShipments();
-
-    const table =
-        document.getElementById("shipmentTable");
-
-    if (!table) {
-
-        updateDashboard();
-
-        return;
-
-    }
-
-    table.innerHTML = "";
-
-    if (shipments.length === 0) {
-
-        table.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="6"
-                    style="text-align:center;padding:30px;"
-                >
-
-                    No Shipments Found
-
-                </td>
-
-            </tr>
-
-        `;
-
-        updateDashboard();
-
-        return;
-
-    }
-
-
-    shipments.forEach(function (shipment, index) {
-
-        const tracking =
-            safeValue(
-                shipment.tracking ||
-                shipment.trackingNumber
-            );
-
-        const sender =
-            safeValue(
-                shipment.senderName
-            );
-
-        const receiver =
-            safeValue(
-                shipment.receiverName
-            );
-
-        const status =
-            safeValue(
-                shipment.status
-            );
-
-        const location =
-            safeValue(
-                shipment.location
-            );
-
-
-        table.innerHTML += `
-
-            <tr>
-
-                <td>
-                    ${tracking}
-                </td>
-
-                <td>
-                    ${sender}
-                </td>
-
-                <td>
-                    ${receiver}
-                </td>
-
-                <td>
-                    ${status}
-                </td>
-
-                <td>
-                    ${location}
-                </td>
-
-                <td>
-
-                    <button
-                        type="button"
-                        onclick="editShipment(${index})"
-                    >
-                        Edit
-                    </button>
-
-                    <button
-                        type="button"
-                        onclick="deleteShipment(${index})"
-                    >
-                        Delete
-                    </button>
-
-                </td>
-
-            </tr>
-
-        `;
-
-    });
-
-    updateDashboard();
-
-}
-
-
-// ======================================================
-// CREATE NEW SHIPMENT
-// ======================================================
-
-function newShipment() {
-
-    window.location.href =
-        "create-shipment.html";
-
-}
-
-
-// ======================================================
-// EDIT SHIPMENT
-// ======================================================
-
-function editShipment(index) {
-
-    if (
-        index < 0 ||
-        index >= shipments.length
-    ) {
-
-        return;
-
-    }
-
-    currentShipmentIndex = index;
-
-    const shipment =
-        shipments[index];
-
-    if (!shipment) {
-
-        return;
-
-    }
-
-
-    const editTracking =
-        document.getElementById("editTracking");
-
-    const editSender =
-        document.getElementById("editSender");
-
-    const editReceiver =
-        document.getElementById("editReceiver");
-
-    const editStatus =
-        document.getElementById("editStatus");
-
-    const editLocation =
-        document.getElementById("editLocation");
-
-    const editDelivery =
-        document.getElementById("editDelivery");
-
-    const editInstructions =
-        document.getElementById("editInstructions");
-
-
-    if (editTracking) {
-
-        editTracking.value =
-            shipment.tracking ||
-            shipment.trackingNumber ||
-            "";
-
-    }
-
-    if (editSender) {
-
-        editSender.value =
-            shipment.senderName || "";
-
-    }
-
-    if (editReceiver) {
-
-        editReceiver.value =
-            shipment.receiverName || "";
-
-    }
-
-    if (editStatus) {
-
-        editStatus.value =
-            shipment.status || "";
-
-    }
-
-    if (editLocation) {
-
-        editLocation.value =
-            shipment.location || "";
-
-    }
-
-    if (editDelivery) {
-
-        editDelivery.value =
-            shipment.delivery || "";
-
-    }
-
-    if (editInstructions) {
-
-        editInstructions.value =
-            shipment.instructions || "";
-
-    }
-
-
-    const editPanel =
-        document.getElementById("editPanel");
-
-    if (editPanel) {
-
-        editPanel.scrollIntoView({
-
-            behavior: "smooth",
-
-            block: "start"
-
-        });
-
-    }
-
-}
-
-
-// ======================================================
-// SAVE / UPDATE SHIPMENT
-// ======================================================
-
-function saveShipment() {
-
-    if (
-        currentShipmentIndex < 0 ||
-        currentShipmentIndex >= shipments.length
-    ) {
-
-        alert("Please select a shipment first.");
-
-        return;
-
-    }
-
-
-    const shipment =
-        shipments[currentShipmentIndex];
-
-    if (!shipment) {
-
-        alert("Shipment could not be found.");
-
-        return;
-
-    }
-
-
-    // --------------------------------------------------
-    // Read new values
-    // --------------------------------------------------
-
-    const editTracking =
-        document.getElementById("editTracking");
-
-    const editSender =
-        document.getElementById("editSender");
-
-    const editReceiver =
-        document.getElementById("editReceiver");
-
-    const editStatus =
-        document.getElementById("editStatus");
-
-    const editLocation =
-        document.getElementById("editLocation");
-
-    const editDelivery =
-        document.getElementById("editDelivery");
-
-    const editInstructions =
-        document.getElementById("editInstructions");
-
-
-    const oldStatus =
-        shipment.status || "";
-
-    const oldLocation =
-        shipment.location || "";
-
-
-    const newTracking =
-        editTracking ?
-        editTracking.value.trim() :
-        shipment.tracking || "";
-
-
-    const newSender =
-        editSender ?
-        editSender.value.trim() :
-        shipment.senderName || "";
-
-
-    const newReceiver =
-        editReceiver ?
-        editReceiver.value.trim() :
-        shipment.receiverName || "";
-
-
-    const newStatus =
-        editStatus ?
-        editStatus.value :
-        shipment.status || "";
-
-
-    const newLocation =
-        editLocation ?
-        editLocation.value.trim() :
-        shipment.location || "";
-
-
-    const newDelivery =
-        editDelivery ?
-        editDelivery.value.trim() :
-        shipment.delivery || "";
-
-
-    const newInstructions =
-        editInstructions ?
-        editInstructions.value.trim() :
-        shipment.instructions || "";
-
-
-    // --------------------------------------------------
-    // Update shipment
-    // --------------------------------------------------
-
-    shipment.tracking =
-        newTracking;
-// ======================================================
-// SAVE / UPDATE SHIPMENT
-// LOCALSTORAGE + SUPABASE
-// ======================================================
-
-async function saveShipment() {
-
-    if (
-        currentShipmentIndex < 0 ||
-        currentShipmentIndex >= shipments.length
-    ) {
-
-        alert("Please select a shipment first.");
-
-        return;
-
-    }
-
-
-    const shipment =
-        shipments[currentShipmentIndex];
-
-
-    if (!shipment) {
-
-        alert("Shipment could not be found.");
-
-        return;
-
-    }
-
-
-    // --------------------------------------------------
-    // READ EDIT FIELDS
-    // --------------------------------------------------
-
-    const editTracking =
-        document.getElementById("editTracking");
-
-    const editSender =
-        document.getElementById("editSender");
-
-    const editReceiver =
-        document.getElementById("editReceiver");
-
-    const editStatus =
-        document.getElementById("editStatus");
-
-    const editLocation =
-        document.getElementById("editLocation");
-
-    const editDelivery =
-        document.getElementById("editDelivery");
-
-    const editInstructions =
-        document.getElementById("editInstructions");
-
-
-    const oldStatus =
-        shipment.status || "";
-
-    const oldLocation =
-        shipment.location || "";
-
-
-    const newTracking =
-        editTracking
-            ? editTracking.value.trim().toUpperCase()
-            : (
-                shipment.tracking ||
-                shipment.trackingNumber ||
-                ""
-            );
-
-
-    const newSender =
-        editSender
-            ? editSender.value.trim()
-            : shipment.senderName || "";
-
-
-    const newReceiver =
-        editReceiver
-            ? editReceiver.value.trim()
-            : shipment.receiverName || "";
-
-
-    const newStatus =
-        editStatus
-            ? editStatus.value.trim()
-            : shipment.status || "Shipment Created";
-
-
-    const newLocation =
-        editLocation
-            ? editLocation.value.trim()
-            : shipment.location || "";
-
-
-    const newDelivery =
-        editDelivery
-            ? editDelivery.value.trim()
-            : shipment.delivery || "";
-
-
-    const newInstructions =
-        editInstructions
-            ? editInstructions.value.trim()
-            : shipment.instructions || "";
-
-
-    // --------------------------------------------------
-    // UPDATE LOCAL SHIPMENT
-    // --------------------------------------------------
-
-    shipment.tracking =
-        newTracking;
-
-    shipment.trackingNumber =
-        newTracking;
-
-    shipment.senderName =
-        newSender;
-
-    shipment.receiverName =
-        newReceiver;
-
-    shipment.status =
-        newStatus;
-
-    shipment.location =
-        newLocation;
-
-    shipment.delivery =
-        newDelivery;
-
-    shipment.deliveryDate =
-        newDelivery;
-
-    shipment.instructions =
-        newInstructions;
-
-
-    // --------------------------------------------------
-    // UPDATE PROGRESS
-    // --------------------------------------------------
-
-    shipment.progress =
-        getShipmentProgress(
-            newStatus
-        );
-
-
-    // --------------------------------------------------
-    // ENSURE HISTORY
-    // --------------------------------------------------
-
-    if (!Array.isArray(shipment.history)) {
-
-        shipment.history = [];
-
-    }
-
-
-    const lastHistory =
-        shipment.history[
-            shipment.history.length - 1
-        ];
-
-
-    const shouldAddHistory =
-        !lastHistory ||
-        lastHistory.status !== newStatus ||
-        lastHistory.location !== newLocation;
-
-
-    if (shouldAddHistory) {
-
-        shipment.history.push({
-
-            status: newStatus,
-
-            location: newLocation,
-
-            date: new Date().toLocaleString()
-
-        });
-
-    }
-
-
-    // --------------------------------------------------
-    // SAVE LOCALSTORAGE
-    // --------------------------------------------------
-
-    saveShipments();
-
-
-    // --------------------------------------------------
-    // UPDATE SUPABASE
-    // --------------------------------------------------
-
-    try {
-
-        const {
-            data: onlineShipment,
-            error: findError
-        } =
-            await supabaseClient
-                .from("shipments")
-                .select("id, tracking_number")
-                .eq(
-                    "tracking_number",
-                    newTracking
-                )
-                .maybeSingle();
-
-
-        if (findError) {
-
-            console.error(
-                "Supabase lookup error:",
-                findError
-            );
-
-            alert(
-                "The local shipment was updated, but the online shipment could not be found."
-            );
-
-            loadShipments();
-
-            return;
-
-        }
-
-
-        if (!onlineShipment) {
-
-            alert(
-                "Shipment was saved locally, but this tracking number was not found in the online database:\n\n" +
-                newTracking
-            );
-
-            loadShipments();
-
-            return;
-
-        }
-
-
-        const {
-            error: updateError
-        } =
-            await supabaseClient
-                .from("shipments")
-                .update({
-
-                    tracking_number:
-                        newTracking,
-
-                    sender_name:
-                        newSender,
-
-                    receiver_name:
-                        newReceiver,
-
-                    status:
-                        newStatus,
-
-                    location:
-                        newLocation,
-
-                    delivery_date:
-                        newDelivery,
-
-                    instructions:
-                        newInstructions,
-
-                    progress:
-                        shipment.progress,
-
-                    history:
-                        shipment.history
-
-                })
-                .eq(
-                    "id",
-                    onlineShipment.id
-                );
-
-
-        if (updateError) {
-
-            console.error(
-                "Supabase update error:",
-                updateError
-            );
-
-            alert(
-                "Local shipment updated, but the online update failed.\n\n" +
-                updateError.message
-            );
-
-            loadShipments();
-
-            return;
-
-        }
-
-
-        // --------------------------------------------------
-        // SUCCESS
-        // --------------------------------------------------
-
-        loadShipments();
-
-        updateDashboard();
-
-
-        const tracking =
-            shipment.tracking ||
-            shipment.trackingNumber ||
-            "Unknown shipment";
-
-
-        addActivity(
-
-            "Shipment " +
-            tracking +
-            " updated online",
-
-            "☁️"
-
-        );
-
-
-        alert(
-            "Shipment updated successfully.\n\n" +
-            "The customer tracking page has been updated."
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "Online shipment update failed:",
-            error
-        );
-
-
-        alert(
-            "The shipment was updated locally, but the online update failed.\n\n" +
-            error.message
-        );
-
-
-        loadShipments();
-
-    }
-
-}
-
-// ======================================================
-// DELETE SHIPMENT
-// ======================================================
-
-function deleteShipment(index) {
-
-    if (
-        index < 0 ||
-        index >= shipments.length
-    ) {
-
-        return;
-
-    }
-
-
-    const shipment =
-        shipments[index];
-
-    const tracking =
-        shipment ?
-        (
-            shipment.tracking ||
-            shipment.trackingNumber ||
-            "shipment"
-        ) :
-        "shipment";
-
-
-    if (
-        !confirm(
-            "Delete this shipment?"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    shipments.splice(index, 1);
-
-
-    if (
-        currentShipmentIndex === index
-    ) {
-
-        currentShipmentIndex = -1;
-
-    }
-    else if (
-        currentShipmentIndex > index
-    ) {
-
-        currentShipmentIndex--;
-
-    }
-
-
-    saveShipments();
-
-    loadShipments();
-
-    updateDashboard();
-
-
-    addActivity(
-
-        "Shipment " +
-        tracking +
-        " deleted",
-
-        "🗑️"
-
-    );
-
-}
-
-
-// ======================================================
-// DELETE CURRENT SHIPMENT
-// ======================================================
-
-function deleteCurrentShipment() {
-
-    if (
-        currentShipmentIndex < 0 ||
-        currentShipmentIndex >= shipments.length
-    ) {
-
-        alert(
-            "Please load a shipment first."
-        );
-
-        return;
-
-    }
-
-
-    const shipment =
-        shipments[currentShipmentIndex];
-
-
-    const tracking =
-        shipment ?
-        (
-            shipment.tracking ||
-            shipment.trackingNumber ||
-            "shipment"
-        ) :
-        "shipment";
-
-
-    if (
-        !confirm(
-            "Delete this shipment?"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    shipments.splice(
-        currentShipmentIndex,
-        1
-    );
-
-
-    currentShipmentIndex = -1;
-
-
-    saveShipments();
-
-    loadShipments();
-
-    updateDashboard();
-
-
-    addActivity(
-
-        "Shipment " +
-        tracking +
-        " deleted",
-
-        "🗑️"
-
-    );
-
-
-    clearEditForm();
-
-}
-
-
-// ======================================================
-// CLEAR EDIT FORM
-// ======================================================
-
-function clearEditForm() {
-
-    const fields = [
-
-        "editTracking",
-        "editSender",
-        "editReceiver",
-        "editStatus",
-        "editLocation",
-        "editDelivery",
-        "editInstructions"
-
-    ];
-
-
-    fields.forEach(function (id) {
-
-        const element =
-            document.getElementById(id);
-
-        if (element) {
-
-            element.value = "";
-
-        }
-
-    });
-
-}
-
-
-// ======================================================
-// SEARCH SHIPMENTS
-// ======================================================
-
-function searchShipments() {
-
-    // Supports both IDs so older/newer HTML works
-    const searchInput =
-        document.getElementById(
-            "searchShipment"
-        ) ||
-        document.getElementById(
-            "searchInput"
-        );
-
+/* =========================================================
+   RENDER SHIPMENT TABLE
+   ========================================================= */
+
+function renderShipments() {
 
     const table =
         document.getElementById(
             "shipmentTable"
         );
 
-
-    if (!searchInput || !table) {
-
-        return;
-
-    }
-
-
-    const keyword =
-        searchInput.value
-        .trim()
-        .toLowerCase();
-
+    if (!table) return;
 
     table.innerHTML = "";
 
+    if (!shipments.length) {
 
-    let found = false;
+        table.innerHTML = `
+            <tr>
+                <td colspan="6"
+                    style="text-align:center;">
+                    No shipments found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
 
 
     shipments.forEach(
-        function (shipment, index) {
+        (shipment, index) => {
 
             const tracking =
-                safeValue(
-                    shipment.tracking ||
-                    shipment.trackingNumber
-                ).toLowerCase();
-
+                shipment.tracking_number ||
+                shipment.trackingNumber ||
+                shipment.tracking ||
+                "";
 
             const sender =
-                safeValue(
-                    shipment.senderName
-                ).toLowerCase();
-
+                shipment.sender_name ||
+                shipment.senderName ||
+                "";
 
             const receiver =
-                safeValue(
-                    shipment.receiverName
-                ).toLowerCase();
-
+                shipment.receiver_name ||
+                shipment.receiverName ||
+                "";
 
             const status =
-                safeValue(
-                    shipment.status
-                ).toLowerCase();
-
+                shipment.status ||
+                "";
 
             const location =
-                safeValue(
-                    shipment.location
-                ).toLowerCase();
+                shipment.location ||
+                "";
 
 
-            if (
+            table.innerHTML += `
 
-                tracking.includes(keyword) ||
+                <tr>
 
-                sender.includes(keyword) ||
+                    <td>
+                        ${escapeHtml(tracking)}
+                    </td>
 
-                receiver.includes(keyword) ||
+                    <td>
+                        ${escapeHtml(sender)}
+                    </td>
 
-                status.includes(keyword) ||
+                    <td>
+                        ${escapeHtml(receiver)}
+                    </td>
 
-                location.includes(keyword)
+                    <td>
+                        ${escapeHtml(status)}
+                    </td>
 
-            ) {
+                    <td>
+                        ${escapeHtml(location)}
+                    </td>
 
-                found = true;
+                    <td>
 
+                        <button
+                            onclick="editShipment(${index})">
+                            Edit
+                        </button>
 
-                table.innerHTML += `
+                        <button
+                            onclick="viewShipmentReceipt(${index})">
+                            Receipt
+                        </button>
 
-                    <tr>
+                        <button
+                            onclick="deleteShipment(${index})">
+                            Delete
+                        </button>
 
-                        <td>
-                            ${safeValue(
-                                shipment.tracking ||
-                                shipment.trackingNumber
-                            )}
-                        </td>
+                    </td>
 
-                        <td>
-                            ${safeValue(
-                                shipment.senderName
-                            )}
-                        </td>
-
-                        <td>
-                            ${safeValue(
-                                shipment.receiverName
-                            )}
-                        </td>
-
-                        <td>
-                            ${safeValue(
-                                shipment.status
-                            )}
-                        </td>
-
-                        <td>
-                            ${safeValue(
-                                shipment.location
-                            )}
-                        </td>
-
-                        <td>
-
-                            <button
-                                type="button"
-                                onclick="editShipment(${index})"
-                            >
-                                Edit
-                            </button>
-
-                            <button
-
-                            type="button"
-                                onclick="deleteShipment(${index})"
-                            >
-                                Delete
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-
-        }
-    );
-
-
-    if (!found) {
-
-        table.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="6"
-                    style="text-align:center;padding:30px;"
-                >
-
-                    No matching shipments found.
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
-
-
-// ======================================================
-// CUSTOMER MESSAGES
-// ======================================================
-
-function loadCustomerMessages() {
-
-    customerMessages =
-        JSON.parse(
-            localStorage.getItem(
-                "customerMessages"
-            )
-        ) || [];
-
-
-    const container =
-        document.getElementById(
-            "customerMessages"
-        );
-
-
-    const count =
-        document.getElementById(
-            "messageCount"
-        );
-
-
-    if (count) {
-
-        count.textContent =
-            customerMessages.length;
-
-    }
-
-
-    if (!container) {
-
-        return;
-
-    }
-
-
-    if (
-        customerMessages.length === 0
-    ) {
-
-        container.innerHTML = `
-
-            <div class="empty-messages">
-
-                <div class="empty-icon">
-                    💬
-                </div>
-
-                <h3>
-                    No Customer Messages
-                </h3>
-
-                <p>
-                    Customer messages will appear here.
-                </p>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    container.innerHTML = "";
-
-
-    customerMessages.forEach(
-        function (message, index) {
-
-            container.innerHTML += `
-
-                <div class="message-card">
-
-                    <strong>
-                        ${safeValue(
-                            message.name ||
-                            "Customer"
-                        )}
-                    </strong>
-
-                    <br>
-
-                    ${safeValue(
-                        message.email
-                    )}
-
-                    <p
-                        style="margin:10px 0;"
-                    >
-
-                        ${safeValue(
-                            message.message
-                        )}
-
-                    </p>
-
-                    <button
-                        type="button"
-                        onclick="replyToCustomer(${index})"
-                    >
-                        Reply
-                    </button>
-
-                    <button
-                        type="button"
-                        onclick="deleteCustomerMessage(${index})"
-                    >
-                        Delete
-                    </button>
-
-                </div>
-
-                <hr>
+                </tr>
 
             `;
-
         }
     );
-
 }
 
 
-// ======================================================
-// DELETE CUSTOMER MESSAGE
-// ======================================================
+/* =========================================================
+   HTML ESCAPE
+   ========================================================= */
 
-function deleteCustomerMessage(index) {
+function escapeHtml(value) {
 
-    if (
-        index < 0 ||
-        index >= customerMessages.length
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        !confirm(
-            "Delete this message?"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    customerMessages.splice(
-        index,
-        1
-    );
-
-
-    saveMessages();
-
-    loadCustomerMessages();
-
-    updateDashboard();
-
-
-    addActivity(
-
-        "Customer message deleted",
-
-        "💬"
-
-    );
-
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
-// ======================================================
-// REPLY TO CUSTOMER
-// ======================================================
+/* =========================================================
+   NEW SHIPMENT
+   ========================================================= */
 
-function replyToCustomer(index) {
-
-    const message =
-        customerMessages[index];
-
-
-    if (!message) {
-
-        return;
-
-    }
-
-
-    if (!message.email) {
-
-        alert(
-            "Customer has no email address."
-        );
-
-        return;
-
-    }
-
+function newShipment() {
 
     window.location.href =
-        "mailto:" +
-        message.email;
-
+        "create-shipment.html";
 }
 
 
-// ======================================================
-// ACTIVITY LOG DISPLAY
-// ======================================================
+/* =========================================================
+   EDIT SHIPMENT
+   ========================================================= */
 
-function loadActivity() {
+function editShipment(index) {
 
-    activityLog =
-        JSON.parse(
-            localStorage.getItem(
-                "activityLog"
-            )
-        ) || [];
+    currentShipmentIndex =
+        index;
 
+    const shipment =
+        shipments[index];
 
-    const container =
-        document.getElementById(
-            "activityLog"
-        );
+    if (!shipment) return;
 
 
-    if (!container) {
+    const tracking =
+        shipment.tracking_number ||
+        shipment.trackingNumber ||
+        shipment.tracking ||
+        "";
 
-        return;
+    const sender =
+        shipment.sender_name ||
+        shipment.senderName ||
+        "";
 
-    }
+    const receiver =
+        shipment.receiver_name ||
+        shipment.receiverName ||
+        "";
 
+    const status =
+        shipment.status ||
+        "";
 
-    if (
-        activityLog.length === 0
-    ) {
+    const location =
+        shipment.location ||
+        "";
 
-        container.innerHTML = `
+    const delivery =
+        shipment.delivery ||
+        "";
 
-            <div class="empty-activity">
-
-                <div class="empty-icon">
-                    📋
-                </div>
-
-                <h3>
-                    No Recent Activity
-                </h3>
-
-                <p>
-                    Dashboard activity will appear here.
-                </p>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
+    const instructions =
+        shipment.instructions ||
+        "";
 
 
-    container.innerHTML = "";
-
-
-    activityLog.forEach(
-        function (item) {
-
-            container.innerHTML += `
-
-                <div class="activity-item">
-
-                    <strong>
-
-                        ${safeValue(
-                            item.icon
-                        )}
-
-                        ${safeValue(
-                            item.message
-                        )}
-
-                    </strong>
-
-                    <br>
-
-                    <small>
-
-                        ${safeValue(
-                            item.time
-                        )}
-
-                    </small>
-
-                </div>
-
-                <hr>
-
-            `;
-
-        }
+    setInput(
+        "editTracking",
+        tracking
     );
 
+    setInput(
+        "editSender",
+        sender
+    );
+
+    setInput(
+        "editReceiver",
+        receiver
+    );
+
+    setInput(
+        "editStatus",
+        status
+    );
+
+    setInput(
+        "editLocation",
+        location
+    );
+
+    setInput(
+        "editDelivery",
+        delivery
+    );
+
+    setInput(
+        "editInstructions",
+        instructions
+    );
 }
 
 
-// ======================================================
-// VIEW RECEIPT
-// ======================================================
+function setInput(id, value) {
 
-function viewSelectedReceipt() {
+    const element =
+        document.getElementById(id);
+
+    if (element) {
+
+        element.value =
+            value ?? "";
+    }
+}
+
+
+/* =========================================================
+   SAVE SHIPMENT CHANGES
+   ========================================================= */
+
+async function saveShipment() {
 
     if (
         currentShipmentIndex < 0 ||
-        currentShipmentIndex >= shipments.length
+        !shipments[currentShipmentIndex]
     ) {
 
         alert(
-            "Please select a shipment first."
+            "Select a shipment first."
         );
 
         return;
-
     }
 
 
     const shipment =
-        shipments[currentShipmentIndex];
-
-
-    if (!shipment) {
-
-        return;
-
-    }
+        shipments[
+            currentShipmentIndex
+        ];
 
 
     const tracking =
+        document.getElementById(
+            "editTracking"
+        )?.value || "";
+
+    const sender =
+        document.getElementById(
+            "editSender"
+        )?.value || "";
+
+    const receiver =
+        document.getElementById(
+            "editReceiver"
+        )?.value || "";
+
+    const status =
+        document.getElementById(
+            "editStatus"
+        )?.value || "";
+
+    const location =
+        document.getElementById(
+            "editLocation"
+        )?.value || "";
+
+    const delivery =
+        document.getElementById(
+            "editDelivery"
+        )?.value || "";
+
+    const instructions =
+        document.getElementById(
+            "editInstructions"
+        )?.value || "";
+
+
+    /*
+       Update both possible naming
+       formats used by your AGL system.
+    */
+
+    shipment.tracking =
+        tracking;
+
+    shipment.trackingNumber =
+        tracking;
+
+    shipment.tracking_number =
+        tracking;
+
+
+    shipment.senderName =
+        sender;
+
+    shipment.sender_name =
+        sender;
+
+
+    shipment.receiverName =
+        receiver;
+
+    shipment.receiver_name =
+        receiver;
+
+
+    shipment.status =
+        status;
+
+    shipment.location =
+        location;
+
+    shipment.delivery =
+        delivery;
+
+    shipment.instructions =
+        instructions;
+
+
+    try {
+
+        const id =
+            shipment.id;
+
+        if (id) {
+
+            await supabaseRequest(
+                "/rest/v1/shipments?id=eq." +
+                encodeURIComponent(id),
+                {
+                    method: "PATCH",
+
+                    body: JSON.stringify(
+                        shipment
+                    )
+                }
+            );
+
+        } else {
+
+            const trackingValue =
+                shipment.tracking_number;
+
+            await supabaseRequest(
+                "/rest/v1/shipments?tracking_number=eq." +
+                encodeURIComponent(
+                    trackingValue
+                ),
+                {
+                    method: "PATCH",
+
+                    body: JSON.stringify(
+                        shipment
+                    )
+                }
+            );
+        }
+
+
+        saveShipments();
+
+        addActivity(
+            "Shipment updated",
+            "✏️"
+        );
+
+        await loadShipmentsFromSupabase();
+
+        alert(
+            "Shipment updated successfully."
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not update shipment. " +
+            "Check the Supabase connection."
+        );
+    }
+}
+
+
+/* =========================================================
+   DELETE SHIPMENT
+   ========================================================= */
+
+async function deleteShipment(index) {
+
+    const shipment =
+        shipments[index];
+
+    if (!shipment) return;
+
+
+    const tracking =
+        shipment.tracking_number ||
+        shipment.trackingNumber ||
         shipment.tracking ||
-        shipment.trackingNumber;
+        "";
+
+
+    if (
+        !confirm(
+            "Delete shipment " +
+            tracking +
+            "?"
+        )
+    ) {
+
+        return;
+    }
+
+
+    try {
+
+        if (shipment.id) {
+
+            await supabaseRequest(
+                "/rest/v1/shipments?id=eq." +
+                encodeURIComponent(
+                    shipment.id
+                ),
+                {
+                    method: "DELETE"
+                }
+            );
+
+        } else {
+
+            await supabaseRequest(
+                "/rest/v1/shipments?tracking_number=eq." +
+                encodeURIComponent(
+                    tracking
+                ),
+                {
+                    method: "DELETE"
+                }
+            );
+        }
+
+
+        addActivity(
+            "Shipment deleted: " +
+            tracking,
+            "🗑️"
+        );
+
+
+        await loadShipmentsFromSupabase();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not delete shipment."
+        );
+    }
+}
+
+
+/* =========================================================
+   VIEW RECEIPT
+   ========================================================= */
+
+function viewShipmentReceipt(index) {
+
+    const shipment =
+        shipments[index];
+
+    if (!shipment) return;
+
+
+    const tracking =
+        shipment.tracking_number ||
+        shipment.trackingNumber ||
+        shipment.tracking ||
+        "";
 
 
     if (!tracking) {
@@ -1759,338 +760,151 @@ function viewSelectedReceipt() {
         );
 
         return;
-
     }
 
 
     window.open(
-
         "receipt.html?tracking=" +
         encodeURIComponent(tracking),
-
         "_blank"
-
     );
-
 }
 
 
-// ======================================================
-// LOGOUT
-// ======================================================
+/* =========================================================
+   SEARCH
+   ========================================================= */
 
-function logoutAdmin() {
+function searchShipments() {
 
-    if (
-        confirm(
-            "Logout from dashboard?"
+    const input =
+        document.getElementById(
+            "searchShipment"
+        );
+
+    if (!input) return;
+
+
+    const query =
+        input.value
+            .toLowerCase()
+            .trim();
+
+
+    document
+        .querySelectorAll(
+            "#shipmentTable tr"
         )
-    ) {
+        .forEach(row => {
 
-        window.location.href =
-            "admin-login.html";
-
-    }
-
+            row.style.display =
+                row.innerText
+                    .toLowerCase()
+                    .includes(query)
+                    ? ""
+                    : "none";
+        });
 }
 
 
-// ======================================================
-// DASHBOARD CHARTS
-// ======================================================
+/* =========================================================
+   ACTIVITY
+   ========================================================= */
 
-function loadDashboardCharts() {
+function addActivity(
+    message,
+    icon = "📦"
+) {
 
-    // Chart.js must exist
-    if (
-        typeof Chart === "undefined"
-    ) {
+    activityLog.unshift({
 
-        console.warn(
-            "Chart.js is not loaded."
-        );
+        message:
+            message,
 
-        return;
+        icon:
+            icon,
 
-    }
+        time:
+            new Date()
+                .toLocaleString()
+    });
 
 
-    const statusCanvas =
-        document.getElementById(
-            "statusChart"
-        );
+    activityLog =
+        activityLog.slice(0, 50);
 
+    saveActivity();
 
-    const serviceCanvas =
-        document.getElementById(
-            "serviceChart"
-        );
-
-
-    if (
-        !statusCanvas &&
-        !serviceCanvas
-    ) {
-
-        return;
-
-    }
-
-
-    const storedShipments =
-        JSON.parse(
-            localStorage.getItem(
-                "shipments"
-            )
-        ) || [];
-
-
-    let statusCounts = {
-
-        Created: 0,
-        Awaiting: 0,
-        Transit: 0,
-        Delivered: 0
-
-    };
-
-
-    let serviceCounts = {
-
-        Air: 0,
-        Ocean: 0,
-        Road: 0,
-        Express: 0
-
-    };
-
-
-    storedShipments.forEach(
-        function (shipment) {
-
-            switch (
-                shipment.status
-            ) {
-
-                case "Shipment Created":
-
-                    statusCounts.Created++;
-
-                    break;
-
-
-                case "Awaiting Pickup":
-
-                    statusCounts.Awaiting++;
-
-                    break;
-
-
-                case "In Transit":
-
-                    statusCounts.Transit++;
-
-                    break;
-
-
-                case "Delivered":
-
-                    statusCounts.Delivered++;
-
-                    break;
-
-            }
-
-
-            switch (
-                shipment.service
-            ) {
-
-                case "Air Freight":
-
-                    serviceCounts.Air++;
-
-                    break;
-
-
-                case "Ocean Freight":
-
-                    serviceCounts.Ocean++;
-
-                    break;
-
-
-                case "Road Transport":
-
-                    serviceCounts.Road++;
-
-                    break;
-
-
-                case "Express Delivery":
-
-                    serviceCounts.Express++;
-
-                    break;
-
-            }
-
-        }
-    );
-
-
-    // --------------------------------------------------
-    // Status Chart
-    // --------------------------------------------------
-
-    if (statusCanvas) {
-
-        if (statusChartInstance) {
-
-            statusChartInstance.destroy();
-
-        }
-
-
-        statusChartInstance =
-            new Chart(
-                statusCanvas,
-                {
-
-                    type: "doughnut",
-
-                    data: {
-
-                        labels: [
-
-                            "Created",
-                            "Awaiting",
-                            "In Transit",
-                            "Delivered"
-
-                        ],
-
-                        datasets: [{
-
-                            data: [
-
-                                statusCounts.Created,
-                                statusCounts.Awaiting,
-                                statusCounts.Transit,
-                                statusCounts.Delivered
-
-                            ]
-
-                        }]
-
-                    },
-
-                    options: {
-
-                        responsive: true,
-
-                        maintainAspectRatio: false
-
-                    }
-
-                }
-            );
-
-    }
-
-
-    // --------------------------------------------------
-    // Service Chart
-    // --------------------------------------------------
-
-    if (serviceCanvas) {
-
-        if (serviceChartInstance) {
-
-            serviceChartInstance.destroy();
-
-        }
-
-
-        serviceChartInstance =
-            new Chart(
-                serviceCanvas,
-                {
-
-                    type: "bar",
-
-                    data: {
-
-                        labels: [
-
-                            "Air",
-                            "Ocean",
-                            "Road",
-                            "Express"
-
-                        ],
-
-                        datasets: [{
-
-                            label: "Shipments",
-
-                            data: [
-
-                                serviceCounts.Air,
-                                serviceCounts.Ocean,
-                                serviceCounts.Road,
-                                serviceCounts.Express
-
-                            ]
-
-                        }]
-
-                    },
-
-                    options: {
-
-                        responsive: true,
-
-                        maintainAspectRatio: false,
-
-                        scales: {
-
-                            y: {
-
-                                beginAtZero: true,
-
-                                ticks: {
-
-                                    precision: 0
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
-            );
-
-    }
-
+    loadActivity();
 }
 
 
-// ======================================================
-// REFRESH EVERYTHING
-// ======================================================
+function loadActivity() {
 
-function refreshDashboard() {
+    const container =
+        document.getElementById(
+            "activityLog"
+        );
 
-    shipments =
-        JSON.parse(
-            localStorage.getItem(
-                "shipments"
+    if (!container) return;
+
+
+    if (!activityLog.length) {
+
+        container.innerHTML = `
+            <div class="empty-activity">
+                <h3>No Recent Activity</h3>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        activityLog
+            .map(
+                item => `
+
+                    <div>
+
+                        ${escapeHtml(
+                            item.icon
+                        )}
+
+                        ${escapeHtml(
+                            item.message
+                        )}
+
+                        <br>
+
+                        <small>
+                            ${escapeHtml(
+                                item.time
+                            )}
+                        </small>
+
+                    </div>
+
+                    <hr>
+                `
             )
-        ) || [];
+            .join("");
+}
+
+
+/* =========================================================
+   CUSTOMER MESSAGES
+   ========================================================= */
+
+function loadCustomerMessages() {
+
+    const container =
+        document.getElementById(
+            "customerMessages"
+        );
+
+    if (!container) return;
 
 
     customerMessages =
@@ -2101,147 +915,146 @@ function refreshDashboard() {
         ) || [];
 
 
-    activityLog =
-        JSON.parse(
-            localStorage.getItem(
-                "activityLog"
+    const count =
+        document.getElementById(
+            "messageCount"
+        );
+
+    if (count) {
+
+        count.textContent =
+            customerMessages.length;
+    }
+
+
+    if (!customerMessages.length) {
+
+        container.innerHTML = `
+            <div class="empty-messages">
+
+                <h3>
+                    No Customer Messages
+                </h3>
+
+                <p>
+                    Customer messages
+                    will appear here.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        customerMessages
+            .map(
+                (message, index) => `
+
+                    <div>
+
+                        <strong>
+                            ${escapeHtml(
+                                message.name ||
+                                "Customer"
+                            )}
+                        </strong>
+
+                        <p>
+                            ${escapeHtml(
+                                message.message ||
+                                ""
+                            )}
+                        </p>
+
+                        <button
+                            onclick=
+                            "replyToCustomer(${index})">
+                            Reply
+                        </button>
+
+                        <button
+                            onclick=
+                            "deleteCustomerMessage(${index})">
+                            Delete
+                        </button>
+
+                        <hr>
+
+                    </div>
+                `
             )
-        ) || [];
+            .join("");
+}
 
 
-    loadShipments();
+function replyToCustomer(index) {
+
+    const message =
+        customerMessages[index];
+
+    if (
+        message &&
+        message.email
+    ) {
+
+        window.location.href =
+            "mailto:" +
+            message.email;
+    }
+}
+
+
+function deleteCustomerMessage(index) {
+
+    if (
+        !confirm(
+            "Delete this message?"
+        )
+    ) {
+
+        return;
+    }
+
+
+    customerMessages.splice(
+        index,
+        1
+    );
+
+    saveMessages();
 
     loadCustomerMessages();
-
-    loadActivity();
-
-    updateDashboard();
-
 }
 
 
-// ======================================================
-// SEARCH LISTENER
-// ======================================================
-
-function initializeSearch() {
-
-    const searchInput =
-        document.getElementById(
-            "searchShipment"
-        ) ||
-        document.getElementById(
-            "searchInput"
-        );
-
-
-    if (!searchInput) {
-
-        return;
-
-    }
-
-
-    searchInput.addEventListener(
-        "input",
-        searchShipments
-    );
-
-}
-
-
-// ======================================================
-// RECEIPT BUTTON
-// ======================================================
-
-function initializeReceiptButton() {
-
-    const receiptButton =
-        document.getElementById(
-            "viewReceipt"
-        );
-
-
-    if (!receiptButton) {
-
-        return;
-
-    }
-
-
-    receiptButton.addEventListener(
-        "click",
-        viewSelectedReceipt
-    );
-
-}
-
-
-// ======================================================
-// LOGOUT BUTTON
-// ======================================================
-
-function initializeLogoutButton() {
-
-    const logoutButton =
-        document.getElementById(
-            "logoutBtn"
-        );
-
-
-    if (!logoutButton) {
-
-        return;
-
-    }
-
-
-    logoutButton.addEventListener(
-        "click",
-        logoutAdmin
-    );
-
-}
-
-
-// ======================================================
-// INITIALIZE DASHBOARD
-// ======================================================
+/* =========================================================
+   INITIALIZE DASHBOARD
+   ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
+    async function () {
 
-        shipments =
-            JSON.parse(
-                localStorage.getItem(
-                    "shipments"
-                )
-            ) || [];
+        console.log(
+            "AGL Admin Dashboard starting..."
+        );
 
 
-        customerMessages =
-            JSON.parse(
-                localStorage.getItem(
-                    "customerMessages"
-                )
-            ) || [];
+        /*
+           First load the existing
+           online shipments.
+        */
+
+        await loadShipmentsFromSupabase();
 
 
-        activityLog =
-            JSON.parse(
-                localStorage.getItem(
-                    "activityLog"
-                )
-            ) || [];
-
-
-        normalizeShipments();
-
-        saveShipments();
-
-
-        loadShipments();
+        /*
+           Then load local dashboard
+           information.
+        */
 
         loadCustomerMessages();
 
@@ -2249,35 +1062,76 @@ document.addEventListener(
 
         updateDashboard();
 
-        initializeSearch();
 
-        initializeReceiptButton();
+        /*
+           Search box.
+        */
 
-        initializeLogoutButton();
+        const search =
+            document.getElementById(
+                "searchShipment"
+            );
 
-        loadDashboardCharts();
+        if (search) {
+
+            search.addEventListener(
+                "input",
+                searchShipments
+            );
+        }
+
+
+        /*
+           View receipt button.
+        */
+
+        const viewReceipt =
+            document.getElementById(
+                "viewReceipt"
+            );
+
+        if (viewReceipt) {
+
+            viewReceipt.onclick =
+                function () {
+
+                    if (
+                        currentShipmentIndex < 0
+                    ) {
+
+                        alert(
+                            "Select a shipment first."
+                        );
+
+                        return;
+                    }
+
+                    viewShipmentReceipt(
+                        currentShipmentIndex
+                    );
+                };
+        }
+
+
+        /*
+           Logout.
+        */
+
+        const logout =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+        if (logout) {
+
+            logout.onclick =
+                function () {
+
+                    window.location.href =
+                        "admin-login.html";
+                };
+        }
 
     }
 );
-
-
-// ======================================================
-// AUTOMATIC REFRESH
-// ======================================================
-
-setInterval(
-    function () {
-
-        refreshDashboard();
-
-        // Refresh charts without creating duplicates
-        loadDashboardCharts();
-
-    },
-    5000
-);
-
-
-// ======================================================
-// END OF ADMIN.JS
-// ======================================================
+     
