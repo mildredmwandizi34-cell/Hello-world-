@@ -1,98 +1,71 @@
-/* =========================================================
-   AMERICAN GLOBAL LOGISTICS
-   ADMIN DASHBOARD
-   SUPABASE + LOCALSTORAGE
-   ========================================================= */
-
 "use strict";
 
 /* =========================================================
-   SUPABASE CONFIGURATION
+   AMERICAN GLOBAL LOGISTICS
+   ADMIN DASHBOARD
+   SUPABASE CONNECTED VERSION
+   ========================================================= */
+
+
+/* =========================================================
+   SUPABASE
    ========================================================= */
 
 const SUPABASE_URL =
     "https://aptkocjxcwmfatcycdnv.supabase.co";
 
 /*
-   Keep your existing Supabase publishable/anon key here.
-   Use the SAME key already used by your create-shipment.js.
+   IMPORTANT:
+   Paste the SAME Supabase publishable key you already use
+   in your create-shipment.js / track.html here.
 */
+
 const SUPABASE_KEY =
-    "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
+    "PASTE_YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY_HERE";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
 /* =========================================================
-   GLOBAL DATA
+   VARIABLES
    ========================================================= */
 
 let shipments = [];
+
 let customerMessages =
-    JSON.parse(localStorage.getItem("customerMessages")) || [];
+    JSON.parse(
+        localStorage.getItem("customerMessages")
+    ) || [];
 
 let activityLog =
-    JSON.parse(localStorage.getItem("activityLog")) || [];
+    JSON.parse(
+        localStorage.getItem("activityLog")
+    ) || [];
 
 let currentShipmentIndex = -1;
 
 
 /* =========================================================
-   SUPABASE REQUEST HELPER
+   HELPERS
    ========================================================= */
 
-async function supabaseRequest(
-    endpoint,
-    options = {}
-) {
-
-    const response = await fetch(
-        SUPABASE_URL + endpoint,
-        {
-            ...options,
-
-            headers: {
-                "apikey": SUPABASE_KEY,
-                "Authorization":
-                    "Bearer " + SUPABASE_KEY,
-                "Content-Type":
-                    "application/json",
-                "Prefer":
-                    "return=representation",
-
-                ...(options.headers || {})
-            }
-        }
-    );
-
-    if (!response.ok) {
-
-        const errorText =
-            await response.text();
-
-        throw new Error(
-            "Supabase error: " +
-            response.status +
-            " " +
-            errorText
-        );
-    }
-
-    const text =
-        await response.text();
-
-    return text ? JSON.parse(text) : [];
+function get(id) {
+    return document.getElementById(id);
 }
 
 
-/* =========================================================
-   LOCAL STORAGE
-   ========================================================= */
-
-function saveShipments() {
+function saveLocalBackup() {
 
     localStorage.setItem(
         "shipments",
         JSON.stringify(shipments)
     );
+
 }
 
 
@@ -102,6 +75,7 @@ function saveMessages() {
         "customerMessages",
         JSON.stringify(customerMessages)
     );
+
 }
 
 
@@ -111,6 +85,83 @@ function saveActivity() {
         "activityLog",
         JSON.stringify(activityLog)
     );
+
+}
+
+
+/* =========================================================
+   CONVERT SUPABASE ROW
+   ========================================================= */
+
+function convertShipment(row) {
+
+    return {
+
+        trackingNumber:
+            row.tracking_number || "",
+
+        tracking:
+            row.tracking_number || "",
+
+        status:
+            row.status || "Shipment Created",
+
+        senderName:
+            row.sender_name || "",
+
+        receiverName:
+            row.receiver_name || "",
+
+        origin:
+            row.origin || "",
+
+        destination:
+            row.destination || "",
+
+        location:
+            row.location || "",
+
+        delivery:
+            row.delivery_date || "",
+
+        delivery_date:
+            row.delivery_date || "",
+
+        service:
+            row.service || "",
+
+        package:
+            row.package || "",
+
+        weight:
+            row.weight || "",
+
+        progress:
+            Number(row.progress) || 0,
+
+        packageType:
+            row.package_type || "",
+
+        package_type:
+            row.package_type || "",
+
+        pieces:
+            row.pieces || 0,
+
+        dimensions:
+            row.dimensions || "",
+
+        payment:
+            row.payment || "",
+
+        history:
+            row.history || "",
+
+        updated_at:
+            row.updated_at || ""
+
+    };
+
 }
 
 
@@ -118,60 +169,173 @@ function saveActivity() {
    LOAD SHIPMENTS FROM SUPABASE
    ========================================================= */
 
-async function loadShipmentsFromSupabase() {
+async function loadShipments() {
+
+    const table =
+        get("shipmentTable");
+
+    if (table) {
+
+        table.innerHTML =
+            "<tr><td colspan='6'>Loading shipments...</td></tr>";
+
+    }
+
 
     try {
 
-        const data =
-            await supabaseRequest(
-                "/rest/v1/shipments?select=*&order=created_at.desc"
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("shipments")
+                .select("*")
+                .order(
+                    "updated_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (error) {
+
+            console.error(
+                "Supabase loading error:",
+                error
             );
 
+            if (table) {
+
+                table.innerHTML =
+                    "<tr><td colspan='6'>Unable to load shipments.</td></tr>";
+
+            }
+
+            return;
+
+        }
+
+
         shipments =
-            Array.isArray(data)
-                ? data
-                : [];
+            (data || []).map(
+                convertShipment
+            );
 
-        /*
-           Save a backup copy locally.
-        */
 
-        saveShipments();
-
-        console.log(
-            "Supabase shipments loaded:",
-            shipments.length
-        );
+        saveLocalBackup();
 
         renderShipments();
 
         updateDashboard();
 
-        return true;
-
-    } catch (error) {
-
-        console.error(
-            "Unable to load Supabase shipments:",
-            error
-        );
-
-        /*
-           If Supabase cannot be reached,
-           use the local backup instead.
-        */
-
-        shipments =
-            JSON.parse(
-                localStorage.getItem("shipments")
-            ) || [];
-
-        renderShipments();
-
-        updateDashboard();
-
-        return false;
     }
+
+    catch (error) {
+
+        console.error(error);
+
+        if (table) {
+
+            table.innerHTML =
+                "<tr><td colspan='6'>Connection error.</td></tr>";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER SHIPMENTS
+   ========================================================= */
+
+function renderShipments() {
+
+    const table =
+        get("shipmentTable");
+
+    if (!table) return;
+
+
+    table.innerHTML = "";
+
+
+    if (!shipments.length) {
+
+        table.innerHTML =
+            "<tr><td colspan='6'>No shipments found.</td></tr>";
+
+        return;
+
+    }
+
+
+    shipments.forEach(
+        function(shipment, index) {
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${escapeHTML(
+                        shipment.trackingNumber
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        shipment.senderName
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        shipment.receiverName
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        shipment.status
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        shipment.location
+                    )}
+                </td>
+
+                <td>
+
+                    <button
+                        onclick="editShipment(${index})"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        onclick="deleteShipment(${index})"
+                    >
+                        Delete
+                    </button>
+
+                </td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        }
+    );
+
 }
 
 
@@ -182,209 +346,77 @@ async function loadShipmentsFromSupabase() {
 function updateDashboard() {
 
     const total =
-        document.getElementById(
-            "totalShipments"
-        );
-
-    const awaiting =
-        document.getElementById(
-            "awaiting"
-        );
-
-    const inTransit =
-        document.getElementById(
-            "inTransit"
-        );
-
-    const delivered =
-        document.getElementById(
-            "delivered"
-        );
+        get("totalShipments");
 
     if (total) {
 
         total.textContent =
             shipments.length;
+
     }
+
+
+    const awaiting =
+        get("awaiting");
 
     if (awaiting) {
 
         awaiting.textContent =
             shipments.filter(
                 s =>
-                    String(s.status || "")
+                    String(s.status)
                         .toLowerCase()
-                        .includes("awaiting")
+                        ===
+                    "awaiting pickup"
             ).length;
+
     }
+
+
+    const inTransit =
+        get("inTransit");
 
     if (inTransit) {
 
         inTransit.textContent =
             shipments.filter(
                 s =>
-                    String(s.status || "")
+                    String(s.status)
                         .toLowerCase()
-                        .includes("transit")
+                        ===
+                    "in transit"
             ).length;
+
     }
+
+
+    const delivered =
+        get("delivered");
 
     if (delivered) {
 
         delivered.textContent =
             shipments.filter(
                 s =>
-                    String(s.status || "")
+                    String(s.status)
                         .toLowerCase()
-                        .includes("delivered")
+                        ===
+                    "delivered"
             ).length;
+
     }
 
+
     const messageCount =
-        document.getElementById(
-            "messageCount"
-        );
+        get("messageCount");
 
     if (messageCount) {
 
         messageCount.textContent =
             customerMessages.length;
-    }
-}
 
-
-/* =========================================================
-   RENDER SHIPMENT TABLE
-   ========================================================= */
-
-function renderShipments() {
-
-    const table =
-        document.getElementById(
-            "shipmentTable"
-        );
-
-    if (!table) return;
-
-    table.innerHTML = "";
-
-    if (!shipments.length) {
-
-        table.innerHTML = `
-            <tr>
-                <td colspan="6"
-                    style="text-align:center;">
-                    No shipments found.
-                </td>
-            </tr>
-        `;
-
-        return;
     }
 
-
-    shipments.forEach(
-        (shipment, index) => {
-
-            const tracking =
-                shipment.tracking_number ||
-                shipment.trackingNumber ||
-                shipment.tracking ||
-                "";
-
-            const sender =
-                shipment.sender_name ||
-                shipment.senderName ||
-                "";
-
-            const receiver =
-                shipment.receiver_name ||
-                shipment.receiverName ||
-                "";
-
-            const status =
-                shipment.status ||
-                "";
-
-            const location =
-                shipment.location ||
-                "";
-
-
-            table.innerHTML += `
-
-                <tr>
-
-                    <td>
-                        ${escapeHtml(tracking)}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(sender)}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(receiver)}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(status)}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(location)}
-                    </td>
-
-                    <td>
-
-                        <button
-                            onclick="editShipment(${index})">
-                            Edit
-                        </button>
-
-                        <button
-                            onclick="viewShipmentReceipt(${index})">
-                            Receipt
-                        </button>
-
-                        <button
-                            onclick="deleteShipment(${index})">
-                            Delete
-                        </button>
-
-                    </td>
-
-                </tr>
-
-            `;
-        }
-    );
-}
-
-
-/* =========================================================
-   HTML ESCAPE
-   ========================================================= */
-
-function escapeHtml(value) {
-
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-/* =========================================================
-   NEW SHIPMENT
-   ========================================================= */
-
-function newShipment() {
-
-    window.location.href =
-        "create-shipment.html";
 }
 
 
@@ -397,6 +429,7 @@ function editShipment(index) {
     currentShipmentIndex =
         index;
 
+
     const shipment =
         shipments[index];
 
@@ -404,104 +437,219 @@ function editShipment(index) {
 
 
     const tracking =
-        shipment.tracking_number ||
-        shipment.trackingNumber ||
-        shipment.tracking ||
-        "";
+        get("editTracking");
 
     const sender =
-        shipment.sender_name ||
-        shipment.senderName ||
-        "";
+        get("editSender");
 
     const receiver =
-        shipment.receiver_name ||
-        shipment.receiverName ||
-        "";
+        get("editReceiver");
 
     const status =
-        shipment.status ||
-        "";
+        get("editStatus");
 
     const location =
-        shipment.location ||
-        "";
+        get("editLocation");
 
     const delivery =
-        shipment.delivery ||
-        "";
+        get("editDelivery");
 
     const instructions =
-        shipment.instructions ||
-        "";
+        get("editInstructions");
 
 
-    setInput(
-        "editTracking",
-        tracking
-    );
-
-    setInput(
-        "editSender",
-        sender
-    );
-
-    setInput(
-        "editReceiver",
-        receiver
-    );
-
-    setInput(
-        "editStatus",
-        status
-    );
-
-    setInput(
-        "editLocation",
-        location
-    );
-
-    setInput(
-        "editDelivery",
-        delivery
-    );
-
-    setInput(
-        "editInstructions",
-        instructions
-    );
-}
+    if (tracking)
+        tracking.value =
+            shipment.trackingNumber || "";
 
 
-function setInput(id, value) {
+    if (sender)
+        sender.value =
+            shipment.senderName || "";
 
-    const element =
-        document.getElementById(id);
 
-    if (element) {
+    if (receiver)
+        receiver.value =
+            shipment.receiverName || "";
 
-        element.value =
-            value ?? "";
-    }
+
+    if (status)
+        status.value =
+            shipment.status || "";
+
+
+    if (location)
+        location.value =
+            shipment.location || "";
+
+
+    if (delivery)
+        delivery.value =
+            shipment.delivery || "";
+
+
+    /*
+       Your current Supabase table does NOT contain
+       an instructions column.
+
+       Therefore instructions cannot be saved to
+       Supabase yet.
+    */
+
+    if (instructions)
+        instructions.value = "";
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
 }
 
 
 /* =========================================================
-   SAVE SHIPMENT CHANGES
+   STATUS PROGRESS
+   ========================================================= */
+
+function getProgress(status) {
+
+    const value =
+        String(status || "")
+            .toLowerCase()
+            .trim();
+
+
+    if (value === "delivered")
+        return 100;
+
+
+    if (value === "out for delivery")
+        return 90;
+
+
+    if (
+        value === "arrived at destination hub" ||
+        value === "arrived hub"
+    )
+        return 75;
+
+
+    if (value === "customs cleared")
+        return 65;
+
+
+    if (value === "in transit")
+        return 50;
+
+
+    if (value === "picked up")
+        return 25;
+
+
+    if (value === "awaiting pickup")
+        return 15;
+
+
+    return 5;
+
+}
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+function readHistory(value) {
+
+    if (!value)
+        return [];
+
+
+    if (Array.isArray(value))
+        return value;
+
+
+    try {
+
+        const parsed =
+            JSON.parse(value);
+
+        if (Array.isArray(parsed))
+            return parsed;
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Could not read shipment history."
+        );
+
+    }
+
+
+    return [];
+
+}
+
+
+function buildUpdatedHistory(
+    oldHistory,
+    oldStatus,
+    oldLocation,
+    newStatus,
+    newLocation
+) {
+
+    let history =
+        readHistory(oldHistory);
+
+
+    const changed =
+        oldStatus !== newStatus ||
+        oldLocation !== newLocation;
+
+
+    if (!changed)
+        return history;
+
+
+    history.push({
+
+        status:
+            newStatus,
+
+        location:
+            newLocation,
+
+        date:
+            new Date().toLocaleString()
+
+    });
+
+
+    return history;
+
+}
+
+
+/* =========================================================
+   SAVE SHIPMENT TO SUPABASE
    ========================================================= */
 
 async function saveShipment() {
 
     if (
-        currentShipmentIndex < 0 ||
-        !shipments[currentShipmentIndex]
+        currentShipmentIndex < 0
     ) {
 
         alert(
-            "Select a shipment first."
+            "Please select a shipment first."
         );
 
         return;
+
     }
 
 
@@ -511,146 +659,217 @@ async function saveShipment() {
         ];
 
 
-    const tracking =
-        document.getElementById(
-            "editTracking"
-        )?.value || "";
+    if (!shipment) {
 
-    const sender =
-        document.getElementById(
-            "editSender"
-        )?.value || "";
+        alert(
+            "Shipment could not be found."
+        );
 
-    const receiver =
-        document.getElementById(
-            "editReceiver"
-        )?.value || "";
+        return;
 
-    const status =
-        document.getElementById(
-            "editStatus"
-        )?.value || "";
+    }
 
-    const location =
-        document.getElementById(
-            "editLocation"
-        )?.value || "";
 
-    const delivery =
-        document.getElementById(
-            "editDelivery"
-        )?.value || "";
+    const newTracking =
+        (
+            get("editTracking")?.value ||
+            shipment.trackingNumber
+        )
+        .trim()
+        .toUpperCase();
 
-    const instructions =
-        document.getElementById(
-            "editInstructions"
-        )?.value || "";
+
+    const newSender =
+        (
+            get("editSender")?.value ||
+            ""
+        ).trim();
+
+
+    const newReceiver =
+        (
+            get("editReceiver")?.value ||
+            ""
+        ).trim();
+
+
+    const newStatus =
+        (
+            get("editStatus")?.value ||
+            ""
+        ).trim();
+
+
+    const newLocation =
+        (
+            get("editLocation")?.value ||
+            ""
+        ).trim();
+
+
+    const newDelivery =
+        (
+            get("editDelivery")?.value ||
+            ""
+        ).trim();
+
+
+    if (!newTracking) {
+
+        alert(
+            "Tracking number is required."
+        );
+
+        return;
+
+    }
+
+
+    if (!newStatus) {
+
+        alert(
+            "Shipment status is required."
+        );
+
+        return;
+
+    }
+
+
+    const newProgress =
+        getProgress(newStatus);
+
+
+    const history =
+        buildUpdatedHistory(
+            shipment.history,
+            shipment.status,
+            shipment.location,
+            newStatus,
+            newLocation
+        );
 
 
     /*
-       Update both possible naming
-       formats used by your AGL system.
+       ONLY columns that actually exist
+       in your Supabase shipments table
+       are sent.
     */
 
-    shipment.tracking =
-        tracking;
+    const updateData = {
 
-    shipment.trackingNumber =
-        tracking;
+        tracking_number:
+            newTracking,
 
-    shipment.tracking_number =
-        tracking;
+        status:
+            newStatus,
 
+        sender_name:
+            newSender,
 
-    shipment.senderName =
-        sender;
+        receiver_name:
+            newReceiver,
 
-    shipment.sender_name =
-        sender;
+        location:
+            newLocation,
 
+        delivery_date:
+            newDelivery,
 
-    shipment.receiverName =
-        receiver;
+        progress:
+            newProgress,
 
-    shipment.receiver_name =
-        receiver;
+        history:
+            JSON.stringify(history),
 
+        updated_at:
+            new Date().toISOString()
 
-    shipment.status =
-        status;
-
-    shipment.location =
-        location;
-
-    shipment.delivery =
-        delivery;
-
-    shipment.instructions =
-        instructions;
+    };
 
 
     try {
 
-        const id =
-            shipment.id;
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .from("shipments")
+                .update(updateData)
+                .eq(
+                    "tracking_number",
+                    shipment.trackingNumber
+                )
+                .select()
+                .single();
 
-        if (id) {
 
-            await supabaseRequest(
-                "/rest/v1/shipments?id=eq." +
-                encodeURIComponent(id),
-                {
-                    method: "PATCH",
+        if (error) {
 
-                    body: JSON.stringify(
-                        shipment
-                    )
-                }
+            console.error(
+                "Supabase update error:",
+                error
             );
 
-        } else {
-
-            const trackingValue =
-                shipment.tracking_number;
-
-            await supabaseRequest(
-                "/rest/v1/shipments?tracking_number=eq." +
-                encodeURIComponent(
-                    trackingValue
-                ),
-                {
-                    method: "PATCH",
-
-                    body: JSON.stringify(
-                        shipment
-                    )
-                }
+            alert(
+                "Shipment was NOT saved.\n\n" +
+                error.message
             );
+
+            return;
+
         }
 
 
-        saveShipments();
+        /*
+           Replace the local copy with
+           the database version.
+        */
+
+        shipments[
+            currentShipmentIndex
+        ] =
+            convertShipment(data);
+
+
+        saveLocalBackup();
+
 
         addActivity(
-            "Shipment updated",
+            "Shipment " +
+            newTracking +
+            " updated",
             "✏️"
         );
 
-        await loadShipmentsFromSupabase();
+
+        renderShipments();
+
+        updateDashboard();
+
 
         alert(
-            "Shipment updated successfully."
+            "Shipment updated successfully.\n\n" +
+            "The customer tracking page can now see the new information."
         );
 
-    } catch (error) {
+
+        currentShipmentIndex = -1;
+
+    }
+
+    catch (error) {
 
         console.error(error);
 
         alert(
-            "Could not update shipment. " +
-            "Check the Supabase connection."
+            "Unable to update shipment.\n\n" +
+            error.message
         );
+
     }
+
 }
 
 
@@ -663,111 +882,119 @@ async function deleteShipment(index) {
     const shipment =
         shipments[index];
 
-    if (!shipment) return;
-
-
-    const tracking =
-        shipment.tracking_number ||
-        shipment.trackingNumber ||
-        shipment.tracking ||
-        "";
-
-
-    if (
-        !confirm(
-            "Delete shipment " +
-            tracking +
-            "?"
-        )
-    ) {
-
+    if (!shipment)
         return;
-    }
+
+
+    const confirmed =
+        confirm(
+            "Delete shipment " +
+            shipment.trackingNumber +
+            "?"
+        );
+
+
+    if (!confirmed)
+        return;
 
 
     try {
 
-        if (shipment.id) {
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("shipments")
+                .delete()
+                .eq(
+                    "tracking_number",
+                    shipment.trackingNumber
+                );
 
-            await supabaseRequest(
-                "/rest/v1/shipments?id=eq." +
-                encodeURIComponent(
-                    shipment.id
-                ),
-                {
-                    method: "DELETE"
-                }
+
+        if (error) {
+
+            console.error(error);
+
+            alert(
+                "Shipment could not be deleted.\n\n" +
+                error.message
             );
 
-        } else {
+            return;
 
-            await supabaseRequest(
-                "/rest/v1/shipments?tracking_number=eq." +
-                encodeURIComponent(
-                    tracking
-                ),
-                {
-                    method: "DELETE"
-                }
-            );
         }
 
 
+        shipments.splice(
+            index,
+            1
+        );
+
+
+        saveLocalBackup();
+
+
         addActivity(
-            "Shipment deleted: " +
-            tracking,
+            "Shipment " +
+            shipment.trackingNumber +
+            " deleted",
             "🗑️"
         );
 
 
-        await loadShipmentsFromSupabase();
+        renderShipments();
+
+        updateDashboard();
 
 
-    } catch (error) {
+        alert(
+            "Shipment deleted successfully."
+        );
+
+    }
+
+    catch (error) {
 
         console.error(error);
 
         alert(
-            "Could not delete shipment."
+            "Unable to delete shipment."
         );
+
     }
+
 }
 
 
 /* =========================================================
-   VIEW RECEIPT
+   DELETE CURRENT
    ========================================================= */
 
-function viewShipmentReceipt(index) {
+function deleteCurrentShipment() {
 
-    const shipment =
-        shipments[index];
+    if (
+        currentShipmentIndex >= 0
+    ) {
 
-    if (!shipment) return;
-
-
-    const tracking =
-        shipment.tracking_number ||
-        shipment.trackingNumber ||
-        shipment.tracking ||
-        "";
-
-
-    if (!tracking) {
-
-        alert(
-            "This shipment has no tracking number."
+        deleteShipment(
+            currentShipmentIndex
         );
 
-        return;
     }
 
+}
 
-    window.open(
-        "receipt.html?tracking=" +
-        encodeURIComponent(tracking),
-        "_blank"
-    );
+
+/* =========================================================
+   NEW SHIPMENT
+   ========================================================= */
+
+function newShipment() {
+
+    window.location.href =
+        "create-shipment.html";
+
 }
 
 
@@ -778,9 +1005,7 @@ function viewShipmentReceipt(index) {
 function searchShipments() {
 
     const input =
-        document.getElementById(
-            "searchShipment"
-        );
+        get("searchShipment");
 
     if (!input) return;
 
@@ -795,15 +1020,19 @@ function searchShipments() {
         .querySelectorAll(
             "#shipmentTable tr"
         )
-        .forEach(row => {
+        .forEach(
+            row => {
 
-            row.style.display =
-                row.innerText
-                    .toLowerCase()
-                    .includes(query)
-                    ? ""
-                    : "none";
-        });
+                row.style.display =
+                    row.innerText
+                        .toLowerCase()
+                        .includes(query)
+                        ? ""
+                        : "none";
+
+            }
+        );
+
 }
 
 
@@ -827,37 +1056,42 @@ function addActivity(
         time:
             new Date()
                 .toLocaleString()
+
     });
 
 
     activityLog =
-        activityLog.slice(0, 50);
+        activityLog.slice(
+            0,
+            50
+        );
+
 
     saveActivity();
 
     loadActivity();
+
 }
 
 
 function loadActivity() {
 
     const container =
-        document.getElementById(
-            "activityLog"
-        );
+        get("activityLog");
 
-    if (!container) return;
+    if (!container)
+        return;
 
 
     if (!activityLog.length) {
 
-        container.innerHTML = `
-            <div class="empty-activity">
-                <h3>No Recent Activity</h3>
-            </div>
-        `;
+        container.innerHTML =
+            "<div class='empty-activity'>" +
+            "<h3>No Recent Activity</h3>" +
+            "</div>";
 
         return;
+
     }
 
 
@@ -867,29 +1101,20 @@ function loadActivity() {
                 item => `
 
                     <div>
-
-                        ${escapeHtml(
-                            item.icon
-                        )}
-
-                        ${escapeHtml(
-                            item.message
-                        )}
-
+                        ${escapeHTML(item.icon)}
+                        ${escapeHTML(item.message)}
                         <br>
-
                         <small>
-                            ${escapeHtml(
-                                item.time
-                            )}
+                            ${escapeHTML(item.time)}
                         </small>
-
                     </div>
 
                     <hr>
+
                 `
             )
             .join("");
+
 }
 
 
@@ -900,11 +1125,10 @@ function loadActivity() {
 function loadCustomerMessages() {
 
     const container =
-        document.getElementById(
-            "customerMessages"
-        );
+        get("customerMessages");
 
-    if (!container) return;
+    if (!container)
+        return;
 
 
     customerMessages =
@@ -916,35 +1140,22 @@ function loadCustomerMessages() {
 
 
     const count =
-        document.getElementById(
-            "messageCount"
-        );
+        get("messageCount");
 
-    if (count) {
-
+    if (count)
         count.textContent =
             customerMessages.length;
-    }
 
 
     if (!customerMessages.length) {
 
-        container.innerHTML = `
-            <div class="empty-messages">
-
-                <h3>
-                    No Customer Messages
-                </h3>
-
-                <p>
-                    Customer messages
-                    will appear here.
-                </p>
-
-            </div>
-        `;
+        container.innerHTML =
+            "<div class='empty-messages'>" +
+            "<h3>No Customer Messages</h3>" +
+            "</div>";
 
         return;
+
     }
 
 
@@ -956,37 +1167,34 @@ function loadCustomerMessages() {
                     <div>
 
                         <strong>
-                            ${escapeHtml(
+                            ${escapeHTML(
                                 message.name ||
                                 "Customer"
                             )}
                         </strong>
 
                         <p>
-                            ${escapeHtml(
+                            ${escapeHTML(
                                 message.message ||
                                 ""
                             )}
                         </p>
 
                         <button
-                            onclick=
-                            "replyToCustomer(${index})">
-                            Reply
-                        </button>
 
-                        <button
-                            onclick=
-                            "deleteCustomerMessage(${index})">
+             onclick="deleteCustomerMessage(${index})"
+                        >
                             Delete
                         </button>
 
                         <hr>
 
                     </div>
+
                 `
             )
             .join("");
+
 }
 
 
@@ -1003,7 +1211,9 @@ function replyToCustomer(index) {
         window.location.href =
             "mailto:" +
             message.email;
+
     }
+
 }
 
 
@@ -1011,12 +1221,10 @@ function deleteCustomerMessage(index) {
 
     if (
         !confirm(
-            "Delete this message?"
+            "Delete this customer message?"
         )
-    ) {
-
+    )
         return;
-    }
 
 
     customerMessages.splice(
@@ -1024,37 +1232,108 @@ function deleteCustomerMessage(index) {
         1
     );
 
+
     saveMessages();
 
     loadCustomerMessages();
+
 }
 
 
 /* =========================================================
-   INITIALIZE DASHBOARD
+   VIEW RECEIPT
+   ========================================================= */
+
+function setupViewReceipt() {
+
+    const button =
+        get("viewReceipt");
+
+    if (!button)
+        return;
+
+
+    button.onclick =
+        function() {
+
+            if (
+                currentShipmentIndex < 0
+            ) {
+
+                alert(
+                    "Select a shipment first."
+                );
+
+                return;
+
+            }
+
+
+            const shipment =
+                shipments[
+                    currentShipmentIndex
+                ];
+
+
+            if (!shipment)
+                return;
+
+
+            window.open(
+                "receipt.html?tracking=" +
+                encodeURIComponent(
+                    shipment.trackingNumber
+                ),
+                "_blank"
+            );
+
+        };
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   INITIALIZE
    ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    async function () {
+    function() {
 
-        console.log(
-            "AGL Admin Dashboard starting..."
-        );
-
-
-        /*
-           First load the existing
-           online shipments.
-        */
-
-        await loadShipmentsFromSupabase();
-
-
-        /*
-           Then load local dashboard
-           information.
-        */
+        loadShipments();
 
         loadCustomerMessages();
 
@@ -1062,76 +1341,23 @@ document.addEventListener(
 
         updateDashboard();
 
+        setupViewReceipt();
 
-        /*
-           Search box.
-        */
-
-        const search =
-            document.getElementById(
-                "searchShipment"
-            );
-
-        if (search) {
-
-            search.addEventListener(
-                "input",
-                searchShipments
-            );
-        }
-
-
-        /*
-           View receipt button.
-        */
-
-        const viewReceipt =
-            document.getElementById(
-                "viewReceipt"
-            );
-
-        if (viewReceipt) {
-
-            viewReceipt.onclick =
-                function () {
-
-                    if (
-                        currentShipmentIndex < 0
-                    ) {
-
-                        alert(
-                            "Select a shipment first."
-                        );
-
-                        return;
-                    }
-
-                    viewShipmentReceipt(
-                        currentShipmentIndex
-                    );
-                };
-        }
-
-
-        /*
-           Logout.
-        */
 
         const logout =
-            document.getElementById(
-                "logoutBtn"
-            );
+            get("logoutBtn");
 
         if (logout) {
 
             logout.onclick =
-                function () {
+                function() {
 
                     window.location.href =
                         "admin-login.html";
+
                 };
+
         }
 
     }
 );
-     
