@@ -7,6 +7,22 @@
 "use strict";
 
 // ======================================================
+// SUPABASE CONNECTION
+// ======================================================
+
+const SUPABASE_URL =
+    "https://aptkocjxcwmfatcycdnv.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+// ======================================================
 // STORAGE
 // ======================================================
 
