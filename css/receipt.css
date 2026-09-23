@@ -1,7 +1,6 @@
 /* =========================================================
    AMERICAN GLOBAL LOGISTICS
-   RECEIPT CSS — MATCHES RECEIPT.HTML
-   A4 LANDSCAPE
+   RECEIPT CSS — LARGE / CLEAR A4 LANDSCAPE
    ========================================================= */
 
 * {
@@ -18,7 +17,7 @@ body {
 }
 
 body {
-    font-size: 8px;
+    font-size: 9px;
 }
 
 /* =========================================================
@@ -27,9 +26,11 @@ body {
 
 .receipt-page {
     width: 297mm;
+    height: 210mm;
     min-height: 210mm;
+
     margin: 8px auto;
-    padding: 3mm;
+    padding: 2.5mm;
 
     background: #fff;
 
@@ -44,13 +45,12 @@ body {
 
 .receipt-header {
     width: 100%;
-    height: 25mm;
+    height: 27mm;
 
     display: grid;
     grid-template-columns: minmax(0, 1fr) 76mm;
 
-    gap: 5px;
-
+    gap: 6px;
     padding: 4px;
 
     background: #0b4ea2;
@@ -67,18 +67,18 @@ body {
     display: flex;
     align-items: center;
 
-    gap: 9px;
+    gap: 10px;
 
-    padding: 2px 6px;
+    padding: 2px 7px;
 
     color: #fff;
 }
 
 .receipt-logo {
-    width: 56px;
-    height: 56px;
+    width: 62px;
+    height: 62px;
 
-    flex: 0 0 56px;
+    flex: 0 0 62px;
 
     object-fit: contain;
 
@@ -98,7 +98,7 @@ body {
 
     color: #fff;
 
-    font-size: 18px;
+    font-size: 21px;
     line-height: 1.1;
 
     font-weight: 900;
@@ -107,27 +107,27 @@ body {
 }
 
 .brand-text p {
-    margin: 4px 0 0;
+    margin: 5px 0 0;
 
     color: #fff;
 
-    font-size: 7px;
+    font-size: 8.5px;
     line-height: 1.2;
 
     font-weight: 700;
 }
 
 .brand-contact {
-    margin-top: 5px;
+    margin-top: 6px;
 
     display: flex;
     align-items: center;
 
-    gap: 13px;
+    gap: 14px;
 
     color: #dcecff;
 
-    font-size: 5.8px;
+    font-size: 6.8px;
 
     font-weight: 700;
 }
@@ -151,7 +151,7 @@ body {
     align-items: center;
     justify-content: center;
 
-    padding: 6px;
+    padding: 7px;
 
     text-align: center;
 
@@ -166,19 +166,19 @@ body {
 .official-label {
     color: #0b4ea2;
 
-    font-size: 5.5px;
+    font-size: 6px;
 
     font-weight: 900;
 
-    letter-spacing: .8px;
+    letter-spacing: .9px;
 }
 
 .receipt-title {
-    margin: 4px 0;
+    margin: 5px 0;
 
     color: #083b80;
 
-    font-size: 14px;
+    font-size: 17px;
 
     line-height: 1.1;
 
@@ -186,7 +186,7 @@ body {
 }
 
 .receipt-title i {
-    margin-right: 4px;
+    margin-right: 5px;
 }
 
 .document-meta {
@@ -196,11 +196,11 @@ body {
     align-items: center;
     justify-content: center;
 
-    gap: 4px 8px;
+    gap: 5px 9px;
 
     color: #607789;
 
-    font-size: 5.5px;
+    font-size: 6px;
 }
 
 .document-meta strong {
@@ -213,9 +213,9 @@ body {
 
 .summary-bar {
     width: 100%;
-    height: 12mm;
+    height: 13mm;
 
-    margin-top: 3px;
+    margin-top: 2px;
 
     display: grid;
 
@@ -249,17 +249,17 @@ body {
 }
 
 .summary-icon {
-    margin-bottom: 1px;
+    margin-bottom: 2px;
 
     color: #0b4ea2;
 
-    font-size: 8px;
+    font-size: 9px;
 }
 
 .summary-label {
     color: #64798b;
 
-    font-size: 4.7px;
+    font-size: 5.7px;
 
     font-weight: 900;
 }
@@ -267,11 +267,11 @@ body {
 .summary-value {
     width: 100%;
 
-    margin-top: 1px;
+    margin-top: 2px;
 
     color: #17324d;
 
-    font-size: 6px;
+    font-size: 7.2px;
 
     font-weight: 900;
 
@@ -292,11 +292,13 @@ body {
 
 .people-grid {
     width: 100%;
-    height: 34mm;
-    margin-top: 3px;
+    height: 37mm;
+
+    margin-top: 2px;
 
     display: grid;
     grid-template-columns: 1fr 1fr;
+
     gap: 4px;
 
     overflow: hidden;
@@ -320,25 +322,25 @@ body {
 
     gap: 5px;
 
-    padding: 3px 7px;
+    padding: 3px 8px;
 
     background: #0b4ea2;
 
     color: #fff;
 
-    font-size: 6.7px;
+    font-size: 7.5px;
 
     font-weight: 900;
 }
 
 .section-heading i {
-    font-size: 7.5px;
+    font-size: 8px;
 }
 
 .person-body {
     height: calc(100% - 7mm);
 
-    padding: 3px 7px;
+    padding: 3px 8px;
 }
 
 .person-name {
@@ -346,13 +348,13 @@ body {
 
     color: #083b80;
 
-    font-size: 7.5px;
+    font-size: 9px;
 
     font-weight: 900;
 }
 
 .person-row {
-    min-height: 3.7mm;
+    min-height: 4mm;
 
     display: flex;
     align-items: center;
@@ -367,15 +369,15 @@ body {
 }
 
 .person-row i {
-    width: 11px;
+    width: 12px;
 
-    flex: 0 0 11px;
+    flex: 0 0 12px;
 
     color: #0b4ea2;
 
     text-align: center;
 
-    font-size: 6.5px;
+    font-size: 7px;
 }
 
 .person-row span {
@@ -383,7 +385,7 @@ body {
 
     color: #334e63;
 
-    font-size: 5.8px;
+    font-size: 7px;
 
     font-weight: 700;
 
@@ -400,9 +402,9 @@ body {
 
 .shipment-details {
     width: 100%;
-    height: 22mm;
+    height: 24mm;
 
-    margin-top: 3px;
+    margin-top: 2px;
 
     border: 1.5px solid #0b4ea2;
 
@@ -429,7 +431,7 @@ body {
 
     justify-content: center;
 
-    padding: 2px 7px;
+    padding: 2px 8px;
 
     border-right: 1px solid #dce6ee;
     border-bottom: 1px solid #dce6ee;
@@ -446,7 +448,7 @@ body {
 .details-grid span {
     color: #657b8d;
 
-    font-size: 5px;
+    font-size: 5.8px;
 
     font-weight: 700;
 }
@@ -458,7 +460,7 @@ body {
 
     color: #17324d;
 
-    font-size: 6.2px;
+    font-size: 7.2px;
 
     font-weight: 900;
 
@@ -475,9 +477,9 @@ body {
 
 .route-charges {
     width: 100%;
-    height: 41mm;
+    height: 44mm;
 
-    margin-top: 3px;
+    margin-top: 2px;
 
     display: grid;
 
@@ -522,13 +524,13 @@ body {
 
     gap: 5px;
 
-    padding: 2px 7px;
+    padding: 2px 8px;
 }
 
 .route-place > i {
     color: #0b4ea2;
 
-    font-size: 8px;
+    font-size: 9px;
 }
 
 .route-place small {
@@ -536,7 +538,7 @@ body {
 
     color: #708596;
 
-    font-size: 4.5px;
+    font-size: 5.5px;
 
     font-weight: 900;
 }
@@ -548,7 +550,7 @@ body {
 
     color: #17324d;
 
-    font-size: 6.2px;
+    font-size: 7.5px;
 
     font-weight: 900;
 
@@ -567,7 +569,7 @@ body {
 
     color: #ff9800;
 
-    font-size: 14px;
+    font-size: 15px;
 }
 
 /* =========================================================
@@ -616,9 +618,7 @@ body {
     border: 0;
 }
 
-/*
-   STATIONARY AIRPLANE
-*/
+/* STATIONARY AIRPLANE */
 
 .agl-airplane {
     position: absolute;
@@ -627,7 +627,7 @@ body {
 
     color: #ff9800;
 
-    font-size: 20px;
+    font-size: 21px;
 
     pointer-events: none;
 
@@ -655,11 +655,11 @@ body {
 .charges-body {
     height: calc(100% - 7mm);
 
-    padding: 3px 7px;
+    padding: 4px 8px;
 }
 
 .charge-row {
-    min-height: 5mm;
+    min-height: 5.4mm;
 
     display: flex;
     align-items: center;
@@ -673,7 +673,7 @@ body {
 .charge-row span {
     color: #64798a;
 
-    font-size: 5.7px;
+    font-size: 6.8px;
 
     font-weight: 700;
 }
@@ -681,7 +681,7 @@ body {
 .charge-row strong {
     color: #17324d;
 
-    font-size: 6px;
+    font-size: 7px;
 
     font-weight: 900;
 
@@ -689,9 +689,9 @@ body {
 }
 
 .charge-total {
-    margin-top: 3px;
+    margin-top: 4px;
 
-    padding: 4px 5px;
+    padding: 5px 6px;
 
     display: flex;
     align-items: center;
@@ -705,13 +705,13 @@ body {
 }
 
 .charge-total span {
-    font-size: 6px;
+    font-size: 7px;
 
     font-weight: 900;
 }
 
 .charge-total strong {
-    font-size: 7.5px;
+    font-size: 8.5px;
 
     font-weight: 900;
 }
@@ -722,21 +722,29 @@ body {
 
 .verification-section {
     width: 100%;
-    height: 44mm;
-    margin-top: 3px;
+    height: 41mm;
+
+    margin-top: 2px;
+
     border: 1.5px solid #0b4ea2;
+
     background: #fff;
+
     overflow: hidden;
 }
 
 .verification-body {
     height: calc(100% - 7mm);
+
     display: grid;
+
     grid-template-columns: 1.45fr 1.15fr .9fr .9fr;
+
     align-items: center;
-    gap: 5px;
-    padding: 3px 7px;
-    box-sizing: border-box;
+
+    gap: 6px;
+
+    padding: 3px 8px;
 }
 
 .verification-data {
@@ -744,7 +752,7 @@ body {
 }
 
 .verification-row {
-    min-height: 3.8mm;
+    min-height: 4mm;
 
     display: grid;
 
@@ -762,7 +770,7 @@ body {
 .verification-row span {
     color: #687e8f;
 
-    font-size: 5px;
+    font-size: 5.8px;
 
     font-weight: 700;
 }
@@ -772,7 +780,7 @@ body {
 
     color: #17324d;
 
-    font-size: 5.6px;
+    font-size: 6.5px;
 
     font-weight: 900;
 
@@ -800,19 +808,19 @@ body {
 #barcodeLarge {
     display: block;
 
-    width: 125px;
+    width: 145px;
     max-width: 100%;
 
-    height: 38px;
+    height: 45px;
 }
 
 .barcode-box small,
 .qr-box small {
-    margin-top: 2px;
+    margin-top: 3px;
 
     color: #64798a;
 
-    font-size: 4.7px;
+    font-size: 5.5px;
 
     font-weight: 800;
 }
@@ -822,26 +830,35 @@ body {
    ========================================================= */
 
 #qrcode {
-    width: 136px !important;
-    height: 136px !important;
-    min-width: 136px !important;
-    min-height: 136px !important;
-    padding: 8px !important;
+    width: 108px !important;
+    height: 108px !important;
+
+    min-width: 108px !important;
+    min-height: 108px !important;
+
+    padding: 5px !important;
+
     box-sizing: border-box !important;
-    background: #ffffff !important;
+
+    background: #fff !important;
+
     display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+
+    align-items: center;
+    justify-content: center;
+
     overflow: visible !important;
 }
 
 #qrcode canvas,
 #qrcode img {
     display: block !important;
-    width: 120px !important;
-    height: 120px !important;
-    max-width: 120px !important;
-    max-height: 120px !important;
+
+    width: 98px !important;
+    height: 98px !important;
+
+    max-width: 98px !important;
+    max-height: 98px !important;
 }
 
 /* =========================================================
@@ -850,52 +867,66 @@ body {
 
 .officer-box {
     height: 100%;
+
     display: flex;
     flex-direction: column;
+
     align-items: center;
     justify-content: center;
+
     text-align: center;
 }
 
 .officer-title {
-    margin-bottom: 3px;
+    margin-bottom: 4px;
+
     color: #0b4ea2;
-    font-size: 5px;
+
+    font-size: 6px;
+
     line-height: 1;
+
     font-weight: 900;
 }
 
 .officer-assets {
     display: flex;
+
     align-items: center;
     justify-content: center;
-    gap: 7px;
+
+    gap: 8px;
+
     width: 100%;
 }
 
 .officer-signature {
-    width: 85px;
-    height: 34px;
+    width: 92px;
+    height: 38px;
+
     object-fit: contain;
+
     display: block;
 }
 
 .officer-seal {
-    width: 65px;
-    height: 65px;
+    width: 72px;
+    height: 72px;
+
     object-fit: contain;
+
     display: block;
 }
-   
+
 /* =========================================================
    FOOTER
    ========================================================= */
 
 .receipt-footer {
     width: 100%;
-    height: 14mm;
+    height: 17mm;
 
-    margin-top: 3px;
+    margin-top: 2px;
 
     display: grid;
 
@@ -920,7 +951,7 @@ body {
 
     justify-content: center;
 
-    padding: 3px 7px;
+    padding: 3px 8px;
 }
 
 .footer-left {
@@ -945,7 +976,7 @@ body {
 .footer-left strong,
 .footer-center strong,
 .footer-right strong {
-    font-size: 6px;
+    font-size: 7px;
 
     font-weight: 900;
 }
@@ -957,9 +988,9 @@ body {
 
     color: #dcecff;
 
-    font-size: 4.7px;
+    font-size: 5.5px;
 
-    line-height: 1.2;
+    line-height: 1.25;
 
     font-weight: 600;
 }
@@ -967,7 +998,7 @@ body {
 .footer-right > span:nth-child(2) {
     color: #fff;
 
-    font-size: 7px;
+    font-size: 8px;
 
     font-weight: 900;
 }
@@ -991,7 +1022,7 @@ body {
 
 .receipt-actions button,
 .receipt-actions a {
-    min-height: 29px;
+    min-height: 30px;
 
     display: inline-flex;
 
@@ -1000,9 +1031,10 @@ body {
 
     gap: 5px;
 
-    padding: 6px 13px;
+    padding: 6px 14px;
 
     border: 0;
+
     border-radius: 4px;
 
     background: #0b4ea2;
@@ -1011,7 +1043,7 @@ body {
 
     font-family: Arial, Helvetica, sans-serif;
 
-    font-size: 7px;
+    font-size: 8px;
 
     font-weight: 800;
 
@@ -1026,7 +1058,7 @@ body {
 }
 
 /* =========================================================
-   PRINT — EXACT A4 LANDSCAPE
+   PRINT — A4 LANDSCAPE
    ========================================================= */
 
 @page {
@@ -1055,12 +1087,11 @@ body {
     .receipt-page {
         width: 297mm;
         height: 210mm;
-
         min-height: 210mm;
 
         margin: 0;
 
-        padding: 3mm;
+        padding: 2.5mm;
 
         box-shadow: none;
 
@@ -1075,4 +1106,32 @@ body {
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
     }
-       }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media screen and (max-width: 900px) {
+
+    body {
+        padding: 6px;
+    }
+
+    .receipt-page {
+        width: 100%;
+        height: auto;
+        min-height: auto;
+
+        margin: 0;
+    }
+
+    .receipt-header {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .receipt-heading {
+        min-height: 70px;
+    }
+   }
