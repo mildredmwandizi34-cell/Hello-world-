@@ -668,6 +668,126 @@ function saveShipment() {
 
     shipment.tracking =
         newTracking;
+// ======================================================
+// SAVE / UPDATE SHIPMENT
+// LOCALSTORAGE + SUPABASE
+// ======================================================
+
+async function saveShipment() {
+
+    if (
+        currentShipmentIndex < 0 ||
+        currentShipmentIndex >= shipments.length
+    ) {
+
+        alert("Please select a shipment first.");
+
+        return;
+
+    }
+
+
+    const shipment =
+        shipments[currentShipmentIndex];
+
+
+    if (!shipment) {
+
+        alert("Shipment could not be found.");
+
+        return;
+
+    }
+
+
+    // --------------------------------------------------
+    // READ EDIT FIELDS
+    // --------------------------------------------------
+
+    const editTracking =
+        document.getElementById("editTracking");
+
+    const editSender =
+        document.getElementById("editSender");
+
+    const editReceiver =
+        document.getElementById("editReceiver");
+
+    const editStatus =
+        document.getElementById("editStatus");
+
+    const editLocation =
+        document.getElementById("editLocation");
+
+    const editDelivery =
+        document.getElementById("editDelivery");
+
+    const editInstructions =
+        document.getElementById("editInstructions");
+
+
+    const oldStatus =
+        shipment.status || "";
+
+    const oldLocation =
+        shipment.location || "";
+
+
+    const newTracking =
+        editTracking
+            ? editTracking.value.trim().toUpperCase()
+            : (
+                shipment.tracking ||
+                shipment.trackingNumber ||
+                ""
+            );
+
+
+    const newSender =
+        editSender
+            ? editSender.value.trim()
+            : shipment.senderName || "";
+
+
+    const newReceiver =
+        editReceiver
+            ? editReceiver.value.trim()
+            : shipment.receiverName || "";
+
+
+    const newStatus =
+        editStatus
+            ? editStatus.value.trim()
+            : shipment.status || "Shipment Created";
+
+
+    const newLocation =
+        editLocation
+            ? editLocation.value.trim()
+            : shipment.location || "";
+
+
+    const newDelivery =
+        editDelivery
+            ? editDelivery.value.trim()
+            : shipment.delivery || "";
+
+
+    const newInstructions =
+        editInstructions
+            ? editInstructions.value.trim()
+            : shipment.instructions || "";
+
+
+    // --------------------------------------------------
+    // UPDATE LOCAL SHIPMENT
+    // --------------------------------------------------
+
+    shipment.tracking =
+        newTracking;
+
+    shipment.trackingNumber =
+        newTracking;
 
     shipment.senderName =
         newSender;
@@ -684,22 +804,25 @@ function saveShipment() {
     shipment.delivery =
         newDelivery;
 
+    shipment.deliveryDate =
+        newDelivery;
+
     shipment.instructions =
         newInstructions;
 
 
     // --------------------------------------------------
-    // Automatically update progress
+    // UPDATE PROGRESS
     // --------------------------------------------------
 
     shipment.progress =
         getShipmentProgress(
-            shipment.status
+            newStatus
         );
 
 
     // --------------------------------------------------
-    // Ensure history exists
+    // ENSURE HISTORY
     // --------------------------------------------------
 
     if (!Array.isArray(shipment.history)) {
@@ -709,73 +832,203 @@ function saveShipment() {
     }
 
 
+    const lastHistory =
+        shipment.history[
+            shipment.history.length - 1
+        ];
+
+
+    const shouldAddHistory =
+        !lastHistory ||
+        lastHistory.status !== newStatus ||
+        lastHistory.location !== newLocation;
+
+
+    if (shouldAddHistory) {
+
+        shipment.history.push({
+
+            status: newStatus,
+
+            location: newLocation,
+
+            date: new Date().toLocaleString()
+
+        });
+
+    }
+
+
     // --------------------------------------------------
-// Add history entry only if status/location actually changed
-// --------------------------------------------------
-
-
-const lastHistory = shipment.history[shipment.history.length - 1];
-
-const shouldAddHistory =
-    !lastHistory ||
-    lastHistory.status !== shipment.status ||
-    lastHistory.location !== shipment.location;
-
-if (shouldAddHistory) {
-
-    shipment.history.push({
-        status: shipment.status,
-        location: shipment.location,
-        date: new Date().toLocaleString()
-    });
-
-}
-
-    shipment.history = shipment.history.filter((item, index, array) => {
-    return index === array.findIndex(history =>
-        history.status === item.status &&
-        history.location === item.location
-    );
-});
-    
-    // --------------------------------------------------
-    // Save
+    // SAVE LOCALSTORAGE
     // --------------------------------------------------
 
     saveShipments();
 
-    loadShipments();
-
-    updateDashboard();
-
 
     // --------------------------------------------------
-    // Activity
+    // UPDATE SUPABASE
     // --------------------------------------------------
 
-    const tracking =
-        shipment.tracking ||
-        shipment.trackingNumber ||
-        "Unknown shipment";
+    try {
+
+        const {
+            data: onlineShipment,
+            error: findError
+        } =
+            await supabaseClient
+                .from("shipments")
+                .select("id, tracking_number")
+                .eq(
+                    "tracking_number",
+                    newTracking
+                )
+                .maybeSingle();
 
 
-    addActivity(
+        if (findError) {
 
-        "Shipment " +
-        tracking +
-        " updated",
+            console.error(
+                "Supabase lookup error:",
+                findError
+            );
 
-        "✏️"
+            alert(
+                "The local shipment was updated, but the online shipment could not be found."
+            );
 
-    );
+            loadShipments();
+
+            return;
+
+        }
 
 
-    alert(
-        "Shipment updated successfully."
-    );
+        if (!onlineShipment) {
+
+            alert(
+                "Shipment was saved locally, but this tracking number was not found in the online database:\n\n" +
+                newTracking
+            );
+
+            loadShipments();
+
+            return;
+
+        }
+
+
+        const {
+            error: updateError
+        } =
+            await supabaseClient
+                .from("shipments")
+                .update({
+
+                    tracking_number:
+                        newTracking,
+
+                    sender_name:
+                        newSender,
+
+                    receiver_name:
+                        newReceiver,
+
+                    status:
+                        newStatus,
+
+                    location:
+                        newLocation,
+
+                    delivery_date:
+                        newDelivery,
+
+                    instructions:
+                        newInstructions,
+
+                    progress:
+                        shipment.progress,
+
+                    history:
+                        shipment.history
+
+                })
+                .eq(
+                    "id",
+                    onlineShipment.id
+                );
+
+
+        if (updateError) {
+
+            console.error(
+                "Supabase update error:",
+                updateError
+            );
+
+            alert(
+                "Local shipment updated, but the online update failed.\n\n" +
+                updateError.message
+            );
+
+            loadShipments();
+
+            return;
+
+        }
+
+
+        // --------------------------------------------------
+        // SUCCESS
+        // --------------------------------------------------
+
+        loadShipments();
+
+        updateDashboard();
+
+
+        const tracking =
+            shipment.tracking ||
+            shipment.trackingNumber ||
+            "Unknown shipment";
+
+
+        addActivity(
+
+            "Shipment " +
+            tracking +
+            " updated online",
+
+            "☁️"
+
+        );
+
+
+        alert(
+            "Shipment updated successfully.\n\n" +
+            "The customer tracking page has been updated."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Online shipment update failed:",
+            error
+        );
+
+
+        alert(
+            "The shipment was updated locally, but the online update failed.\n\n" +
+            error.message
+        );
+
+
+        loadShipments();
+
+    }
 
 }
-
 
 // ======================================================
 // DELETE SHIPMENT
