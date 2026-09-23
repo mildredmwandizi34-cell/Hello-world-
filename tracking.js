@@ -14,7 +14,7 @@ const SUPABASE_URL =
     "https://aptkocjxcwmfatcycdnv.supabase.co";
 
 const SUPABASE_KEY =
-    "PASTE_YOUR_EXISTING_SUPABASE_KEY_HERE";
+    "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
 
 
 /* =========================================================
