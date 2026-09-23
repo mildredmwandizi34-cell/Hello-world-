@@ -18,7 +18,7 @@ const SUPABASE_URL =
    Use the SAME key already used by your create-shipment.js.
 */
 const SUPABASE_KEY =
-    "YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY";
+    "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
 
 
 /* =========================================================
