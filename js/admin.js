@@ -797,162 +797,174 @@ function buildUpdatedHistory(
 
 }
 
-
 /* =========================================================
    SAVE SHIPMENT TO SUPABASE
    ========================================================= */
 
 async function saveShipment() {
 
-    if (
-        currentShipmentIndex < 0
-    ) {
-
-        alert(
-            "Please select a shipment first."
-        );
-
+    if (currentShipmentIndex < 0) {
+        alert("Please select a shipment first.");
         return;
-
     }
 
-
-    const shipment =
-        shipments[
-            currentShipmentIndex
-        ];
-
+    const shipment = shipments[currentShipmentIndex];
 
     if (!shipment) {
-
-        alert(
-            "Shipment could not be found."
-        );
-
+        alert("Shipment could not be found.");
         return;
-
     }
-
-
-    const newTracking =
-        (
-            get("editTracking")?.value ||
-            shipment.trackingNumber
-        )
-        .trim()
-        .toUpperCase();
-
-
-    const newSender =
-        (
-            get("editSender")?.value ||
-            ""
-        ).trim();
-
-
-    const newReceiver =
-        (
-            get("editReceiver")?.value ||
-            ""
-        ).trim();
-
-
-    const newStatus =
-        (
-            get("editStatus")?.value ||
-            ""
-        ).trim();
-
-
-    const newLocation =
-        (
-            get("editLocation")?.value ||
-            ""
-        ).trim();
-
-
-    const newDelivery =
-        (
-            get("editDelivery")?.value ||
-            ""
-        ).trim();
-
-
-    if (!newTracking) {
-
-        alert(
-            "Tracking number is required."
-        );
-
-        return;
-
-    }
-
-
-    if (!newStatus) {
-
-        alert(
-            "Shipment status is required."
-        );
-
-        return;
-
-    }
-
-
-    const newProgress =
-        getProgress(newStatus);
-
-
-    const history =
-        buildUpdatedHistory(
-            shipment.history,
-            shipment.status,
-            shipment.location,
-            newStatus,
-            newLocation
-        );
-
-
-    /*
-       ONLY columns that actually exist
-       in your Supabase shipments table
-       are sent.
-    */
-
-    const updateData = {
-
-        tracking_number:
-            newTracking,
-
-        status:
-            newStatus,
-
-        sender_name:
-            newSender,
-
-        receiver_name:
-            newReceiver,
-
-        location:
-            newLocation,
-
-        delivery_date:
-            newDelivery,
-
-        progress:
-            newProgress,
-
-        history:
-            JSON.stringify(history),
-
-        updated_at:
-            new Date().toISOString()
-
-    };
-
 
     try {
+
+        /* =========================================
+           GET EDITED VALUES
+           ========================================= */
+
+        const newTracking =
+            (
+                get("editTracking")?.value ||
+                shipment.trackingNumber ||
+                shipment.tracking ||
+                ""
+            )
+            .trim()
+            .toUpperCase();
+
+        const newSender =
+            (
+                get("editSender")?.value ||
+                ""
+            ).trim();
+
+        const newReceiver =
+            (
+                get("editReceiver")?.value ||
+                ""
+            ).trim();
+
+        const newStatus =
+            (
+                get("editStatus")?.value ||
+                ""
+            ).trim();
+
+        const newLocation =
+            (
+                get("editLocation")?.value ||
+                ""
+            ).trim();
+
+        const newDelivery =
+            (
+                get("editDelivery")?.value ||
+                ""
+            ).trim();
+
+
+        /* =========================================
+           VALIDATION
+           ========================================= */
+
+        if (!newTracking) {
+            alert("Tracking number is required.");
+            return;
+        }
+
+        if (!newStatus) {
+            alert("Shipment status is required.");
+            return;
+        }
+
+
+        /* =========================================
+           CALCULATE PROGRESS
+           ========================================= */
+
+        const newProgress =
+            getProgress(newStatus);
+
+
+        /* =========================================
+           BUILD HISTORY
+           ========================================= */
+
+        let history = [];
+
+        try {
+
+            history = buildUpdatedHistory(
+                shipment.history,
+                shipment.status,
+                shipment.location,
+                newStatus,
+                newLocation
+            );
+
+        } catch (historyError) {
+
+            console.error(
+                "History error:",
+                historyError
+            );
+
+            history = Array.isArray(shipment.history)
+                ? shipment.history
+                : [];
+
+        }
+
+
+        /* =========================================
+           SUPABASE DATA
+           ========================================= */
+
+        const updateData = {
+
+            tracking_number:
+                newTracking,
+
+            status:
+                newStatus,
+
+            sender_name:
+                newSender,
+
+            receiver_name:
+                newReceiver,
+
+            location:
+                newLocation,
+
+            delivery_date:
+                newDelivery,
+
+            progress:
+                newProgress,
+
+            history:
+                JSON.stringify(history),
+
+            updated_at:
+                new Date().toISOString()
+
+        };
+
+
+        console.log(
+            "Saving shipment:",
+            updateData
+        );
+
+
+        /* =========================================
+           UPDATE SUPABASE
+           ========================================= */
+
+        const originalTracking =
+            shipment.trackingNumber ||
+            shipment.tracking;
+
 
         const {
             data,
@@ -963,16 +975,19 @@ async function saveShipment() {
                 .update(updateData)
                 .eq(
                     "tracking_number",
-                    shipment.trackingNumber
+                    originalTracking
                 )
-                .select()
-                .single();
+                .select("*");
 
+
+        /* =========================================
+           CHECK SUPABASE ERROR
+           ========================================= */
 
         if (error) {
 
             console.error(
-                "Supabase update error:",
+                "SUPABASE SAVE ERROR:",
                 error
             );
 
@@ -982,23 +997,49 @@ async function saveShipment() {
             );
 
             return;
-
         }
 
 
-        /*
-           Replace the local copy with
-           the database version.
-        */
+        /* =========================================
+           CHECK WHETHER A ROW WAS ACTUALLY UPDATED
+           ========================================= */
 
-        shipments[
-            currentShipmentIndex
-        ] =
-            convertShipment(data);
+        if (!data || data.length === 0) {
+
+            console.error(
+                "No shipment was updated.",
+                {
+                    originalTracking,
+                    updateData
+                }
+            );
+
+            alert(
+                "The shipment was not updated in Supabase.\n\n" +
+                "Tracking number used:\n" +
+                originalTracking +
+                "\n\n" +
+                "Please check your Supabase UPDATE policy."
+            );
+
+            return;
+        }
+
+
+        /* =========================================
+           UPDATE LOCAL SHIPMENT
+           ========================================= */
+
+        shipments[currentShipmentIndex] =
+            convertShipment(data[0]);
 
 
         saveLocalBackup();
 
+
+        /* =========================================
+           ACTIVITY LOG
+           ========================================= */
 
         addActivity(
             "Shipment " +
@@ -1008,14 +1049,27 @@ async function saveShipment() {
         );
 
 
+        /* =========================================
+           REFRESH DASHBOARD
+           ========================================= */
+
         renderShipments();
 
         updateDashboard();
 
+        if (typeof updateCharts === "function") {
+            updateCharts();
+        }
+
+
+        /* =========================================
+           FINISH
+           ========================================= */
 
         alert(
-            "Shipment updated successfully.\n\n" +
-            "The customer tracking page can now see the new information."
+            "Shipment updated successfully! ✅\n\n" +
+            "Tracking: " +
+            newTracking
         );
 
 
@@ -1025,16 +1079,19 @@ async function saveShipment() {
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "SAVE SHIPMENT ERROR:",
+            error
+        );
 
         alert(
-            "Unable to update shipment.\n\n" +
+            "Unable to save shipment.\n\n" +
             error.message
         );
 
     }
 
-}
+        }
 
 
 /* =========================================================
