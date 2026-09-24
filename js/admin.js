@@ -423,225 +423,161 @@ function updateDashboard() {
 }
 
 
-/* =========================================================
-   SHIPMENT ANALYTICS CHARTS
-   ========================================================= */
-
 function updateCharts() {
 
-    /* ================================
+    // Make sure Chart.js is loaded
+    if (typeof Chart === "undefined") {
+        console.error("Chart.js is not loaded.");
+        return;
+    }
+
+    const statusCanvas = document.getElementById("statusChart");
+    const serviceCanvas = document.getElementById("serviceChart");
+
+    if (!statusCanvas || !serviceCanvas) {
+        console.error("Chart canvas elements not found.");
+        return;
+    }
+
+    // Destroy old charts before creating new ones
+    if (statusChartInstance) {
+        statusChartInstance.destroy();
+        statusChartInstance = null;
+    }
+
+    if (serviceChartInstance) {
+        serviceChartInstance.destroy();
+        serviceChartInstance = null;
+    }
+
+
+    /* =========================================
+       SHIPMENT STATUS DATA
+       ========================================= */
+
+    const statusCounts = {};
+
+    shipments.forEach(function (shipment) {
+
+        const status =
+            shipment.status &&
+            String(shipment.status).trim()
+                ? String(shipment.status).trim()
+                : "Unknown";
+
+        statusCounts[status] =
+            (statusCounts[status] || 0) + 1;
+    });
+
+
+    /* =========================================
+       SHIPPING SERVICE DATA
+       ========================================= */
+
+    const serviceCounts = {};
+
+    shipments.forEach(function (shipment) {
+
+        const service =
+            shipment.service &&
+            String(shipment.service).trim()
+                ? String(shipment.service).trim()
+                : "Not Specified";
+
+        serviceCounts[service] =
+            (serviceCounts[service] || 0) + 1;
+    });
+
+
+    /* =========================================
        STATUS CHART
-    ================================ */
+       ========================================= */
 
-    const statusCanvas =
-        get("statusChart");
+    statusChartInstance = new Chart(
+        statusCanvas.getContext("2d"),
+        {
+            type: "doughnut",
 
-    if (statusCanvas) {
+            data: {
+                labels: Object.keys(statusCounts),
 
-        const statusCounts = {
+                datasets: [{
+                    data: Object.values(statusCounts),
 
-            "Shipment Created": 0,
-            "Awaiting Pickup": 0,
-            "Picked Up": 0,
-            "In Transit": 0,
-            "Customs Cleared": 0,
-            "Arrived at Destination Hub": 0,
-            "Out for Delivery": 0,
-            "Delivered": 0
+                    backgroundColor: [
+                        "#0b4ea2",
+                        "#22a447",
+                        "#ff9800",
+                        "#8e44ad",
+                        "#e74c3c",
+                        "#16a085",
+                        "#34495e"
+                    ],
 
-        };
+                    borderWidth: 2,
+                    borderColor: "#ffffff"
+                }]
+            },
 
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
 
-        shipments.forEach(
-            function(shipment) {
-
-                const status =
-                    shipment.status || "Shipment Created";
-
-                if (
-                    statusCounts.hasOwnProperty(status)
-                ) {
-
-                    statusCounts[status]++;
-
-                }
-
-            }
-        );
-
-
-        if (statusChartInstance) {
-
-            statusChartInstance.destroy();
-
-        }
-
-
-        statusChartInstance =
-            new Chart(
-                statusCanvas,
-                {
-
-                    type: "doughnut",
-
-                    data: {
-
-                        labels:
-                            Object.keys(statusCounts),
-
-                        datasets: [
-
-                            {
-
-                                data:
-                                    Object.values(
-                                        statusCounts
-                                    )
-
-                            }
-
-                        ]
-
-                    },
-
-                    options: {
-
-                        responsive: true,
-
-                        maintainAspectRatio: false,
-
-                        plugins: {
-
-                            legend: {
-
-                                position: "bottom"
-
-                            }
-
-                        }
-
+                plugins: {
+                    legend: {
+                        position: "bottom"
                     }
-
                 }
-            );
+            }
+        }
+    );
 
-    }
 
-
-    /* ================================
+    /* =========================================
        SERVICE CHART
-    ================================ */
+       ========================================= */
 
-    const serviceCanvas =
-        get("serviceChart");
+    serviceChartInstance = new Chart(
+        serviceCanvas.getContext("2d"),
+        {
+            type: "bar",
 
-    if (serviceCanvas) {
+            data: {
+                labels: Object.keys(serviceCounts),
 
-        const serviceCounts = {};
+                datasets: [{
+                    label: "Shipments",
+                    data: Object.values(serviceCounts),
 
+                    backgroundColor: "#0b4ea2",
 
-        shipments.forEach(
-            function(shipment) {
+                    borderRadius: 6
+                }]
+            },
 
-                const service =
-                    shipment.service ||
-                    "Unknown";
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
 
-                if (
-                    serviceCounts[service]
-                ) {
-
-                    serviceCounts[service]++;
-
-                } else {
-
-                    serviceCounts[service] = 1;
-
-                }
-
-            }
-        );
-
-
-        if (serviceChartInstance) {
-
-            serviceChartInstance.destroy();
-
-        }
-
-
-        serviceChartInstance =
-            new Chart(
-                serviceCanvas,
-                {
-
-                    type: "bar",
-
-                    data: {
-
-                        labels:
-                            Object.keys(
-                                serviceCounts
-                            ),
-
-                        datasets: [
-
-                            {
-
-                                label:
-                                    "Shipments",
-
-                                data:
-                                    Object.values(
-                                        serviceCounts
-                                    )
-
-                            }
-
-                        ]
-
-                    },
-
-                    options: {
-
-                        responsive: true,
-
-                        maintainAspectRatio: false,
-
-                        scales: {
-
-                            y: {
-
-                                beginAtZero: true,
-
-                                ticks: {
-
-                                    precision: 0
-
-                                }
-
-                            }
-
-                        },
-
-                        plugins: {
-
-                            legend: {
-
-                                display: false
-
-                            }
-
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
                         }
-
                     }
+                },
 
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 }
-            );
+            }
+        }
+    );
+}
 
-    }
-
-               }
 
 /* =========================================================
    EDIT SHIPMENT
