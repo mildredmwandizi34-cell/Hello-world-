@@ -18,442 +18,762 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <style>
 
+/* =========================================================
+   AMERICAN GLOBAL LOGISTICS
+   TRACKING PAGE — CLEAN PROFESSIONAL DESIGN
+   ========================================================= */
+
+:root {
+    --agl-blue: #0b4ea2;
+    --agl-dark: #083b80;
+    --agl-light: #f4f7fb;
+    --agl-border: #dfe6ef;
+    --agl-text: #17324d;
+    --agl-muted: #6b7b8c;
+    --agl-green: #159447;
+    --agl-orange: #ff9800;
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f4f7fb;
-  color: #222;
+    margin: 0;
+    padding: 0;
+    background: #f2f5f9;
+    color: var(--agl-text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
 }
 
-/* HEADER */
+/* =========================================================
+   HEADER
+   ========================================================= */
 
-.site-header {
-  background: #083b80;
-  color: white;
-  padding: 14px 20px;
+header {
+    width: 100%;
+    background: linear-gradient(
+        135deg,
+        var(--agl-dark),
+        var(--agl-blue)
+    );
+    color: white;
+    padding: 20px 16px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
 }
 
-.header-inner {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  align-items: center;
+header h1,
+header h2,
+header p {
+    margin-top: 0;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+header h1 {
+    margin-bottom: 4px;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: .3px;
 }
 
-.brand img {
-  width: 58px;
-  height: 58px;
-  object-fit: contain;
+header p {
+    margin-bottom: 0;
+    font-size: 13px;
+    opacity: .92;
 }
 
-.brand-text h1 {
-  margin: 0;
-  font-size: 21px;
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+main {
+    width: min(94%, 1100px);
+    margin: 0 auto;
+    padding: 25px 0 35px;
 }
 
-.brand-text p {
-  margin: 4px 0 0;
-  font-size: 11px;
+.container,
+.tracking-container {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
 }
 
-/* NAVIGATION */
+/* =========================================================
+   PAGE TITLE
+   ========================================================= */
 
-.navbar {
-  background: #0b4ea2;
+h1 {
+    color: var(--agl-dark);
 }
 
-.nav-inner {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+h2,
+h3 {
+    color: var(--agl-dark);
 }
 
-.navbar a {
-  color: white;
-  text-decoration: none;
-  padding: 14px 17px;
-  font-size: 14px;
-  font-weight: 600;
+.page-title,
+.tracking-title {
+    text-align: center;
+    margin: 5px 0 6px;
+    font-size: clamp(25px, 4vw, 36px);
+    font-weight: 800;
 }
 
-.navbar a:hover,
-.navbar a.active {
-  background: #083b80;
+.page-subtitle,
+.tracking-subtitle {
+    text-align: center;
+    color: var(--agl-muted);
+    margin: 0 auto 24px;
+    max-width: 650px;
+    font-size: 14px;
 }
 
-/* MAIN */
+/* =========================================================
+   SEARCH AREA
+   ========================================================= */
 
-.main-container {
-  max-width: 1100px;
-  margin: 30px auto;
-  padding: 0 18px;
+.search-section,
+.search-card,
+.tracking-search,
+.search-box {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--agl-border);
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 18px rgba(19,48,77,.07);
 }
 
-.page-title {
-  text-align: center;
-  margin-bottom: 24px;
+.search-section label,
+.search-card label,
+.search-box label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--agl-dark);
+    font-size: 13px;
+    font-weight: 700;
 }
 
-.page-title h2 {
-  margin: 0;
-  color: #083b80;
-  font-size: 30px;
+#trackingNumber {
+    width: 100%;
+    min-height: 50px;
+    padding: 13px 15px;
+    border: 1px solid #cbd6e2;
+    border-radius: 9px;
+    background: white;
+    color: #172b3f;
+    font-size: 16px;
+    outline: none;
+    transition: .2s;
 }
 
-.page-title p {
-  margin: 8px 0 0;
-  color: #666;
+#trackingNumber:focus {
+    border-color: var(--agl-blue);
+    box-shadow: 0 0 0 3px rgba(11,78,162,.10);
 }
 
-/* SEARCH */
-
-.search-card {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 3px 15px rgba(0,0,0,.08);
-  margin-bottom: 25px;
+#trackingNumber::placeholder {
+    color: #9aa8b6;
 }
 
-.search-card label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #083b80;
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button,
+.btn {
+    min-height: 46px;
+    border: 0;
+    border-radius: 8px;
+    padding: 11px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s ease;
 }
 
-.search-row {
-  display: flex;
-  gap: 10px;
+button:hover,
+.btn:hover {
+    transform: translateY(-1px);
 }
 
-.search-row input {
-  flex: 1;
-  padding: 14px;
-  border: 1px solid #ccd5df;
-  border-radius: 6px;
-  font-size: 16px;
-  text-transform: uppercase;
+button:active,
+.btn:active {
+    transform: translateY(0);
 }
 
-.track-btn {
-  border: none;
-  background: #0b4ea2;
-  color: white;
-  padding: 14px 24px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
+/* Search / tracking button */
+#trackButton,
+#trackBtn,
+.search-section button,
+.search-card button,
+.search-box button {
+    width: 100%;
+    margin-top: 11px;
+    background: var(--agl-blue);
+    color: white;
+    box-shadow: 0 4px 10px rgba(11,78,162,.20);
 }
 
-.track-btn:hover {
-  background: #083b80;
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+#message {
+    margin: 12px 0;
+    text-align: center;
+    color: #c62828;
+    font-size: 14px;
+    font-weight: 600;
 }
 
-/* MESSAGES */
-
-.message {
-  display: none;
-  padding: 14px;
-  border-radius: 7px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.message.error {
-  display: block;
-  background: #ffe9e9;
-  color: #b00020;
-}
-
-.message.loading {
-  display: block;
-  background: #eef5ff;
-  color: #0b4ea2;
-}
-
-/* RESULT */
+/* =========================================================
+   RESULT AREA
+   ========================================================= */
 
 #trackingResult {
-  display: none;
+    width: 100%;
 }
 
-.result-header {
-  background: white;
-  padding: 22px;
-  border-radius: 10px;
-  box-shadow: 0 3px 15px rgba(0,0,0,.08);
-  margin-bottom: 20px;
+/* =========================================================
+   GENERAL CARDS
+   ========================================================= */
+
+.card,
+.tracking-card,
+.info-card,
+.route-card,
+.package-card,
+.history-card,
+.map-card,
+.status-card {
+    background: white;
+    border: 1px solid var(--agl-border);
+    border-radius: 13px;
+    box-shadow: 0 4px 15px rgba(19,48,77,.06);
+    padding: 20px;
+    margin-bottom: 18px;
 }
 
-.result-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
+
+.card h2,
+.card h3,
+.tracking-card h2,
+.tracking-card h3,
+.info-card h2,
+.info-card h3,
+.route-card h2,
+.route-card h3,
+.package-card h2,
+.package-card h3,
+.history-card h2,
+.history-card h3,
+.map-card h2,
+.map-card h3 {
+    margin: 0 0 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5eaf0;
+    color: var(--agl-dark);
+    font-size: 17px;
+    font-weight: 800;
 }
 
-.result-top h3 {
-  margin: 0;
-  color: #083b80;
-  font-size: 22px;
+/* =========================================================
+   SHIPMENT TRACKING
+   ========================================================= */
+
+#displayTracking {
+    color: var(--agl-blue);
+    font-size: 17px;
+    font-weight: 800;
 }
 
-.tracking-code {
-  font-size: 18px;
-  font-weight: bold;
-  color: #0b4ea2;
+#displayStatus {
+    display: inline-block;
+    margin-top: 7px;
+    padding: 5px 11px;
+    border-radius: 30px;
+    background: #e8f1ff;
+    color: var(--agl-blue);
+    font-size: 12px;
+    font-weight: 700;
 }
 
-.status-badge {
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 20px;
-  background: #e8f1ff;
-  color: #0b4ea2;
-  font-weight: bold;
+/* =========================================================
+   PROGRESS BAR
+   ========================================================= */
+
+#progressFill {
+    height: 10px;
+    min-width: 0;
+    border-radius: 20px;
+    background: linear-gradient(
+        90deg,
+        var(--agl-blue),
+        #2477d1
+    );
+    transition: width .5s ease;
 }
 
-/* PROGRESS */
-
-.progress-area {
-  margin-top: 20px;
+#progressText {
+    margin-top: 6px;
+    text-align: right;
+    color: var(--agl-dark);
+    font-size: 13px;
+    font-weight: 700;
 }
 
-.progress-bar {
-  width: 100%;
-  height: 16px;
-  background: #e1e6ec;
-  border-radius: 20px;
-  overflow: hidden;
+/* Catch the progress-bar parent */
+.progress-bar,
+.progress-container,
+.progress-track {
+    width: 100%;
+    height: 10px;
+    margin-top: 15px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #e4e9ef;
 }
 
-.progress-fill {
-  height: 100%;
-  width: 0%;
-  background: #0b4ea2;
-  border-radius: 20px;
-  transition: width .5s ease;
+/* =========================================================
+   SUMMARY INFORMATION
+   ========================================================= */
+
+#displayOrigin,
+#displayLocation,
+#displayDestination,
+#displayDelivery,
+#displayService,
+#displayPayment {
+    min-height: 72px;
+    background: white;
 }
 
-.progress-text {
-  text-align: right;
-  margin-top: 6px;
-  font-weight: bold;
-  color: #083b80;
+/* =========================================================
+   INFORMATION GRID
+   ========================================================= */
+
+.info-grid,
+.details-grid,
+.shipment-details {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
 }
 
-/* INFORMATION */
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin-bottom: 20px;
+.info-item,
+.detail-item,
+.shipment-info-item {
+    min-width: 0;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #e6ebf1;
+    border-radius: 10px;
 }
 
-.info-card {
-  background: white;
-  padding: 18px;
-  border-radius: 9px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.07);
+.info-item strong,
+.detail-item strong,
+.shipment-info-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--agl-muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .7px;
 }
 
-.info-card h4 {
-  margin: 0 0 8px;
-  color: #777;
-  font-size: 13px;
-  text-transform: uppercase;
+.info-item span,
+.detail-item span,
+.shipment-info-item span {
+    color: #213b54;
+    font-size: 14px;
+    font-weight: 600;
 }
 
-.info-card p {
-  margin: 0;
-  font-size: 16px;
-  font-weight: bold;
-  color: #222;
+/* =========================================================
+   KNOWN TRACKING PAGE ELEMENTS
+   ========================================================= */
+
+#routeOrigin,
+#routeCurrent,
+#routeDestination {
+    padding: 13px 0;
+    border-bottom: 1px solid #e5eaf0;
 }
 
-/* SECTIONS */
-
-.section-card {
-  background: white;
-  padding: 22px;
-  border-radius: 10px;
-  box-shadow: 0 3px 15px rgba(0,0,0,.08);
-  margin-bottom: 20px;
+#routeOrigin strong,
+#routeCurrent strong,
+#routeDestination strong {
+    display: block;
+    margin-bottom: 3px;
+    color: var(--agl-blue);
+    font-size: 12px;
 }
 
-.section-card h3 {
-  margin: 0 0 18px;
-  color: #083b80;
-  font-size: 20px;
+#routeOrigin:last-child,
+#routeCurrent:last-child,
+#routeDestination:last-child {
+    border-bottom: 0;
 }
 
-/* ROUTE */
+/* =========================================================
+   ROUTE
+   ========================================================= */
 
-.route-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 15px;
+.route-grid,
+.route-info {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
 }
 
-.route-box {
-  padding: 16px;
-  border: 1px solid #e0e5eb;
-  border-radius: 8px;
+.route-point {
+    position: relative;
+    padding: 15px;
+    background: #f7f9fc;
+    border-radius: 10px;
+    border: 1px solid #e4eaf1;
 }
 
-.route-box strong {
-  display: block;
-  color: #083b80;
-  margin-bottom: 6px;
+.route-point strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--agl-blue);
+    font-size: 11px;
+    text-transform: uppercase;
 }
 
-.route-box span {
-  color: #555;
+/* =========================================================
+   PACKAGE INFORMATION
+   ========================================================= */
+
+#packageInfo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
 }
 
-/* PACKAGE */
-
-.package-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
+#packageInfo > div {
+    min-width: 0;
+    padding: 14px;
+    border-radius: 9px;
+    background: #f6f8fb;
+    border: 1px solid #e7ebf0;
 }
 
-.package-item {
-  padding: 14px;
-  background: #f7f9fc;
-  border-radius: 7px;
+#packageInfo strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--agl-muted);
+    font-size: 10px;
+    text-transform: uppercase;
 }
 
-.package-item strong {
-  display: block;
-  color: #083b80;
-  font-size: 13px;
-  margin-bottom: 5px;
+#packageInfo span {
+    color: #1d354c;
+    font-size: 14px;
+    font-weight: 600;
 }
 
-.package-item span {
-  font-size: 14px;
+/* Also support individual package fields */
+#packageType,
+#packageWeight,
+#packagePieces,
+#packageDimensions {
+    padding: 14px;
+    background: #f7f9fc;
+    border-radius: 9px;
+    border: 1px solid #e6ebf1;
 }
 
-/* MAP */
+/* =========================================================
+   MAP
+   ========================================================= */
 
 #shipmentMap {
-  width: 100%;
-  height: 360px;
-  border-radius: 8px;
-  overflow: hidden;
+    width: 100%;
+    height: 430px !important;
+    min-height: 350px;
+    margin-top: 5px;
+    overflow: hidden;
+    border: 1px solid #d9e1e9;
+    border-radius: 11px;
+    background: #e8edf2;
 }
 
-/* HISTORY */
-
-.history-item {
-  border-left: 3px solid #0b4ea2;
-  padding: 10px 15px;
-  margin-bottom: 12px;
-  background: #f7f9fc;
-  border-radius: 0 7px 7px 0;
+/* Leaflet must fill its container */
+#shipmentMap .leaflet-container {
+    width: 100%;
+    height: 100%;
 }
 
-.history-item strong {
-  color: #083b80;
+.leaflet-control-attribution {
+    font-size: 9px;
 }
 
-.history-item small {
-  display: block;
-  color: #777;
-  margin-top: 4px;
+/* =========================================================
+   SHIPMENT HISTORY
+   ========================================================= */
+
+#shipmentHistory {
+    width: 100%;
 }
 
-/* BUTTONS */
-
-.action-row {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin: 25px 0;
-  flex-wrap: wrap;
+.history-item,
+.history-entry {
+    position: relative;
+    margin-bottom: 12px;
+    padding: 14px 15px 14px 20px;
+    background: #f7f9fc;
+    border-left: 4px solid var(--agl-blue);
+    border-radius: 0 9px 9px 0;
 }
 
-.action-btn {
-  border: none;
-  padding: 12px 20px;
-  border-radius: 6px;
-  background: #0b4ea2;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
+.history-item:last-child,
+.history-entry:last-child {
+    margin-bottom: 0;
 }
 
-.action-btn.secondary {
-  background: #666;
+.history-item strong,
+.history-entry strong {
+    display: block;
+    color: var(--agl-blue);
+    font-size: 13px;
+    margin-bottom: 4px;
 }
 
-/* FOOTER */
-
-.site-footer {
-  background: #083b80;
-  color: white;
-  text-align: center;
-  padding: 25px 15px;
-  margin-top: 35px;
-  font-size: 13px;
+.history-item small,
+.history-entry small {
+    color: var(--agl-muted);
 }
 
-/* MOBILE */
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
 
-@media (max-width: 800px) {
-
-  .info-grid,
-  .route-grid,
-  .package-grid {
+.actions,
+.tracking-actions {
+    display: grid;
     grid-template-columns: 1fr 1fr;
-  }
-
+    gap: 12px;
+    margin: 20px 0;
 }
+
+#copyTrackingButton,
+#copyTrackingBtn,
+.copy-tracking {
+    background: var(--agl-blue);
+    color: white;
+}
+
+#newSearchButton,
+#newSearchBtn,
+.new-search {
+    background: #555;
+    color: white;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    width: 100%;
+    margin-top: 20px;
+    padding: 25px 16px;
+    background: linear-gradient(
+        135deg,
+        var(--agl-dark),
+        var(--agl-blue)
+    );
+    color: white;
+    text-align: center;
+}
+
+footer p {
+    margin: 4px 0;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+footer strong {
+    font-size: 13px;
+}
+
+/* =========================================================
+   DESKTOP LAYOUT
+   ========================================================= */
+
+@media (min-width: 800px) {
+
+    .summary-grid,
+    .tracking-summary {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .info-grid,
+    .details-grid,
+    .shipment-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .actions,
+    .tracking-actions {
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 799px) {
+
+    main {
+        width: 94%;
+        padding-top: 20px;
+    }
+
+    .route-grid,
+    .route-info {
+        grid-template-columns: 1fr;
+    }
+
+    #shipmentMap {
+        height: 380px !important;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 600px) {
 
-  .search-row {
-    flex-direction: column;
-  }
+    body {
+        font-size: 14px;
+    }
 
-  .info-grid,
-  .route-grid,
-  .package-grid {
-    grid-template-columns: 1fr;
-  }
+    header {
+        padding: 17px 14px;
+    }
 
-  .result-top {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+    header h1 {
+        font-size: 20px;
+    }
 
-  #shipmentMap {
-    height: 300px;
-  }
+    main {
+        width: 94%;
+        padding: 18px 0 25px;
+    }
 
-  .navbar a {
-    padding: 11px 10px;
-    font-size: 12px;
-  }
+    .page-title,
+    .tracking-title {
+        font-size: 25px;
+    }
 
+    .page-subtitle,
+    .tracking-subtitle {
+        font-size: 13px;
+        margin-bottom: 18px;
+    }
+
+    .search-section,
+    .search-card,
+    .tracking-search,
+    .search-box,
+    .card,
+    .tracking-card,
+    .info-card,
+    .route-card,
+    .package-card,
+    .history-card,
+    .map-card,
+    .status-card {
+        padding: 16px;
+        border-radius: 11px;
+    }
+
+    .info-grid,
+    .details-grid,
+    .shipment-details {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    #packageInfo {
+        grid-template-columns: 1fr;
+    }
+
+    #shipmentMap {
+        height: 330px !important;
+        min-height: 300px;
+    }
+
+    .actions,
+    .tracking-actions {
+        grid-template-columns: 1fr;
+    }
+
+    button,
+    .btn {
+        width: 100%;
+    }
+
+    footer {
+        padding: 22px 12px;
+    }
 }
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+    main {
+        width: 95%;
+    }
+
+    .card,
+    .tracking-card,
+    .info-card,
+    .route-card,
+    .package-card,
+    .history-card,
+    .map-card,
+    .status-card {
+        padding: 13px;
+    }
+
+    .page-title,
+    .tracking-title {
+        font-size: 22px;
+    }
+
+    #shipmentMap {
+        height: 300px !important;
+        min-height: 280px;
+    }
+  }
 
 </style>
 </head>
