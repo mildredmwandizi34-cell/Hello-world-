@@ -1690,40 +1690,100 @@ function displayMap(
 
 
     /* ================================
-       FIND COORDINATES
-    ================================ */
+   FIND COORDINATES
+================================ */
 
-    function findCoordinates(place) {
+function findCoordinates(place) {
 
-      if (!place) return null;
+    if (!place) {
+        return null;
+    }
 
-      const text =
-        String(place).trim();
+    const text =
+        String(place)
+            .trim()
+            .toLowerCase();
 
-      if (locationCoordinates[text]) {
-        return locationCoordinates[text];
-      }
+    if (!text) {
+        return null;
+    }
 
-      const lower =
-        text.toLowerCase();
 
-      for (
-        const key in locationCoordinates
-      ) {
+    /* =================================
+       EXACT MATCH
+    ================================= */
+
+    for (const key in locationCoordinates) {
 
         if (
-          key.toLowerCase().includes(lower) ||
-          lower.includes(key.toLowerCase())
+            key.toLowerCase() === text
         ) {
 
-          return locationCoordinates[key];
+            return locationCoordinates[key];
 
         }
 
-      }
-
-      return null;
     }
+
+
+    /* =================================
+       FLEXIBLE MATCH
+    ================================= */
+
+    for (const key in locationCoordinates) {
+
+        const keyText =
+            key.toLowerCase();
+
+        if (
+            text.includes(keyText) ||
+            keyText.includes(text)
+        ) {
+
+            return locationCoordinates[key];
+
+        }
+
+    }
+
+
+    /* =================================
+       REMOVE COUNTRY AFTER COMMA
+       Example:
+       Nairobi, Kenya
+       → Nairobi
+    ================================= */
+
+    const cityOnly =
+        text
+            .split(",")[0]
+            .trim();
+
+
+    if (cityOnly) {
+
+        for (const key in locationCoordinates) {
+
+            const keyText =
+                key.toLowerCase();
+
+            if (
+                keyText === cityOnly ||
+                keyText.includes(cityOnly) ||
+                cityOnly.includes(keyText)
+            ) {
+
+                return locationCoordinates[key];
+
+            }
+
+        }
+
+    }
+
+
+    return null;
+}
 
 
     /* ================================
