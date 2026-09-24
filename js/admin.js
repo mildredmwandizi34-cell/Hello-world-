@@ -501,10 +501,17 @@ function editShipment(index) {
         instructions.value = "";
 
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+    const editPanel =
+    get("editPanel");
+
+if (editPanel) {
+
+    editPanel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
     });
+
+}
 
 }
 
