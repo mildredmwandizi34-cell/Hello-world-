@@ -1203,278 +1203,146 @@ function showMessage(text, type) {
 
 async function trackShipment() {
 
-  const input =
-    document.getElementById("trackingNumber");
+    const input =
+        document.getElementById("trackingNumber");
 
-  const tracking =
-    input.value.trim().toUpperCase();
+    const tracking =
+        input.value.trim().toUpperCase();
 
 
-  if (!tracking) {
+    if (!tracking) {
+
+        showMessage(
+            "Please enter your tracking number.",
+            "error"
+        );
+
+        return;
+    }
+
 
     showMessage(
-      "Please enter your tracking number.",
-      "error"
+        "Searching for your shipment...",
+        "loading"
     );
-
-    return;
-  }
-
-
-  showMessage(
-    "Searching for your shipment...",
-    "loading"
-  );
-
-
-  document.getElementById(
-    "trackingResult"
-  ).style.display = "none";
-
-
-  try {
-
-    const { data, error } =
-      await supabaseClient
-        .from("shipments")
-        .select("*")
-        .eq("tracking_number", tracking)
-        .maybeSingle();
-
-
-    if (error) {
-
-      throw error;
-
-    }
-
-
-    if (!data) {
-
-      showMessage(
-        "Shipment not found. Please check your tracking number and try again.",
-        "error"
-      );
-
-      return;
-    }
-
-
-    displayShipment(data);
 
 
     document.getElementById(
-      "message"
+        "trackingResult"
     ).style.display = "none";
 
 
-    document.getElementById(
-      "trackingResult"
-    ).style.display = "block";
+    /* =================================
+       DATABASE REQUEST
+       ================================= */
+
+    let data;
+
+    try {
+
+        const result =
+            await supabaseClient
+                .from("shipments")
+                .select("*")
+                .eq("tracking_number", tracking)
+                .maybeSingle();
 
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+        if (result.error) {
+
+            console.error(
+                "SUPABASE TRACKING ERROR:",
+                result.error
+            );
+
+            throw result.error;
+        }
 
 
-  } catch (error) {
+        data = result.data;
 
-    console.error(error);
 
-    showMessage(
-      "Unable to connect to the tracking system. Please try again.",
-      "error"
+    } catch (error) {
+
+        console.error(
+            "DATABASE ERROR:",
+            error
+        );
+
+        showMessage(
+            "Tracking database error: " +
+            (error.message || error),
+            "error"
+        );
+
+        return;
+    }
+
+
+    /* =================================
+       SHIPMENT NOT FOUND
+       ================================= */
+
+    if (!data) {
+
+        showMessage(
+            "Shipment not found. Please check your tracking number and try again.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    console.log(
+        "SHIPMENT FOUND:",
+        data
     );
 
-  }
+
+    /* =================================
+       DISPLAY SHIPMENT
+       ================================= */
+
+    try {
+
+        displayShipment(data);
+
+
+        document.getElementById(
+            "message"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "trackingResult"
+        ).style.display = "block";
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "DISPLAY SHIPMENT ERROR:",
+            error
+        );
+
+
+        showMessage(
+            "Shipment was found, but the tracking display has an error:\n\n" +
+            (error.message || error),
+            "error"
+        );
+
+    }
 
 }
-
-
-/* ================================
-   DISPLAY SHIPMENT
-================================ */
-
-function displayShipment(shipment) {
-
-  const progress =
-    Number(shipment.progress) ||
-    getProgress(shipment.status);
-
-
-  document.getElementById(
-    "displayTracking"
-  ).textContent =
-    shipment.tracking_number || "-";
-
-
-  document.getElementById(
-    "displayStatus"
-  ).textContent =
-    shipment.status || "Shipment Created";
-
-
-  document.getElementById(
-    "progressFill"
-  ).style.width =
-    progress + "%";
-
-
-  document.getElementById(
-    "progressText"
-  ).textContent =
-    progress + "%";
-
-const controlStatus =
-    document.getElementById("controlStatus");
-
-const controlLocation =
-    document.getElementById("controlLocation");
-
-const controlDestination =
-    document.getElementById("controlDestination");
-
-const controlProgressFill =
-    document.getElementById("controlProgressFill");
-
-const controlProgressText =
-    document.getElementById("controlProgressText");
-
-
-if (controlStatus) {
-
-    controlStatus.textContent =
-        shipment.status || "Shipment Created";
-
-}
-
-if (controlLocation) {
-
-    controlLocation.textContent =
-        shipment.location || "Location unavailable";
-
-}
-
-if (controlDestination) {
-
-    controlDestination.textContent =
-        shipment.destination || "Destination unavailable";
-
-}
-
-if (controlProgressFill) {
-
-    controlProgressFill.style.width =
-        progress + "%";
-
-}
-
-if (controlProgressText) {
-
-    controlProgressText.textContent =
-        progress + "%";
-
-  }
-  
-  document.getElementById(
-    "displayOrigin"
-  ).textContent =
-    shipment.origin || "-";
-
-
-  document.getElementById(
-    "displayLocation"
-  ).textContent =
-    shipment.location || "-";
-
-
-  document.getElementById(
-    "displayDestination"
-  ).textContent =
-    shipment.destination || "-";
-
-
-  document.getElementById(
-    "displayDelivery"
-  ).textContent =
-    shipment.delivery_date || "-";
-
-
-  document.getElementById(
-    "displayService"
-  ).textContent =
-    shipment.service || "-";
-
-
-  document.getElementById(
-    "displayPayment"
-  ).textContent =
-    shipment.payment || "-";
-
-
-  document.getElementById(
-    "routeOrigin"
-  ).textContent =
-    shipment.origin || "-";
-
-
-  document.getElementById(
-    "routeCurrent"
-  ).textContent =
-    shipment.location || "-";
-
-
-  document.getElementById(
-    "routeDestination"
-  ).textContent =
-    shipment.destination || "-";
-
-
-  document.getElementById(
-    "packageInfo"
-  ).textContent =
-    shipment.package || "-";
-
-
-  document.getElementById(
-    "packageType"
-  ).textContent =
-    shipment.package_type || "-";
-
-
-  document.getElementById(
-    "packageWeight"
-  ).textContent =
-    shipment.weight || "-";
-
-
-  document.getElementById(
-    "packagePieces"
-  ).textContent =
-    shipment.pieces || "-";
-
-
-  document.getElementById(
-    "packageDimensions"
-  ).textContent =
-    shipment.dimensions || "-";
-
-
-  displayHistory(
-    shipment.history
-  );
-
-
-  displayMap(
-    shipment.origin,
-    shipment.location,
-    shipment.destination
-  );
-
-}
-
+    
 
 /* ================================
    HISTORY
