@@ -221,17 +221,15 @@ async function loadShipments() {
         }
 
 
-        shipments =
-            (data || []).map(
-                convertShipment
-            );
+        shipments = (data || []).map(convertShipment);
 
+saveLocalBackup();
 
-        saveLocalBackup();
+renderShipments();
 
-        renderShipments();
+updateDashboard();
 
-        updateDashboard();
+updateCharts();
 
     }
 
