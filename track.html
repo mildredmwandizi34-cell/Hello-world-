@@ -1332,7 +1332,57 @@ function displayShipment(shipment) {
   ).textContent =
     progress + "%";
 
+const controlStatus =
+    document.getElementById("controlStatus");
 
+const controlLocation =
+    document.getElementById("controlLocation");
+
+const controlDestination =
+    document.getElementById("controlDestination");
+
+const controlProgressFill =
+    document.getElementById("controlProgressFill");
+
+const controlProgressText =
+    document.getElementById("controlProgressText");
+
+
+if (controlStatus) {
+
+    controlStatus.textContent =
+        shipment.status || "Shipment Created";
+
+}
+
+if (controlLocation) {
+
+    controlLocation.textContent =
+        shipment.location || "Location unavailable";
+
+}
+
+if (controlDestination) {
+
+    controlDestination.textContent =
+        shipment.destination || "Destination unavailable";
+
+}
+
+if (controlProgressFill) {
+
+    controlProgressFill.style.width =
+        progress + "%";
+
+}
+
+if (controlProgressText) {
+
+    controlProgressText.textContent =
+        progress + "%";
+
+  }
+  
   document.getElementById(
     "displayOrigin"
   ).textContent =
