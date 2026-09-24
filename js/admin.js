@@ -1175,7 +1175,9 @@ async function deleteShipment(index) {
 
         renderShipments();
 
-        updateDashboard();
+updateDashboard();
+
+updateCharts();
 
 
         alert(
