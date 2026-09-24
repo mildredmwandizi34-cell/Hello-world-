@@ -1111,8 +1111,6 @@ async function deleteShipment(index) {
 
 updateDashboard();
 
-updateCharts();
-
 
         alert(
             "Shipment deleted successfully."
