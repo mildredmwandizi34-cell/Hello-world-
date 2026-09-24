@@ -605,7 +605,92 @@ body {
 
     </div>
 
+<!-- =========================================
+     SHIPMENT CONTROL CENTERS
+========================================= -->
 
+<div class="section-card control-center-section">
+
+    <h3>Shipment Control Centers</h3>
+
+    <div class="control-centers">
+
+        <div class="control-center">
+            <div class="control-icon">✓</div>
+
+            <div>
+                <strong>Shipment Created</strong>
+                <span>
+                    Shipment registered in AGL system
+                </span>
+            </div>
+        </div>
+
+
+        <div class="control-center">
+            <div class="control-icon">●</div>
+
+            <div>
+                <strong>Current Shipment Status</strong>
+                <span id="controlStatus">
+                    Waiting for shipment update
+                </span>
+            </div>
+        </div>
+
+
+        <div class="control-center">
+            <div class="control-icon">📍</div>
+
+            <div>
+                <strong>Live Tracking</strong>
+                <span id="controlLocation">
+                    Waiting for current location
+                </span>
+            </div>
+        </div>
+
+
+        <div class="control-center">
+            <div class="control-icon">→</div>
+
+            <div>
+                <strong>Destination</strong>
+                <span id="controlDestination">
+                    Waiting for destination
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="control-progress">
+
+        <div class="control-progress-header">
+
+            <strong>Shipment Progress</strong>
+
+            <span id="controlProgressText">
+                0%
+            </span>
+
+        </div>
+
+
+        <div class="control-progress-bar">
+
+            <div
+                id="controlProgressFill"
+                class="control-progress-fill">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    
     <div class="info-grid">
 
       <div class="info-card">
