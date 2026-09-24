@@ -1754,40 +1754,32 @@ function displayMap(
 
 function findCoordinates(place) {
 
-    if (!place) {
-        return null;
-    }
+    if (!place) return null;
 
-    const text =
-        String(place)
-            .trim()
-            .toLowerCase();
+    const text = String(place)
+        .trim()
+        .toLowerCase();
 
-    if (!text) {
-        return null;
-    }
+    if (!text) return null;
 
 
-    /* =================================
-       EXACT MATCH
-    ================================= */
+    /* =========================================
+       DIRECT MATCH
+       ========================================= */
 
     for (const key in locationCoordinates) {
 
         if (
             key.toLowerCase() === text
         ) {
-
             return locationCoordinates[key];
-
         }
-
     }
 
 
-    /* =================================
-       FLEXIBLE MATCH
-    ================================= */
+    /* =========================================
+       PARTIAL MATCH
+       ========================================= */
 
     for (const key in locationCoordinates) {
 
@@ -1798,135 +1790,87 @@ function findCoordinates(place) {
             text.includes(keyText) ||
             keyText.includes(text)
         ) {
-
             return locationCoordinates[key];
-
         }
-
     }
 
 
-    /* =================================
-       REMOVE COUNTRY AFTER COMMA
-       Example:
-       Nairobi, Kenya
-       → Nairobi
-    ================================= */
+    /* =========================================
+       CITY MATCH
+       ========================================= */
 
-    const cityOnly =
-        text
-            .split(",")[0]
-            .trim();
+    const city =
+        text.split(",")[0].trim();
 
+    for (const key in locationCoordinates) {
 
-    if (cityOnly) {
+        const keyText =
+            key.toLowerCase();
 
-        for (const key in locationCoordinates) {
-
-            const keyText =
-                key.toLowerCase();
-
-            if (
-                keyText === cityOnly ||
-                keyText.includes(cityOnly) ||
-                cityOnly.includes(keyText)
-            ) {
-
-                return locationCoordinates[key];
-
-            }
-
+        if (
+            keyText === city ||
+            keyText.startsWith(city + ",") ||
+            keyText.includes(city)
+        ) {
+            return locationCoordinates[key];
         }
+    }
 
+
+    /* =========================================
+       COMMON COUNTRY ALIASES
+       ========================================= */
+
+    const aliases = {
+
+        "kenya": [-1.286389, 36.817223],
+
+        "united kingdom": [51.5074, -0.1278],
+        "uk": [51.5074, -0.1278],
+        "england": [51.5074, -0.1278],
+
+        "united states": [40.7128, -74.0060],
+        "usa": [40.7128, -74.0060],
+        "us": [40.7128, -74.0060],
+
+        "canada": [56.1304, -106.3468],
+
+        "germany": [51.1657, 10.4515],
+
+        "france": [46.2276, 2.2137],
+
+        "italy": [41.8719, 12.5674],
+
+        "spain": [40.4637, -3.7492],
+
+        "china": [35.8617, 104.1954],
+
+        "japan": [36.2048, 138.2529],
+
+        "india": [20.5937, 78.9629],
+
+        "australia": [-25.2744, 133.7751],
+
+        "south africa": [-30.5595, 22.9375],
+
+        "costa rica": [9.7489, -83.7534],
+
+        "guatemala": [15.7835, -90.2308],
+
+        "dubai": [25.2048, 55.2708],
+
+        "uae": [25.2048, 55.2708]
+
+    };
+
+
+    if (aliases[text]) {
+        return aliases[text];
     }
 
 
     return null;
 }
-
-
-    /* ================================
-       ESCAPE HTML
-    ================================ */
-
-    function escapeHTML(value) {
-
-      return String(value || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-    }
-
-
-    /* ================================
-       COPY TRACKING NUMBER
-    ================================ */
-
-    function copyTrackingNumber() {
-
-      const value =
-        document.getElementById(
-          "displayTracking"
-        ).textContent;
-
-      if (!value) return;
-
-      navigator.clipboard
-        .writeText(value)
-        .then(() => {
-
-          alert(
-            "Tracking number copied: " +
-            value
-          );
-
-        })
-        .catch(() => {
-
-          alert(
-            "Tracking number: " +
-            value
-          );
-
-        });
-
-    }
-
-
-    /* ================================
-       NEW SEARCH
-    ================================ */
-
-    function newSearch() {
-
-      document.getElementById(
-        "trackingNumber"
-      ).value = "";
-
-      document.getElementById(
-        "trackingResult"
-      ).style.display = "none";
-
-      document.getElementById(
-        "message"
-      ).style.display = "none";
-
-      document.getElementById(
-        "trackingNumber"
-      ).focus();
-
-      if (shipmentMap) {
-
-        shipmentMap.remove();
-
-        shipmentMap = null;
-
-      }
-
-    }
 
 
     /* ================================
