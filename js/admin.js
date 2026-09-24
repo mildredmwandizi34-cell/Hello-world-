@@ -50,6 +50,8 @@ let activityLog =
 
 let currentShipmentIndex = -1;
 
+let statusChartInstance = null;
+let serviceChartInstance = null;
 
 /* =========================================================
    HELPERS
@@ -420,6 +422,226 @@ function updateDashboard() {
 
 }
 
+
+/* =========================================================
+   SHIPMENT ANALYTICS CHARTS
+   ========================================================= */
+
+function updateCharts() {
+
+    /* ================================
+       STATUS CHART
+    ================================ */
+
+    const statusCanvas =
+        get("statusChart");
+
+    if (statusCanvas) {
+
+        const statusCounts = {
+
+            "Shipment Created": 0,
+            "Awaiting Pickup": 0,
+            "Picked Up": 0,
+            "In Transit": 0,
+            "Customs Cleared": 0,
+            "Arrived at Destination Hub": 0,
+            "Out for Delivery": 0,
+            "Delivered": 0
+
+        };
+
+
+        shipments.forEach(
+            function(shipment) {
+
+                const status =
+                    shipment.status || "Shipment Created";
+
+                if (
+                    statusCounts.hasOwnProperty(status)
+                ) {
+
+                    statusCounts[status]++;
+
+                }
+
+            }
+        );
+
+
+        if (statusChartInstance) {
+
+            statusChartInstance.destroy();
+
+        }
+
+
+        statusChartInstance =
+            new Chart(
+                statusCanvas,
+                {
+
+                    type: "doughnut",
+
+                    data: {
+
+                        labels:
+                            Object.keys(statusCounts),
+
+                        datasets: [
+
+                            {
+
+                                data:
+                                    Object.values(
+                                        statusCounts
+                                    )
+
+                            }
+
+                        ]
+
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        plugins: {
+
+                            legend: {
+
+                                position: "bottom"
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    /* ================================
+       SERVICE CHART
+    ================================ */
+
+    const serviceCanvas =
+        get("serviceChart");
+
+    if (serviceCanvas) {
+
+        const serviceCounts = {};
+
+
+        shipments.forEach(
+            function(shipment) {
+
+                const service =
+                    shipment.service ||
+                    "Unknown";
+
+                if (
+                    serviceCounts[service]
+                ) {
+
+                    serviceCounts[service]++;
+
+                } else {
+
+                    serviceCounts[service] = 1;
+
+                }
+
+            }
+        );
+
+
+        if (serviceChartInstance) {
+
+            serviceChartInstance.destroy();
+
+        }
+
+
+        serviceChartInstance =
+            new Chart(
+                serviceCanvas,
+                {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels:
+                            Object.keys(
+                                serviceCounts
+                            ),
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    "Shipments",
+
+                                data:
+                                    Object.values(
+                                        serviceCounts
+                                    )
+
+                            }
+
+                        ]
+
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio: false,
+
+                        scales: {
+
+                            y: {
+
+                                beginAtZero: true,
+
+                                ticks: {
+
+                                    precision: 0
+
+                                }
+
+                            }
+
+                        },
+
+                        plugins: {
+
+                            legend: {
+
+                                display: false
+
+                            }
+
+                        }
+
+                    }
+
+                }
+            );
+
+    }
+
+               }
 
 /* =========================================================
    EDIT SHIPMENT
