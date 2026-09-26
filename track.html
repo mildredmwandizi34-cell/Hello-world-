@@ -2127,157 +2127,142 @@ function displayHistory(historyData) {
 
 
 /* =========================================================
-   MAP DISPLAY
-   ========================================================= */
+   MAP + ANIMATED AIRPLANE
+========================================================= */
+
+let airplaneMarker = null;
+let airplaneAnimation = null;
 
 function displayMap(origin, current, destination) {
 
-    const originCoords =
-        findCoordinates(origin);
+    const mapElement = document.getElementById("shipmentMap");
 
-    const currentCoords =
-        findCoordinates(current);
+    if (!mapElement) return;
 
-    const destinationCoords =
-        findCoordinates(destination);
-
-
-    /* -----------------------------------------
-       CHECK REQUIRED LOCATIONS
-    ----------------------------------------- */
+    const originCoords = findCoordinates(origin);
+    const destinationCoords = findCoordinates(destination);
 
     if (!originCoords || !destinationCoords) {
-
-        console.warn(
-            "Map coordinates not found:",
-            {
-                origin,
-                current,
-                destination
-            }
-        );
-
+        console.warn("Map coordinates not found:", origin, destination);
         return;
     }
-
-
-    /* -----------------------------------------
-       REMOVE PREVIOUS MAP
-    ----------------------------------------- */
-
-    if (shipmentMap) {
-
-        shipmentMap.remove();
-
-        shipmentMap = null;
-    }
-
 
     /* -----------------------------------------
        CREATE MAP
     ----------------------------------------- */
 
-    shipmentMap = L.map(
-        "shipmentMap",
-        {
+    if (!shipmentMap) {
+
+        shipmentMap = L.map("shipmentMap", {
+            zoomControl: false,
             attributionControl: false
+        }).setView(originCoords, 3);
+
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                maxZoom: 18
+            }
+        ).addTo(shipmentMap);
+
+    } else {
+
+        shipmentMap.invalidateSize();
+
+        /* Remove old route */
+        if (routeLine) {
+            shipmentMap.removeLayer(routeLine);
+            routeLine = null;
         }
-    );
 
-
-    /* -----------------------------------------
-       MAP TILES
-    ----------------------------------------- */
-
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            maxZoom: 18,
-            minZoom: 2
+        /* Remove old airplane */
+        if (airplaneMarker) {
+            shipmentMap.removeLayer(airplaneMarker);
+            airplaneMarker = null;
         }
-    ).addTo(shipmentMap);
-
-
-    /* -----------------------------------------
-       ROUTE POINTS
-    ----------------------------------------- */
-
-    const points = [];
+    }
 
 
     /* -----------------------------------------
        ORIGIN MARKER
     ----------------------------------------- */
 
-    const originMarker =
-        L.marker(originCoords)
-            .addTo(shipmentMap);
-
-    originMarker.bindPopup(
-        "<strong>Origin</strong><br>" +
-        escapeHTML(origin)
-    );
-
-    points.push(originCoords);
-
-
-    /* -----------------------------------------
-       CURRENT LOCATION MARKER
-    ----------------------------------------- */
-
-    if (currentCoords) {
-
-        const currentMarker =
-            L.marker(currentCoords)
-                .addTo(shipmentMap);
-
-        currentMarker.bindPopup(
-            "<strong>Current Location</strong><br>" +
-            escapeHTML(current)
+    L.marker(originCoords)
+        .addTo(shipmentMap)
+        .bindPopup(
+            `<strong>Origin</strong><br>${escapeHTML(origin || "Origin")}`
         );
-
-        points.push(currentCoords);
-    }
 
 
     /* -----------------------------------------
        DESTINATION MARKER
     ----------------------------------------- */
 
-    const destinationMarker =
-        L.marker(destinationCoords)
-            .addTo(shipmentMap);
-
-    destinationMarker.bindPopup(
-        "<strong>Destination</strong><br>" +
-        escapeHTML(destination)
-    );
-
-    points.push(destinationCoords);
+    L.marker(destinationCoords)
+        .addTo(shipmentMap)
+        .bindPopup(
+            `<strong>Destination</strong><br>${escapeHTML(destination || "Destination")}`
+        );
 
 
     /* -----------------------------------------
-       DRAW SHIPMENT ROUTE
+       ROUTE LINE
     ----------------------------------------- */
 
-    routeLine =
-        L.polyline(
-            points,
-            {
-                color: "#0b4ea2",
-                weight: 5,
-                opacity: 0.9,
-                dashArray: "10,8"
-            }
-        ).addTo(shipmentMap);
+    routeLine = L.polyline(
+        [originCoords, destinationCoords],
+        {
+            color: "#0b4ea2",
+            weight: 4,
+            dashArray: "10 8",
+            opacity: 0.9
+        }
+    ).addTo(shipmentMap);
 
 
     /* -----------------------------------------
-       FIT MAP TO ROUTE
+       AIRPLANE ICON
+    ----------------------------------------- */
+
+    const airplaneIcon = L.divIcon({
+
+        className: "animated-airplane",
+
+        html: `
+            <div class="airplane-wrapper">
+                <i class="fa-solid fa-plane"></i>
+            </div>
+        `,
+
+        iconSize: [42, 42],
+        iconAnchor: [21, 21]
+
+    });
+
+
+    /* -----------------------------------------
+       CREATE AIRPLANE
+    ----------------------------------------- */
+
+    airplaneMarker = L.marker(
+        originCoords,
+        {
+            icon: airplaneIcon,
+            zIndexOffset: 1000,
+            interactive: false
+        }
+    ).addTo(shipmentMap);
+
+
+    /* -----------------------------------------
+       FIT MAP
     ----------------------------------------- */
 
     shipmentMap.fitBounds(
-        routeLine.getBounds(),
+        L.latLngBounds(
+            originCoords,
+            destinationCoords
+        ),
         {
             padding: [40, 40]
         }
@@ -2285,21 +2270,89 @@ function displayMap(origin, current, destination) {
 
 
     /* -----------------------------------------
-       REFRESH MAP SIZE
+       START AIRPLANE ANIMATION
     ----------------------------------------- */
 
-    setTimeout(
-        function () {
-
-            if (shipmentMap) {
-
-                shipmentMap.invalidateSize();
-
-            }
-
-        },
-        300
+    animateAirplane(
+        originCoords,
+        destinationCoords
     );
+}
+
+
+/* =========================================================
+   ANIMATE AIRPLANE
+========================================================= */
+
+function animateAirplane(origin, destination) {
+
+    if (!airplaneMarker) return;
+
+    if (airplaneAnimation) {
+        cancelAnimationFrame(airplaneAnimation);
+    }
+
+    const startLat = origin[0];
+    const startLng = origin[1];
+
+    const endLat = destination[0];
+    const endLng = destination[1];
+
+    const duration = 12000;
+
+    let startTime = null;
+
+
+    function moveAirplane(timestamp) {
+
+        if (!startTime) {
+            startTime = timestamp;
+        }
+
+        let elapsed = timestamp - startTime;
+
+        let progress = elapsed / duration;
+
+        /* Smooth movement */
+
+        progress = Math.min(progress, 1);
+
+        const latitude =
+            startLat +
+            (endLat - startLat) * progress;
+
+        const longitude =
+            startLng +
+            (endLng - startLng) * progress;
+
+
+        airplaneMarker.setLatLng([
+            latitude,
+            longitude
+        ]);
+
+
+        /* Continue animation */
+
+        if (progress < 1) {
+
+            airplaneAnimation =
+                requestAnimationFrame(moveAirplane);
+
+        } else {
+
+            /* Restart from origin */
+
+            startTime = null;
+
+            airplaneAnimation =
+                requestAnimationFrame(moveAirplane);
+        }
+    }
+
+
+    airplaneAnimation =
+        requestAnimationFrame(moveAirplane);
 }
 
 
