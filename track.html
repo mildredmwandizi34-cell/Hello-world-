@@ -1300,320 +1300,463 @@ async function trackShipment() {
     );
 
 
-    /* =================================
-       DISPLAY SHIPMENT
-       ================================= */
-
-    try {
-
-        displayShipment(data);
-
-
-        document.getElementById(
-            "message"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "trackingResult"
-        ).style.display = "block";
-
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-
-    } catch (error) {
-
-        console.error(
-            "DISPLAY SHIPMENT ERROR:",
-            error
-        );
-
-
-        showMessage(
-            "Shipment was found, but the tracking display has an error:\n\n" +
-            (error.message || error),
-            "error"
-        );
-
-    }
-
-}
-    
-
 /* ================================
-   HISTORY
+   DISPLAY SHIPMENT
 ================================ */
 
-function displayHistory(historyData) {
+function displayShipment(shipment) {
 
-  const container =
-    document.getElementById(
-      "shipmentHistory"
-    );
+    console.log("DISPLAYING SHIPMENT:", shipment);
 
+    /* ================================
+       HELPER FOR DATABASE FIELD NAMES
+    ================================ */
 
-  container.innerHTML = "";
+    function value(...fields) {
 
+        for (const field of fields) {
 
-  let history = [];
+            if (
+                shipment[field] !== undefined &&
+                shipment[field] !== null &&
+                shipment[field] !== ""
+            ) {
+                return shipment[field];
+            }
 
+        }
 
-  try {
-
-    if (Array.isArray(historyData)) {
-
-      history = historyData;
-
-    } else if (historyData) {
-
-      history =
-        JSON.parse(historyData);
-
+        return "-";
     }
 
-  } catch (e) {
 
-    history = [];
+    /* ================================
+       BASIC INFORMATION
+    ================================ */
 
-  }
-
-
-  if (!history.length) {
-
-    container.innerHTML =
-      "<p>No shipment history available.</p>";
-
-    return;
-  }
-
-
-  history.forEach(item => {
-
-    const div =
-      document.createElement("div");
-
-    div.className =
-      "history-item";
-
+    const tracking =
+        value(
+            "tracking_number",
+            "trackingNumber",
+            "tracking"
+        );
 
     const status =
-      item.status ||
-      item.event ||
-      "Shipment Update";
-
+        value(
+            "status"
+        );
 
     const location =
-      item.location ||
-      "";
+        value(
+            "location",
+            "current_location",
+            "currentLocation"
+        );
+
+    const origin =
+        value(
+            "origin"
+        );
+
+    const destination =
+        value(
+            "destination"
+        );
+
+    const delivery =
+        value(
+            "delivery_date",
+            "deliveryDate",
+            "estimated_delivery",
+            "estimatedDelivery"
+        );
+
+    const service =
+        value(
+            "service"
+        );
+
+    const payment =
+        value(
+            "payment",
+            "payment_status",
+            "paymentStatus"
+        );
 
 
-    const date =
-      item.date ||
-      item.time ||
-      item.created_at ||
-      "";
+    /* ================================
+       PACKAGE INFORMATION
+    ================================ */
+
+    const packageName =
+        value(
+            "package",
+            "package_name",
+            "packageName"
+        );
+
+    const packageType =
+        value(
+            "package_type",
+            "packageType"
+        );
+
+    const weight =
+        value(
+            "weight"
+        );
+
+    const pieces =
+        value(
+            "pieces"
+        );
+
+    const dimensions =
+        value(
+            "dimensions"
+        );
 
 
-    div.innerHTML = `
+    /* ================================
+       MAIN DISPLAY
+    ================================ */
 
-      <strong>${escapeHTML(status)}</strong>
+    setTrackingText(
+        "displayTracking",
+        tracking
+    );
 
-      ${
+    setTrackingText(
+        "displayStatus",
+        status
+    );
+
+    setTrackingText(
+        "displayOrigin",
+        origin
+    );
+
+    setTrackingText(
+        "displayLocation",
         location
-          ? `<div>${escapeHTML(location)}</div>`
-          : ""
-      }
+    );
 
-      ${
-        date
-          ? `<small>${escapeHTML(date)}</small>`
-          : ""
-      }
+    setTrackingText(
+        "displayDestination",
+        destination
+    );
 
-    `;
+    setTrackingText(
+        "displayDelivery",
+        delivery
+    );
+
+    setTrackingText(
+        "displayService",
+        service
+    );
+
+    setTrackingText(
+        "displayPayment",
+        payment
+    );
 
 
-    container.appendChild(div);
+    /* ================================
+       ROUTE
+    ================================ */
 
-  });
+    setTrackingText(
+        "routeOrigin",
+        origin
+    );
 
+    setTrackingText(
+        "routeCurrent",
+        location
+    );
+
+    setTrackingText(
+        "routeDestination",
+        destination
+    );
+
+
+    /* ================================
+       PACKAGE
+    ================================ */
+
+    setTrackingText(
+        "packageInfo",
+        packageName
+    );
+
+    setTrackingText(
+        "packageType",
+        packageType
+    );
+
+    setTrackingText(
+        "packageWeight",
+        weight
+    );
+
+    setTrackingText(
+        "packagePieces",
+        pieces
+    );
+
+    setTrackingText(
+        "packageDimensions",
+        dimensions
+    );
+
+
+    /* ================================
+       PROGRESS
+    ================================ */
+
+    let progress =
+        Number(
+            shipment.progress
+        );
+
+    if (
+        Number.isNaN(progress)
+    ) {
+
+        progress =
+            getProgress(status);
+
+    }
+
+
+    progress =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                progress
+            )
+        );
+
+
+    const progressFill =
+        document.getElementById(
+            "progressFill"
+        );
+
+    if (progressFill) {
+
+        progressFill.style.width =
+            progress + "%";
+
+    }
+
+
+    const progressText =
+        document.getElementById(
+            "progressText"
+        );
+
+    if (progressText) {
+
+        progressText.textContent =
+            progress + "%";
+
+    }
+
+
+    /* ================================
+       CONTROL CENTERS
+    ================================ */
+
+    setTrackingText(
+        "controlStatus",
+        status
+    );
+
+    setTrackingText(
+        "controlLocation",
+        location
+    );
+
+    setTrackingText(
+        "controlDestination",
+        destination
+    );
+
+
+    const controlProgressFill =
+        document.getElementById(
+            "controlProgressFill"
+        );
+
+    if (controlProgressFill) {
+
+        controlProgressFill.style.width =
+            progress + "%";
+
+    }
+
+
+    const controlProgressText =
+        document.getElementById(
+            "controlProgressText"
+        );
+
+    if (controlProgressText) {
+
+        controlProgressText.textContent =
+            progress + "%";
+
+    }
+
+
+    /* ================================
+       PAYMENT STYLING
+    ================================ */
+
+    const paymentElement =
+        document.getElementById(
+            "displayPayment"
+        );
+
+    if (paymentElement) {
+
+        if (
+            String(payment)
+                .toLowerCase()
+                .includes("paid")
+        ) {
+
+            paymentElement.style.color =
+                "#22a447";
+
+        } else {
+
+            paymentElement.style.color =
+                "";
+
+        }
+
+    }
+
+
+    /* ================================
+       SHOW RESULT FIRST
+    ================================ */
+
+    const result =
+        document.getElementById(
+            "trackingResult"
+        );
+
+    if (result) {
+
+        result.style.display =
+            "block";
+
+    }
+
+
+    /* ================================
+       HISTORY
+    ================================ */
+
+    displayHistory(
+        shipment.history
+    );
+
+
+    /* ================================
+       MAP
+    ================================ */
+
+    setTimeout(
+        function() {
+
+            displayMap(
+                origin,
+                location,
+                destination
+            );
+
+        },
+        100
+    );
+
+
+    /* ================================
+       SAVE LOCAL CACHE
+    ================================ */
+
+    localStorage.setItem(
+        "currentShipment",
+        JSON.stringify(shipment)
+    );
+
+
+    console.log(
+        "SHIPMENT DISPLAY COMPLETE"
+    );
 }
 
 
 /* ================================
-   MAP
+   SET TRACKING TEXT
 ================================ */
 
-function displayMap(
-    origin,
-    current,
-    destination
+function setTrackingText(
+    id,
+    value
 ) {
 
-    const originCoords =
-        findCoordinates(origin);
+    const element =
+        document.getElementById(id);
 
-    const currentCoords =
-        findCoordinates(current);
+    if (!element) return;
 
-    const destinationCoords =
-        findCoordinates(destination);
-
-
-    /* =================================
-       CHECK LOCATIONS
-    ================================= */
-
-    if (
-        !originCoords ||
-        !destinationCoords
-    ) {
-
-        console.log(
-            "Map route missing coordinates:",
-            {
-                origin,
-                originCoords,
-                current,
-                currentCoords,
-                destination,
-                destinationCoords
-            }
-        );
-
-        return;
-    }
+    element.textContent =
+        value !== undefined &&
+        value !== null &&
+        String(value).trim() !== ""
+            ? value
+            : "-";
+}
 
 
-    /* =================================
-       REMOVE OLD MAP
-    ================================= */
+/* ================================
+   ESCAPE HTML
+================================ */
 
-    if (shipmentMap) {
+function escapeHTML(value) {
 
-        shipmentMap.remove();
-
-        shipmentMap = null;
-
-    }
-
-
-    /* =================================
-       CREATE MAP
-    ================================= */
-
-    shipmentMap =
-        L.map("shipmentMap", {
-
-            attributionControl: false
-
-        });
-
-
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            maxZoom: 18
-        }
-    ).addTo(shipmentMap);
-
-
-    /* =================================
-       ROUTE POINTS
-    ================================= */
-
-    const points = [];
-
-
-    /* =================================
-       ORIGIN
-    ================================= */
-
-    L.marker(originCoords)
-        .addTo(shipmentMap)
-        .bindPopup(
-            "<strong>Origin</strong><br>" +
-            escapeHTML(origin || "")
-        );
-
-    points.push(originCoords);
-
-
-    /* =================================
-       CURRENT LOCATION
-    ================================= */
-
-    if (currentCoords) {
-
-        L.marker(currentCoords)
-            .addTo(shipmentMap)
-            .bindPopup(
-                "<strong>Current Location</strong><br>" +
-                escapeHTML(current || "")
-            );
-
-        points.push(currentCoords);
-
-    }
-
-
-    /* =================================
-       DESTINATION
-    ================================= */
-
-    L.marker(destinationCoords)
-        .addTo(shipmentMap)
-        .bindPopup(
-            "<strong>Destination</strong><br>" +
-            escapeHTML(destination || "")
-        );
-
-    points.push(destinationCoords);
-
-
-    /* =================================
-       DRAW ROUTE
-    ================================= */
-
-    routeLine =
-        L.polyline(
-            points,
-            {
-                color: "#0b4ea2",
-                weight: 5,
-                opacity: 0.9,
-                dashArray: "10,8"
-            }
-        ).addTo(shipmentMap);
-
-
-    /* =================================
-       FIT MAP TO ROUTE
-    ================================= */
-
-    shipmentMap.fitBounds(
-        routeLine.getBounds(),
-        {
-            padding: [40, 40]
-        }
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
     );
 
-
-    /* =================================
-       FORCE MAP REFRESH
-    ================================= */
-
-    setTimeout(function () {
-
-        shipmentMap.invalidateSize();
-
-    }, 300);
-
-                  }
+      }
 
 
     /* ================================
