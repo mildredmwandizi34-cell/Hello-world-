@@ -6,6 +6,7 @@
 
 "use strict";
 
+
 /* =========================================================
    SUPABASE
    ========================================================= */
@@ -16,8 +17,15 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
 
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
 /* =========================================================
-   MAP
+   MAP VARIABLES
    ========================================================= */
 
 let shipmentMap = null;
@@ -27,15 +35,67 @@ let airplaneAnimation = null;
 
 
 /* =========================================================
-   HELPERS
+   LOCATION COORDINATES
+   ========================================================= */
+
+const locationCoordinates = {
+
+    Nairobi: [-1.286389, 36.817223],
+
+    London: [51.5074, -0.1278],
+
+    "New York": [40.7128, -74.0060],
+
+    "Los Angeles": [34.0522, -118.2437],
+
+    Dubai: [25.2048, 55.2708],
+
+    Toronto: [43.6532, -79.3832],
+
+    Vancouver: [49.2827, -123.1207],
+
+    Paris: [48.8566, 2.3522],
+
+    Berlin: [52.5200, 13.4050],
+
+    Rome: [41.9028, 12.4964],
+
+    Madrid: [40.4168, -3.7038],
+
+    Beijing: [39.9042, 116.4074],
+
+    Tokyo: [35.6762, 139.6503],
+
+    Sydney: [-33.8688, 151.2093],
+
+    Mumbai: [19.0760, 72.8777],
+
+    Johannesburg: [-26.2041, 28.0473],
+
+    Cairo: [30.0444, 31.2357],
+
+    Accra: [5.6037, -0.1870],
+
+    Lagos: [6.5244, 3.3792],
+
+    Mombasa: [-4.0435, 39.6682]
+};
+
+
+/* =========================================================
+   HELPER
    ========================================================= */
 
 function getElement(id) {
+
     return document.getElementById(id);
 }
 
+
 function setText(id, value) {
-    const element = getElement(id);
+
+    const element =
+        getElement(id);
 
     if (!element) return;
 
@@ -49,34 +109,51 @@ function setText(id, value) {
 
 
 /* =========================================================
-   FIND TRACKING NUMBER
+   TRACKING NUMBER
    ========================================================= */
 
 function getTrackingNumber() {
 
     const params =
-        new URLSearchParams(window.location.search);
+        new URLSearchParams(
+            window.location.search
+        );
 
     const urlTracking =
         params.get("tracking");
 
+
     if (urlTracking) {
-        return urlTracking.trim().toUpperCase();
+
+        return urlTracking
+            .trim()
+            .toUpperCase();
+
     }
+
 
     const input =
-        getElement("trackingSearch");
+        getElement("trackingNumber");
 
-    if (input && input.value.trim()) {
-        return input.value.trim().toUpperCase();
+
+    if (
+        input &&
+        input.value.trim()
+    ) {
+
+        return input.value
+            .trim()
+            .toUpperCase();
+
     }
+
 
     return "";
 }
 
 
 /* =========================================================
-   SEARCH SHIPMENT
+   TRACK SHIPMENT
    ========================================================= */
 
 async function trackShipment() {
@@ -84,83 +161,110 @@ async function trackShipment() {
     const tracking =
         getTrackingNumber();
 
+
     if (!tracking) {
 
-        alert("Please enter a tracking number.");
+        showMessage(
+            "Please enter a tracking number.",
+            "error"
+        );
 
         return;
     }
 
-    const button =
-        getElement("trackButton");
 
-    if (button) {
-        button.disabled = true;
-        button.textContent = "Searching...";
+    const input =
+        getElement("trackingNumber");
+
+
+    if (input) {
+
+        input.value =
+            tracking;
+
     }
+
+
+    const result =
+        getElement("trackingResult");
+
+
+    if (result) {
+
+        result.style.display =
+            "none";
+
+    }
+
+
+    showMessage(
+        "Searching for shipment...",
+        "loading"
+    );
+
 
     try {
 
-        const url =
-            SUPABASE_URL +
-            "/rest/v1/shipments" +
-            "?tracking_number=eq." +
-            encodeURIComponent(tracking) +
-            "&select=*";
+        const {
 
-        const response =
-            await fetch(url, {
+            data,
+            error
 
-                method: "GET",
+        } = await supabaseClient
 
-                headers: {
+            .from("shipments")
 
-                    "apikey":
-                        SUPABASE_KEY,
+            .select("*")
 
-                    "Authorization":
-                        "Bearer " +
-                        SUPABASE_KEY,
+            .eq(
+                "tracking_number",
+                tracking
+            )
 
-                    "Content-Type":
-                        "application/json"
-
-                }
-
-            });
+            .maybeSingle();
 
 
-        if (!response.ok) {
+        if (error) {
 
-            throw new Error(
-                "Supabase error: " +
-                response.status
+            console.error(
+                "Supabase error:",
+                error
             );
 
+            throw error;
         }
 
 
-        const data =
-            await response.json();
+        if (!data) {
 
-
-        if (!data.length) {
-
-            alert(
-                "Shipment not found. Please check your tracking number."
+            showMessage(
+                "Shipment not found. Please check your tracking number.",
+                "error"
             );
-
-            hideTrackingResult();
 
             return;
         }
 
 
-        const shipment =
-            data[0];
+        console.log(
+            "SHIPMENT FOUND:",
+            data
+        );
 
 
-        displayShipment(shipment);
+        displayShipment(data);
+
+
+        const message =
+            getElement("message");
+
+
+        if (message) {
+
+            message.style.display =
+                "none";
+
+        }
 
 
     } catch (error) {
@@ -170,20 +274,11 @@ async function trackShipment() {
             error
         );
 
-        alert(
-            "Unable to connect to the tracking system. Please try again."
+
+        showMessage(
+            "Unable to connect to the tracking system. Please try again.",
+            "error"
         );
-
-    } finally {
-
-        if (button) {
-
-            button.disabled = false;
-
-            button.textContent =
-                "Track Shipment";
-
-        }
 
     }
 }
@@ -195,124 +290,348 @@ async function trackShipment() {
 
 function displayShipment(shipment) {
 
-    /* -----------------------------------------
-       BASIC INFORMATION
-    ----------------------------------------- */
+    const tracking =
+        shipment.tracking_number ||
+        shipment.trackingNumber ||
+        shipment.tracking ||
+        "";
+
+
+    const status =
+        shipment.status ||
+        "Shipment Created";
+
+
+    const location =
+        shipment.location ||
+        shipment.current_location ||
+        shipment.currentLocation ||
+        "";
+
+
+    const origin =
+        shipment.origin ||
+        "";
+
+
+    const destination =
+        shipment.destination ||
+        "";
+
+
+    const delivery =
+        shipment.delivery_date ||
+        shipment.deliveryDate ||
+        shipment.estimated_delivery ||
+        shipment.estimatedDelivery ||
+        "";
+
+
+    const service =
+        shipment.service ||
+        "";
+
+
+    const payment =
+        shipment.payment ||
+        shipment.payment_status ||
+        shipment.paymentStatus ||
+        "";
+
+
+    const packageName =
+        shipment.package ||
+        shipment.package_name ||
+        shipment.packageName ||
+        "";
+
+
+    const packageType =
+        shipment.package_type ||
+        shipment.packageType ||
+        "";
+
+
+    const weight =
+        shipment.weight ||
+        "";
+
+
+    const pieces =
+        shipment.pieces ||
+        "";
+
+
+    const dimensions =
+        shipment.dimensions ||
+        "";
+
+
+    /* =====================================================
+       MAIN TRACKING INFORMATION
+    ===================================================== */
 
     setText(
-        "trackingNumber",
-        shipment.tracking_number
+        "displayTracking",
+        tracking
     );
 
-    setText(
-        "status",
-        shipment.status
-    );
 
     setText(
-        "location",
-        shipment.location
+        "displayStatus",
+        status
     );
 
-    setText(
-        "origin",
-        shipment.origin
-    );
 
     setText(
-        "destination",
-        shipment.destination
+        "displayOrigin",
+        origin
     );
 
-    setText(
-        "delivery",
-        shipment.delivery_date
-    );
 
     setText(
-        "service",
-        shipment.service
+        "displayLocation",
+        location
     );
 
-    setText(
-        "package",
-        shipment.package
-    );
 
     setText(
-        "weight",
-        shipment.weight
+        "displayDestination",
+        destination
     );
+
+
+    setText(
+        "displayDelivery",
+        delivery
+    );
+
+
+    setText(
+        "displayService",
+        service
+    );
+
+
+    setText(
+        "displayPayment",
+        payment
+    );
+
+
+    /* =====================================================
+       PACKAGE INFORMATION
+    ===================================================== */
+
+    setText(
+        "packageInfo",
+        packageName
+    );
+
 
     setText(
         "packageType",
-        shipment.package_type
+        packageType
     );
+
 
     setText(
-        "pieces",
-        shipment.pieces
+        "packageWeight",
+        weight
     );
+
 
     setText(
-        "dimensions",
-        shipment.dimensions
+        "packagePieces",
+        pieces
     );
+
 
     setText(
-        "payment",
-        shipment.payment
+        "packageDimensions",
+        dimensions
     );
 
 
-    /* -----------------------------------------
-       SENDER / RECEIVER
-    ----------------------------------------- */
+    /* =====================================================
+       ROUTE
+    ===================================================== */
 
     setText(
-        "senderName",
-        shipment.sender_name
+        "routeOrigin",
+        origin
     );
+
 
     setText(
-        "receiverName",
-        shipment.receiver_name
+        "routeCurrent",
+        location
     );
 
 
-    /* -----------------------------------------
+    setText(
+        "routeDestination",
+        destination
+    );
+
+
+    /* =====================================================
+       CONTROL CENTER
+    ===================================================== */
+
+    setText(
+        "controlStatus",
+        status
+    );
+
+
+    setText(
+        "controlLocation",
+        location
+    );
+
+
+    setText(
+        "controlDestination",
+        destination
+    );
+
+
+    /* =====================================================
        PROGRESS
-    ----------------------------------------- */
+    ===================================================== */
+
+    let progress =
+        Number(shipment.progress);
+
+
+    if (
+        Number.isNaN(progress)
+    ) {
+
+        progress =
+            getProgress(status);
+
+    }
+
+
+    progress =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                progress
+            )
+        );
+
 
     updateProgress(
-        shipment.progress
+        progress
     );
 
-   /* -----------------------------------------
-   SHIPMENT MAP
------------------------------------------ */
 
-displayMap(
-    shipment.origin,
-    shipment.location,
-    shipment.destination
-);
+    setText(
+        "controlProgressText",
+        progress + "%"
+    );
 
-    /* -----------------------------------------
+
+    const controlProgress =
+        getElement(
+            "controlProgressFill"
+        );
+
+
+    if (controlProgress) {
+
+        controlProgress.style.width =
+            progress + "%";
+
+    }
+
+
+    /* =====================================================
+       PAYMENT COLOR
+    ===================================================== */
+
+    const paymentElement =
+        getElement(
+            "displayPayment"
+        );
+
+
+    if (paymentElement) {
+
+        paymentElement.classList.remove(
+            "paid"
+        );
+
+
+        if (
+            String(payment)
+                .toLowerCase()
+                .includes("paid")
+        ) {
+
+            paymentElement.classList.add(
+                "paid"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       HISTORY
+    ===================================================== */
+
+    displayHistory(
+        shipment.history
+    );
+
+
+    /* =====================================================
+       MAP
+    ===================================================== */
+
+    displayMap(
+        origin,
+        location,
+        destination
+    );
+
+
+    /* =====================================================
        SHOW RESULT
-    ----------------------------------------- */
+    ===================================================== */
 
-    showTrackingResult();
+    const result =
+        getElement(
+            "trackingResult"
+        );
 
 
-    /* -----------------------------------------
-       SAVE ONLY AS LOCAL CACHE
-       NOT THE DATABASE SOURCE
-    ----------------------------------------- */
+    if (result) {
+
+        result.style.display =
+            "block";
+
+    }
+
+
+    /* =====================================================
+       LOCAL CACHE
+    ===================================================== */
 
     localStorage.setItem(
         "currentShipment",
         JSON.stringify(shipment)
+    );
+
+
+    console.log(
+        "Shipment displayed successfully."
     );
 }
 
@@ -321,115 +640,309 @@ displayMap(
    PROGRESS
    ========================================================= */
 
-function updateProgress(progress) {
+function getProgress(status) {
 
-    let value =
-        Number(progress);
+    const value =
+        String(status || "")
+            .toLowerCase();
+
 
     if (
-        Number.isNaN(value)
+        value.includes("delivered")
     ) {
-        value = 0;
+        return 100;
     }
 
-    value =
-        Math.max(
-            0,
-            Math.min(
-                100,
-                value
-            )
+
+    if (
+        value.includes("out for delivery")
+    ) {
+        return 90;
+    }
+
+
+    if (
+        value.includes("arrived")
+    ) {
+        return 75;
+    }
+
+
+    if (
+        value.includes("customs")
+    ) {
+        return 65;
+    }
+
+
+    if (
+        value.includes("transit")
+    ) {
+        return 50;
+    }
+
+
+    if (
+        value.includes("picked up")
+    ) {
+        return 25;
+    }
+
+
+    if (
+        value.includes("awaiting pickup")
+    ) {
+        return 15;
+    }
+
+
+    return 5;
+}
+
+
+function updateProgress(progress) {
+
+    const progressFill =
+        getElement(
+            "progressFill"
         );
 
 
-    const progressBar =
-        getElement("progressBar");
+    if (progressFill) {
 
-    if (progressBar) {
+        progressFill.style.width =
+            progress + "%";
 
-        progressBar.style.width =
-            value + "%";
-
-        progressBar.textContent =
-            value + "%";
     }
 
 
     const progressText =
-        getElement("progressText");
+        getElement(
+            "progressText"
+        );
+
 
     if (progressText) {
 
         progressText.textContent =
-            value + "%";
-    }
+            progress + "%";
 
-
-    const progressValue =
-        getElement("progress");
-
-    if (progressValue) {
-
-        progressValue.textContent =
-            value + "%";
     }
 }
 
-/* =========================================================
-   SHIPMENT MAP
-========================================================= */
-
-const locationCoordinates = {
-
-    Nairobi: [-1.286389, 36.817223],
-    London: [51.5074, -0.1278],
-    "New York": [40.7128, -74.0060],
-    "Los Angeles": [34.0522, -118.2437],
-    Dubai: [25.2048, 55.2708],
-    Toronto: [43.6532, -79.3832],
-    Vancouver: [49.2827, -123.1207],
-    Paris: [48.8566, 2.3522],
-    Berlin: [52.5200, 13.4050],
-    Rome: [41.9028, 12.4964],
-    Madrid: [40.4168, -3.7038],
-    Beijing: [39.9042, 116.4074],
-    Tokyo: [35.6762, 139.6503],
-    Sydney: [-33.8688, 151.2093],
-    Mumbai: [19.0760, 72.8777],
-    Johannesburg: [-26.2041, 28.0473],
-    Cairo: [30.0444, 31.2357],
-    Accra: [5.6037, -0.1870],
-    Lagos: [6.5244, 3.3792],
-    Mombasa: [-4.0435, 39.6682]
-};
-
 
 /* =========================================================
-   FIND COORDINATES
-========================================================= */
+   HISTORY
+   ========================================================= */
+
+function displayHistory(historyData) {
+
+    const historyContainer =
+        getElement(
+            "shipmentHistory"
+        );
+
+
+    if (!historyContainer) {
+        return;
+    }
+
+
+    if (!historyData) {
+
+        historyContainer.innerHTML =
+            "<p>No shipment history available.</p>";
+
+        return;
+    }
+
+
+    let history =
+        historyData;
+
+
+    if (
+        typeof historyData === "string"
+    ) {
+
+        try {
+
+            history =
+                JSON.parse(historyData);
+
+        } catch (error) {
+
+            console.error(
+                "History JSON error:",
+                error
+            );
+
+            history = [];
+
+        }
+
+    }
+
+
+    if (
+        !Array.isArray(history) ||
+        !history.length
+    ) {
+
+        historyContainer.innerHTML =
+            "<p>No shipment history available.</p>";
+
+        return;
+    }
+
+
+    historyContainer.innerHTML =
+        history
+            .slice()
+            .reverse()
+            .map(function (item) {
+
+                const status =
+                    item.status ||
+                    item.event ||
+                    "Shipment Update";
+
+
+                const location =
+                    item.location ||
+                    "";
+
+
+                const date =
+                    item.date ||
+                    item.created_at ||
+                    item.createdTime ||
+                    "";
+
+
+                return `
+                    <div class="history-item">
+
+                        <div class="history-dot">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+
+                        <div class="history-content">
+
+                            <strong>
+                                ${escapeHTML(status)}
+                            </strong>
+
+                            ${
+                                location
+                                    ? `<span>${escapeHTML(location)}</span>`
+                                    : ""
+                            }
+
+                            ${
+                                date
+                                    ? `<small>${escapeHTML(formatDate(date))}</small>`
+                                    : ""
+                            }
+
+                        </div>
+
+                    </div>
+                `;
+
+            })
+            .join("");
+}
+
+
+/* =========================================================
+   FORMAT DATE
+   ========================================================= */
+
+function formatDate(value) {
+
+    const date =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return String(value);
+
+    }
+
+
+    return date.toLocaleString(
+        undefined,
+        {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }
+    );
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+/* =========================================================
+   MAP COORDINATES
+   ========================================================= */
 
 function findCoordinates(place) {
 
-    if (!place) return null;
+    if (!place) {
+        return null;
+    }
+
 
     const name =
         String(place).trim();
 
-    if (locationCoordinates[name]) {
+
+    if (
+        locationCoordinates[name]
+    ) {
+
         return locationCoordinates[name];
+
     }
+
 
     const lower =
         name.toLowerCase();
 
-    for (const key in locationCoordinates) {
+
+    for (
+        const key in locationCoordinates
+    ) {
 
         if (
             key.toLowerCase() === lower
         ) {
+
             return locationCoordinates[key];
+
         }
+
     }
+
 
     return null;
 }
@@ -437,12 +950,17 @@ function findCoordinates(place) {
 
 /* =========================================================
    DISPLAY MAP
-========================================================= */
+   ========================================================= */
 
-function displayMap(origin, current, destination) {
+function displayMap(
+    origin,
+    current,
+    destination
+) {
 
     const originCoords =
         findCoordinates(origin);
+
 
     const destinationCoords =
         findCoordinates(destination);
@@ -470,13 +988,13 @@ function displayMap(origin, current, destination) {
     if (!shipmentMap) {
 
         shipmentMap =
-            L.map("shipmentMap", {
-
-                zoomControl: false,
-
-                attributionControl: false
-
-            });
+            L.map(
+                "shipmentMap",
+                {
+                    zoomControl: false,
+                    attributionControl: false
+                }
+            );
 
 
         /* -----------------------------------------
@@ -489,7 +1007,9 @@ function displayMap(origin, current, destination) {
                 maxZoom: 19,
                 minZoom: 2
             }
-        ).addTo(shipmentMap);
+        ).addTo(
+            shipmentMap
+        );
 
     } else {
 
@@ -512,6 +1032,7 @@ function displayMap(origin, current, destination) {
             );
 
         }
+
     }
 
 
@@ -519,11 +1040,13 @@ function displayMap(origin, current, destination) {
        ORIGIN
     ----------------------------------------- */
 
-    L.marker(originCoords)
+    L.marker(
+        originCoords
+    )
         .addTo(shipmentMap)
         .bindPopup(
             "<strong>Origin</strong><br>" +
-            origin
+            escapeHTML(origin)
         );
 
 
@@ -531,11 +1054,13 @@ function displayMap(origin, current, destination) {
        DESTINATION
     ----------------------------------------- */
 
-    L.marker(destinationCoords)
+    L.marker(
+        destinationCoords
+    )
         .addTo(shipmentMap)
         .bindPopup(
             "<strong>Destination</strong><br>" +
-            destination
+            escapeHTML(destination)
         );
 
 
@@ -555,7 +1080,9 @@ function displayMap(origin, current, destination) {
                 dashArray: "10 8",
                 opacity: 0.9
             }
-        ).addTo(shipmentMap);
+        ).addTo(
+            shipmentMap
+        );
 
 
     /* -----------------------------------------
@@ -574,9 +1101,15 @@ function displayMap(origin, current, destination) {
                 </div>
             `,
 
-            iconSize: [42, 42],
+            iconSize: [
+                42,
+                42
+            ],
 
-            iconAnchor: [21, 21]
+            iconAnchor: [
+                21,
+                21
+            ]
 
         });
 
@@ -585,13 +1118,18 @@ function displayMap(origin, current, destination) {
         L.marker(
             originCoords,
             {
-                icon: airplaneIcon,
+                icon:
+                    airplaneIcon,
 
-                zIndexOffset: 1000,
+                zIndexOffset:
+                    1000,
 
-                interactive: false
+                interactive:
+                    false
             }
-        ).addTo(shipmentMap);
+        ).addTo(
+            shipmentMap
+        );
 
 
     /* -----------------------------------------
@@ -606,9 +1144,11 @@ function displayMap(origin, current, destination) {
         ),
 
         {
-            padding: [40, 40]
+            padding: [
+                40,
+                40
+            ]
         }
-
     );
 
 
@@ -624,7 +1164,7 @@ function displayMap(origin, current, destination) {
 
 
 /* =========================================================
-   AIRPLANE ANIMATION
+   ANIMATE AIRPLANE
 ========================================================= */
 
 function animateAirplane(
@@ -663,22 +1203,28 @@ function animateAirplane(
         12000;
 
 
-    let startTime = null;
+    let startTime =
+        null;
 
 
     function moveAirplane(timestamp) {
 
         if (!startTime) {
-            startTime = timestamp;
+
+            startTime =
+                timestamp;
+
         }
 
 
         const elapsed =
-            timestamp - startTime;
+            timestamp -
+            startTime;
 
 
         let progress =
-            elapsed / duration;
+            elapsed /
+            duration;
 
 
         progress =
@@ -691,23 +1237,25 @@ function animateAirplane(
         const latitude =
             startLat +
             (
-                endLat - startLat
-            ) * progress;
+                endLat -
+                startLat
+            ) *
+            progress;
 
 
         const longitude =
             startLng +
             (
-                endLng - startLng
-            ) * progress;
+                endLng -
+                startLng
+            ) *
+            progress;
 
 
-        airplaneMarker.setLatLng(
-            [
-                latitude,
-                longitude
-            ]
-        );
+        airplaneMarker.setLatLng([
+            latitude,
+            longitude
+        ]);
 
 
         if (progress < 1) {
@@ -719,7 +1267,10 @@ function animateAirplane(
 
         } else {
 
-            startTime = null;
+            /* Restart from origin */
+
+            startTime =
+                null;
 
             airplaneAnimation =
                 requestAnimationFrame(
@@ -737,80 +1288,225 @@ function animateAirplane(
 
 
 /* =========================================================
-   SHOW / HIDE
-   ========================================================= */
+   MESSAGE
+========================================================= */
 
-function showTrackingResult() {
+function showMessage(
+    text,
+    type
+) {
 
-    const result =
-        getElement("trackingResult");
+    const message =
+        getElement("message");
 
-    if (result) {
 
-        result.style.display =
-            "block";
+    if (!message) {
+        return;
     }
+
+
+    message.textContent =
+        text;
+
+
+    message.style.display =
+        "block";
+
+
+    message.className =
+        "message " +
+        (type || "");
 }
 
 
-function hideTrackingResult() {
+/* =========================================================
+   NEW SEARCH
+========================================================= */
+
+function newSearch() {
+
+    const input =
+        getElement(
+            "trackingNumber"
+        );
+
 
     const result =
-        getElement("trackingResult");
+        getElement(
+            "trackingResult"
+        );
+
+
+    if (input) {
+
+        input.value = "";
+
+        input.focus();
+
+    }
+
 
     if (result) {
 
         result.style.display =
             "none";
+
+    }
+
+
+    const message =
+        getElement("message");
+
+
+    if (message) {
+
+        message.style.display =
+            "none";
+
+    }
+
+
+    if (airplaneAnimation) {
+
+        cancelAnimationFrame(
+            airplaneAnimation
+        );
+
+    }
+
+
+    airplaneAnimation =
+        null;
+}
+
+
+/* =========================================================
+   COPY TRACKING NUMBER
+========================================================= */
+
+function copyTrackingNumber() {
+
+    const element =
+        getElement(
+            "displayTracking"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    const text =
+        element.textContent.trim();
+
+
+    if (
+        !text ||
+        text === "-"
+    ) {
+        return;
+    }
+
+
+    if (
+        navigator.clipboard &&
+        navigator.clipboard.writeText
+    ) {
+
+        navigator.clipboard
+            .writeText(text)
+            .then(function () {
+
+                showMessage(
+                    "Tracking number copied.",
+                    "success"
+                );
+
+            })
+            .catch(function () {
+
+                   fallbackCopy(text);
+
+            });
+
+    } else {
+
+        fallbackCopy(text);
+
     }
 }
 
 
 /* =========================================================
-   AUTO SEARCH FROM URL
-   ========================================================= */
+   FALLBACK COPY
+========================================================= */
+
+function fallbackCopy(text) {
+
+    const textarea =
+        document.createElement(
+            "textarea"
+        );
+
+
+    textarea.value =
+        text;
+
+
+    document.body.appendChild(
+        textarea
+    );
+
+
+    textarea.select();
+
+
+    try {
+
+        document.execCommand(
+            "copy"
+        );
+
+
+        showMessage(
+            "Tracking number copied.",
+            "success"
+        );
+
+    } catch (error) {
+
+        showMessage(
+            "Unable to copy tracking number.",
+            "error"
+        );
+
+    }
+
+
+    document.body.removeChild(
+        textarea
+    );
+}
+
+
+/* =========================================================
+   PAGE INITIALIZATION
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        const params =
-            new URLSearchParams(
-                window.location.search
-            );
-
-        const tracking =
-            params.get("tracking");
-
-
         const input =
-            getElement("trackingSearch");
-
-
-        if (
-            tracking &&
-            input
-        ) {
-
-            input.value =
-                tracking;
-
-            trackShipment();
-        }
-
-
-        const button =
-            getElement("trackButton");
-
-
-        if (button) {
-
-            button.addEventListener(
-                "click",
-                trackShipment
+            getElement(
+                "trackingNumber"
             );
-        }
 
+
+        /* -----------------------------------------
+           ENTER KEY
+        ----------------------------------------- */
 
         if (input) {
 
@@ -822,11 +1518,45 @@ document.addEventListener(
                         event.key === "Enter"
                     ) {
 
+                        event.preventDefault();
+
                         trackShipment();
+
                     }
 
                 }
             );
+
+        }
+
+
+        /* -----------------------------------------
+           TRACKING NUMBER FROM URL
+        ----------------------------------------- */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const tracking =
+            params.get(
+                "tracking"
+            );
+
+
+        if (
+            tracking &&
+            input
+        ) {
+
+            input.value =
+                tracking;
+
+
+            trackShipment();
+
         }
 
     }
