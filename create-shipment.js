@@ -458,7 +458,11 @@ async function createShipment(event) {
     status:
         shipment.status,
 
-    /* SENDER */
+
+    // =======================================
+    // SENDER
+    // =======================================
+
     sender_name:
         shipment.senderName,
 
@@ -480,7 +484,11 @@ async function createShipment(event) {
     sender_email:
         shipment.senderEmail,
 
-    /* RECEIVER */
+
+    // =======================================
+    // RECEIVER
+    // =======================================
+
     receiver_name:
         shipment.receiverName,
 
@@ -502,8 +510,54 @@ async function createShipment(event) {
     receiver_email:
         shipment.receiverEmail,
 
+
+    // =======================================
+    // SHIPMENT
+    // =======================================
+
     origin:
         shipment.origin,
+
+    destination:
+        shipment.destination,
+
+    location:
+        shipment.location,
+
+    delivery_date:
+        shipment.delivery,
+
+    service:
+        shipment.service,
+
+    package:
+        shipment.package,
+
+    weight:
+        shipment.weight,
+
+    progress:
+        shipment.progress,
+
+    package_type:
+        shipment.descriptionType,
+
+    pieces:
+        Number(shipment.pieces) || 1,
+
+    dimensions:
+        shipment.dimensions,
+
+    payment:
+        shipment.payment,
+
+    history:
+        JSON.stringify(shipment.history),
+
+    updated_at:
+        new Date().toISOString()
+
+};
 
     console.log(
         "Sending shipment to Supabase:",
