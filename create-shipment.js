@@ -452,62 +452,176 @@ async function createShipment(event) {
 
     const onlineShipment = {
 
-        tracking_number:
-            shipment.trackingNumber,
+    /* =======================================
+       IDENTIFICATION
+    ======================================= */
 
-        status:
-            shipment.status,
+    tracking_number:
+        shipment.trackingNumber,
 
-        sender_name:
-            shipment.senderName,
+    receipt_number:
+        shipment.receiptNumber,
 
-        receiver_name:
-            shipment.receiverName,
+    document_no:
+        shipment.documentNo,
 
-        origin:
-            shipment.origin,
+    verification_code:
+        shipment.verificationCode,
 
-        destination:
-            shipment.destination,
+    barcode_number:
+        shipment.barcodeNumber,
 
-        location:
-            shipment.location,
 
-        delivery_date:
-            shipment.delivery,
+    /* =======================================
+       STATUS / TRACKING
+    ======================================= */
 
-        service:
-            shipment.service,
+    status:
+        shipment.status,
 
-        package:
-            shipment.package,
+    location:
+        shipment.location,
 
-        weight:
-            shipment.weight,
+    progress:
+        shipment.progress,
 
-        progress:
-            shipment.progress,
+    history:
+        JSON.stringify(
+            shipment.history
+        ),
 
-        package_type:
-            shipment.descriptionType,
 
-        pieces:
-            Number(shipment.pieces) || 1,
+    /* =======================================
+       SENDER
+    ======================================= */
 
-        dimensions:
-            shipment.dimensions,
+    sender_name:
+        shipment.senderName,
 
-        payment:
-            shipment.payment,
+    sender_company:
+        shipment.senderCompany,
 
-        history:
-            JSON.stringify(shipment.history),
+    sender_address:
+        shipment.senderAddress,
 
-        updated_at:
-            new Date().toISOString()
+    sender_city:
+        shipment.senderCity,
 
-    };
+    sender_country:
+        shipment.senderCountry,
 
+    sender_phone:
+        shipment.senderPhone,
+
+    sender_email:
+        shipment.senderEmail,
+
+
+    /* =======================================
+       RECEIVER
+    ======================================= */
+
+    receiver_name:
+        shipment.receiverName,
+
+    receiver_company:
+        shipment.receiverCompany,
+
+    receiver_address:
+        shipment.receiverAddress,
+
+    receiver_city:
+        shipment.receiverCity,
+
+    receiver_country:
+        shipment.receiverCountry,
+
+    receiver_phone:
+        shipment.receiverPhone,
+
+    receiver_email:
+        shipment.receiverEmail,
+
+
+    /* =======================================
+       SHIPMENT
+    ======================================= */
+
+    origin:
+        shipment.origin,
+
+    destination:
+        shipment.destination,
+
+    delivery_date:
+        shipment.delivery,
+
+    service:
+        shipment.service,
+
+    package:
+        shipment.package,
+
+    package_type:
+        shipment.descriptionType,
+
+    pieces:
+        Number(shipment.pieces) || 1,
+
+    weight:
+        shipment.weight,
+
+    dimensions:
+        shipment.dimensions,
+
+
+    /* =======================================
+       PAYMENT / INSURANCE
+    ======================================= */
+
+    payment:
+        shipment.payment,
+
+    insurance:
+        shipment.insurance,
+
+
+    /* =======================================
+       CHARGES
+    ======================================= */
+
+    shipping_cost:
+        shipment.shippingCost,
+
+    tax:
+        shipment.tax,
+
+    discount:
+        shipment.discount,
+
+    total_amount:
+        shipment.totalAmount,
+
+
+    /* =======================================
+       REFERENCES
+    ======================================= */
+
+    reference:
+        shipment.reference,
+
+    customer_reference:
+        shipment.customerReference,
+
+
+    /* =======================================
+       TIMESTAMP
+    ======================================= */
+
+    updated_at:
+        new Date().toISOString()
+
+};
 
     console.log(
         "Sending shipment to Supabase:",
