@@ -831,16 +831,16 @@ function buildUpdatedHistory(
 
     history.push({
 
-        status:
-            newStatus,
+    status:
+        newStatus,
 
-        location:
-            newLocation,
+    location:
+        newLocation,
 
-        date:
-            new Date().toLocaleString()
+    date:
+        new Date().toISOString()
 
-    });
+});
 
 
     return history;
