@@ -1416,20 +1416,3 @@ body {
     }
 }
 
-/* =========================================================
-   LEAFLET MAP — FULL ROUTE WIDTH
-   ========================================================= */
-
-.route-map,
-.route-map-container,
-#receiptMap {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
-}
-
-.leaflet-container {
-    width: 100% !important;
-    height: 100% !important;
-}
