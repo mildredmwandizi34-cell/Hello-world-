@@ -1202,3 +1202,239 @@ body {
         min-height: 70px;
     }
    }
+
+/* =========================================================
+   AGL RECEIPT — FINAL PRINT READABILITY FIX
+   ========================================================= */
+
+@media print {
+
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+
+    html,
+    body {
+        width: 297mm;
+        height: 210mm;
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+    }
+
+    .receipt-page {
+        width: 297mm;
+        height: 210mm;
+        min-height: 210mm;
+
+        box-sizing: border-box;
+
+        padding: 2.5mm;
+
+        overflow: hidden;
+
+        font-size: 11px;
+    }
+
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    .brand-name {
+        font-size: 21px !important;
+        line-height: 1.05;
+    }
+
+    .brand-tagline {
+        font-size: 8.5px !important;
+    }
+
+    .brand-subtitle {
+        font-size: 8px !important;
+    }
+
+    .receipt-title {
+        font-size: 19px !important;
+    }
+
+
+    /* =====================================================
+       SUMMARY BAR
+       ===================================================== */
+
+    .summary-item {
+        font-size: 9px !important;
+    }
+
+    .summary-label {
+        font-size: 7px !important;
+    }
+
+    .summary-value {
+        font-size: 9px !important;
+        font-weight: 700;
+    }
+
+
+    /* =====================================================
+       SECTION HEADINGS
+       ===================================================== */
+
+    .section-heading {
+        font-size: 9px !important;
+        font-weight: 700;
+        letter-spacing: .2px;
+    }
+
+
+    /* =====================================================
+       SENDER / RECEIVER
+       ===================================================== */
+
+    .person-row {
+        font-size: 9px !important;
+
+        min-height: 4.7mm;
+
+        line-height: 1.15;
+    }
+
+    .person-row span {
+        font-size: 8.8px !important;
+    }
+
+    .person-row strong {
+        font-size: 9.2px !important;
+    }
+
+    .person-name {
+        font-size: 11px !important;
+        font-weight: 700;
+    }
+
+
+    /* =====================================================
+       SHIPMENT DETAILS
+       ===================================================== */
+
+    .detail-label {
+        font-size: 7.5px !important;
+    }
+
+    .detail-value {
+        font-size: 9.5px !important;
+        font-weight: 700;
+    }
+
+
+    /* =====================================================
+       ROUTE
+       ===================================================== */
+
+    .route-label {
+        font-size: 7.5px !important;
+    }
+
+    .route-value {
+        font-size: 9.5px !important;
+        font-weight: 700;
+    }
+
+
+    /* =====================================================
+       SHIPPING CHARGES
+       ===================================================== */
+
+    .charge-row {
+        font-size: 9px !important;
+        min-height: 5.5mm;
+    }
+
+    .charge-row span:first-child {
+        font-size: 8.5px !important;
+    }
+
+    .charge-row span:last-child {
+        font-size: 9.5px !important;
+        font-weight: 700;
+    }
+
+    .charge-total {
+        font-size: 10px !important;
+        font-weight: 800;
+    }
+
+
+    /* =====================================================
+       VERIFICATION
+       ===================================================== */
+
+    .verification-row {
+        min-height: 5.5mm;
+        font-size: 9px !important;
+    }
+
+    .verification-row span {
+        font-size: 8px !important;
+    }
+
+    .verification-row strong {
+        font-size: 9px !important;
+    }
+
+    .barcode-box small,
+    .qr-box small {
+        font-size: 7px !important;
+    }
+
+    .officer-title {
+        font-size: 8px !important;
+    }
+
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
+    .receipt-footer {
+        font-size: 8px !important;
+    }
+
+    .receipt-footer strong {
+        font-size: 8.5px !important;
+    }
+
+
+    /* =====================================================
+       KEEP RECEIPT ON ONE A4 PAGE
+       ===================================================== */
+
+    .receipt-actions {
+        display: none !important;
+    }
+}
+
+/* =========================================================
+   LEAFLET MAP — FULL ROUTE WIDTH
+   ========================================================= */
+
+.route-map,
+.route-map-container,
+#receiptMap {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+#receiptMap {
+    height: 100% !important;
+    min-height: 100px;
+}
+
+.leaflet-container {
+    width: 100% !important;
+    height: 100% !important;
+}
