@@ -2287,15 +2287,24 @@ async function trackShipment() {
 
     try {
 
-        displayShipment(
-            shipment
+    console.log(
+        "ABOUT TO DISPLAY SHIPMENT:",
+        shipment
+    );
+
+    displayShipment(
+        shipment
+    );
+
+    console.log(
+        "DISPLAY SHIPMENT FINISHED"
+    );
+
+
+    const message =
+        document.getElementById(
+            "message"
         );
-
-
-        const message =
-            document.getElementById(
-                "message"
-            );
 
 
         if (message) {
