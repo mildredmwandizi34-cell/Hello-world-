@@ -62,6 +62,27 @@ function get(id) {
 }
 
 
+function formatDateTime(value) {
+
+    if (!value)
+        return "—";
+
+    const date =
+        new Date(value);
+
+    if (isNaN(date.getTime()))
+        return value;
+
+    return date.toLocaleString(
+        undefined,
+        {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }
+    );
+
+}
+
 function saveLocalBackup() {
 
     localStorage.setItem(
@@ -646,6 +667,32 @@ function editShipment(index) {
     if (delivery)
         delivery.value =
             shipment.delivery || "";
+
+   const createdAt =
+    get("editCreatedAt");
+
+const updatedAt =
+    get("editUpdatedAt");
+
+
+if (createdAt) {
+
+    createdAt.textContent =
+        formatDateTime(
+            shipment.created_at
+        );
+
+}
+
+
+if (updatedAt) {
+
+    updatedAt.textContent =
+        formatDateTime(
+            shipment.updated_at
+        );
+
+}
 
 
     /*
