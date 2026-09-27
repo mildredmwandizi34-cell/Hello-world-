@@ -1270,3 +1270,524 @@ body {
         min-height: 70px;
     }
    }
+
+
+/* =========================================================
+   AGL FINAL RECEIPT LAYOUT FIX
+   CHARGES + VERIFICATION
+   ========================================================= */
+
+
+/* =========================================================
+   SHIPPING CHARGES — PREVENT TEXT COLLISION
+   ========================================================= */
+
+.charges-body {
+    padding: 3px 7px !important;
+    overflow: hidden !important;
+}
+
+.charge-row {
+    width: 100% !important;
+
+    display: grid !important;
+
+    grid-template-columns: minmax(0, 1fr) max-content !important;
+
+    align-items: center !important;
+
+    column-gap: 8px !important;
+
+    min-height: 5.5mm !important;
+
+    border-bottom: 1px solid #e1e9ef;
+}
+
+.charge-row span {
+    min-width: 0 !important;
+
+    overflow: hidden !important;
+
+    white-space: nowrap !important;
+
+    text-overflow: ellipsis !important;
+
+    font-size: 7.5px !important;
+
+    line-height: 1.1 !important;
+
+    color: #64798a !important;
+}
+
+.charge-row strong {
+    min-width: 0 !important;
+
+    white-space: nowrap !important;
+
+    text-align: right !important;
+
+    font-size: 8px !important;
+
+    color: #17324d !important;
+
+    font-weight: 900 !important;
+}
+
+
+/* TOTAL */
+
+.charge-total {
+    width: 100% !important;
+
+    margin-top: 4px !important;
+
+    padding: 5px 6px !important;
+
+    display: grid !important;
+
+    grid-template-columns: 1fr max-content !important;
+
+    column-gap: 5px !important;
+
+    align-items: center !important;
+
+    background: #eaf3ff !important;
+
+    border: 1px solid #9dbddd !important;
+
+    overflow: hidden !important;
+}
+
+.charge-total span {
+    min-width: 0 !important;
+
+    white-space: nowrap !important;
+
+    font-size: 7.5px !important;
+
+    font-weight: 900 !important;
+}
+
+.charge-total strong {
+    white-space: nowrap !important;
+
+    text-align: right !important;
+
+    font-size: 8.5px !important;
+
+    font-weight: 900 !important;
+}
+
+
+/* =========================================================
+   DOCUMENT VERIFICATION
+   ========================================================= */
+
+.verification-section {
+    width: 100% !important;
+
+    height: 44mm !important;
+
+    margin-top: 3px !important;
+
+    border: 1.5px solid #0b4ea2 !important;
+
+    background: #fff !important;
+
+    overflow: hidden !important;
+
+    display: block !important;
+}
+
+
+/* Verification content */
+
+.verification-body {
+    width: 100% !important;
+
+    height: calc(100% - 7mm) !important;
+
+    min-height: 0 !important;
+
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        150px
+        82px
+        105px !important;
+
+    align-items: center !important;
+
+    column-gap: 8px !important;
+
+    padding: 4px 7px !important;
+
+    overflow: hidden !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   VERIFICATION DATA
+   ========================================================= */
+
+.verification-data {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    min-height: 0 !important;
+
+    overflow: hidden !important;
+}
+
+.verification-row {
+    width: 100% !important;
+
+    min-width: 0 !important;
+
+    min-height: 5mm !important;
+
+    display: grid !important;
+
+    grid-template-columns: 44% minmax(0, 56%) !important;
+
+    align-items: center !important;
+
+    column-gap: 4px !important;
+
+    border-bottom: 1px solid #d9e0e7 !important;
+
+    overflow: hidden !important;
+}
+
+.verification-row span {
+    min-width: 0 !important;
+
+    overflow: hidden !important;
+
+    white-space: nowrap !important;
+
+    text-overflow: ellipsis !important;
+
+    font-size: 7.5px !important;
+
+    color: #687782 !important;
+}
+
+.verification-row strong {
+    min-width: 0 !important;
+
+    overflow: hidden !important;
+
+    white-space: nowrap !important;
+
+    text-overflow: ellipsis !important;
+
+    font-size: 8.5px !important;
+
+    color: #183f6f !important;
+
+    font-weight: 900 !important;
+
+    text-align: left !important;
+}
+
+
+/* =========================================================
+   BARCODE
+   ========================================================= */
+
+.barcode-box {
+    width: 150px !important;
+
+    height: 100% !important;
+
+    min-width: 0 !important;
+
+    min-height: 0 !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    overflow: hidden !important;
+}
+
+#barcodeLarge {
+    display: block !important;
+
+    width: 145px !important;
+
+    max-width: 145px !important;
+
+    height: 36px !important;
+
+    max-height: 36px !important;
+
+    object-fit: contain !important;
+}
+
+.barcode-box small {
+    margin-top: 3px !important;
+
+    font-size: 6.5px !important;
+
+    line-height: 1 !important;
+
+    white-space: nowrap !important;
+}
+
+
+/* =========================================================
+   QR CODE
+   ========================================================= */
+
+.qr-box {
+    width: 82px !important;
+
+    height: 100% !important;
+
+    min-width: 82px !important;
+
+    min-height: 0 !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    overflow: hidden !important;
+}
+
+#qrcode {
+    width: 70px !important;
+
+    height: 70px !important;
+
+    max-width: 70px !important;
+
+    max-height: 70px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    overflow: hidden !important;
+}
+
+#qrcode canvas,
+#qrcode img {
+    width: 70px !important;
+
+    height: 70px !important;
+
+    max-width: 70px !important;
+
+    max-height: 70px !important;
+
+    display: block !important;
+}
+
+.qr-box small {
+    margin-top: 2px !important;
+
+    font-size: 6.5px !important;
+
+    line-height: 1 !important;
+
+    white-space: nowrap !important;
+}
+
+
+/* =========================================================
+   AUTHORIZED OFFICER
+   ========================================================= */
+
+.officer-box {
+    width: 105px !important;
+
+    height: 100% !important;
+
+    min-width: 105px !important;
+
+    min-height: 0 !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    overflow: hidden !important;
+}
+
+.officer-title {
+    width: 100% !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    gap: 3px !important;
+
+    font-size: 6.5px !important;
+
+    font-weight: 800 !important;
+
+    white-space: nowrap !important;
+}
+
+.officer-assets {
+    display: flex !important;
+
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    gap: 5px !important;
+
+    margin-top: 5px !important;
+}
+
+.officer-signature {
+    width: 50px !important;
+
+    max-width: 50px !important;
+
+    max-height: 22px !important;
+
+    height: auto !important;
+
+    object-fit: contain !important;
+}
+
+.officer-seal {
+    width: 38px !important;
+
+    height: 38px !important;
+
+    object-fit: contain !important;
+}
+
+
+/* =========================================================
+   SCREEN VERSION
+   ========================================================= */
+
+@media screen and (max-width: 900px) {
+
+    .verification-body {
+        grid-template-columns:
+            minmax(0, 1fr)
+            130px
+            78px
+            100px !important;
+
+        column-gap: 5px !important;
+    }
+
+    .barcode-box {
+        width: 130px !important;
+    }
+
+    #barcodeLarge {
+        width: 125px !important;
+
+        max-width: 125px !important;
+    }
+
+    .qr-box {
+        width: 78px !important;
+
+        min-width: 78px !important;
+    }
+
+    .officer-box {
+        width: 100px !important;
+
+        min-width: 100px !important;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT VERSION
+   ========================================================= */
+
+@media print {
+
+    .verification-section {
+        height: 44mm !important;
+
+        overflow: hidden !important;
+    }
+
+    .verification-body {
+        height: calc(100% - 7mm) !important;
+
+        min-height: 0 !important;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            150px
+            82px
+            105px !important;
+
+        column-gap: 8px !important;
+
+        overflow: hidden !important;
+    }
+
+    .charge-row {
+        grid-template-columns:
+            minmax(0, 1fr)
+            max-content !important;
+
+        column-gap: 8px !important;
+    }
+
+    .charge-row span {
+        font-size: 7.5px !important;
+    }
+
+    .charge-row strong {
+        font-size: 8px !important;
+    }
+
+    .charge-total strong {
+        font-size: 8.5px !important;
+    }
+
+    #barcodeLarge {
+        width: 145px !important;
+
+        max-width: 145px !important;
+
+        height: 36px !important;
+    }
+
+    #qrcode,
+    #qrcode canvas,
+    #qrcode img {
+        width: 70px !important;
+
+        height: 70px !important;
+    }
+   }
