@@ -2334,6 +2334,43 @@ function displayShipment(shipment) {
         destination
     );
 
+  /* ESTIMATED DELIVERY */
+
+const controlDeliveryDate =
+    document.getElementById("controlDeliveryDate");
+
+if (controlDeliveryDate) {
+
+    const deliveryDate =
+        shipment.deliveryDate ||
+        shipment.delivery_date;
+
+    if (deliveryDate) {
+
+        const date = new Date(deliveryDate);
+
+        if (!isNaN(date.getTime())) {
+
+            controlDeliveryDate.textContent =
+                date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                });
+
+        } else {
+
+            controlDeliveryDate.textContent =
+                deliveryDate;
+        }
+
+    } else {
+
+        controlDeliveryDate.textContent =
+            "Not available";
+    }
+}
+
 
     /* -----------------------------------------
        PACKAGE
