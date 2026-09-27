@@ -1296,3 +1296,317 @@ body {
         min-height: 70px;
     }
    }
+
+/* =========================================================
+   AGL — FINAL A4 PRINT SIZE FIX
+   KEEP NORMAL RECEIPT LAYOUT
+   USE MORE OF THE A4 PAGE
+   ========================================================= */
+
+@media print {
+
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+
+    html,
+    body {
+        width: 297mm !important;
+        height: 210mm !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: #ffffff !important;
+
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .receipt-page {
+        width: 297mm !important;
+        height: 210mm !important;
+
+        margin: 0 !important;
+
+        padding: 2mm !important;
+
+        box-sizing: border-box !important;
+
+        overflow: hidden !important;
+
+        box-shadow: none !important;
+    }
+
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    .receipt-header {
+        height: 26mm !important;
+    }
+
+
+    /* =====================================================
+       SUMMARY
+       ===================================================== */
+
+    .summary-bar {
+        height: 12mm !important;
+    }
+
+
+    /* =====================================================
+       SENDER / RECEIVER
+       ===================================================== */
+
+    .people-grid {
+        height: 34mm !important;
+    }
+
+    .person-name {
+        font-size: 10.5px !important;
+    }
+
+    .person-row {
+        min-height: 4.2mm !important;
+    }
+
+    .person-row span {
+        font-size: 8px !important;
+    }
+
+
+    /* =====================================================
+       SHIPMENT DETAILS
+       ===================================================== */
+
+    .shipment-details {
+        height: 22mm !important;
+    }
+
+    .details-grid span {
+        font-size: 7px !important;
+    }
+
+    .details-grid strong {
+        font-size: 9px !important;
+    }
+
+
+    /* =====================================================
+       ROUTE + SHIPPING CHARGES
+       ===================================================== */
+
+    .route-charges {
+        height: 42mm !important;
+
+        grid-template-columns:
+            2.15fr
+            .85fr !important;
+
+        gap: 4px !important;
+    }
+
+
+    /* =====================================================
+       SHIPPING CHARGES — KEEP IT VISIBLE
+       ===================================================== */
+
+    .charges-card {
+        display: block !important;
+
+        min-width: 0 !important;
+
+        height: 100% !important;
+
+        overflow: hidden !important;
+    }
+
+    .charges-body {
+        display: block !important;
+
+        height: calc(100% - 7mm) !important;
+
+        padding: 3px 7px !important;
+
+        overflow: hidden !important;
+    }
+
+    .charge-row {
+        display: grid !important;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            auto !important;
+
+        min-height: 5mm !important;
+
+        align-items: center !important;
+    }
+
+    .charge-row span {
+        font-size: 8px !important;
+    }
+
+    .charge-row strong {
+        font-size: 8.5px !important;
+    }
+
+    .charge-total {
+        margin-top: 4px !important;
+
+        padding: 5px 6px !important;
+    }
+
+    .charge-total span {
+        font-size: 8px !important;
+    }
+
+    .charge-total strong {
+        font-size: 9px !important;
+    }
+
+
+    /* =====================================================
+       ROUTE / MAP
+       ===================================================== */
+
+    .route-top {
+        height: 8mm !important;
+    }
+
+    #receiptMap {
+        height: calc(100% - 8mm) !important;
+    }
+
+    .route-place small {
+        font-size: 7px !important;
+    }
+
+    .route-place strong {
+        font-size: 9px !important;
+    }
+
+
+    /* =====================================================
+       DOCUMENT VERIFICATION
+       ===================================================== */
+
+    .verification-section {
+        height: 40mm !important;
+    }
+
+    .verification-body {
+        height: calc(100% - 7mm) !important;
+    }
+
+    .verification-row {
+        min-height: 5mm !important;
+    }
+
+    .verification-row span {
+        font-size: 8px !important;
+    }
+
+    .verification-row strong {
+        font-size: 9px !important;
+    }
+
+
+    /* =====================================================
+       BARCODE
+       ===================================================== */
+
+    #barcodeLarge {
+        width: 175px !important;
+
+        max-width: 100% !important;
+
+        height: 42px !important;
+    }
+
+
+    /* =====================================================
+       QR CODE
+       ===================================================== */
+
+    #qrcode {
+        width: 74px !important;
+        height: 74px !important;
+    }
+
+    #qrcode canvas,
+    #qrcode img {
+        width: 74px !important;
+        height: 74px !important;
+
+        max-width: 74px !important;
+        max-height: 74px !important;
+    }
+
+
+    /* =====================================================
+       AUTHORIZED OFFICER
+       ===================================================== */
+
+    .officer-title {
+        font-size: 7.5px !important;
+    }
+
+    .officer-signature {
+        width: 58px !important;
+
+        max-height: 26px !important;
+    }
+
+    .officer-seal {
+        width: 45px !important;
+
+        height: 45px !important;
+    }
+
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
+    .receipt-footer {
+        height: 15mm !important;
+    }
+
+    .footer-left strong,
+    .footer-center strong,
+    .footer-right strong {
+        font-size: 8px !important;
+    }
+
+    .footer-left span,
+    .footer-center span,
+    .footer-right span {
+        font-size: 6.7px !important;
+    }
+
+
+    /* =====================================================
+       HIDE BUTTONS
+       ===================================================== */
+
+    .receipt-actions {
+        display: none !important;
+    }
+
+
+    /* =====================================================
+       NEVER ANIMATE THE AIRPLANE
+       ===================================================== */
+
+    .agl-airplane,
+    .agl-airplane-marker {
+        animation: none !important;
+
+        transition: none !important;
+    }
+}
