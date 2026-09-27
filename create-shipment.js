@@ -1116,6 +1116,12 @@ const createdAt = now.toISOString();
         payment:
             shipment.payment,
 
+        shipping_cost: shipment.shippingCost,
+tax: shipment.tax,
+discount: shipment.discount,
+insurance_cost: shipment.insuranceCost,
+total_amount: shipment.totalAmount,
+
 
         // ===================================
         // STRUCTURED HISTORY
