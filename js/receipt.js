@@ -2040,15 +2040,13 @@ function createRouteMap(
     );
 
 
-    // ===========================================
-// FIX LEAFLET MAP WIDTH
+   // ===========================================
+// FIX LEAFLET MAP SIZE
 // ===========================================
 
 setTimeout(function () {
 
-    if (receiptMap) {
-        receiptMap.invalidateSize(true);
-    }
+    map.invalidateSize(true);
 
 }, 300);
 
