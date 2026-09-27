@@ -21,7 +21,7 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
+ 
 
 * {  
   box-sizing: border-box;  
@@ -263,33 +263,28 @@ body {
   
 /* INFORMATION */  
   
-.info-grid {  
-  display: grid;  
-  grid-template-columns: repeat(3, 1fr);  
-  gap: 15px;  
-  margin-bottom: 20px;  
-}  
-  
-.info-card {  
-  background: white;  
-  padding: 18px;  
-  border-radius: 9px;  
-  box-shadow: 0 3px 12px rgba(0,0,0,.07);  
-}  
-  
-.info-card h4 {  
-  margin: 0 0 8px;  
-  color: #777;  
-  font-size: 13px;  
-  text-transform: uppercase;  
-}  
-  
-.info-card p {  
-  margin: 0;  
-  font-size: 16px;  
-  font-weight: bold;  
-  color: #222;  
-}  
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.info-card {
+    position: relative;
+    padding: 17px 18px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(8, 59, 128, 0.06);
+    min-width: 0;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.info-card:hover {
+    border-color: #b9cce1;
+    box-shadow: 0 7px 18px rgba(8, 59, 128, 0.09);
+}
   
 /* SECTIONS */  
   
@@ -334,27 +329,26 @@ body {
 /* PACKAGE */  
   
 .package-grid {  
-  display: grid;  
-  grid-template-columns: repeat(4, 1fr);  
-  gap: 15px;  
-}  
-  
-.package-item {  
-  padding: 14px;  
-  background: #f7f9fc;  
-  border-radius: 7px;  
-}  
-  
-.package-item strong {  
-  display: block;  
-  color: #083b80;  
-  font-size: 13px;  
-  margin-bottom: 5px;  
-}  
-  
-.package-item span {  
-  font-size: 14px;  
-}  
+.package-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.package-item {
+    min-width: 0;
+    padding: 15px 16px;
+    background: #f7f9fc;
+    border: 1px solid #e5eaf0;
+    border-radius: 10px;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.package-item:hover {
+    background: #f2f6fb;
+    border-color: #cbd8e6;
+}
   
 /* MAP */  
   
