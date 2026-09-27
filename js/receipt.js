@@ -2040,21 +2040,17 @@ function createRouteMap(
     );
 
 
-    /*
-       Refresh Leaflet after layout.
-       This does NOT move the airplane.
-    */
+    // ===========================================
+// FIX LEAFLET MAP WIDTH
+// ===========================================
 
-    setTimeout(
-        function () {
+setTimeout(function () {
 
-            map.invalidateSize();
+    if (receiptMap) {
+        receiptMap.invalidateSize(true);
+    }
 
-        },
-        150
-    );
-
-}
+}, 300);
 
 
 /* =========================================================
