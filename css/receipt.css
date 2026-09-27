@@ -798,64 +798,43 @@ body {
 }
 
 .verification-row {
-    width: 100%;
-
-    min-height: 4.6mm;
-
     display: grid;
 
-    /*
-       Fixed label area prevents
-       the left text from collapsing.
-    */
-
-    grid-template-columns:
-        42mm
-        minmax(0, 1fr);
+    grid-template-columns: 42% minmax(0, 58%);
 
     align-items: center;
 
-    gap: 5px;
+    min-height: 5mm;
 
-    border-bottom: 1px solid #e1e9ef;
+    border-bottom: 1px solid #d9e0e7;
 
-    overflow: hidden;
-}
-
-.verification-row:last-child {
-    border-bottom: 0;
+    column-gap: 4px;
 }
 
 .verification-row span {
     min-width: 0;
 
-    color: #687e8f;
+    font-size: 7px;
 
-    font-size: 6.4px;
-
-    font-weight: 700;
+    color: #687782;
 
     white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
 }
 
 .verification-row strong {
     min-width: 0;
 
-    color: #17324d;
+    font-size: 8px;
 
-    font-size: 6.8px;
-
-    font-weight: 900;
+    color: #183f6f;
 
     white-space: nowrap;
 
     overflow: hidden;
 
     text-overflow: ellipsis;
+
+    text-align: left;
 }
 
 
