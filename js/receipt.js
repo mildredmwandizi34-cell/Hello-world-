@@ -1105,6 +1105,32 @@ const receiverEmail = firstAvailable(
     receiver.email_address
 );
 
+   /* =========================================================
+   DISPLAY SENDER
+   ========================================================= */
+
+put("senderName", senderName);
+put("senderCompany", senderCompany);
+put("senderAddress", senderAddress);
+put("senderCity", senderCity);
+put("senderCountry", senderCountry);
+put("senderPhone", senderPhone);
+put("senderEmail", senderEmail);
+
+
+/* =========================================================
+   DISPLAY RECEIVER
+   ========================================================= */
+
+put("receiverName", receiverName);
+put("receiverCompany", receiverCompany);
+put("receiverAddress", receiverAddress);
+put("receiverCity", receiverCity);
+put("receiverCountry", receiverCountry);
+put("receiverPhone", receiverPhone);
+put("receiverEmail", receiverEmail);
+
+   
     /* =====================================================
        SHIPMENT DETAILS
        ===================================================== */
