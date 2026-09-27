@@ -450,51 +450,15 @@ async function createShipment(event) {
     // SAVE ONLINE TO SUPABASE
     // =======================================
 
-    const onlineShipment = {
-
-    /* =======================================
-       IDENTIFICATION
-    ======================================= */
+     const onlineShipment = {
 
     tracking_number:
         shipment.trackingNumber,
 
-    receipt_number:
-        shipment.receiptNumber,
-
-    document_no:
-        shipment.documentNo,
-
-    verification_code:
-        shipment.verificationCode,
-
-    barcode_number:
-        shipment.barcodeNumber,
-
-
-    /* =======================================
-       STATUS / TRACKING
-    ======================================= */
-
     status:
         shipment.status,
 
-    location:
-        shipment.location,
-
-    progress:
-        shipment.progress,
-
-    history:
-        JSON.stringify(
-            shipment.history
-        ),
-
-
-    /* =======================================
-       SENDER
-    ======================================= */
-
+    /* SENDER */
     sender_name:
         shipment.senderName,
 
@@ -516,11 +480,7 @@ async function createShipment(event) {
     sender_email:
         shipment.senderEmail,
 
-
-    /* =======================================
-       RECEIVER
-    ======================================= */
-
+    /* RECEIVER */
     receiver_name:
         shipment.receiverName,
 
@@ -542,86 +502,8 @@ async function createShipment(event) {
     receiver_email:
         shipment.receiverEmail,
 
-
-    /* =======================================
-       SHIPMENT
-    ======================================= */
-
     origin:
         shipment.origin,
-
-    destination:
-        shipment.destination,
-
-    delivery_date:
-        shipment.delivery,
-
-    service:
-        shipment.service,
-
-    package:
-        shipment.package,
-
-    package_type:
-        shipment.descriptionType,
-
-    pieces:
-        Number(shipment.pieces) || 1,
-
-    weight:
-        shipment.weight,
-
-    dimensions:
-        shipment.dimensions,
-
-
-    /* =======================================
-       PAYMENT / INSURANCE
-    ======================================= */
-
-    payment:
-        shipment.payment,
-
-    insurance:
-        shipment.insurance,
-
-
-    /* =======================================
-       CHARGES
-    ======================================= */
-
-    shipping_cost:
-        shipment.shippingCost,
-
-    tax:
-        shipment.tax,
-
-    discount:
-        shipment.discount,
-
-    total_amount:
-        shipment.totalAmount,
-
-
-    /* =======================================
-       REFERENCES
-    ======================================= */
-
-    reference:
-        shipment.reference,
-
-    customer_reference:
-        shipment.customerReference,
-
-
-    /* =======================================
-       TIMESTAMP
-    ======================================= */
-
-    updated_at:
-        new Date().toISOString()
-
-};
 
     console.log(
         "Sending shipment to Supabase:",
