@@ -2026,11 +2026,42 @@ function createRouteMap(
 
 
     /* =====================================================
-       FIT ROUTE
-       ===================================================== */
+   FIT ROUTE + FIX MAP SIZE
+   ===================================================== */
+
+const routeBounds = routeLine.getBounds();
+
+
+/*
+   First fit the route normally.
+*/
+
+map.fitBounds(
+    routeBounds,
+    {
+        padding: [
+            20,
+            20
+        ]
+    }
+);
+
+
+/*
+   Leaflet sometimes calculates the map size
+   incorrectly when the receipt is displayed
+   or printed.
+
+   Recalculate the map size and fit the route
+   again after the map has rendered.
+*/
+
+setTimeout(function () {
+
+    map.invalidateSize(true);
 
     map.fitBounds(
-        routeLine.getBounds(),
+        routeBounds,
         {
             padding: [
                 20,
@@ -2039,16 +2070,8 @@ function createRouteMap(
         }
     );
 
-
-   // ===========================================
-// FIX LEAFLET MAP SIZE
-// ===========================================
-
-setTimeout(function () {
-
-    map.invalidateSize(true);
-
 }, 300);
+
 
 } // END createRouteMap()
 
