@@ -2050,6 +2050,8 @@ setTimeout(function () {
 
 }, 300);
 
+} // END createRouteMap()
+
 
 /* =========================================================
    FIND MAP COORDINATES
