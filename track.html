@@ -261,198 +261,437 @@ body {
   color: #083b80;  
 }  
   
-/* INFORMATION */  
-  
+/* =========================================================
+   TRACKING INFORMATION
+========================================================= */
+
 .info-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
     margin-top: 18px;
+    margin-bottom: 22px;
 }
 
 .info-card {
     position: relative;
-    padding: 17px 18px;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    box-shadow: 0 4px 14px rgba(8, 59, 128, 0.06);
     min-width: 0;
-    transition: border-color .2s ease, box-shadow .2s ease;
+
+    padding: 17px 18px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce5ef;
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 14px rgba(8, 59, 128, 0.07);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
 }
 
 .info-card:hover {
-    border-color: #b9cce1;
-    box-shadow: 0 7px 18px rgba(8, 59, 128, 0.09);
+    transform: translateY(-2px);
+
+    border-color: #b8cde4;
+
+    box-shadow:
+        0 7px 20px rgba(8, 59, 128, 0.11);
 }
-  
-/* SECTIONS */  
-  
-.section-card {  
-  background: white;  
-  padding: 22px;  
-  border-radius: 10px;  
-  box-shadow: 0 3px 15px rgba(0,0,0,.08);  
-  margin-bottom: 20px;  
-}  
-  
-.section-card h3 {  
-  margin: 0 0 18px;  
-  color: #083b80;  
-  font-size: 20px;  
-}  
-  
-/* ROUTE */  
-  
-.route-grid {  
-  display: grid;  
-  grid-template-columns: 1fr 1fr 1fr;  
-  gap: 15px;  
-}  
-  
-.route-box {  
-  padding: 16px;  
-  border: 1px solid #e0e5eb;  
-  border-radius: 8px;  
-}  
-  
-.route-box strong {  
-  display: block;  
-  color: #083b80;  
-  margin-bottom: 6px;  
-}  
-  
-.route-box span {  
-  color: #555;  
-}  
-  
-/* PACKAGE */  
-  
-.package-grid {  
+
+.info-card h4 {
+    margin: 0 0 8px;
+
+    color: #6b7785;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: .7px;
+
+    text-transform: uppercase;
+}
+
+.info-card p {
+    margin: 0;
+
+    color: #083b80;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* CURRENT LOCATION */
+
+.info-card:nth-child(2) {
+    border-left: 4px solid #20a866;
+}
+
+
+/* ESTIMATED DELIVERY */
+
+.info-card:nth-child(4) {
+    border-left: 4px solid #0b4ea2;
+}
+
+.info-card:nth-child(4) p {
+    color: #0b4ea2;
+}
+
+
+/* PAYMENT */
+
+.info-card:nth-child(6) {
+    border-left: 4px solid #20a866;
+}
+
+.info-card:nth-child(6) p {
+    color: #20a866;
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section-card {
+    background: white;
+
+    padding: 22px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 3px 15px rgba(0,0,0,.08);
+
+    margin-bottom: 20px;
+}
+
+.section-card h3 {
+    margin: 0 0 18px;
+
+    color: #083b80;
+
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   SHIPMENT ROUTE
+========================================================= */
+
+.route-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+.route-box {
+    min-width: 0;
+
+    padding: 17px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce5ef;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 3px 12px rgba(8,59,128,.05);
+}
+
+.route-box strong {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #083b80;
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .5px;
+}
+
+.route-box span {
+    color: #555;
+
+    font-size: 15px;
+
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* ORIGIN */
+
+.route-box:first-child {
+    border-left: 4px solid #0b4ea2;
+}
+
+
+/* DESTINATION */
+
+.route-box:last-child {
+    border-left: 4px solid #ff9800;
+}
+
+
+/* =========================================================
+   PACKAGE INFORMATION
+========================================================= */
+
 .package-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
     gap: 12px;
+
     margin-top: 16px;
 }
 
 .package-item {
     min-width: 0;
+
     padding: 15px 16px;
+
     background: #f7f9fc;
-    border: 1px solid #e5eaf0;
+
+    border: 1px solid #e1e8f0;
+
     border-radius: 10px;
-    transition: background .2s ease, border-color .2s ease;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease;
 }
 
 .package-item:hover {
     background: #f2f6fb;
+
     border-color: #cbd8e6;
 }
-  
-/* MAP */  
-  
-#shipmentMap {  
-  width: 100%;  
-  height: 460px;  
-  border-radius: 12px;  
-  overflow: hidden;  
-}  
-  
-/* HISTORY */  
-  
-.history-item {  
-  border-left: 3px solid #0b4ea2;  
-  padding: 10px 15px;  
-  margin-bottom: 12px;  
-  background: #f7f9fc;  
-  border-radius: 0 7px 7px 0;  
-}  
-  
-.history-item strong {  
-  color: #083b80;  
-}  
-  
-.history-item small {  
-  display: block;  
-  color: #777;  
-  margin-top: 4px;  
-}  
-  
-/* BUTTONS */  
-  
-.action-row {  
-  display: flex;  
-  justify-content: center;  
-  gap: 12px;  
-  margin: 25px 0;  
-  flex-wrap: wrap;  
-}  
-  
-.action-btn {  
-  border: none;  
-  padding: 12px 20px;  
-  border-radius: 6px;  
-  background: #0b4ea2;  
-  color: white;  
-  font-weight: bold;  
-  cursor: pointer;  
-}  
-  
-.action-btn.secondary {  
-  background: #666;  
-}  
-  
-/* FOOTER */  
-  
-.site-footer {  
-  background: #083b80;  
-  color: white;  
-  text-align: center;  
-  padding: 25px 15px;  
-  margin-top: 35px;  
-  font-size: 13px;  
-}  
-  
-/* MOBILE */  
-  
-@media (max-width: 800px) {  
-  
-  .info-grid,  
-  .route-grid,  
-  .package-grid {  
-    grid-template-columns: 1fr 1fr;  
-  }  
-  
-}  
-  
-@media (max-width: 600px) {  
-  
-  .search-row {  
-    flex-direction: column;  
-  }  
-  
-  .info-grid,  
-  .route-grid,  
-  .package-grid {  
-    grid-template-columns: 1fr;  
-  }  
-  
-  .result-top {  
-    align-items: flex-start;  
-    flex-direction: column;  
-  }  
-  
-  #shipmentMap {  
-    height: 460px;  
-  }  
-  
-  .navbar a {  
-    padding: 11px 10px;  
-    font-size: 12px;  
-  }  
-  
-}  
+
+.package-item strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #083b80;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: .6px;
+
+    text-transform: uppercase;
+}
+
+.package-item span {
+    display: block;
+
+    color: #222;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    line-height: 1.4;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .info-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+    .route-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+    .package-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .search-row {
+        flex-direction: column;
+    }
+
+
+    /* TRACKING INFORMATION */
+
+    .info-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+
+        margin-top: 14px;
+        margin-bottom: 18px;
+    }
+
+    .info-card {
+        padding: 14px 13px;
+
+        border-radius: 10px;
+    }
+
+    .info-card h4 {
+        font-size: 10px;
+
+        margin-bottom: 6px;
+    }
+
+    .info-card p {
+        font-size: 14px;
+
+        line-height: 1.35;
+    }
+
+
+    /* SHIPMENT ROUTE */
+
+    .route-grid {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+    .route-box {
+        padding: 15px;
+    }
+
+    .route-box strong {
+        font-size: 10px;
+    }
+
+    .route-box span {
+        font-size: 14px;
+    }
+
+
+    /* PACKAGE */
+
+    .package-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 9px;
+
+        margin-top: 14px;
+    }
+
+    .package-item {
+        padding: 13px 12px;
+    }
+
+    .package-item strong {
+        font-size: 10px;
+
+        margin-bottom: 5px;
+    }
+
+    .package-item span {
+        font-size: 13px;
+    }
+
+
+    /* RESULT HEADER */
+
+    .result-top {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    /* MAP */
+
+    #shipmentMap {
+        height: 460px;
+    }
+
+
+    /* NAVIGATION */
+
+    .navbar a {
+        padding: 11px 10px;
+
+        font-size: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .route-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .package-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-card {
+        padding: 14px;
+    }
+
+    .package-item {
+        padding: 13px;
+    }
+
+}
 
   /* =========================================================
    PROFESSIONAL SHIPMENT CONTROL CENTER
