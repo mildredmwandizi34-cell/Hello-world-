@@ -9,6 +9,11 @@
 
 <link rel="stylesheet" href="style.css">
 
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
 <link rel="stylesheet"
 href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
@@ -738,74 +743,184 @@ body {
     </div>
 
 <!-- =========================================
-     SHIPMENT CONTROL CENTERS
+     PROFESSIONAL SHIPMENT CONTROL CENTER
 ========================================= -->
 
 <div class="section-card control-center-section">
 
-    <h3>Shipment Control Centers</h3>
+    <div class="control-center-heading">
 
-    <div class="control-centers">
+        <div>
+            <span class="control-eyebrow">
+                SHIPMENT MONITORING
+            </span>
 
-        <div class="control-center">
-            <div class="control-icon">✓</div>
+            <h3>
+                Shipment Control Center
+            </h3>
 
-            <div>
-                <strong>Shipment Created</strong>
-                <span>
-                    Shipment registered in AGL system
-                </span>
-            </div>
+            <p>
+                Real-time shipment status and journey information
+            </p>
         </div>
 
-
-        <div class="control-center">
-            <div class="control-icon">●</div>
-
-            <div>
-                <strong>Current Shipment Status</strong>
-                <span id="controlStatus">
-                    Waiting for shipment update
-                </span>
-            </div>
-        </div>
-
-
-        <div class="control-center">
-            <div class="control-icon">📍</div>
-
-            <div>
-                <strong>Live Tracking</strong>
-                <span id="controlLocation">
-                    Waiting for current location
-                </span>
-            </div>
-        </div>
-
-
-        <div class="control-center">
-            <div class="control-icon">→</div>
-
-            <div>
-                <strong>Destination</strong>
-                <span id="controlDestination">
-                    Waiting for destination
-                </span>
-            </div>
+        <div class="control-live-badge">
+            <span class="control-live-dot"></span>
+            LIVE
         </div>
 
     </div>
 
 
+    <div class="control-centers">
+
+
+        <!-- SHIPMENT CREATED -->
+
+        <div class="control-center completed">
+
+            <div class="control-icon">
+
+                <i class="fa-solid fa-check"></i>
+
+            </div>
+
+            <div class="control-content">
+
+                <span class="control-label">
+                    SHIPMENT CREATED
+                </span>
+
+                <strong>
+                    Shipment Created
+                </strong>
+
+                <small>
+                    Shipment registered in AGL system
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- CURRENT STATUS -->
+
+        <div class="control-center active">
+
+            <div class="control-icon">
+
+                <i class="fa-solid fa-circle-dot"></i>
+
+            </div>
+
+            <div class="control-content">
+
+                <span class="control-label">
+                    CURRENT STATUS
+                </span>
+
+                <strong id="controlStatus">
+                    Waiting for shipment update
+                </strong>
+
+                <small>
+                    Latest shipment status
+                </small>
+
+            </div>
+
+            <span class="status-live-dot"></span>
+
+        </div>
+
+
+        <!-- LIVE LOCATION -->
+
+        <div class="control-center live-location">
+
+            <div class="control-icon">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+            </div>
+
+            <div class="control-content">
+
+                <span class="control-label">
+                    LIVE TRACKING
+                </span>
+
+                <strong id="controlLocation">
+                    Waiting for current location
+                </strong>
+
+                <small>
+                    Current shipment location
+                </small>
+
+            </div>
+
+            <span class="location-pulse"></span>
+
+        </div>
+
+
+        <!-- DESTINATION -->
+
+        <div class="control-center destination">
+
+            <div class="control-icon">
+
+                <i class="fa-solid fa-location-arrow"></i>
+
+            </div>
+
+            <div class="control-content">
+
+                <span class="control-label">
+                    DESTINATION
+                </span>
+
+                <strong id="controlDestination">
+                    Waiting for destination
+                </strong>
+
+                <small>
+                    Final delivery destination
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
     <div class="control-progress">
 
         <div class="control-progress-header">
 
-            <strong>Shipment Progress</strong>
+            <div>
 
-            <span id="controlProgressText">
+                <span>
+                    DELIVERY PROGRESS
+                </span>
+
+                <strong>
+                    Shipment Journey
+                </strong>
+
+            </div>
+
+            <strong
+                id="controlProgressText"
+                class="control-percent"
+            >
                 0%
-            </span>
+            </strong>
 
         </div>
 
@@ -814,14 +929,30 @@ body {
 
             <div
                 id="controlProgressFill"
-                class="control-progress-fill">
-            </div>
+                class="control-progress-fill"
+            ></div>
+
+        </div>
+
+
+        <div class="control-progress-footer">
+
+            <span>
+                <i class="fa-solid fa-box"></i>
+                Shipment Created
+            </span>
+
+            <span>
+                <i class="fa-solid fa-flag-checkered"></i>
+                Delivered
+            </span>
 
         </div>
 
     </div>
 
 </div>
+            
     
     <div class="info-grid">
 
