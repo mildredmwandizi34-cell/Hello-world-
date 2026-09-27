@@ -442,6 +442,77 @@ function updateDashboard() {
 
     }
 
+       /* =========================================
+       LIVE CONTROL CENTER
+    ========================================= */
+
+    const activeShipments =
+        shipments.filter(function (shipment) {
+
+            const status =
+                String(
+                    shipment.status || ""
+                ).toLowerCase();
+
+            return (
+                status !== "delivered" &&
+                status !== ""
+            );
+
+        }).length;
+
+
+    const movingShipments =
+        shipments.filter(function (shipment) {
+
+            const status =
+                String(
+                    shipment.status || ""
+                ).toLowerCase();
+
+            return (
+                status === "in transit" ||
+                status === "out for delivery" ||
+                status === "picked up"
+            );
+
+        }).length;
+
+
+    const liveActive =
+        get("liveActiveShipments");
+
+    if (liveActive) {
+
+        liveActive.textContent =
+            activeShipments;
+
+    }
+
+
+    const liveMoving =
+        get("liveMovingShipments");
+
+    if (liveMoving) {
+
+        liveMoving.textContent =
+            movingShipments;
+
+    }
+
+
+    const liveUpdate =
+        get("liveLastUpdate");
+
+    if (liveUpdate) {
+
+        liveUpdate.textContent =
+            formatDateTime(
+                new Date().toISOString()
+            );
+
+    }
+
 }
 
 
