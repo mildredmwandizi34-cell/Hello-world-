@@ -2587,8 +2587,19 @@ const controlDeliveryDate =
 
 if (controlDeliveryDate) {
 
-    controlDeliveryDate.textContent =
-        delivery || "Not available";
+    if (
+        delivery &&
+        delivery !== "-"
+    ) {
+
+        controlDeliveryDate.textContent =
+            delivery;
+
+    } else {
+
+        controlDeliveryDate.textContent =
+            "Not available";
+    }
 }
 
 
@@ -3007,7 +3018,6 @@ function displayHistory(historyData) {
 ========================================================= */
 
 let airplaneMarker = null;
-let airplaneAnimation = null;
 
 function displayMap(origin, current, destination) {
 
@@ -3146,89 +3156,35 @@ function displayMap(origin, current, destination) {
 
 
     /* -----------------------------------------
-       START AIRPLANE ANIMATION
-    ----------------------------------------- */
+   PLACE STATIONARY AIRPLANE
+----------------------------------------- */
 
-    animateAirplane(
-        originCoords,
-        destinationCoords
-    );
-}
-
+placeStationaryAirplane(
+    originCoords,
+    destinationCoords
+);
 
 /* =========================================================
-   ANIMATE AIRPLANE
+   STATIONARY AIRPLANE
 ========================================================= */
 
-function animateAirplane(origin, destination) {
+function placeStationaryAirplane(origin, destination) {
 
     if (!airplaneMarker) return;
 
-    if (airplaneAnimation) {
-        cancelAnimationFrame(airplaneAnimation);
-    }
 
-    const startLat = origin[0];
-    const startLng = origin[1];
-
-    const endLat = destination[0];
-    const endLng = destination[1];
-
-    const duration = 12000;
-
-    let startTime = null;
+    const latitude =
+        (origin[0] + destination[0]) / 2;
 
 
-    function moveAirplane(timestamp) {
-
-        if (!startTime) {
-            startTime = timestamp;
-        }
-
-        let elapsed = timestamp - startTime;
-
-        let progress = elapsed / duration;
-
-        /* Smooth movement */
-
-        progress = Math.min(progress, 1);
-
-        const latitude =
-            startLat +
-            (endLat - startLat) * progress;
-
-        const longitude =
-            startLng +
-            (endLng - startLng) * progress;
+    const longitude =
+        (origin[1] + destination[1]) / 2;
 
 
-        airplaneMarker.setLatLng([
-            latitude,
-            longitude
-        ]);
-
-
-        /* Continue animation */
-
-        if (progress < 1) {
-
-            airplaneAnimation =
-                requestAnimationFrame(moveAirplane);
-
-        } else {
-
-            /* Restart from origin */
-
-            startTime = null;
-
-            airplaneAnimation =
-                requestAnimationFrame(moveAirplane);
-        }
-    }
-
-
-    airplaneAnimation =
-        requestAnimationFrame(moveAirplane);
+    airplaneMarker.setLatLng([
+        latitude,
+        longitude
+    ]);
 }
 
 
