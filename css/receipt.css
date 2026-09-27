@@ -1429,13 +1429,6 @@ body {
     box-sizing: border-box;
 }
 
-#receiptMap {
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 120px !important;
-    box-sizing: border-box;
-}
-
 .leaflet-container {
     width: 100% !important;
     height: 100% !important;
