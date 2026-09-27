@@ -793,23 +793,25 @@ text-align:left;
 }
 
 /* =========================================================
-   AGL SHIPMENT CONTROL CENTER
+   PROFESSIONAL SHIPMENT CONTROL CENTER
 ========================================================= */
 
-.control-center {
+.control-center-section {
 
-    margin: 30px 0;
+    position: relative;
 
-    background: #ffffff;
+    border-top: 5px solid #0b4ea2;
 
-    border: 2px solid #0b4ea2;
-
-    border-radius: 12px;
+    padding: 25px;
 
     overflow: hidden;
 
-    box-shadow:
-        0 5px 18px rgba(0,0,0,0.08);
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #fbfdff 100%
+        );
 
 }
 
@@ -818,132 +820,132 @@ text-align:left;
    HEADER
 ========================================================= */
 
-.control-center-header {
+.control-center-heading {
 
     display: flex;
 
     justify-content: space-between;
 
-    align-items: center;
+    align-items: flex-start;
 
     gap: 20px;
 
-    padding: 20px 24px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #0b4ea2,
-            #083b80
-        );
-
-    color: #ffffff;
+    margin-bottom: 22px;
 
 }
 
 
-.control-center-header h2 {
+.control-eyebrow {
 
-    margin: 0 0 6px;
+    display: block;
 
-    font-size: 22px;
+    margin-bottom: 5px;
+
+    color: #0b4ea2;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
 
 }
 
 
-.control-center-header p {
+.control-center-heading h3 {
 
     margin: 0;
 
-    opacity: 0.9;
+    color: #083b80;
 
-    font-size: 14px;
+    font-size: 23px;
+
+    font-weight: 800;
+
+}
+
+
+.control-center-heading p {
+
+    margin: 6px 0 0;
+
+    color: #718096;
+
+    font-size: 12px;
 
 }
 
 
 /* =========================================================
-   LIVE TRACKING
+   LIVE BADGE
 ========================================================= */
 
-.live-status {
+.control-live-badge {
 
-    display: flex;
+    display: inline-flex;
 
     align-items: center;
 
-    gap: 9px;
+    gap: 7px;
 
-    padding: 10px 16px;
+    padding: 7px 12px;
 
     border-radius: 30px;
 
-    background: rgba(255,255,255,0.14);
+    background: #e9f9f0;
 
-    border: 1px solid rgba(255,255,255,0.35);
+    color: #16863a;
 
-    font-size: 13px;
+    font-size: 10px;
 
     font-weight: 800;
+
+    letter-spacing: .7px;
 
     white-space: nowrap;
 
 }
 
 
-.live-dot {
+.control-live-dot {
 
-    width: 11px;
+    width: 8px;
 
-    height: 11px;
+    height: 8px;
 
     border-radius: 50%;
 
-    background: #22c55e;
-
-    display: inline-block;
-
-    box-shadow:
-        0 0 0 0 rgba(34,197,94,0.7);
+    background: #20b866;
 
     animation:
-        aglLivePulse 1.4s infinite;
+        controlLiveBlink 1.2s infinite;
 
 }
 
 
-@keyframes aglLivePulse {
+@keyframes controlLiveBlink {
 
     0% {
 
-        transform: scale(1);
-
         opacity: 1;
 
-        box-shadow:
-            0 0 0 0 rgba(34,197,94,0.7);
+        transform: scale(1);
 
     }
 
     50% {
 
-        transform: scale(1.35);
+        opacity: .3;
 
-        opacity: 0.55;
-
-        box-shadow:
-            0 0 0 8px rgba(34,197,94,0);
+        transform: scale(.65);
 
     }
 
     100% {
 
-        transform: scale(1);
-
         opacity: 1;
 
-        box-shadow:
-            0 0 0 0 rgba(34,197,94,0);
+        transform: scale(1);
 
     }
 
@@ -951,26 +953,24 @@ text-align:left;
 
 
 /* =========================================================
-   CONTROL STATS
+   CONTROL CARDS
 ========================================================= */
 
-.control-stats {
+.control-centers {
 
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(2, minmax(0, 1fr));
 
-    gap: 15px;
-
-    padding: 20px;
-
-    background: #f4f8fc;
+    gap: 14px;
 
 }
 
 
-.control-stat {
+.control-center {
+
+    position: relative;
 
     display: flex;
 
@@ -978,22 +978,48 @@ text-align:left;
 
     gap: 14px;
 
-    padding: 16px;
+    min-height: 105px;
 
-    background: #ffffff;
+    padding: 17px;
 
-    border: 1px solid #d7e2ef;
+    background: #f8faff;
 
-    border-radius: 9px;
+    border: 1px solid #dce5ef;
+
+    border-radius: 14px;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
 
 }
 
 
+.control-center:hover {
+
+    transform: translateY(-2px);
+
+    border-color: #b8cee5;
+
+    box-shadow:
+        0 8px 20px
+        rgba(8,59,128,.08);
+
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
 .control-icon {
 
-    width: 42px;
+    width: 46px;
 
-    height: 42px;
+    height: 46px;
+
+    min-width: 46px;
 
     display: flex;
 
@@ -1001,239 +1027,425 @@ text-align:left;
 
     justify-content: center;
 
-    border-radius: 9px;
+    border-radius: 50%;
 
-    background: #e8f1fb;
+    background: #0b4ea2;
 
-    color: #0b4ea2;
+    color: white;
 
-    font-size: 18px;
+    font-size: 17px;
+
+    box-shadow:
+        0 5px 12px
+        rgba(11,78,162,.20);
 
 }
 
 
-.control-stat strong {
+/* CREATED */
+
+.control-center.completed {
+
+    border-left: 4px solid #0b4ea2;
+
+}
+
+
+.control-center.completed
+.control-icon {
+
+    background: #0b4ea2;
+
+}
+
+
+/* ACTIVE STATUS */
+
+.control-center.active {
+
+    border-left: 4px solid #ff9800;
+
+}
+
+
+.control-center.active
+.control-icon {
+
+    background: #ff9800;
+
+}
+
+
+/* LIVE LOCATION */
+
+.control-center.live-location {
+
+    border-left: 4px solid #20a866;
+
+}
+
+
+.control-center.live-location
+.control-icon {
+
+    background: #20a866;
+
+}
+
+
+/* DESTINATION */
+
+.control-center.destination {
+
+    border-left: 4px solid #7040a5;
+
+}
+
+
+.control-center.destination
+.control-icon {
+
+    background: #7040a5;
+
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.control-content {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+.control-label {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8493a3;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+}
+
+
+.control-content strong {
 
     display: block;
 
     color: #083b80;
 
-    font-size: 20px;
+    font-size: 15px;
 
-}
-
-
-.control-stat small {
-
-    display: block;
-
-    margin-top: 3px;
-
-    color: #667085;
-
-}
-
-
-/* =========================================================
-   ACTIVE SHIPMENT
-========================================================= */
-
-.live-shipment-panel {
-
-    margin: 0 20px 20px;
-
-    border: 1px solid #cbd9e8;
-
-    border-radius: 10px;
-
-    overflow: hidden;
-
-}
-
-
-.live-shipment-title {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 13px 16px;
-
-    background: #083b80;
-
-    color: #ffffff;
-
-    font-weight: 700;
-
-}
-
-
-.live-badge {
-
-    padding: 5px 10px;
-
-    border-radius: 20px;
-
-    background: #22a447;
-
-    font-size: 11px;
-
-    text-transform: uppercase;
-
-}
-
-
-/* =========================================================
-   LIVE SHIPMENT DETAILS
-========================================================= */
-
-.live-shipment-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-}
-
-
-.live-field {
-
-    padding: 16px;
-
-    border-right: 1px solid #dbe5ef;
-
-    border-bottom: 1px solid #dbe5ef;
-
-}
-
-
-.live-field:last-child {
-
-    border-right: none;
-
-}
-
-
-.live-field small {
-
-    display: block;
-
-    margin-bottom: 6px;
-
-    color: #667085;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.5px;
-
-}
-
-
-.live-field strong {
-
-    display: block;
-
-    color: #173f70;
-
-    font-size: 14px;
+    line-height: 1.3;
 
     word-break: break-word;
 
 }
 
 
-/* =========================================================
-   PROGRESS
-========================================================= */
+.control-content small {
 
-.live-progress-area {
+    display: block;
 
-    padding: 16px;
+    margin-top: 5px;
 
-    background: #f8fafc;
+    color: #718096;
+
+    font-size: 11px;
+
+    line-height: 1.35;
 
 }
 
 
-.live-progress-header {
+/* =========================================================
+   ACTIVE STATUS PULSE
+========================================================= */
+
+.status-live-dot {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 15px;
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #ff9800;
+
+    animation:
+        statusPulse 1.2s infinite;
+
+}
+
+
+@keyframes statusPulse {
+
+    0% {
+
+        opacity: 1;
+
+        box-shadow:
+            0 0 0 0
+            rgba(255,152,0,.5);
+
+    }
+
+    70% {
+
+        opacity: .5;
+
+        box-shadow:
+            0 0 0 7px
+            rgba(255,152,0,0);
+
+    }
+
+    100% {
+
+        opacity: 1;
+
+        box-shadow:
+            0 0 0 0
+            rgba(255,152,0,0);
+
+    }
+
+}
+
+
+/* =========================================================
+   LOCATION PULSE
+========================================================= */
+
+.location-pulse {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 15px;
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #20a866;
+
+    animation:
+        locationPulse 1.4s infinite;
+
+}
+
+
+@keyframes locationPulse {
+
+    0% {
+
+        box-shadow:
+            0 0 0 0
+            rgba(32,168,102,.55);
+
+    }
+
+    70% {
+
+        box-shadow:
+            0 0 0 8px
+            rgba(32,168,102,0);
+
+    }
+
+    100% {
+
+        box-shadow:
+            0 0 0 0
+            rgba(32,168,102,0);
+
+    }
+
+}
+
+
+/* =========================================================
+   PROGRESS AREA
+========================================================= */
+
+.control-progress {
+
+    margin-top: 22px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #e2e8f0;
+
+}
+
+
+.control-progress-header {
 
     display: flex;
 
     justify-content: space-between;
 
-    margin-bottom: 8px;
+    align-items: flex-end;
 
-    color: #344054;
+    gap: 15px;
 
-    font-size: 13px;
+    margin-bottom: 10px;
 
 }
 
 
-.live-progress-header strong {
+.control-progress-header span {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #8493a3;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+}
+
+
+.control-progress-header > div strong {
+
+    display: block;
+
+    color: #083b80;
+
+    font-size: 14px;
+
+}
+
+
+.control-percent {
+
+    color: #20a866 !important;
+
+    font-size: 22px;
+
+}
+
+
+/* =========================================================
+   PROGRESS BAR
+========================================================= */
+
+.control-progress-bar {
+
+    width: 100%;
+
+    height: 11px;
+
+    overflow: hidden;
+
+    background: #e5ebf2;
+
+    border-radius: 20px;
+
+}
+
+
+.control-progress-fill {
+
+    width: 0%;
+
+    height: 100%;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0b4ea2,
+            #20a866
+        );
+
+    transition:
+        width .7s ease;
+
+    box-shadow:
+        0 2px 8px
+        rgba(11,78,162,.25);
+
+}
+
+
+/* =========================================================
+   PROGRESS FOOTER
+========================================================= */
+
+.control-progress-footer {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 8px;
+
+    color: #8a98a8;
+
+    font-size: 10px;
+
+}
+
+
+.control-progress-footer span {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+}
+
+
+.control-progress-footer i {
 
     color: #0b4ea2;
 
 }
 
 
-.live-progress {
-
-    height: 10px;
-
-    background: #dce6f0;
-
-    border-radius: 20px;
-
-    overflow: hidden;
-
-}
-
-
-.live-progress-fill {
-
-    height: 100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            #0b4ea2,
-            #22a447
-        );
-
-    border-radius: 20px;
-
-    transition:
-        width 0.5s ease;
-
-}
-
-
 /* =========================================================
-   LAST UPDATE
+   TABLET
 ========================================================= */
 
-.live-update-time {
+@media (max-width: 800px) {
 
-    padding: 12px 16px;
+    .control-centers {
 
-    border-top: 1px solid #dbe5ef;
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
 
-    color: #667085;
-
-    font-size: 12px;
-
-}
-
-
-.live-update-time strong {
-
-    color: #173f70;
+    }
 
 }
 
@@ -1242,57 +1454,116 @@ text-align:left;
    MOBILE
 ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
 
-    .control-center-header {
+    .control-center-section {
 
-        flex-direction: column;
+        padding: 20px 16px;
+
+        border-top-width: 4px;
+
+    }
+
+
+    .control-center-heading {
 
         align-items: flex-start;
 
+        margin-bottom: 18px;
+
     }
 
 
-    .control-stats {
+    .control-center-heading h3 {
+
+        font-size: 20px;
+
+    }
+
+
+    .control-center-heading p {
+
+        max-width: 230px;
+
+        font-size: 11px;
+
+    }
+
+
+    .control-live-badge {
+
+        padding: 6px 9px;
+
+        font-size: 9px;
+
+    }
+
+
+    .control-centers {
 
         grid-template-columns: 1fr;
 
-    }
-
-
-    .live-shipment-grid {
-
-        grid-template-columns:
-            repeat(2, 1fr);
+        gap: 11px;
 
     }
 
 
-    .live-field:nth-child(2) {
+    .control-center {
 
-        border-right: none;
+        min-height: 88px;
 
-    }
+        padding: 14px;
 
-}
+        gap: 12px;
 
-
-@media (max-width: 480px) {
-
-    .live-shipment-grid {
-
-        grid-template-columns: 1fr;
+        border-radius: 12px;
 
     }
 
 
-    .live-field {
+    .control-icon {
 
-        border-right: none;
+        width: 43px;
+
+        height: 43px;
+
+        min-width: 43px;
+
+        font-size: 15px;
 
     }
 
-}
+
+    .control-content strong {
+
+        font-size: 14px;
+
+    }
+
+
+    .control-content small {
+
+        font-size: 10px;
+
+    }
+
+
+    .control-progress {
+
+        margin-top: 18px;
+
+        padding-top: 17px;
+
+    }
+
+
+    .control-percent {
+
+        font-size: 20px;
+
+    }
+
+   }
 
 /* =========================================================
    PROFESSIONAL SHIPMENT CONTROL CENTER TABLE
