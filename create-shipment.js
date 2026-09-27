@@ -110,6 +110,9 @@ function getCurrentTime() {
     const now =
         new Date();
 
+    const createdAt =
+    now.toISOString();
+
     return (
         padNumber(now.getHours()) +
         ":" +
