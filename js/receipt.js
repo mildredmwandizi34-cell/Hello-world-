@@ -386,6 +386,10 @@ function getShipmentFromLocalStorage(
       useful LocalStorage information.
    ========================================================= */
 
+/* =========================================================
+   MERGE SHIPMENT DATA
+   ========================================================= */
+
 function mergeShipmentData(
     localShipment,
     supabaseShipment
@@ -397,11 +401,19 @@ function mergeShipmentData(
     const remote =
         supabaseShipment || {};
 
+    /*
+       Start with local data.
+    */
 
     const merged = {
         ...local
     };
 
+
+    /*
+       Supabase values replace local values
+       only when Supabase actually has data.
+    */
 
     Object.keys(remote).forEach(
         key => {
@@ -409,11 +421,13 @@ function mergeShipmentData(
             const value =
                 remote[key];
 
-
             if (
                 value !== undefined &&
                 value !== null &&
-                String(value).trim() !== ""
+                (
+                    typeof value === "object" ||
+                    String(value).trim() !== ""
+                )
             ) {
 
                 merged[key] = value;
@@ -425,34 +439,54 @@ function mergeShipmentData(
 
 
     /*
-       Preserve nested sender object
+       IMPORTANT:
+       Always merge nested sender objects.
     */
 
     if (
-        local.sender &&
-        typeof local.sender === "object"
+        (
+            local.sender &&
+            typeof local.sender === "object"
+        ) ||
+        (
+            remote.sender &&
+            typeof remote.sender === "object"
+        )
     ) {
 
         merged.sender = {
-            ...local.sender,
+
+            ...(local.sender || {}),
+
             ...(remote.sender || {})
+
         };
 
     }
 
 
     /*
-       Preserve nested receiver object
+       IMPORTANT:
+       Always merge nested receiver objects.
     */
 
     if (
-        local.receiver &&
-        typeof local.receiver === "object"
+        (
+            local.receiver &&
+            typeof local.receiver === "object"
+        ) ||
+        (
+            remote.receiver &&
+            typeof remote.receiver === "object"
+        )
     ) {
 
         merged.receiver = {
-            ...local.receiver,
+
+            ...(local.receiver || {}),
+
             ...(remote.receiver || {})
+
         };
 
     }
@@ -828,211 +862,283 @@ if (
         verificationCode
     );
 
+   
+/* =====================================================
+   SENDER
+   ===================================================== */
 
-    /* =====================================================
-       SENDER
-       =====================================================
-
-       Supports both:
-
-       senderName
-
-       AND
-
-       sender: {
-           name: ...
-       }
-    */
-
-    put(
-        "senderName",
-        getValue(
-            shipment,
-            [
-                "senderName",
-                "sender_name",
-                "sender.name",
-                "sender.fullName",
-                "sender.full_name"
-            ]
-        )
+const senderName =
+    getValue(
+        shipment,
+        [
+            "senderName",
+            "sender_name",
+            "sender.name",
+            "sender.fullName",
+            "sender.full_name",
+            "sender.contactName",
+            "sender.contact_name"
+        ]
     );
 
 
-    put(
-        "senderCompany",
-        getValue(
-            shipment,
-            [
-                "senderCompany",
-                "sender_company",
-                "sender.company"
-            ]
-        )
+const senderCompany =
+    getValue(
+        shipment,
+        [
+            "senderCompany",
+            "sender_company",
+            "sender.company",
+            "sender.companyName",
+            "sender.company_name"
+        ]
     );
 
 
-    put(
-        "senderAddress",
-        getValue(
-            shipment,
-            [
-                "senderAddress",
-                "sender_address",
-                "sender.address"
-            ]
-        )
+const senderAddress =
+    getValue(
+        shipment,
+        [
+            "senderAddress",
+            "sender_address",
+            "sender.address",
+            "sender.street",
+            "sender.streetAddress",
+            "sender.street_address"
+        ]
     );
 
 
-    put(
-        "senderCity",
-        getValue(
-            shipment,
-            [
-                "senderCity",
-                "sender_city",
-                "sender.city"
-            ]
-        )
+const senderCity =
+    getValue(
+        shipment,
+        [
+            "senderCity",
+            "sender_city",
+            "sender.city",
+            "sender.town",
+            "senderTown",
+            "sender_town"
+        ]
     );
 
 
-    put(
-        "senderCountry",
-        getValue(
-            shipment,
-            [
-                "senderCountry",
-                "sender_country",
-                "sender.country"
-            ]
-        )
+const senderCountry =
+    getValue(
+        shipment,
+        [
+            "senderCountry",
+            "sender_country",
+            "sender.country"
+        ],
+        origin
     );
 
 
-    put(
-        "senderPhone",
-        getValue(
-            shipment,
-            [
-                "senderPhone",
-                "sender_phone",
-                "sender.phone"
-            ]
-        )
+const senderPhone =
+    getValue(
+        shipment,
+        [
+            "senderPhone",
+            "sender_phone",
+            "sender.phone",
+            "sender.phoneNumber",
+            "sender.phone_number",
+            "sender.mobile",
+            "senderMobile",
+            "sender_mobile",
+            "senderContact",
+            "sender_contact"
+        ]
     );
 
 
-    put(
-        "senderEmail",
-        getValue(
-            shipment,
-            [
-                "senderEmail",
-                "sender_email",
-                "sender.email"
-            ]
-        )
+const senderEmail =
+    getValue(
+        shipment,
+        [
+            "senderEmail",
+            "sender_email",
+            "sender.email",
+            "sender.emailAddress",
+            "sender.email_address"
+        ]
     );
 
 
-    /* =====================================================
-       RECEIVER
-       ===================================================== */
+put(
+    "senderName",
+    senderName
+);
 
-    put(
-        "receiverName",
-        getValue(
-            shipment,
-            [
-                "receiverName",
-                "receiver_name",
-                "receiver.name",
-                "receiver.fullName",
-                "receiver.full_name"
-            ]
-        )
+put(
+    "senderCompany",
+    senderCompany
+);
+
+put(
+    "senderAddress",
+    senderAddress
+);
+
+put(
+    "senderCity",
+    senderCity
+);
+
+put(
+    "senderCountry",
+    senderCountry
+);
+
+put(
+    "senderPhone",
+    senderPhone
+);
+
+put(
+    "senderEmail",
+    senderEmail
+);
+
+
+/* =====================================================
+   RECEIVER
+   ===================================================== */
+
+const receiverName =
+    getValue(
+        shipment,
+        [
+            "receiverName",
+            "receiver_name",
+            "receiver.name",
+            "receiver.fullName",
+            "receiver.full_name",
+            "receiver.contactName",
+            "receiver.contact_name"
+        ]
     );
 
 
-    put(
-        "receiverCompany",
-        getValue(
-            shipment,
-            [
-                "receiverCompany",
-                "receiver_company",
-                "receiver.company"
-            ]
-        )
+const receiverCompany =
+    getValue(
+        shipment,
+        [
+            "receiverCompany",
+            "receiver_company",
+            "receiver.company",
+            "receiver.companyName",
+            "receiver.company_name"
+        ]
     );
 
 
-    put(
-        "receiverAddress",
-        getValue(
-            shipment,
-            [
-                "receiverAddress",
-                "receiver_address",
-                "receiver.address"
-            ]
-        )
+const receiverAddress =
+    getValue(
+        shipment,
+        [
+            "receiverAddress",
+            "receiver_address",
+            "receiver.address",
+            "receiver.street",
+            "receiver.streetAddress",
+            "receiver.street_address"
+        ]
     );
 
 
-    put(
-        "receiverCity",
-        getValue(
-            shipment,
-            [
-                "receiverCity",
-                "receiver_city",
-                "receiver.city"
-            ]
-        )
+const receiverCity =
+    getValue(
+        shipment,
+        [
+            "receiverCity",
+            "receiver_city",
+            "receiver.city",
+            "receiver.town",
+            "receiverTown",
+            "receiver_town"
+        ]
     );
 
 
-    put(
-        "receiverCountry",
-        getValue(
-            shipment,
-            [
-                "receiverCountry",
-                "receiver_country",
-                "receiver.country"
-            ]
-        )
+const receiverCountry =
+    getValue(
+        shipment,
+        [
+            "receiverCountry",
+            "receiver_country",
+            "receiver.country"
+        ],
+        destination
     );
 
 
-    put(
-        "receiverPhone",
-        getValue(
-            shipment,
-            [
-                "receiverPhone",
-                "receiver_phone",
-                "receiver.phone"
-            ]
-        )
+const receiverPhone =
+    getValue(
+        shipment,
+        [
+            "receiverPhone",
+            "receiver_phone",
+            "receiver.phone",
+            "receiver.phoneNumber",
+            "receiver.phone_number",
+            "receiver.mobile",
+            "receiverMobile",
+            "receiver_mobile",
+            "receiverContact",
+            "receiver_contact"
+        ]
     );
 
 
-    put(
-        "receiverEmail",
-        getValue(
-            shipment,
-            [
-                "receiverEmail",
-                "receiver_email",
-                "receiver.email"
-            ]
-        )
+const receiverEmail =
+    getValue(
+        shipment,
+        [
+            "receiverEmail",
+            "receiver_email",
+            "receiver.email",
+            "receiver.emailAddress",
+            "receiver.email_address"
+        ]
     );
 
+
+put(
+    "receiverName",
+    receiverName
+);
+
+put(
+    "receiverCompany",
+    receiverCompany
+);
+
+put(
+    "receiverAddress",
+    receiverAddress
+);
+
+put(
+    "receiverCity",
+    receiverCity
+);
+
+put(
+    "receiverCountry",
+    receiverCountry
+);
+
+put(
+    "receiverPhone",
+    receiverPhone
+);
+
+put(
+    "receiverEmail",
+    receiverEmail
+);
 
     /* =====================================================
        SHIPMENT DETAILS
@@ -1480,9 +1586,143 @@ function createBarcode(
 
 
     if (!barcode) {
+
+        console.error(
+            "Barcode element #barcodeLarge was not found."
+        );
+
         return;
+
     }
 
+
+    tracking =
+        String(
+            tracking || ""
+        ).trim();
+
+
+    if (!tracking) {
+
+        console.error(
+            "Barcode value is empty."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Clear previous barcode.
+    */
+
+    barcode.innerHTML = "";
+
+
+    /*
+       If JsBarcode is already loaded,
+       generate immediately.
+    */
+
+    if (
+        typeof JsBarcode !==
+        "undefined"
+    ) {
+
+        renderBarcode(
+            barcode,
+            tracking
+        );
+
+        return;
+
+    }
+
+
+    /*
+       JsBarcode is not loaded.
+       Load it automatically.
+    */
+
+    const existingScript =
+        document.querySelector(
+            'script[data-agl-jsbarcode="true"]'
+        );
+
+
+    if (existingScript) {
+
+        existingScript.addEventListener(
+            "load",
+            function () {
+
+                renderBarcode(
+                    barcode,
+                    tracking
+                );
+
+            }
+        );
+
+        return;
+
+    }
+
+
+    const script =
+        document.createElement(
+            "script"
+        );
+
+
+    script.src =
+        "https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js";
+
+
+    script.async = true;
+
+
+    script.dataset.aglJsbarcode =
+        "true";
+
+
+    script.onload =
+        function () {
+
+            renderBarcode(
+                barcode,
+                tracking
+            );
+
+        };
+
+
+    script.onerror =
+        function () {
+
+            console.error(
+                "Unable to load JsBarcode."
+            );
+
+        };
+
+
+    document.head.appendChild(
+        script
+    );
+
+}
+
+
+/* =========================================================
+   RENDER BARCODE
+   ========================================================= */
+
+function renderBarcode(
+    barcode,
+    tracking
+) {
 
     if (
         typeof JsBarcode ===
@@ -1490,7 +1730,7 @@ function createBarcode(
     ) {
 
         console.error(
-            "JsBarcode library was not loaded."
+            "JsBarcode is still unavailable."
         );
 
         return;
@@ -1502,16 +1742,68 @@ function createBarcode(
 
         JsBarcode(
             barcode,
-            String(tracking),
+            tracking,
             {
-                format: "CODE128",
-                width: 1.5,
-                height: 38,
-                displayValue: true,
-                fontSize: 9,
-                margin: 2
+
+                format:
+                    "CODE128",
+
+                width:
+                    2,
+
+                height:
+                    45,
+
+                displayValue:
+                    true,
+
+                text:
+                    tracking,
+
+                fontSize:
+                    10,
+
+                font:
+                    "Arial",
+
+                fontOptions:
+                    "bold",
+
+                textMargin:
+                    3,
+
+                margin:
+                    4,
+
+                background:
+                    "#ffffff",
+
+                lineColor:
+                    "#000000"
+
             }
         );
+
+
+        /*
+           Make sure the SVG is visible.
+        */
+
+        barcode.style.display =
+            "block";
+
+        barcode.style.visibility =
+            "visible";
+
+        barcode.style.opacity =
+            "1";
+
+
+        console.log(
+            "AGL barcode generated:",
+            tracking
+        );
+
 
     } catch (error) {
 
@@ -1522,7 +1814,7 @@ function createBarcode(
 
     }
 
-}
+           }
 
 /* =========================================================
    AGL QR CODE
