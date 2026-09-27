@@ -935,6 +935,18 @@ body {
     background: #7040a5;
 }
 
+  /* =========================================================
+   ESTIMATED DELIVERY
+========================================================= */
+
+.control-center.estimated-delivery {
+    border-left: 4px solid #0b4ea2;
+}
+
+.control-center.estimated-delivery .control-icon {
+    background: #0b4ea2;
+}
+
 
 /* =========================================================
    CONTENT
@@ -1281,15 +1293,6 @@ body {
         font-size: 20px;
     }
 
-  /* ESTIMATED DELIVERY */
-.control-center.estimated-delivery {
-    border-left: 4px solid #0b4ea2;
-}
-
-.control-center.estimated-delivery .control-icon {
-    background: #0b4ea2;
-}
-
 }
   
 </style>
@@ -1592,31 +1595,39 @@ body {
 
             </div>
 
+                </div>
+
+
+        <!-- ESTIMATED DELIVERY -->
+
+        <div class="control-center estimated-delivery">
+
+            <div class="control-icon">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+            </div>
+
+            <div class="control-content">
+
+                <span class="control-label">
+                    ESTIMATED DELIVERY
+                </span>
+
+                <strong id="controlDeliveryDate">
+                    Waiting for delivery date
+                </strong>
+
+                <small>
+                    Expected delivery date
+                </small>
+
+            </div>
+
         </div>
 
+
     </div>
-
-  <!-- ESTIMATED DELIVERY -->
-<div class="control-center estimated-delivery">
-    <div class="control-icon">
-        <i class="fa-solid fa-calendar-check"></i>
-    </div>
-
-    <div class="control-content">
-        <span class="control-label">
-            ESTIMATED DELIVERY
-        </span>
-
-        <strong id="controlDeliveryDate">
-            Waiting for delivery date
-        </strong>
-
-        <small>
-            Expected delivery date
-        </small>
-    </div>
-</div>
-
 
     <!-- PROGRESS -->
 
