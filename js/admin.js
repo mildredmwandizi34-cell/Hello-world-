@@ -274,8 +274,8 @@ updateCharts();
 
 
 /* =========================================================
-   RENDER SHIPMENTS
-   ========================================================= */
+   PROFESSIONAL SHIPMENT CONTROL CENTER TABLE
+========================================================= */
 
 function renderShipments() {
 
@@ -290,11 +290,24 @@ function renderShipments() {
 
     if (!shipments.length) {
 
-        table.innerHTML =
-            "<tr><td colspan='6'>No shipments found.</td></tr>";
+        table.innerHTML = `
+            <tr>
+                <td
+                    colspan="6"
+                    class="control-empty"
+                >
+                    <div>
+                        <i class="fa-solid fa-box-open"></i>
+                        <h3>No Shipments Found</h3>
+                        <p>
+                            Shipment records will appear here.
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        `;
 
         return;
-
     }
 
 
@@ -305,51 +318,319 @@ function renderShipments() {
                 document.createElement("tr");
 
 
+            const status =
+                String(
+                    shipment.status || "Shipment Created"
+                ).trim();
+
+
+            const statusLower =
+                status.toLowerCase();
+
+
+            /* =====================================
+               DETERMINE LIVE STATUS
+            ===================================== */
+
+            const isLive =
+                statusLower === "in transit" ||
+                statusLower === "picked up" ||
+                statusLower === "out for delivery";
+
+
+            /* =====================================
+               STATUS CLASS
+            ===================================== */
+
+            let statusClass =
+                "status-created";
+
+
+            if (
+                statusLower === "delivered"
+            ) {
+
+                statusClass =
+                    "status-delivered";
+
+            }
+
+            else if (
+                statusLower === "in transit"
+            ) {
+
+                statusClass =
+                    "status-transit";
+
+            }
+
+            else if (
+                statusLower === "out for delivery"
+            ) {
+
+                statusClass =
+                    "status-delivery";
+
+            }
+
+            else if (
+                statusLower === "customs cleared"
+            ) {
+
+                statusClass =
+                    "status-customs";
+
+            }
+
+            else if (
+                statusLower === "awaiting pickup"
+            ) {
+
+                statusClass =
+                    "status-awaiting";
+
+            }
+
+            else if (
+                statusLower === "picked up"
+            ) {
+
+                statusClass =
+                    "status-picked";
+
+            }
+
+
+            /* =====================================
+               PROGRESS
+            ===================================== */
+
+            const progress =
+                Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        Number(
+                            shipment.progress || 0
+                        )
+                    )
+                );
+
+
+            /* =====================================
+               LAST UPDATED
+            ===================================== */
+
+            const updated =
+                shipment.updated_at
+                    ? formatDateTime(
+                        shipment.updated_at
+                    )
+                    : "—";
+
+
+            /* =====================================
+               LIVE INDICATOR
+            ===================================== */
+
+            const liveIndicator =
+                isLive
+
+                ? `
+                    <span class="table-live">
+                        <span class="table-live-dot"></span>
+                        LIVE
+                    </span>
+                  `
+
+                : "";
+
+
             row.innerHTML = `
 
-                <td>
-                    ${escapeHTML(
-                        shipment.trackingNumber
-                    )}
+                <!-- TRACKING -->
+
+                <td
+                    data-label="Tracking"
+                    class="tracking-cell"
+                >
+
+                    <div class="tracking-main">
+
+                        <strong>
+                            ${escapeHTML(
+                                shipment.trackingNumber
+                            )}
+                        </strong>
+
+                        ${liveIndicator}
+
+                    </div>
+
+                    <small>
+                        Shipment #${index + 1}
+                    </small>
+
                 </td>
 
-                <td>
-                    ${escapeHTML(
-                        shipment.senderName
-                    )}
+
+                <!-- SENDER -->
+
+                <td
+                    data-label="Sender"
+                >
+
+                    <div class="person-cell">
+
+                        <span class="person-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                shipment.senderName ||
+                                "—"
+                            )}
+                        </span>
+
+                    </div>
+
                 </td>
 
-                <td>
-                    ${escapeHTML(
-                        shipment.receiverName
-                    )}
+
+                <!-- RECEIVER -->
+
+                <td
+                    data-label="Receiver"
+                >
+
+                    <div class="person-cell">
+
+                        <span class="person-icon receiver-icon">
+                            <i class="fa-solid fa-user-check"></i>
+                        </span>
+
+                        <span>
+                            ${escapeHTML(
+                                shipment.receiverName ||
+                                "—"
+                            )}
+                        </span>
+
+                    </div>
+
                 </td>
 
-                <td>
-                    ${escapeHTML(
-                        shipment.status
-                    )}
-                </td>
 
-                <td>
-                    ${escapeHTML(
-                        shipment.location
-                    )}
-                </td>
+                <!-- STATUS -->
 
-                <td>
+                <td
+                    data-label="Status"
+                >
 
-                    <button
-                        onclick="editShipment(${index})"
+                    <span
+                        class="
+                            control-status
+                            ${statusClass}
+                        "
                     >
-                        Edit
-                    </button>
 
-                    <button
-                        onclick="deleteShipment(${index})"
-                    >
-                        Delete
-                    </button>
+                        ${
+                            isLive
+                            ? `<span class="status-pulse-small"></span>`
+                            : ""
+                        }
+
+                        ${escapeHTML(status)}
+
+                    </span>
+
+
+                    <div class="progress-area">
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-value"
+                                style="width:${progress}%"
+                            ></div>
+
+                        </div>
+
+                        <span class="progress-number">
+                            ${progress}%
+                        </span>
+
+                    </div>
+
+                </td>
+
+
+                <!-- LOCATION -->
+
+                <td
+                    data-label="Location"
+                >
+
+                    <div class="location-cell">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        <span>
+                            ${escapeHTML(
+                                shipment.location ||
+                                "Location unavailable"
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div class="updated-time">
+
+                        <i class="fa-regular fa-clock"></i>
+
+                        ${escapeHTML(updated)}
+
+                    </div>
+
+                </td>
+
+
+                <!-- ACTIONS -->
+
+                <td
+                    data-label="Actions"
+                >
+
+                    <div class="control-actions">
+
+                        <button
+                            type="button"
+                            class="control-edit"
+                            onclick="editShipment(${index})"
+                        >
+
+                            <i class="fa-solid fa-pen"></i>
+
+                            Edit
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="control-delete"
+                            onclick="deleteShipment(${index})"
+                        >
+
+                            <i class="fa-solid fa-trash"></i>
+
+                            Delete
+
+                        </button>
+
+                    </div>
 
                 </td>
 
