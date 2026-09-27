@@ -1685,6 +1685,19 @@ document.addEventListener(
 
         setupViewReceipt();
 
+               /* =========================================
+           LIVE SUPABASE REFRESH
+        ========================================= */
+
+        setInterval(
+            function() {
+
+                loadShipments();
+
+            },
+            10000
+        );
+
 
         const logout =
             get("logoutBtn");
