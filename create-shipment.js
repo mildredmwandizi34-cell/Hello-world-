@@ -1,7 +1,8 @@
 // ===========================================
-// American Global Logistics
-// Create Shipment System
-// ONLINE SUPABASE VERSION
+// AMERICAN GLOBAL LOGISTICS
+// CREATE SHIPMENT SYSTEM
+// DATE + TIME ENABLED
+// SUPABASE VERSION
 // ===========================================
 
 const SUPABASE_URL =
@@ -11,17 +12,20 @@ const SUPABASE_KEY =
     "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
 
 let supabaseClient = null;
+
 let shipments =
-    JSON.parse(localStorage.getItem("shipments")) || [];
+    JSON.parse(
+        localStorage.getItem("shipments")
+    ) || [];
 
 
 // ===========================================
-// Load Supabase
+// SUPABASE
 // ===========================================
 
 function loadSupabase() {
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
 
         if (window.supabase) {
 
@@ -41,7 +45,7 @@ function loadSupabase() {
         script.src =
             "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
-        script.onload = function () {
+        script.onload = function() {
 
             supabaseClient =
                 window.supabase.createClient(
@@ -52,7 +56,8 @@ function loadSupabase() {
             resolve();
         };
 
-        script.onerror = function () {
+        script.onerror = function() {
+
             reject(
                 new Error(
                     "Supabase library could not be loaded."
@@ -61,18 +66,451 @@ function loadSupabase() {
         };
 
         document.head.appendChild(script);
-
     });
 }
 
 
 // ===========================================
-// Page Loaded
+// DATE / TIME HELPERS
+// ===========================================
+
+function padNumber(number) {
+
+    return String(number).padStart(2, "0");
+}
+
+
+// ===========================================
+// CURRENT LOCAL DATE
+// YYYY-MM-DD
+// ===========================================
+
+function getTodayDate() {
+
+    const now =
+        new Date();
+
+    return (
+        now.getFullYear() +
+        "-" +
+        padNumber(now.getMonth() + 1) +
+        "-" +
+        padNumber(now.getDate())
+    );
+}
+
+
+// ===========================================
+// CURRENT LOCAL TIME
+// HH:MM
+// ===========================================
+
+function getCurrentTime() {
+
+    const now =
+        new Date();
+
+    return (
+        padNumber(now.getHours()) +
+        ":" +
+        padNumber(now.getMinutes())
+    );
+}
+
+
+// ===========================================
+// FORMAT DATE FOR DISPLAY
+// ===========================================
+
+function formatDate(date) {
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        }
+    );
+}
+
+
+// ===========================================
+// FORMAT TIME FOR DISPLAY
+// ===========================================
+
+function formatTime(date) {
+
+    return date.toLocaleTimeString(
+        undefined,
+        {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+        }
+    );
+}
+
+
+// ===========================================
+// CREATE LOCAL DATE FROM INPUTS
+// ===========================================
+
+function getSelectedCreationDateTime() {
+
+    const dateInput =
+        document.getElementById(
+            "shipmentCreatedDate"
+        );
+
+    const timeInput =
+        document.getElementById(
+            "shipmentCreatedTime"
+        );
+
+    if (
+        !dateInput ||
+        !timeInput ||
+        !dateInput.value ||
+        !timeInput.value
+    ) {
+
+        return null;
+    }
+
+    const selected =
+        new Date(
+            dateInput.value +
+            "T" +
+            timeInput.value
+        );
+
+    if (
+        Number.isNaN(
+            selected.getTime()
+        )
+    ) {
+
+        return null;
+    }
+
+    return selected;
+}
+
+
+// ===========================================
+// ADD CREATION DATE/TIME UI
+// ===========================================
+
+function setupCreationDateTimeFields() {
+
+    const form =
+        document.getElementById(
+            "shipmentForm"
+        );
+
+    if (!form) {
+        return;
+    }
+
+
+    let dateInput =
+        document.getElementById(
+            "shipmentCreatedDate"
+        );
+
+    let timeInput =
+        document.getElementById(
+            "shipmentCreatedTime"
+        );
+
+
+    // =======================================
+    // IF FIELDS DO NOT EXIST,
+    // CREATE THEM AUTOMATICALLY
+    // =======================================
+
+    if (!dateInput || !timeInput) {
+
+        const wrapper =
+            document.createElement("div");
+
+        wrapper.id =
+            "shipmentCreationDateTime";
+
+        wrapper.style.cssText = `
+            width:100%;
+            margin:15px 0;
+            padding:15px;
+            background:#f4f9ff;
+            border:1px solid #0b4ea2;
+            border-radius:8px;
+            box-sizing:border-box;
+        `;
+
+
+        const title =
+            document.createElement("div");
+
+        title.innerHTML = `
+            <strong style="
+                display:block;
+                color:#083b80;
+                font-size:15px;
+                margin-bottom:5px;
+            ">
+                <i class="fa-solid fa-calendar-clock"></i>
+                SHIPMENT CREATION DATE & TIME
+            </strong>
+
+            <span style="
+                display:block;
+                color:#64798b;
+                font-size:12px;
+                margin-bottom:12px;
+            ">
+                Select when this shipment was created.
+                Past dates are allowed. Future dates are not allowed.
+            </span>
+        `;
+
+
+        const fields =
+            document.createElement("div");
+
+        fields.style.cssText = `
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+        `;
+
+
+        const dateBox =
+            document.createElement("div");
+
+        const dateLabel =
+            document.createElement("label");
+
+        dateLabel.innerHTML =
+            "Creation Date";
+
+        dateLabel.style.cssText = `
+            display:block;
+            margin-bottom:5px;
+            font-weight:700;
+            color:#17324d;
+        `;
+
+
+        dateInput =
+            document.createElement("input");
+
+        dateInput.type =
+            "date";
+
+        dateInput.id =
+            "shipmentCreatedDate";
+
+        dateInput.name =
+            "shipmentCreatedDate";
+
+        dateInput.style.cssText = `
+            width:100%;
+            padding:10px;
+            border:1px solid #b8c9d8;
+            border-radius:5px;
+            box-sizing:border-box;
+        `;
+
+
+        dateBox.appendChild(
+            dateLabel
+        );
+
+        dateBox.appendChild(
+            dateInput
+        );
+
+
+        const timeBox =
+            document.createElement("div");
+
+        const timeLabel =
+            document.createElement("label");
+
+        timeLabel.innerHTML =
+            "Creation Time";
+
+        timeLabel.style.cssText = `
+            display:block;
+            margin-bottom:5px;
+            font-weight:700;
+            color:#17324d;
+        `;
+
+
+        timeInput =
+            document.createElement("input");
+
+        timeInput.type =
+            "time";
+
+        timeInput.id =
+            "shipmentCreatedTime";
+
+        timeInput.name =
+            "shipmentCreatedTime";
+
+        timeInput.style.cssText = `
+            width:100%;
+            padding:10px;
+            border:1px solid #b8c9d8;
+            border-radius:5px;
+            box-sizing:border-box;
+        `;
+
+
+        timeBox.appendChild(
+            timeLabel
+        );
+
+        timeBox.appendChild(
+            timeInput
+        );
+
+
+        fields.appendChild(
+            dateBox
+        );
+
+        fields.appendChild(
+            timeBox
+        );
+
+
+        wrapper.appendChild(
+            title
+        );
+
+        wrapper.appendChild(
+            fields
+        );
+
+
+        // Put the date/time section
+        // near the beginning of the form.
+
+        form.insertBefore(
+            wrapper,
+            form.firstElementChild
+        );
+    }
+
+
+    // =======================================
+    // DEFAULT CURRENT DATE/TIME
+    // =======================================
+
+    if (!dateInput.value) {
+
+        dateInput.value =
+            getTodayDate();
+    }
+
+
+    if (!timeInput.value) {
+
+        timeInput.value =
+            getCurrentTime();
+    }
+
+
+    // =======================================
+    // FUTURE DATE BLOCKING
+    // =======================================
+
+    dateInput.max =
+        getTodayDate();
+
+
+    // =======================================
+    // VALIDATE DATE/TIME
+    // =======================================
+
+    function validateCreationDateTime() {
+
+        const selected =
+            getSelectedCreationDateTime();
+
+        if (!selected) {
+
+            alert(
+                "Please select a valid shipment creation date and time."
+            );
+
+            return false;
+        }
+
+
+        const now =
+            new Date();
+
+
+        if (
+            selected.getTime() >
+            now.getTime()
+        ) {
+
+            alert(
+                "Shipment creation date and time cannot be in the future."
+            );
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    dateInput.addEventListener(
+        "change",
+        validateCreationDateTime
+    );
+
+    timeInput.addEventListener(
+        "change",
+        validateCreationDateTime
+    );
+}
+
+
+// ===========================================
+// SAFE FIELD VALUE
+// ===========================================
+
+function getValue(id) {
+
+    const element =
+        document.getElementById(id);
+
+    if (!element) {
+        return "";
+    }
+
+    return String(
+        element.value ?? ""
+    ).trim();
+}
+
+
+// ===========================================
+// PAGE LOADED
 // ===========================================
 
 document.addEventListener(
     "DOMContentLoaded",
-    async function () {
+    async function() {
 
         try {
 
@@ -98,7 +536,9 @@ document.addEventListener(
 
 
         const shipmentForm =
-            document.getElementById("shipmentForm");
+            document.getElementById(
+                "shipmentForm"
+            );
 
 
         if (!shipmentForm) {
@@ -111,32 +551,71 @@ document.addEventListener(
         }
 
 
+        // Create date/time controls
+        setupCreationDateTimeFields();
+
+
         shipmentForm.addEventListener(
             "submit",
             createShipment
         );
-
     }
 );
 
 
 // ===========================================
-// Create Shipment
+// CREATE SHIPMENT
 // ===========================================
 
 async function createShipment(event) {
 
     event.preventDefault();
 
-    alert("Create Shipment button is working");
+
+    // =======================================
+    // VALIDATE CREATION DATE/TIME
+    // =======================================
+
+    const creationDateTime =
+        getSelectedCreationDateTime();
 
 
-    // Calculate charges first
+    if (!creationDateTime) {
+
+        alert(
+            "Please select the shipment creation date and time."
+        );
+
+        return;
+    }
+
+
+    const now =
+        new Date();
+
+
+    if (
+        creationDateTime.getTime() >
+        now.getTime()
+    ) {
+
+        alert(
+            "Shipment creation date and time cannot be in the future."
+        );
+
+        return;
+    }
+
+
+    // =======================================
+    // CALCULATE / FORMAT CHARGES
+    // =======================================
+
     calculateShippingCost();
 
 
     // =======================================
-    // Generate IDs
+    // GENERATE TRACKING NUMBER
     // =======================================
 
     const trackingNumber =
@@ -157,35 +636,86 @@ async function createShipment(event) {
 
         barcodeField.value =
             trackingNumber;
-
     }
 
 
+    // =======================================
+    // IDs
+    // =======================================
+
     const receiptNumber =
-        "RCP-" + Date.now();
+        "RCP-" +
+        Date.now();
 
 
-    const now =
-        new Date();
+    const documentNo =
+        "DOC-" +
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        );
 
 
-    const history =
-        [
-            {
-                date:
-                    now.toLocaleString(),
+    const verificationCode =
+        Math.random()
+            .toString(36)
+            .substring(2, 10)
+            .toUpperCase();
 
-                status:
-                    "Shipment Created",
 
-                location:
-                    "American Global Logistics Warehouse"
-            }
-        ];
+    const shipmentId =
+        "SHP-" +
+        Date.now();
 
 
     // =======================================
-    // Full local shipment
+    // CREATION DATE/TIME
+    // =======================================
+
+    const creationISO =
+        creationDateTime.toISOString();
+
+
+    const creationDate =
+        formatDate(
+            creationDateTime
+        );
+
+
+    const creationTime =
+        formatTime(
+            creationDateTime
+        );
+
+
+    // =======================================
+    // FIRST HISTORY EVENT
+    // =======================================
+
+    const history = [
+
+        {
+            status:
+                "Shipment Created",
+
+            location:
+                "American Global Logistics Warehouse",
+
+            date:
+                creationDate,
+
+            time:
+                creationTime,
+
+            timestamp:
+                creationISO
+        }
+
+    ];
+
+
+    // =======================================
+    // FULL SHIPMENT OBJECT
     // =======================================
 
     const shipment = {
@@ -196,232 +726,260 @@ async function createShipment(event) {
         tracking:
             trackingNumber,
 
+
         receiptNumber:
             receiptNumber,
 
         receiptDate:
-            now.toLocaleDateString(),
+            creationDate,
+
 
         documentNo:
-            "DOC-" +
-            Math.floor(
-                100000 +
-                Math.random() * 900000
-            ),
+            documentNo,
 
         issueDate:
-            now.toLocaleDateString(),
+            creationDate,
+
 
         verificationCode:
-            Math.random()
-                .toString(36)
-                .substring(2, 10)
-                .toUpperCase(),
+            verificationCode,
+
 
         shipmentId:
-            "SHP-" + Date.now(),
+            shipmentId,
+
+
+        // ===================================
+        // IMPORTANT:
+        // ORIGINAL CREATION TIME
+        // IS SAVED PERMANENTLY
+        // ===================================
 
         createdTime:
-            now.toLocaleString(),
+            creationISO,
+
+        createdDate:
+            creationDate,
+
+        createdTimeDisplay:
+            creationTime,
+
 
         barcodeNumber:
             trackingNumber,
 
 
         reference:
-            document.getElementById(
+            getValue(
                 "referenceNumber"
-            ).value,
+            ),
 
         customerReference:
-            document.getElementById(
+            getValue(
                 "customerReference"
-            ).value,
+            ),
 
 
-        // Sender
+        // ===================================
+        // SENDER
+        // ===================================
+
         senderName:
-            document.getElementById(
+            getValue(
                 "senderName"
-            ).value,
+            ),
 
         senderCompany:
-            document.getElementById(
+            getValue(
                 "senderCompany"
-            ).value,
+            ),
 
         senderAddress:
-            document.getElementById(
+            getValue(
                 "senderAddress"
-            ).value,
+            ),
 
         senderCity:
-            document.getElementById(
+            getValue(
                 "senderCity"
-            ).value,
+            ),
 
         senderCountry:
-            document.getElementById(
+            getValue(
                 "senderCountry"
-            ).value,
+            ),
 
         senderPhone:
-            document.getElementById(
+            getValue(
                 "senderPhone"
-            ).value,
+            ),
 
         senderEmail:
-            document.getElementById(
+            getValue(
                 "senderEmail"
-            ).value,
+            ),
 
 
-        // Receiver
+        // ===================================
+        // RECEIVER
+        // ===================================
+
         receiverName:
-            document.getElementById(
+            getValue(
                 "receiverName"
-            ).value,
+            ),
 
         receiverCompany:
-            document.getElementById(
+            getValue(
                 "receiverCompany"
-            ).value,
+            ),
 
         receiverAddress:
-            document.getElementById(
+            getValue(
                 "receiverAddress"
-            ).value,
+            ),
 
         receiverCity:
-            document.getElementById(
+            getValue(
                 "receiverCity"
-            ).value,
+            ),
 
         receiverCountry:
-            document.getElementById(
+            getValue(
                 "receiverCountry"
-            ).value,
+            ),
 
         receiverPhone:
-            document.getElementById(
+            getValue(
                 "receiverPhone"
-            ).value,
+            ),
 
         receiverEmail:
-            document.getElementById(
+            getValue(
                 "receiverEmail"
-            ).value,
+            ),
 
 
-        // Shipment
+        // ===================================
+        // SHIPMENT
+        // ===================================
+
         package:
-            document.getElementById(
+            getValue(
                 "package"
-            ).value,
+            ),
 
         descriptionType:
-            document.getElementById(
+            getValue(
                 "packageType"
-            ).value,
+            ),
 
         pieces:
-            document.getElementById(
+            getValue(
                 "pieces"
-            ).value,
+            ),
 
         weight:
-            document.getElementById(
+            getValue(
                 "weight"
-            ).value + " kg",
+            ) + " kg",
 
         dimensions:
-            document.getElementById(
+            getValue(
                 "dimensions"
-            ).value,
+            ),
 
         value:
-            document.getElementById(
+            getValue(
                 "declaredValue"
-            ).value,
+            ),
 
         service:
-            document.getElementById(
+            getValue(
                 "service"
-            ).value,
+            ),
 
         payment:
-            document.getElementById(
+            getValue(
                 "paymentStatus"
-            ).value,
+            ),
 
         insurance:
-            document.getElementById(
+            getValue(
                 "insurance"
-            ).value,
+            ),
 
         origin:
-            document.getElementById(
+            getValue(
                 "origin"
-            ).value,
+            ),
 
         destination:
-            document.getElementById(
+            getValue(
                 "destination"
-            ).value,
+            ),
 
         delivery:
-            document.getElementById(
+            getValue(
                 "deliveryDate"
-            ).value,
+            ),
 
         instructions:
-            document.getElementById(
+            getValue(
                 "instructions"
-            ).value,
+            ),
 
 
-        // Charges
+        // ===================================
+        // CHARGES
+        // ===================================
+
         shippingCost:
-            document.getElementById(
+            getValue(
                 "shippingCost"
-            ).value,
+            ),
 
         tax:
-            document.getElementById(
+            getValue(
                 "tax"
-            ).value,
+            ),
 
         discount:
-            document.getElementById(
+            getValue(
                 "discount"
-            ).value,
+            ),
 
         totalAmount:
-            document.getElementById(
+            getValue(
                 "totalAmount"
-            ).value,
+            ),
 
 
-        // Signatures
+        // ===================================
+        // SIGNATURES
+        // ===================================
+
         senderSignature:
-            document.getElementById(
+            getValue(
                 "senderSignature"
-            ).value,
+            ),
 
         authorizedOfficer:
-            document.getElementById(
+            getValue(
                 "authorizedOfficer"
-            ).value,
+            ),
 
 
-        // Barcode
         barcode:
-            document.getElementById(
+            getValue(
                 "trackingBarcode"
-            ).value,
+            ),
 
 
-        // Tracking
+        // ===================================
+        // TRACKING
+        // ===================================
+
         status:
             "Shipment Created",
 
@@ -429,135 +987,149 @@ async function createShipment(event) {
             "American Global Logistics Warehouse",
 
         route:
-            document.getElementById(
-                "origin"
-            ).value +
+            getValue("origin") +
             " → " +
-            document.getElementById(
-                "destination"
-            ).value,
+            getValue("destination"),
 
         progress:
             5,
 
+
+        // ===================================
+        // IMPORTANT HISTORY
+        // ===================================
+
         history:
             history
-
     };
 
 
     // =======================================
-    // SAVE ONLINE TO SUPABASE
+    // SUPABASE OBJECT
     // =======================================
 
-     const onlineShipment = {
+    const onlineShipment = {
 
-    tracking_number:
-        shipment.trackingNumber,
+        tracking_number:
+            shipment.trackingNumber,
 
-    status:
-        shipment.status,
-
-
-    // =======================================
-    // SENDER
-    // =======================================
-
-    sender_name:
-        shipment.senderName,
-
-    sender_company:
-        shipment.senderCompany,
-
-    sender_address:
-        shipment.senderAddress,
-
-    sender_city:
-        shipment.senderCity,
-
-    sender_country:
-        shipment.senderCountry,
-
-    sender_phone:
-        shipment.senderPhone,
-
-    sender_email:
-        shipment.senderEmail,
+        status:
+            shipment.status,
 
 
-    // =======================================
-    // RECEIVER
-    // =======================================
+        // ===================================
+        // SENDER
+        // ===================================
 
-    receiver_name:
-        shipment.receiverName,
+        sender_name:
+            shipment.senderName,
 
-    receiver_company:
-        shipment.receiverCompany,
+        sender_company:
+            shipment.senderCompany,
 
-    receiver_address:
-        shipment.receiverAddress,
+        sender_address:
+            shipment.senderAddress,
 
-    receiver_city:
-        shipment.receiverCity,
+        sender_city:
+            shipment.senderCity,
 
-    receiver_country:
-        shipment.receiverCountry,
+        sender_country:
+            shipment.senderCountry,
 
-    receiver_phone:
-        shipment.receiverPhone,
+        sender_phone:
+            shipment.senderPhone,
 
-    receiver_email:
-        shipment.receiverEmail,
+        sender_email:
+            shipment.senderEmail,
 
 
-    // =======================================
-    // SHIPMENT
-    // =======================================
+        // ===================================
+        // RECEIVER
+        // ===================================
 
-    origin:
-        shipment.origin,
+        receiver_name:
+            shipment.receiverName,
 
-    destination:
-        shipment.destination,
+        receiver_company:
+            shipment.receiverCompany,
 
-    location:
-        shipment.location,
+        receiver_address:
+            shipment.receiverAddress,
 
-    delivery_date:
-        shipment.delivery,
+        receiver_city:
+            shipment.receiverCity,
 
-    service:
-        shipment.service,
+        receiver_country:
+            shipment.receiverCountry,
 
-    package:
-        shipment.package,
+        receiver_phone:
+            shipment.receiverPhone,
 
-    weight:
-        shipment.weight,
+        receiver_email:
+            shipment.receiverEmail,
 
-    progress:
-        shipment.progress,
 
-    package_type:
-        shipment.descriptionType,
+        // ===================================
+        // SHIPMENT
+        // ===================================
 
-    pieces:
-        Number(shipment.pieces) || 1,
+        origin:
+            shipment.origin,
 
-    dimensions:
-        shipment.dimensions,
+        destination:
+            shipment.destination,
 
-    payment:
-        shipment.payment,
+        location:
+            shipment.location,
 
-    history:
-        JSON.stringify(shipment.history),
+        delivery_date:
+            shipment.delivery,
 
-    updated_at:
-        new Date().toISOString()
+        service:
+            shipment.service,
 
-};
+        package:
+            shipment.package,
+
+        weight:
+            shipment.weight,
+
+        progress:
+            shipment.progress,
+
+        package_type:
+            shipment.descriptionType,
+
+        pieces:
+            Number(
+                shipment.pieces
+            ) || 1,
+
+        dimensions:
+            shipment.dimensions,
+
+        payment:
+            shipment.payment,
+
+
+        // ===================================
+        // STRUCTURED HISTORY
+        // ===================================
+
+        history:
+            JSON.stringify(
+                shipment.history
+            ),
+
+
+        // ===================================
+        // DATABASE UPDATE TIME
+        // ===================================
+
+        updated_at:
+            new Date().toISOString()
+    };
+
 
     console.log(
         "Sending shipment to Supabase:",
@@ -565,18 +1137,25 @@ async function createShipment(event) {
     );
 
 
+    // =======================================
+    // SAVE ONLINE
+    // =======================================
+
     const {
         data,
         error
-    } = await supabaseClient
-        .from("shipments")
-        .insert([onlineShipment])
-        .select()
-        .single();
+    } =
+        await supabaseClient
+            .from("shipments")
+            .insert(
+                [onlineShipment]
+            )
+            .select()
+            .single();
 
 
     // =======================================
-    // ONLINE SAVE ERROR
+    // ONLINE ERROR
     // =======================================
 
     if (error) {
@@ -595,10 +1174,6 @@ async function createShipment(event) {
     }
 
 
-    // =======================================
-    // ONLINE SAVE SUCCESS
-    // =======================================
-
     console.log(
         "Shipment saved online:",
         data
@@ -606,18 +1181,26 @@ async function createShipment(event) {
 
 
     // =======================================
-    // Keep localStorage for receipt/admin
+    // LOCAL STORAGE
     // =======================================
 
-    shipments.push(shipment);
-
-    localStorage.setItem(
-        "shipments",
-        JSON.stringify(shipments)
+    shipments.push(
+        shipment
     );
 
 
-    // Activity log
+    localStorage.setItem(
+        "shipments",
+        JSON.stringify(
+            shipments
+        )
+    );
+
+
+    // =======================================
+    // ACTIVITY LOG
+    // =======================================
+
     let activities =
         JSON.parse(
             localStorage.getItem(
@@ -635,37 +1218,53 @@ async function createShipment(event) {
             "📦",
 
         time:
-            new Date().toLocaleString()
+            creationDate +
+            " " +
+            creationTime,
 
+        timestamp:
+            creationISO
     });
 
 
     activities =
-        activities.slice(0, 50);
+        activities.slice(
+            0,
+            50
+        );
 
 
     localStorage.setItem(
         "activityLog",
-        JSON.stringify(activities)
-    );
-
-
-    // Latest shipment for receipt
-    localStorage.setItem(
-        "shipment",
-        JSON.stringify(shipment)
+        JSON.stringify(
+            activities
+        )
     );
 
 
     // =======================================
-    // Open receipt
+    // LATEST SHIPMENT
+    // =======================================
+
+    localStorage.setItem(
+        "shipment",
+        JSON.stringify(
+            shipment
+        )
+    );
+
+
+    // =======================================
+    // OPEN RECEIPT
     // =======================================
 
     window.location.href =
         "receipt.html?tracking=" +
-        shipment.trackingNumber;
-
+        encodeURIComponent(
+            shipment.trackingNumber
+        );
 }
+
 
 // ===========================================
 // BILLING INFORMATION
@@ -674,45 +1273,71 @@ async function createShipment(event) {
 
 function calculateShippingCost() {
 
-    // Billing is manually entered by the user.
-    // This function intentionally does not
-    // overwrite shipping cost, tax, discount,
-    // or total amount.
-
     const shippingCost =
-        document.getElementById("shippingCost");
+        document.getElementById(
+            "shippingCost"
+        );
 
     const tax =
-        document.getElementById("tax");
+        document.getElementById(
+            "tax"
+        );
 
     const discount =
-        document.getElementById("discount");
+        document.getElementById(
+            "discount"
+        );
 
     const totalAmount =
-        document.getElementById("totalAmount");
+        document.getElementById(
+            "totalAmount"
+        );
 
 
-    // Keep empty fields empty.
-    // Only format values that the user has entered.
+    if (
+        shippingCost &&
+        shippingCost.value !== ""
+    ) {
 
-    if (shippingCost && shippingCost.value !== "") {
         shippingCost.value =
-            parseFloat(shippingCost.value).toFixed(2);
+            parseFloat(
+                shippingCost.value
+            ).toFixed(2);
     }
 
-    if (tax && tax.value !== "") {
+
+    if (
+        tax &&
+        tax.value !== ""
+    ) {
+
         tax.value =
-            parseFloat(tax.value).toFixed(2);
+            parseFloat(
+                tax.value
+            ).toFixed(2);
     }
 
-    if (discount && discount.value !== "") {
+
+    if (
+        discount &&
+        discount.value !== ""
+    ) {
+
         discount.value =
-            parseFloat(discount.value).toFixed(2);
+            parseFloat(
+                discount.value
+            ).toFixed(2);
     }
 
-    if (totalAmount && totalAmount.value !== "") {
+
+    if (
+        totalAmount &&
+        totalAmount.value !== ""
+    ) {
+
         totalAmount.value =
-            parseFloat(totalAmount.value).toFixed(2);
+            parseFloat(
+                totalAmount.value
+            ).toFixed(2);
     }
-
 }
