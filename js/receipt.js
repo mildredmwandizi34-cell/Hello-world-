@@ -863,281 +863,246 @@ if (
     );
 
    
-/* =====================================================
+/* =========================================================
+   SENDER / RECEIVER DATA
+   Supports flat fields + nested sender/receiver objects
+   ========================================================= */
+
+function firstAvailable(...values) {
+    for (const value of values) {
+        if (
+            value !== undefined &&
+            value !== null &&
+            String(value).trim() !== "" &&
+            String(value).trim() !== "—"
+        ) {
+            return String(value).trim();
+        }
+    }
+
+    return "—";
+}
+
+
+/* =========================
    SENDER
-   ===================================================== */
+========================= */
 
-const senderName =
-    getValue(
-        shipment,
-        [
-            "senderName",
-            "sender_name",
-            "sender.name",
-            "sender.fullName",
-            "sender.full_name",
-            "sender.contactName",
-            "sender.contact_name"
-        ]
-    );
+const sender =
+    shipment.sender &&
+    typeof shipment.sender === "object"
+        ? shipment.sender
+        : {};
 
-
-const senderCompany =
-    getValue(
-        shipment,
-        [
-            "senderCompany",
-            "sender_company",
-            "sender.company",
-            "sender.companyName",
-            "sender.company_name"
-        ]
-    );
-
-
-const senderAddress =
-    getValue(
-        shipment,
-        [
-            "senderAddress",
-            "sender_address",
-            "sender.address",
-            "sender.street",
-            "sender.streetAddress",
-            "sender.street_address"
-        ]
-    );
-
-
-const senderCity =
-    getValue(
-        shipment,
-        [
-            "senderCity",
-            "sender_city",
-            "sender.city",
-            "sender.town",
-            "senderTown",
-            "sender_town"
-        ]
-    );
-
-
-const senderCountry =
-    getValue(
-        shipment,
-        [
-            "senderCountry",
-            "sender_country",
-            "sender.country"
-        ],
-        origin
-    );
-
-
-const senderPhone =
-    getValue(
-        shipment,
-        [
-            "senderPhone",
-            "sender_phone",
-            "sender.phone",
-            "sender.phoneNumber",
-            "sender.phone_number",
-            "sender.mobile",
-            "senderMobile",
-            "sender_mobile",
-            "senderContact",
-            "sender_contact"
-        ]
-    );
-
-
-const senderEmail =
-    getValue(
-        shipment,
-        [
-            "senderEmail",
-            "sender_email",
-            "sender.email",
-            "sender.emailAddress",
-            "sender.email_address"
-        ]
-    );
-
-
-put(
-    "senderName",
-    senderName
+const senderName = firstAvailable(
+    shipment.senderName,
+    shipment.sender_name,
+    shipment.senderFullName,
+    shipment.sender_full_name,
+    shipment.sender_fullname,
+    shipment.fromName,
+    shipment.from_name,
+    sender.name,
+    sender.fullName,
+    sender.full_name,
+    sender.fullname
 );
 
-put(
-    "senderCompany",
-    senderCompany
+const senderCompany = firstAvailable(
+    shipment.senderCompany,
+    shipment.sender_company,
+    shipment.senderCompanyName,
+    shipment.sender_company_name,
+    shipment.senderBusiness,
+    shipment.sender_business,
+    sender.company,
+    sender.companyName,
+    sender.company_name,
+    sender.business,
+    sender.businessName,
+    sender.business_name
 );
 
-put(
-    "senderAddress",
-    senderAddress
+const senderAddress = firstAvailable(
+    shipment.senderAddress,
+    shipment.sender_address,
+    shipment.senderAddressLine,
+    shipment.sender_address_line,
+    shipment.senderAddressLine1,
+    shipment.sender_address_line1,
+    shipment.senderStreet,
+    shipment.sender_street,
+    shipment.fromAddress,
+    shipment.from_address,
+    sender.address,
+    sender.addressLine,
+    sender.address_line,
+    sender.addressLine1,
+    sender.address_line1,
+    sender.street
 );
 
-put(
-    "senderCity",
-    senderCity
+const senderCity = firstAvailable(
+    shipment.senderCity,
+    shipment.sender_city,
+    shipment.senderTown,
+    shipment.sender_town,
+    shipment.fromCity,
+    shipment.from_city,
+    sender.city,
+    sender.town
 );
 
-put(
-    "senderCountry",
-    senderCountry
+const senderCountry = firstAvailable(
+    shipment.senderCountry,
+    shipment.sender_country,
+    shipment.fromCountry,
+    shipment.from_country,
+    shipment.originCountry,
+    shipment.origin_country,
+    sender.country
 );
 
-put(
-    "senderPhone",
-    senderPhone
+const senderPhone = firstAvailable(
+    shipment.senderPhone,
+    shipment.sender_phone,
+    shipment.senderPhoneNumber,
+    shipment.sender_phone_number,
+    shipment.fromPhone,
+    shipment.from_phone,
+    sender.phone,
+    sender.phoneNumber,
+    sender.phone_number
 );
 
-put(
-    "senderEmail",
-    senderEmail
+const senderEmail = firstAvailable(
+    shipment.senderEmail,
+    shipment.sender_email,
+    shipment.senderEmailAddress,
+    shipment.sender_email_address,
+    shipment.fromEmail,
+    shipment.from_email,
+    sender.email,
+    sender.emailAddress,
+    sender.email_address
 );
 
 
-/* =====================================================
+/* =========================
    RECEIVER
-   ===================================================== */
+========================= */
 
-const receiverName =
-    getValue(
-        shipment,
-        [
-            "receiverName",
-            "receiver_name",
-            "receiver.name",
-            "receiver.fullName",
-            "receiver.full_name",
-            "receiver.contactName",
-            "receiver.contact_name"
-        ]
-    );
+const receiver =
+    shipment.receiver &&
+    typeof shipment.receiver === "object"
+        ? shipment.receiver
+        : {};
 
-
-const receiverCompany =
-    getValue(
-        shipment,
-        [
-            "receiverCompany",
-            "receiver_company",
-            "receiver.company",
-            "receiver.companyName",
-            "receiver.company_name"
-        ]
-    );
-
-
-const receiverAddress =
-    getValue(
-        shipment,
-        [
-            "receiverAddress",
-            "receiver_address",
-            "receiver.address",
-            "receiver.street",
-            "receiver.streetAddress",
-            "receiver.street_address"
-        ]
-    );
-
-
-const receiverCity =
-    getValue(
-        shipment,
-        [
-            "receiverCity",
-            "receiver_city",
-            "receiver.city",
-            "receiver.town",
-            "receiverTown",
-            "receiver_town"
-        ]
-    );
-
-
-const receiverCountry =
-    getValue(
-        shipment,
-        [
-            "receiverCountry",
-            "receiver_country",
-            "receiver.country"
-        ],
-        destination
-    );
-
-
-const receiverPhone =
-    getValue(
-        shipment,
-        [
-            "receiverPhone",
-            "receiver_phone",
-            "receiver.phone",
-            "receiver.phoneNumber",
-            "receiver.phone_number",
-            "receiver.mobile",
-            "receiverMobile",
-            "receiver_mobile",
-            "receiverContact",
-            "receiver_contact"
-        ]
-    );
-
-
-const receiverEmail =
-    getValue(
-        shipment,
-        [
-            "receiverEmail",
-            "receiver_email",
-            "receiver.email",
-            "receiver.emailAddress",
-            "receiver.email_address"
-        ]
-    );
-
-
-put(
-    "receiverName",
-    receiverName
+const receiverName = firstAvailable(
+    shipment.receiverName,
+    shipment.receiver_name,
+    shipment.receiverFullName,
+    shipment.receiver_full_name,
+    shipment.receiver_fullname,
+    shipment.recipientName,
+    shipment.recipient_name,
+    shipment.toName,
+    shipment.to_name,
+    receiver.name,
+    receiver.fullName,
+    receiver.full_name,
+    receiver.fullname
 );
 
-put(
-    "receiverCompany",
-    receiverCompany
+const receiverCompany = firstAvailable(
+    shipment.receiverCompany,
+    shipment.receiver_company,
+    shipment.receiverCompanyName,
+    shipment.receiver_company_name,
+    shipment.recipientCompany,
+    shipment.recipient_company,
+    shipment.toCompany,
+    shipment.to_company,
+    receiver.company,
+    receiver.companyName,
+    receiver.company_name,
+    receiver.business,
+    receiver.businessName,
+    receiver.business_name
 );
 
-put(
-    "receiverAddress",
-    receiverAddress
+const receiverAddress = firstAvailable(
+    shipment.receiverAddress,
+    shipment.receiver_address,
+    shipment.receiverAddressLine,
+    shipment.receiver_address_line,
+    shipment.receiverAddressLine1,
+    shipment.receiver_address_line1,
+    shipment.receiverStreet,
+    shipment.receiver_street,
+    shipment.recipientAddress,
+    shipment.recipient_address,
+    shipment.toAddress,
+    shipment.to_address,
+    receiver.address,
+    receiver.addressLine,
+    receiver.address_line,
+    receiver.addressLine1,
+    receiver.address_line1,
+    receiver.street
 );
 
-put(
-    "receiverCity",
-    receiverCity
+const receiverCity = firstAvailable(
+    shipment.receiverCity,
+    shipment.receiver_city,
+    shipment.receiverTown,
+    shipment.receiver_town,
+    shipment.recipientCity,
+    shipment.recipient_city,
+    shipment.toCity,
+    shipment.to_city,
+    receiver.city,
+    receiver.town
 );
 
-put(
-    "receiverCountry",
-    receiverCountry
+const receiverCountry = firstAvailable(
+    shipment.receiverCountry,
+    shipment.receiver_country,
+    shipment.recipientCountry,
+    shipment.recipient_country,
+    shipment.toCountry,
+    shipment.to_country,
+    shipment.destinationCountry,
+    shipment.destination_country,
+    receiver.country
 );
 
-put(
-    "receiverPhone",
-    receiverPhone
+const receiverPhone = firstAvailable(
+    shipment.receiverPhone,
+    shipment.receiver_phone,
+    shipment.receiverPhoneNumber,
+    shipment.receiver_phone_number,
+    shipment.recipientPhone,
+    shipment.recipient_phone,
+    shipment.toPhone,
+    shipment.to_phone,
+    receiver.phone,
+    receiver.phoneNumber,
+    receiver.phone_number
 );
 
-put(
-    "receiverEmail",
-    receiverEmail
+const receiverEmail = firstAvailable(
+    shipment.receiverEmail,
+    shipment.receiver_email,
+    shipment.receiverEmailAddress,
+    shipment.receiver_email_address,
+    shipment.recipientEmail,
+    shipment.recipient_email,
+    shipment.toEmail,
+    shipment.to_email,
+    receiver.email,
+    receiver.emailAddress,
+    receiver.email_address
 );
 
     /* =====================================================
