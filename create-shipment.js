@@ -455,8 +455,9 @@ function setupCreationDateTimeFields() {
         }
 
 
-        const now =
-            new Date();
+        const now = new Date();
+
+const createdAt = now.toISOString();
 
 
         if (
@@ -593,9 +594,10 @@ async function createShipment(event) {
     }
 
 
-    const now =
-        new Date();
+    
+const now = new Date();
 
+const createdAt = now.toISOString();
 
     if (
         creationDateTime.getTime() >
@@ -1129,8 +1131,11 @@ async function createShipment(event) {
         // DATABASE UPDATE TIME
         // ===================================
 
-        updated_at:
-            new Date().toISOString()
+        created_at:
+    createdAt,
+
+updated_at:
+    createdAt
     };
 
 
