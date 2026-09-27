@@ -24,6 +24,11 @@
         href="css/admin.css"
     >
 
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
 </head>
 
 
@@ -125,7 +130,245 @@
 
     </section>
 
+<!-- ==================================================
+     LIVE SHIPMENT CONTROL CENTER
+================================================== -->
 
+<section class="control-center">
+
+    <div class="control-center-header">
+
+        <div>
+
+            <h2>
+                <i class="fa-solid fa-satellite-dish"></i>
+                Shipment Control Center
+            </h2>
+
+            <p>
+                Real-time monitoring of active shipments
+                across the AGL logistics network.
+            </p>
+
+        </div>
+
+
+        <div class="live-status">
+
+            <span class="live-dot"></span>
+
+            <span>
+                LIVE TRACKING
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTROL CENTER STATS -->
+
+    <div class="control-stats">
+
+        <div class="control-stat">
+
+            <span class="control-icon">
+                <i class="fa-solid fa-truck-fast"></i>
+            </span>
+
+            <div>
+
+                <strong id="liveActiveCount">
+                    0
+                </strong>
+
+                <small>
+                    Active Shipments
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="control-stat">
+
+            <span class="control-icon">
+                <i class="fa-solid fa-plane"></i>
+            </span>
+
+            <div>
+
+                <strong id="liveTransitCount">
+                    0
+                </strong>
+
+                <small>
+                    In Transit
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="control-stat">
+
+            <span class="control-icon">
+                <i class="fa-solid fa-clock"></i>
+            </span>
+
+            <div>
+
+                <strong id="liveLastUpdate">
+                    —
+                </strong>
+
+                <small>
+                    Last System Update
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIVE SHIPMENT -->
+
+    <div class="live-shipment-panel">
+
+        <div class="live-shipment-title">
+
+            <span>
+                <i class="fa-solid fa-location-crosshairs"></i>
+                ACTIVE SHIPMENT
+            </span>
+
+            <span
+                id="liveShipmentStatus"
+                class="live-badge"
+            >
+                —
+            </span>
+
+        </div>
+
+
+        <div class="live-shipment-grid">
+
+
+            <!-- TRACKING -->
+
+            <div class="live-field">
+
+                <small>
+                    TRACKING NUMBER
+                </small>
+
+                <strong id="liveTrackingNumber">
+                    —
+                </strong>
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="live-field">
+
+                <small>
+                    CURRENT LOCATION
+                </small>
+
+                <strong id="liveLocation">
+                    —
+                </strong>
+
+            </div>
+
+
+            <!-- ORIGIN -->
+
+            <div class="live-field">
+
+                <small>
+                    ORIGIN
+                </small>
+
+                <strong id="liveOrigin">
+                    —
+                </strong>
+
+            </div>
+
+
+            <!-- DESTINATION -->
+
+            <div class="live-field">
+
+                <small>
+                    DESTINATION
+                </small>
+
+                <strong id="liveDestination">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="live-progress-area">
+
+            <div class="live-progress-header">
+
+                <span>
+                    Shipment Progress
+                </span>
+
+                <strong id="liveProgressText">
+                    0%
+                </strong>
+
+            </div>
+
+
+            <div class="live-progress">
+
+                <div
+                    id="liveProgressBar"
+                    class="live-progress-fill"
+                    style="width:0%;"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LAST UPDATE -->
+
+        <div class="live-update-time">
+
+            <i class="fa-solid fa-rotate"></i>
+
+            Last shipment update:
+
+            <strong id="liveShipmentUpdated">
+                —
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+    
 
     <!-- ==================================================
          STATISTICS
