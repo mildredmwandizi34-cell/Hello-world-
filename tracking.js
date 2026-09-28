@@ -1235,6 +1235,15 @@ function displayMap(
        CHECK ROUTE
     ===================================================== */
 
+   alert(
+    "MAP DATA\n\n" +
+    "Origin: " + origin + "\n" +
+    "Destination: " + destination + "\n" +
+    "Current: " + current + "\n\n" +
+    "Origin coordinates: " + JSON.stringify(originCoords) + "\n" +
+    "Destination coordinates: " + JSON.stringify(destinationCoords)
+);
+
     if (
         !originCoords ||
         !destinationCoords
