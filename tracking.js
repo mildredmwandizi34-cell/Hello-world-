@@ -938,6 +938,10 @@ function findCoordinates(place) {
         return [-4.0435, 39.6682];
     }
 
+   Scotland: [56.4907, -4.2026],
+
+Costa: [10.3910, -84.5050],
+
 
     /* =====================================================
        UNITED KINGDOM
@@ -950,6 +954,12 @@ function findCoordinates(place) {
     ) {
         return [51.5074, -0.1278];
     }
+
+           if (
+    text.includes("scotland")
+) {
+    return [56.4907, -4.2026];
+           }
 
 
     /* =====================================================
@@ -977,6 +987,13 @@ function findCoordinates(place) {
     ) {
         return [40.7128, -74.0060];
     }
+
+   if (
+    text.includes("costa rica") ||
+    text === "costa"
+) {
+    return [9.7489, -83.7534];
+   }
 
 
     /* =====================================================
@@ -1234,15 +1251,6 @@ function displayMap(
     /* =====================================================
        CHECK ROUTE
     ===================================================== */
-
-   alert(
-    "MAP DATA\n\n" +
-    "Origin: " + origin + "\n" +
-    "Destination: " + destination + "\n" +
-    "Current: " + current + "\n\n" +
-    "Origin coordinates: " + JSON.stringify(originCoords) + "\n" +
-    "Destination coordinates: " + JSON.stringify(destinationCoords)
-);
 
     if (
         !originCoords ||
