@@ -3299,369 +3299,138 @@ function placeStationaryAirplane(origin, destination) {
 }
 
 
- /* =========================================================
-   FIND LOCATION COORDINATES
-   ROBUST LOCATION MATCHING
-========================================================= */
+ function findCoordinates(place) {
 
-function findCoordinates(place) {
-
-    if (
-        place === undefined ||
-        place === null
-    ) {
+    if (!place) {
         return null;
     }
 
+    const text = String(place)
+        .toLowerCase()
+        .trim();
 
-    /* -----------------------------------------
-       NORMALIZE LOCATION TEXT
-    ----------------------------------------- */
+    /* =========================================
+       DIRECT MATCH
+    ========================================= */
 
-    const text =
-        String(place)
-            .trim()
+    for (const key in locationCoordinates) {
+
+        const keyText = key
             .toLowerCase()
-            .replace(/\s+/g, " ");
+            .trim();
 
-
-    if (!text || text === "-") {
-        return null;
-    }
-
-
-    console.log(
-        "FINDING COORDINATES FOR:",
-        place
-    );
-
-
-    /* -----------------------------------------
-       1. DIRECT MATCH
-    ----------------------------------------- */
-
-    for (
-        const key in locationCoordinates
-    ) {
-
-        if (
-            key
-                .toLowerCase()
-                .trim() === text
-        ) {
-
-            console.log(
-                "DIRECT LOCATION MATCH:",
-                place,
-                locationCoordinates[key]
-            );
-
+        if (text === keyText) {
             return locationCoordinates[key];
         }
     }
 
 
-    /* -----------------------------------------
-       2. PARTIAL MATCH
-    ----------------------------------------- */
+    /* =========================================
+       PARTIAL MATCH
+    ========================================= */
 
-    for (
-        const key in locationCoordinates
-    ) {
+    for (const key in locationCoordinates) {
 
-        const keyText =
-            key
-                .toLowerCase()
-                .trim();
-
+        const keyText = key
+            .toLowerCase()
+            .trim();
 
         if (
             text.includes(keyText) ||
             keyText.includes(text)
         ) {
-
-            console.log(
-                "PARTIAL LOCATION MATCH:",
-                place,
-                "→",
-                key
-            );
-
             return locationCoordinates[key];
         }
     }
 
 
-    /* -----------------------------------------
-       3. CITY BEFORE COMMA
-       
+    /* =========================================
+       CITY BEFORE COMMA
        Example:
        "Nairobi, Kenya"
-       → "Nairobi"
-    ----------------------------------------- */
+       ========================================= */
 
-    const city =
-        text
-            .split(",")[0]
+    const city = text.split(",")[0].trim();
+
+    for (const key in locationCoordinates) {
+
+        const keyText = key
+            .toLowerCase()
             .trim();
 
-
-    if (city) {
-
-        for (
-            const key in locationCoordinates
-        ) {
-
-            const keyText =
-                key
-                    .toLowerCase()
-                    .trim();
-
-
-            if (
-                keyText === city ||
-                keyText.startsWith(
-                    city + ","
-                ) ||
-                keyText.includes(city)
-            ) {
-
-                console.log(
-                    "CITY LOCATION MATCH:",
-                    place,
-                    "→",
-                    key
-                );
-
-                return locationCoordinates[key];
-            }
-        }
-    }
-
-
-    /* -----------------------------------------
-       4. COMMON LOCATION ALIASES
-    ----------------------------------------- */
-
-    const aliases = {
-
-        /* Kenya */
-
-        "kenya":
-            [-1.286389, 36.817223],
-
-        "nairobi kenya":
-            [-1.286389, 36.817223],
-
-        "mombasa":
-            [-4.043477, 39.668206],
-
-        "mombasa kenya":
-            [-4.043477, 39.668206],
-
-        "kisumu":
-            [-0.091702, 34.767956],
-
-        "nakuru":
-            [-0.303099, 36.080025],
-
-
-        /* United Kingdom */
-
-        "united kingdom":
-            [51.5074, -0.1278],
-
-        "uk":
-            [51.5074, -0.1278],
-
-        "england":
-            [51.5074, -0.1278],
-
-        "london uk":
-            [51.5074, -0.1278],
-
-        "london united kingdom":
-            [51.5074, -0.1278],
-
-
-        /* United States */
-
-        "united states":
-            [40.7128, -74.0060],
-
-        "usa":
-            [40.7128, -74.0060],
-
-        "us":
-            [40.7128, -74.0060],
-
-        "new york usa":
-            [40.7128, -74.0060],
-
-        "new york united states":
-            [40.7128, -74.0060],
-
-
-        /* Canada */
-
-        "canada":
-            [56.1304, -106.3468],
-
-        "toronto canada":
-            [43.6532, -79.3832],
-
-        "vancouver canada":
-            [49.2827, -123.1207],
-
-
-        /* Europe */
-
-        "germany":
-            [51.1657, 10.4515],
-
-        "france":
-            [46.2276, 2.2137],
-
-        "italy":
-            [41.8719, 12.5674],
-
-        "spain":
-            [40.4637, -3.7492],
-
-
-        /* Asia */
-
-        "china":
-            [35.8617, 104.1954],
-
-        "japan":
-            [36.2048, 138.2529],
-
-        "india":
-            [20.5937, 78.9629],
-
-
-        /* Middle East */
-
-        "dubai":
-            [25.2048, 55.2708],
-
-        "dubai uae":
-            [25.2048, 55.2708],
-
-        "uae":
-            [25.2048, 55.2708],
-
-
-        /* Africa */
-
-        "south africa":
-            [-30.5595, 22.9375],
-
-        "johannesburg":
-            [-26.2041, 28.0473],
-
-        "cape town":
-            [-33.9249, 18.4241],
-
-        "costa rica":
-            [9.7489, -83.7534],
-
-        "guatemala":
-            [15.7835, -90.2308]
-    };
-
-
-    if (
-        aliases[text]
-    ) {
-
-        console.log(
-            "ALIAS LOCATION MATCH:",
-            place
-        );
-
-        return aliases[text];
-    }
-
-
-    /* -----------------------------------------
-       5. HANDLE CITY + COUNTRY
-       
-       Example:
-       "Nairobi, Kenya"
-       "London, United Kingdom"
-    ----------------------------------------- */
-
-    const parts =
-        text
-            .split(",");
-
-
-    if (parts.length > 0) {
-
-        const firstPart =
-            parts[0].trim();
-
-
         if (
-            aliases[firstPart]
+            city === keyText ||
+            keyText.includes(city)
         ) {
-
-            return aliases[firstPart];
-        }
-
-
-        for (
-            const alias in aliases
-        ) {
-
-            if (
-                firstPart === alias
-            ) {
-
-                return aliases[alias];
-            }
+            return locationCoordinates[key];
         }
     }
 
 
-    /* -----------------------------------------
-       6. AGL WAREHOUSE / GENERIC
-       LOCATIONS
-    ----------------------------------------- */
+    /* =========================================
+       AGL WAREHOUSE
+       ========================================= */
 
     if (
         text.includes("american global logistics") ||
         text.includes("agl warehouse") ||
-        text.includes("agl logistics") ||
-        text.includes("logistics warehouse")
+        text.includes("warehouse")
     ) {
+        return locationCoordinates["Nairobi, Kenya"];
+    }
 
-        console.log(
-            "AGL WAREHOUSE LOCATION → NAIROBI"
-        );
 
-        return [
-            -1.286389,
-            36.817223
+    /* =========================================
+       COUNTRY / CITY ALIASES
+    ========================================= */
+
+    const aliases = {
+
+        "kenya": "Nairobi, Kenya",
+        "nairobi kenya": "Nairobi, Kenya",
+
+        "uk": "London, UK",
+        "united kingdom": "London, UK",
+        "london england": "London, UK",
+
+        "usa": "New York, USA",
+        "us": "New York, USA",
+        "united states": "New York, USA",
+
+        "uae": "Dubai, UAE",
+        "united arab emirates": "Dubai, UAE",
+
+        "canada": "Canada",
+        "germany": "Germany",
+        "france": "France",
+        "italy": "Italy",
+        "spain": "Spain",
+        "china": "China",
+        "japan": "Japan",
+        "india": "India",
+        "australia": "Australia",
+        "south africa": "South Africa",
+        "costa rica": "Costa Rica",
+        "guatemala": "Guatemala"
+    };
+
+
+    if (aliases[text]) {
+
+        return locationCoordinates[
+            aliases[text]
         ];
     }
 
 
-    /* -----------------------------------------
-       NO MATCH
-    ----------------------------------------- */
-
-    console.warn(
+    console.log(
         "NO COORDINATES FOUND FOR:",
         place
     );
 
-
     return null;
-  }           
-
+  }
+  
 
 /* =========================================================
    NEW SEARCH
