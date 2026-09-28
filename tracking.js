@@ -900,10 +900,10 @@ function escapeHTML(value) {
         .replaceAll("'", "&#039;");
 }
 
-
 /* =========================================================
-   MAP COORDINATES
-   ========================================================= */
+   FIND COORDINATES
+   ROBUST LOCATION MATCHING
+========================================================= */
 
 function findCoordinates(place) {
 
@@ -911,30 +911,242 @@ function findCoordinates(place) {
         return null;
     }
 
+    const text =
+        String(place)
+            .trim()
+            .toLowerCase();
 
-    const name =
-        String(place).trim();
 
+    /* =====================================================
+       AGL / KENYA
+    ===================================================== */
 
     if (
-        locationCoordinates[name]
+        text.includes("american global logistics") ||
+        text.includes("agl warehouse") ||
+        text.includes("warehouse") ||
+        text.includes("nairobi") ||
+        text.includes("kenya")
     ) {
-
-        return locationCoordinates[name];
-
+        return [-1.286389, 36.817223];
     }
 
 
-    const lower =
-        name.toLowerCase();
+    if (
+        text.includes("mombasa")
+    ) {
+        return [-4.0435, 39.6682];
+    }
 
+
+    /* =====================================================
+       UNITED KINGDOM
+    ===================================================== */
+
+    if (
+        text.includes("london") ||
+        text.includes("united kingdom") ||
+        text === "uk"
+    ) {
+        return [51.5074, -0.1278];
+    }
+
+
+    /* =====================================================
+       UNITED STATES
+    ===================================================== */
+
+    if (
+        text.includes("new york")
+    ) {
+        return [40.7128, -74.0060];
+    }
+
+
+    if (
+        text.includes("los angeles")
+    ) {
+        return [34.0522, -118.2437];
+    }
+
+
+    if (
+        text.includes("united states") ||
+        text === "usa" ||
+        text === "us"
+    ) {
+        return [40.7128, -74.0060];
+    }
+
+
+    /* =====================================================
+       UNITED ARAB EMIRATES
+    ===================================================== */
+
+    if (
+        text.includes("dubai") ||
+        text.includes("united arab emirates") ||
+        text === "uae"
+    ) {
+        return [25.2048, 55.2708];
+    }
+
+
+    /* =====================================================
+       CANADA
+    ===================================================== */
+
+    if (
+        text.includes("toronto")
+    ) {
+        return [43.6532, -79.3832];
+    }
+
+
+    if (
+        text.includes("vancouver")
+    ) {
+        return [49.2827, -123.1207];
+    }
+
+
+    if (
+        text.includes("canada")
+    ) {
+        return [43.6532, -79.3832];
+    }
+
+
+    /* =====================================================
+       EUROPE
+    ===================================================== */
+
+    if (
+        text.includes("paris") ||
+        text.includes("france")
+    ) {
+        return [48.8566, 2.3522];
+    }
+
+
+    if (
+        text.includes("berlin") ||
+        text.includes("germany")
+    ) {
+        return [52.5200, 13.4050];
+    }
+
+
+    if (
+        text.includes("rome") ||
+        text.includes("italy")
+    ) {
+        return [41.9028, 12.4964];
+    }
+
+
+    if (
+        text.includes("madrid") ||
+        text.includes("spain")
+    ) {
+        return [40.4168, -3.7038];
+    }
+
+
+    /* =====================================================
+       ASIA
+    ===================================================== */
+
+    if (
+        text.includes("beijing") ||
+        text.includes("china")
+    ) {
+        return [39.9042, 116.4074];
+    }
+
+
+    if (
+        text.includes("tokyo") ||
+        text.includes("japan")
+    ) {
+        return [35.6762, 139.6503];
+    }
+
+
+    if (
+        text.includes("mumbai") ||
+        text.includes("india")
+    ) {
+        return [19.0760, 72.8777];
+    }
+
+
+    /* =====================================================
+       AUSTRALIA
+    ===================================================== */
+
+    if (
+        text.includes("sydney") ||
+        text.includes("australia")
+    ) {
+        return [-33.8688, 151.2093];
+    }
+
+
+    /* =====================================================
+       AFRICA
+    ===================================================== */
+
+    if (
+        text.includes("johannesburg") ||
+        text.includes("south africa")
+    ) {
+        return [-26.2041, 28.0473];
+    }
+
+
+    if (
+        text.includes("cairo") ||
+        text.includes("egypt")
+    ) {
+        return [30.0444, 31.2357];
+    }
+
+
+    if (
+        text.includes("accra") ||
+        text.includes("ghana")
+    ) {
+        return [5.6037, -0.1870];
+    }
+
+
+    if (
+        text.includes("lagos") ||
+        text.includes("nigeria")
+    ) {
+        return [6.5244, 3.3792];
+    }
+
+
+    /* =====================================================
+       FALLBACK — MATCH LOCATION COORDINATES
+    ===================================================== */
 
     for (
         const key in locationCoordinates
     ) {
 
+        const keyText =
+            key
+                .toLowerCase()
+                .trim();
+
+
         if (
-            key.toLowerCase() === lower
+            text === keyText ||
+            text.includes(keyText) ||
+            keyText.includes(text)
         ) {
 
             return locationCoordinates[key];
@@ -944,8 +1156,15 @@ function findCoordinates(place) {
     }
 
 
+    console.error(
+        "NO COORDINATES FOUND FOR:",
+        place
+    );
+
+
     return null;
 }
+
 
 /* =========================================================
    DISPLAY MAP
