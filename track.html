@@ -3030,13 +3030,16 @@ function displayHistory(historyData) {
 
 
 /* =========================================================
-   MAP + ANIMATED AIRPLANE
+   MAP + STATIONARY AIRPLANE
 ========================================================= */
 
 let airplaneMarker = null;
 
+function displayMap(origin, current, destination) {
 
-    function displayMap(origin, current, destination) {
+    console.log("MAP ORIGIN:", origin);
+    console.log("MAP CURRENT:", current);
+    console.log("MAP DESTINATION:", destination);
 
     const mapElement =
         document.getElementById("shipmentMap");
