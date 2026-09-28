@@ -1224,6 +1224,12 @@ function displayMap(
         currentCoords
     );
 
+   alert(
+    "ORIGIN: " + origin +
+    "\nDESTINATION: " + destination +
+    "\nCURRENT: " + current
+);
+
 
     /* =====================================================
        CHECK ROUTE
