@@ -3302,7 +3302,7 @@ function placeStationaryAirplane(origin, destination) {
 }
 
 
- function findCoordinates(place) {
+  function findCoordinates(place) {
 
     if (!place) {
         return null;
@@ -3312,121 +3312,226 @@ function placeStationaryAirplane(origin, destination) {
         .toLowerCase()
         .trim();
 
+    console.log("Finding coordinates for:", place);
+
+
     /* =========================================
-       DIRECT MATCH
+       AGL / WAREHOUSE
     ========================================= */
-
-    for (const key in locationCoordinates) {
-
-        const keyText = key
-            .toLowerCase()
-            .trim();
-
-        if (text === keyText) {
-            return locationCoordinates[key];
-        }
-    }
-
-
-    /* =========================================
-       PARTIAL MATCH
-    ========================================= */
-
-    for (const key in locationCoordinates) {
-
-        const keyText = key
-            .toLowerCase()
-            .trim();
-
-        if (
-            text.includes(keyText) ||
-            keyText.includes(text)
-        ) {
-            return locationCoordinates[key];
-        }
-    }
-
-
-    /* =========================================
-       CITY BEFORE COMMA
-       Example:
-       "Nairobi, Kenya"
-       ========================================= */
-
-    const city = text.split(",")[0].trim();
-
-    for (const key in locationCoordinates) {
-
-        const keyText = key
-            .toLowerCase()
-            .trim();
-
-        if (
-            city === keyText ||
-            keyText.includes(city)
-        ) {
-            return locationCoordinates[key];
-        }
-    }
-
-
-    /* =========================================
-       AGL WAREHOUSE
-       ========================================= */
 
     if (
         text.includes("american global logistics") ||
         text.includes("agl warehouse") ||
         text.includes("warehouse")
     ) {
-        return locationCoordinates["Nairobi, Kenya"];
+        console.log("AGL warehouse detected → Nairobi");
+        return [-1.286389, 36.817223];
     }
 
 
     /* =========================================
-       COUNTRY / CITY ALIASES
+       NAIROBI / KENYA
     ========================================= */
 
-    const aliases = {
-
-        "kenya": "Nairobi, Kenya",
-        "nairobi kenya": "Nairobi, Kenya",
-
-        "uk": "London, UK",
-        "united kingdom": "London, UK",
-        "london england": "London, UK",
-
-        "usa": "New York, USA",
-        "us": "New York, USA",
-        "united states": "New York, USA",
-
-        "uae": "Dubai, UAE",
-        "united arab emirates": "Dubai, UAE",
-
-        "canada": "Canada",
-        "germany": "Germany",
-        "france": "France",
-        "italy": "Italy",
-        "spain": "Spain",
-        "china": "China",
-        "japan": "Japan",
-        "india": "India",
-        "australia": "Australia",
-        "south africa": "South Africa",
-        "costa rica": "Costa Rica",
-        "guatemala": "Guatemala"
-    };
-
-
-    if (aliases[text]) {
-
-        return locationCoordinates[
-            aliases[text]
-        ];
+    if (
+        text.includes("nairobi") ||
+        text.includes("kenya")
+    ) {
+        return [-1.286389, 36.817223];
     }
 
 
-    console.log(
+    /* =========================================
+       MOMBASA
+    ========================================= */
+
+    if (text.includes("mombasa")) {
+        return [-4.0435, 39.6682];
+    }
+
+
+    /* =========================================
+       LONDON / UK
+    ========================================= */
+
+    if (
+        text.includes("london") ||
+        text.includes("united kingdom") ||
+        text === "uk"
+    ) {
+        return [51.5074, -0.1278];
+    }
+
+
+    /* =========================================
+       NEW YORK / USA
+    ========================================= */
+
+    if (
+        text.includes("new york") ||
+        text.includes("usa") ||
+        text.includes("united states")
+    ) {
+        return [40.7128, -74.0060];
+    }
+
+
+    /* =========================================
+       LOS ANGELES
+    ========================================= */
+
+    if (text.includes("los angeles")) {
+        return [34.0522, -118.2437];
+    }
+
+
+    /* =========================================
+       DUBAI / UAE
+    ========================================= */
+
+    if (
+        text.includes("dubai") ||
+        text.includes("uae") ||
+        text.includes("united arab emirates")
+    ) {
+        return [25.2048, 55.2708];
+    }
+
+
+    /* =========================================
+       CANADA
+    ========================================= */
+
+    if (text.includes("canada")) {
+        return [56.1304, -106.3468];
+    }
+
+
+    /* =========================================
+       GERMANY
+    ========================================= */
+
+    if (text.includes("germany")) {
+        return [51.1657, 10.4515];
+    }
+
+
+    /* =========================================
+       FRANCE
+    ========================================= */
+
+    if (text.includes("france")) {
+        return [46.2276, 2.2137];
+    }
+
+
+    /* =========================================
+       ITALY
+    ========================================= */
+
+    if (text.includes("italy")) {
+        return [41.8719, 12.5674];
+    }
+
+
+    /* =========================================
+       SPAIN
+    ========================================= */
+
+    if (text.includes("spain")) {
+        return [40.4637, -3.7492];
+    }
+
+
+    /* =========================================
+       CHINA
+    ========================================= */
+
+    if (text.includes("china")) {
+        return [35.8617, 104.1954];
+    }
+
+
+    /* =========================================
+       JAPAN
+    ========================================= */
+
+    if (text.includes("japan")) {
+        return [36.2048, 138.2529];
+    }
+
+
+    /* =========================================
+       INDIA
+    ========================================= */
+
+    if (text.includes("india")) {
+        return [20.5937, 78.9629];
+    }
+
+
+    /* =========================================
+       AUSTRALIA
+    ========================================= */
+
+    if (text.includes("australia")) {
+        return [-25.2744, 133.7751];
+    }
+
+
+    /* =========================================
+       SOUTH AFRICA
+    ========================================= */
+
+    if (text.includes("south africa")) {
+        return [-30.5595, 22.9375];
+    }
+
+
+    /* =========================================
+       COSTA RICA
+    ========================================= */
+
+    if (text.includes("costa rica")) {
+        return [9.7489, -83.7534];
+    }
+
+
+    /* =========================================
+       GUATEMALA
+    ========================================= */
+
+    if (text.includes("guatemala")) {
+        return [15.7835, -90.2308];
+    }
+
+
+    /* =========================================
+       FALLBACK TO EXISTING COORDINATES
+    ========================================= */
+
+    for (const key in locationCoordinates) {
+
+        const keyText = String(key)
+            .toLowerCase()
+            .trim();
+
+        if (
+            text === keyText ||
+            text.includes(keyText) ||
+            keyText.includes(text)
+        ) {
+            console.log(
+                "Coordinate match found:",
+                key
+            );
+
+            return locationCoordinates[key];
+        }
+    }
+
+
+    console.error(
         "NO COORDINATES FOUND FOR:",
         place
     );
