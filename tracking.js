@@ -947,10 +947,9 @@ function findCoordinates(place) {
     return null;
 }
 
-
 /* =========================================================
    DISPLAY MAP
-   ========================================================= */
+========================================================= */
 
 function displayMap(
     origin,
@@ -958,13 +957,58 @@ function displayMap(
     destination
 ) {
 
+    console.log("MAP ORIGIN:", origin);
+    console.log("MAP CURRENT:", current);
+    console.log("MAP DESTINATION:", destination);
+
+
+    const mapElement =
+        document.getElementById("shipmentMap");
+
+
+    if (!mapElement) {
+
+        console.error(
+            "shipmentMap element not found."
+        );
+
+        return;
+    }
+
+
+    /* =====================================================
+       FIND COORDINATES
+    ===================================================== */
+
     const originCoords =
         findCoordinates(origin);
-
 
     const destinationCoords =
         findCoordinates(destination);
 
+    const currentCoords =
+        findCoordinates(current);
+
+
+    console.log(
+        "ORIGIN COORDINATES:",
+        originCoords
+    );
+
+    console.log(
+        "DESTINATION COORDINATES:",
+        destinationCoords
+    );
+
+    console.log(
+        "CURRENT COORDINATES:",
+        currentCoords
+    );
+
+
+    /* =====================================================
+       CHECK ROUTE
+    ===================================================== */
 
     if (
         !originCoords ||
@@ -977,96 +1021,140 @@ function displayMap(
             destination
         );
 
+        mapElement.innerHTML = `
+            <div style="
+                height:100%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                text-align:center;
+                padding:20px;
+                font-family:Arial,sans-serif;
+            ">
+
+                <div>
+
+                    <i
+                        class="fa-solid fa-location-dot"
+                        style="
+                            font-size:34px;
+                            color:#0b4ea2;
+                            margin-bottom:12px;
+                        ">
+                    </i>
+
+                    <br>
+
+                    <strong>
+                        Shipment route map is unavailable.
+                    </strong>
+
+                </div>
+
+            </div>
+        `;
+
         return;
     }
 
 
-    /* -----------------------------------------
-       CREATE MAP
-    ----------------------------------------- */
+    /* =====================================================
+       REMOVE PREVIOUS MAP
+    ===================================================== */
 
-    if (!shipmentMap) {
+    if (shipmentMap) {
 
-        shipmentMap =
-            L.map(
-                "shipmentMap",
-                {
-                    zoomControl: false,
-                    attributionControl: false
-                }
-            );
+        shipmentMap.remove();
 
-
-        /* -----------------------------------------
-           MAP TILES
-        ----------------------------------------- */
-
-        L.tileLayer(
-            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            {
-                maxZoom: 19,
-                minZoom: 2
-            }
-        ).addTo(
-            shipmentMap
-        );
-
-    } else {
-
-        shipmentMap.invalidateSize();
-
-
-        if (routeLine) {
-
-            shipmentMap.removeLayer(
-                routeLine
-            );
-
-        }
-
-
-        if (airplaneMarker) {
-
-            shipmentMap.removeLayer(
-                airplaneMarker
-            );
-
-        }
-
+        shipmentMap = null;
     }
 
 
-    /* -----------------------------------------
-       ORIGIN
-    ----------------------------------------- */
+    /* =====================================================
+       CREATE LEAFLET MAP
+    ===================================================== */
 
-    L.marker(
-        originCoords
-    )
+    shipmentMap =
+        L.map(
+            "shipmentMap",
+            {
+                zoomControl: false,
+                attributionControl: false
+            }
+        );
+
+
+    /* =====================================================
+       OPENSTREETMAP
+    ===================================================== */
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            maxZoom: 19
+        }
+    ).addTo(shipmentMap);
+
+
+    /* =====================================================
+       ORIGIN MARKER
+    ===================================================== */
+
+    L.marker(originCoords)
         .addTo(shipmentMap)
         .bindPopup(
             "<strong>Origin</strong><br>" +
-            escapeHTML(origin)
+            escapeHTML(
+                String(origin || "")
+            )
         );
 
 
-    /* -----------------------------------------
-       DESTINATION
-    ----------------------------------------- */
+    /* =====================================================
+       DESTINATION MARKER
+    ===================================================== */
 
-    L.marker(
-        destinationCoords
-    )
+    L.marker(destinationCoords)
         .addTo(shipmentMap)
         .bindPopup(
             "<strong>Destination</strong><br>" +
-            escapeHTML(destination)
+            escapeHTML(
+                String(destination || "")
+            )
         );
 
 
-    /* -----------------------------------------
-       ROUTE
-    ----------------------------------------- */
+    /* =====================================================
+       CURRENT LOCATION
+    ===================================================== */
+
+    if (
+        currentCoords &&
+        current &&
+        current !== "-"
+    ) {
+
+        L.circleMarker(
+            currentCoords,
+            {
+                radius: 8,
+                weight: 3,
+                fillOpacity: 1
+            }
+        )
+        .addTo(shipmentMap)
+        .bindPopup(
+            "<strong>Current Location</strong><br>" +
+            escapeHTML(
+                String(current)
+            )
+        );
+    }
+
+
+    /* =====================================================
+       DASHED ROUTE
+    ===================================================== */
 
     routeLine =
         L.polyline(
@@ -1077,23 +1165,21 @@ function displayMap(
             {
                 color: "#0b4ea2",
                 weight: 4,
-                dashArray: "10 8",
-                opacity: 0.9
+                opacity: 0.9,
+                dashArray: "10, 10"
             }
-        ).addTo(
-            shipmentMap
-        );
+        ).addTo(shipmentMap);
 
 
-    /* -----------------------------------------
-       AIRPLANE
-    ----------------------------------------- */
+    /* =====================================================
+       STATIONARY AIRPLANE
+    ===================================================== */
 
     const airplaneIcon =
         L.divIcon({
 
             className:
-                "animated-airplane",
+                "stationary-airplane",
 
             html: `
                 <div class="airplane-wrapper">
@@ -1110,7 +1196,6 @@ function displayMap(
                 21,
                 21
             ]
-
         });
 
 
@@ -1132,17 +1217,21 @@ function displayMap(
         );
 
 
-    /* -----------------------------------------
-       FIT MAP
-    ----------------------------------------- */
+    /* =====================================================
+       FIT ROUTE
+    ===================================================== */
+
+    const bounds =
+        L.latLngBounds(
+            [
+                originCoords,
+                destinationCoords
+            ]
+        );
+
 
     shipmentMap.fitBounds(
-
-        L.latLngBounds(
-            originCoords,
-            destinationCoords
-        ),
-
+        bounds,
         {
             padding: [
                 40,
@@ -1152,138 +1241,42 @@ function displayMap(
     );
 
 
-    /* -----------------------------------------
-       START AIRPLANE
-    ----------------------------------------- */
+    /* =====================================================
+       PUT AIRPLANE IN CENTER
+       NO ANIMATION
+    ===================================================== */
 
-    animateAirplane(
+    placeStationaryAirplane(
         originCoords,
         destinationCoords
     );
-}
 
 
-/* =========================================================
-   ANIMATE AIRPLANE
-========================================================= */
+    /* =====================================================
+       REFRESH MAP SIZE
+    ===================================================== */
 
-function animateAirplane(
-    origin,
-    destination
-) {
+    requestAnimationFrame(
+        function () {
 
-    if (!airplaneMarker) {
-        return;
-    }
+            if (!shipmentMap) {
+                return;
+            }
 
+            shipmentMap.invalidateSize();
 
-    if (airplaneAnimation) {
-
-        cancelAnimationFrame(
-            airplaneAnimation
-        );
-
-    }
-
-
-    const startLat =
-        origin[0];
-
-    const startLng =
-        origin[1];
-
-    const endLat =
-        destination[0];
-
-    const endLng =
-        destination[1];
-
-
-    const duration =
-        12000;
-
-
-    let startTime =
-        null;
-
-
-    function moveAirplane(timestamp) {
-
-        if (!startTime) {
-
-            startTime =
-                timestamp;
-
-        }
-
-
-        const elapsed =
-            timestamp -
-            startTime;
-
-
-        let progress =
-            elapsed /
-            duration;
-
-
-        progress =
-            Math.min(
-                progress,
-                1
+            shipmentMap.fitBounds(
+                bounds,
+                {
+                    padding: [
+                        40,
+                        40
+                    ]
+                }
             );
 
-
-        const latitude =
-            startLat +
-            (
-                endLat -
-                startLat
-            ) *
-            progress;
-
-
-        const longitude =
-            startLng +
-            (
-                endLng -
-                startLng
-            ) *
-            progress;
-
-
-        airplaneMarker.setLatLng([
-            latitude,
-            longitude
-        ]);
-
-
-        if (progress < 1) {
-
-            airplaneAnimation =
-                requestAnimationFrame(
-                    moveAirplane
-                );
-
-        } else {
-
-            /* Restart from origin */
-
-            startTime =
-                null;
-
-            airplaneAnimation =
-                requestAnimationFrame(
-                    moveAirplane
-                );
         }
-    }
-
-
-    airplaneAnimation =
-        requestAnimationFrame(
-            moveAirplane
-        );
+    );
 }
 
 
