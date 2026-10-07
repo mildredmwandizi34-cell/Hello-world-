@@ -198,80 +198,265 @@ updated_at:
 
 async function loadShipments() {
 
-    const table =
-        get("shipmentTable");
+    const table = get("shipmentTable");
+
+    /* =========================================
+       SHOW LOADING STATE
+       ========================================= */
 
     if (table) {
 
-        table.innerHTML =
-            "<tr><td colspan='6'>Loading shipments...</td></tr>";
+        table.innerHTML = `
+            <tr>
+                <td colspan="6"
+                    style="text-align:center;padding:30px;">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    Loading shipments from Supabase...
+                </td>
+            </tr>
+        `;
 
     }
 
 
     try {
 
-        const {
-            data,
-            error
-        } =
+        console.log(
+            "AGL: Connecting to Supabase..."
+        );
+
+
+        /* =========================================
+           LOAD SHIPMENTS
+           ========================================= */
+
+        const response =
             await supabaseClient
                 .from("shipments")
-                .select("*")
-                .order(
-                    "updated_at",
-                    {
-                        ascending: false
-                    }
-                );
+                .select("*");
 
+
+        const data =
+            response.data;
+
+        const error =
+            response.error;
+
+
+        /* =========================================
+           CHECK ERROR
+           ========================================= */
 
         if (error) {
 
             console.error(
-                "Supabase loading error:",
+                "AGL SUPABASE ERROR:",
                 error
             );
 
+
             if (table) {
 
-                table.innerHTML =
-                    "<tr><td colspan='6'>Unable to load shipments.</td></tr>";
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="6"
+                            style="
+                                text-align:center;
+                                padding:30px;
+                                color:#c62828;
+                            ">
+
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+
+                            <h3>
+                                Unable to Load Shipments
+                            </h3>
+
+                            <p>
+                                ${escapeHTML(
+                                    error.message ||
+                                    "Supabase connection failed."
+                                )}
+                            </p>
+
+                        </td>
+                    </tr>
+                `;
 
             }
+
+
+            /* IMPORTANT:
+               Do NOT pretend there are zero shipments.
+            */
+
+            const total =
+                get("totalShipments");
+
+            if (total) {
+
+                total.textContent = "—";
+
+            }
+
+
+            const awaiting =
+                get("awaiting");
+
+            if (awaiting) {
+
+                awaiting.textContent = "—";
+
+            }
+
+
+            const inTransit =
+                get("inTransit");
+
+            if (inTransit) {
+
+                inTransit.textContent = "—";
+
+            }
+
+
+            const delivered =
+                get("delivered");
+
+            if (delivered) {
+
+                delivered.textContent = "—";
+
+            }
+
+
+            console.error(
+                "AGL: Shipment loading stopped because Supabase returned an error."
+            );
 
             return;
 
         }
 
 
-        shipments = (data || []).map(convertShipment);
+        /* =========================================
+           SUCCESS
+           ========================================= */
 
-saveLocalBackup();
+        console.log(
+            "AGL: Supabase returned shipments:",
+            data
+        );
 
-renderShipments();
 
-updateDashboard();
+        shipments =
+            (data || []).map(
+                convertShipment
+            );
 
-updateCharts();
+
+        console.log(
+            "AGL: Converted shipments:",
+            shipments
+        );
+
+
+        /* =========================================
+           SAVE LOCAL BACKUP
+           ========================================= */
+
+        saveLocalBackup();
+
+
+        /* =========================================
+           RENDER EVERYTHING
+           ========================================= */
+
+        renderShipments();
+
+        updateDashboard();
+
+        updateCharts();
+
+
+        console.log(
+            "AGL: Dashboard successfully loaded.",
+            shipments.length,
+            "shipments"
+        );
 
     }
 
+
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "AGL LOAD SHIPMENTS EXCEPTION:",
+            error
+        );
+
 
         if (table) {
 
-            table.innerHTML =
-                "<tr><td colspan='6'>Connection error.</td></tr>";
+            table.innerHTML = `
+                <tr>
+                    <td colspan="6"
+                        style="
+                            text-align:center;
+                            padding:30px;
+                            color:#c62828;
+                        ">
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                        <h3>
+                            Database Connection Error
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(
+                                error.message ||
+                                "Unable to connect to Supabase."
+                            )}
+                        </p>
+
+                    </td>
+                </tr>
+            `;
 
         }
+
+
+        const total =
+            get("totalShipments");
+
+        if (total)
+            total.textContent = "—";
+
+
+        const awaiting =
+            get("awaiting");
+
+        if (awaiting)
+            awaiting.textContent = "—";
+
+
+        const inTransit =
+            get("inTransit");
+
+        if (inTransit)
+            inTransit.textContent = "—";
+
+
+        const delivered =
+            get("delivered");
+
+        if (delivered)
+            delivered.textContent = "—";
 
     }
 
 }
-
 
 /* =========================================================
    PROFESSIONAL SHIPMENT CONTROL CENTER TABLE
@@ -1961,8 +2146,6 @@ document.addEventListener(
         loadCustomerMessages();
 
         loadActivity();
-
-        updateDashboard();
 
         setupViewReceipt();
 
