@@ -614,22 +614,25 @@ function getElement(id) {
 }
 
 
+
 function setText(id, value) {
+    const element = getElement(id);
 
-    const element =
-        getElement(id);
+    if (!element) return;
 
-    if (!element) {
-        return;
-    }
-
-    element.textContent =
+    const text =
         value !== undefined &&
         value !== null &&
         value !== ""
-            ? value
+            ? String(value)
             : "-";
 
+    element.dataset.aglEnglish = text;
+
+    element.textContent =
+        trackingLanguage === "es"
+            ? trackingTranslations[text] || text
+            : text;
 }
 
 
