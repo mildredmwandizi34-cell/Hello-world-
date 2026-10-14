@@ -370,6 +370,240 @@ const countryCoordinates = {
 
 
 /* =========================================================
+   AGL CUSTOMER TRACKING LANGUAGE SUPPORT
+   English <-> Spanish
+   Does not modify Supabase shipment records
+========================================================= */
+
+const trackingTranslations = {
+    "Home": "Inicio",
+    "Track Your Shipment": "Rastrea tu envío",
+    "About the Company": "Sobre la empresa",
+    "Services": "Servicios",
+    "Contacts": "Contacto",
+    "Worldwide Shipping • Air • Ocean • Road • Express Delivery":
+        "Envíos mundiales • Aéreos • Marítimos • Terrestres • Exprés",
+    "Enter your AGL tracking number to view the latest shipment information.":
+        "Introduce tu número de seguimiento de AGL para consultar la información más reciente del envío.",
+    "Tracking Number": "Número de seguimiento",
+    "Example: AGL123456": "Ejemplo: AGL123456",
+    "Track Shipment": "Rastrear envío",
+    "Shipment Tracking": "Seguimiento del envío",
+    "SHIPMENT MONITORING": "SEGUIMIENTO DEL ENVÍO",
+    "Shipment Control Center": "Centro de control de envíos",
+    "Real-time shipment status and journey information":
+        "Estado del envío e información del recorrido en tiempo real",
+    "LIVE": "EN VIVO",
+    "SHIPMENT CREATED": "ENVÍO CREADO",
+    "Shipment Created": "Envío creado",
+    "Shipment registered in AGL system":
+        "Envío registrado en el sistema de AGL",
+    "CURRENT STATUS": "ESTADO ACTUAL",
+    "Waiting for shipment update": "Esperando actualización del envío",
+    "Latest shipment status": "Último estado del envío",
+    "LIVE TRACKING": "SEGUIMIENTO EN VIVO",
+    "Waiting for current location": "Esperando la ubicación actual",
+    "Current shipment location": "Ubicación actual del envío",
+    "DESTINATION": "DESTINO",
+    "Waiting for destination": "Esperando el destino",
+    "Final delivery destination": "Destino final de entrega",
+    "ESTIMATED DELIVERY": "ENTREGA ESTIMADA",
+    "Waiting for delivery date": "Esperando la fecha de entrega",
+    "Expected delivery date": "Fecha de entrega prevista",
+    "DELIVERY PROGRESS": "PROGRESO DE LA ENTREGA",
+    "Shipment Journey": "Recorrido del envío",
+    "Delivered": "Entregado",
+    "Origin": "Origen",
+    "Current Location": "Ubicación actual",
+    "Destination": "Destino",
+    "Estimated Delivery": "Entrega estimada",
+    "Service": "Servicio",
+    "Payment": "Pago",
+    "Shipment Route": "Ruta del envío",
+    "Package Information": "Información del paquete",
+    "Package": "Paquete",
+    "Package Type": "Tipo de paquete",
+    "Weight": "Peso",
+    "Pieces": "Piezas",
+    "Dimensions": "Dimensiones",
+    "Shipment Map": "Mapa del envío",
+    "Shipment History": "Historial del envío",
+    "Copy Tracking Number": "Copiar número de seguimiento",
+    "New Search": "Nueva búsqueda",
+    "Worldwide Shipping & Logistics Services":
+        "Servicios mundiales de transporte y logística",
+    "Air • Ocean • Road • Express Delivery":
+        "Aéreo • Marítimo • Terrestre • Entrega exprés",
+    "Please enter a tracking number.":
+        "Introduce un número de seguimiento.",
+    "Searching for shipment...":
+        "Buscando el envío...",
+    "Shipment not found. Please check your tracking number.":
+        "No se encontró el envío. Comprueba tu número de seguimiento.",
+    "Unable to connect to the tracking system. Please try again.":
+        "No se pudo conectar con el sistema de seguimiento. Inténtalo de nuevo.",
+    "No shipment history available.":
+        "No hay historial del envío disponible.",
+    "Shipment Update": "Actualización del envío",
+    "Shipment route map is unavailable.":
+        "El mapa de la ruta del envío no está disponible.",
+    "Tracking number copied.":
+        "Número de seguimiento copiado.",
+    "Unable to copy tracking number.":
+        "No se pudo copiar el número de seguimiento.",
+    "Shipment Created": "Envío creado",
+    "Awaiting Pickup": "Pendiente de recogida",
+    "Picked Up": "Recogido",
+    "In Transit": "En tránsito",
+    "Customs Cleared": "Despachado de aduanas",
+    "Arrived at Destination Hub": "Llegó al centro de destino",
+    "Out for Delivery": "En reparto",
+    "Payment Pending": "Pago pendiente",
+    "Paid": "Pagado",
+    "Pending": "Pendiente",
+    "Cash on Delivery": "Pago contra entrega"
+};
+
+let trackingLanguage = "en";
+
+function trackingText(englishText) {
+    if (trackingLanguage !== "es") {
+        return englishText;
+    }
+
+    return trackingTranslations[englishText] || englishText;
+}
+
+function applyTrackingLanguage() {
+    const button = document.getElementById("languageToggle");
+
+    if (button) {
+        button.textContent =
+            trackingLanguage === "en"
+                ? "Español 🇪🇸"
+                : "English 🇬🇧";
+    }
+
+    document.documentElement.lang = trackingLanguage;
+
+    /*
+      Translate static HTML text without changing
+      shipment data, IDs, classes, or JavaScript logic.
+    */
+    const walker = document.createTreeWalker(
+        document.body,
+        NodeFilter.SHOW_TEXT
+    );
+
+    const nodes = [];
+
+    while (walker.nextNode()) {
+        nodes.push(walker.currentNode);
+    }
+
+    nodes.forEach(function(node) {
+        const parent = node.parentElement;
+
+        if (!parent ||
+            ["SCRIPT", "STYLE"].includes(parent.tagName) ||
+            parent.closest("#shipmentMap")) {
+            return;
+        }
+
+        if (!node._aglOriginalText) {
+            node._aglOriginalText = node.nodeValue;
+        }
+
+        const original = node._aglOriginalText;
+        const trimmed = original.trim();
+
+        if (!trimmed) return;
+
+        const leading = original.match(/^\s*/)[0];
+        const trailing = original.match(/\s*$/)[0];
+
+        let translated = trimmed;
+
+        if (trackingLanguage === "es") {
+            translated = trackingTranslations[trimmed] || trimmed;
+        }
+
+        node.nodeValue = leading + translated + trailing;
+    });
+
+    const input = document.getElementById("trackingNumber");
+
+    if (input) {
+        input.placeholder =
+            trackingLanguage === "es"
+                ? "Ejemplo: AGL123456"
+                : "Example: AGL123456";
+    }
+
+    /*
+      Translate known dynamic labels separately.
+      The original shipment status remains unchanged
+      in the Supabase record.
+    */
+    [
+        "displayStatus",
+        "controlStatus",
+        "controlLocation",
+        "controlDestination",
+        "controlDeliveryDate",
+        "displayService",
+        "displayPayment",
+        "routeOrigin",
+        "routeCurrent",
+        "routeDestination",
+        "packageInfo",
+        "packageType"
+    ].forEach(function(id) {
+        const element = document.getElementById(id);
+
+        if (!element) return;
+
+        const original = element.dataset.aglEnglish;
+
+        if (original !== undefined) {
+            element.textContent =
+                trackingLanguage === "es"
+                    ? trackingTranslations[original] || original
+                    : original;
+        }
+    });
+
+    const history = document.getElementById("shipmentHistory");
+
+    if (history) {
+        history.querySelectorAll(".history-content strong").forEach(function(el) {
+            const original = el.dataset.aglEnglish;
+
+            if (original !== undefined) {
+                el.textContent =
+                    trackingLanguage === "es"
+                        ? trackingTranslations[original] || original
+                        : original;
+            }
+        });
+    }
+}
+
+function toggleTrackingLanguage() {
+    trackingLanguage =
+        trackingLanguage === "en" ? "es" : "en";
+
+    try {
+        localStorage.setItem("aglTrackingLanguage", trackingLanguage);
+    } catch (error) {
+        console.warn("Language preference could not be saved.");
+    }
+
+    applyTrackingLanguage();
+}
+
+
+/* =========================================================
    HELPER
    ========================================================= */
 
@@ -1092,6 +1326,9 @@ function displayHistory(historyData) {
                     item.event ||
                     "Shipment Update";
 
+               const displayStatus =
+    trackingText(status);
+
 
                 const location =
                     item.location ||
@@ -1115,7 +1352,7 @@ function displayHistory(historyData) {
                         <div class="history-content">
 
                             <strong>
-                                ${escapeHTML(status)}
+                                ${escapeHTML(displayStatus)}
                             </strong>
 
                             ${
@@ -1730,9 +1967,18 @@ function findCoordinates(place) {
    ========================================================= */
 
 function displayMap(
-    origin,
-    current,
-    destination
+    .bindPopup(
+    "<strong>" + trackingText("Origin") + "</strong><br>" +
+    escapeHTML(String(origin || ""))
+);
+   .bindPopup(
+    "<strong>" + trackingText("Current Location") + "</strong><br>" +
+    escapeHTML(String(CurrentLocation || ""))
+);
+    .bindPopup(
+    "<strong>" + trackingText("Destination") + "</strong><br>" +
+    escapeHTML(String(Destination || ""))
+);
 ) {
 
     console.log(
@@ -2376,6 +2622,17 @@ function fallbackCopy(text) {
 document.addEventListener(
     "DOMContentLoaded",
     function () {
+
+       try {
+    trackingLanguage =
+        localStorage.getItem("aglTrackingLanguage") === "es"
+            ? "es"
+            : "en";
+} catch (error) {
+    trackingLanguage = "en";
+}
+
+applyTrackingLanguage();
 
         const input =
             getElement(
