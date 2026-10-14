@@ -2669,38 +2669,22 @@ applyTrackingLanguage();
         }
 
 
-        /* -----------------------------------------
-           TRACKING NUMBER FROM URL
-           ----------------------------------------- */
+        
+/* -----------------------------------------
+   TRACKING NUMBER FROM URL
+   ----------------------------------------- */
 
-        const params =
-            new URLSearchParams(
-                window.location.search
-            );
-
-
-        const tracking =
-            params.get(
-                "tracking"
-            ) ||
-            params.get(
-                "trackingNumber"
-            );
-
-
-        if (
-            tracking &&
-            input
-        ) {
-
-            input.value =
-                tracking;
-
-
-            trackShipment();
-
-        }
-
-    }
+const params = new URLSearchParams(
+    window.location.search
 );
-  
+
+const qrTracking =
+    params.get("tracking") ||
+    params.get("trackingNumber");
+
+if (qrTracking && input) {
+    input.value = qrTracking.trim().toUpperCase();
+
+    trackShipment();
+}
+       
