@@ -2008,6 +2008,7 @@ function displayMap(origin, current, destination) {
         return;
 
     }
+);
 
 
     /* =====================================================
