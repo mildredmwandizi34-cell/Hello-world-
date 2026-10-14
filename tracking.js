@@ -1965,24 +1965,17 @@ function findCoordinates(place) {
 }
 
 
+
 /* =========================================================
    DISPLAY MAP
    ========================================================= */
 
-function displayMap(
-    .bindPopup(
-    "<strong>" + trackingText("Origin") + "</strong><br>" +
-    escapeHTML(String(origin || ""))
-);
-   .bindPopup(
-    "<strong>" + trackingText("Current Location") + "</strong><br>" +
-    escapeHTML(String(CurrentLocation || ""))
-);
-    .bindPopup(
-    "<strong>" + trackingText("Destination") + "</strong><br>" +
-    escapeHTML(String(Destination || ""))
-);
-) {
+function displayMap(origin, current, destination) {
+
+    console.log("MAP ORIGIN:", origin);
+    console.log("MAP CURRENT:", current);
+    console.log("MAP DESTINATION:", destination);
+           
 
     console.log(
         "MAP ORIGIN:",
