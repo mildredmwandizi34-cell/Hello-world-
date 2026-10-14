@@ -1983,336 +1983,236 @@ if (!mapElement) {
     return;
 }
 
+/* =====================================================
+   FIND COORDINATES
+   ===================================================== */
 
-    /* =====================================================
-       FIND COORDINATES
-       ===================================================== */
+const originCoords = findCoordinates(origin);
+const destinationCoords = findCoordinates(destination);
+const currentCoords = findCoordinates(current);
 
-    const originCoords =
-        findCoordinates(origin);
+console.log("ORIGIN COORDINATES:", originCoords);
+console.log("DESTINATION COORDINATES:", destinationCoords);
+console.log("CURRENT COORDINATES:", currentCoords);
 
+/* =====================================================
+   CHECK ROUTE
+   ===================================================== */
 
-    const destinationCoords =
-        findCoordinates(destination);
+if (!originCoords || !destinationCoords) {
 
-
-    const currentCoords =
-        findCoordinates(current);
-
-
-    console.log(
-        "ORIGIN COORDINATES:",
-        originCoords
+    console.warn(
+        "Map coordinates not found:",
+        origin,
+        destination
     );
-
-    console.log(
-        "DESTINATION COORDINATES:",
-        destinationCoords
-    );
-
-    console.log(
-        "CURRENT COORDINATES:",
-        currentCoords
-    );
-
-   /* =====================================================
-       CHECK ROUTE
-       ===================================================== */
-
-    if (
-        !originCoords ||
-        !destinationCoords
-    ) {
-
-        console.warn(
-            "Map coordinates not found:",
-            origin,
-            destination
-        );
-
-
-        mapElement.innerHTML = `
-            <div style="
-                height:100%;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                text-align:center;
-                padding:20px;
-                font-family:Arial,sans-serif;
-            ">
-
-                <div>
-
-                    <i
-                        class="fa-solid fa-location-dot"
-                        style="
-                            font-size:34px;
-                            color:#0b4ea2;
-                            margin-bottom:12px;
-                        ">
-                    </i>
-
-                    <br>
-
-                    <strong>
-                        Shipment route map is unavailable.
-                    </strong>
-
-                </div>
-
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    /* =====================================================
-       REMOVE PREVIOUS MAP
-       ===================================================== */
 
     if (shipmentMap) {
-
         shipmentMap.remove();
-
         shipmentMap = null;
-
     }
 
+    routeLine = null;
+    airplaneMarker = null;
 
-    /* =====================================================
-       CREATE LEAFLET MAP
-       ===================================================== */
+    mapElement.innerHTML = `
+        <div style="
+            height:100%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            padding:20px;
+            font-family:Arial,sans-serif;
+        ">
+            <div>
+                <i
+                    class="fa-solid fa-location-dot"
+                    style="
+                        font-size:34px;
+                        color:#0b4ea2;
+                        margin-bottom:12px;
+                    ">
+                </i>
+                <br>
+                <strong>
+                    Shipment route map is unavailable.
+                </strong>
+            </div>
+        </div>
+    `;
 
-    shipmentMap =
-        L.map(
-            "shipmentMap",
-            {
-                zoomControl: false,
-                attributionControl: false
-            }
-        );
+    return;
+}
 
+/* =====================================================
+   REMOVE PREVIOUS MAP
+   ===================================================== */
 
-    /* =====================================================
-       OPEN STREET MAP
-       ===================================================== */
+if (shipmentMap) {
+    shipmentMap.remove();
+    shipmentMap = null;
+}
 
-    L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            maxZoom: 19
-        }
-    ).addTo(
-        shipmentMap
+routeLine = null;
+airplaneMarker = null;
+
+/* =====================================================
+   CLEAR OLD MAP CONTENT
+   ===================================================== */
+
+mapElement.innerHTML = "";
+
+/* =====================================================
+   CREATE LEAFLET MAP
+   ===================================================== */
+
+shipmentMap = L.map("shipmentMap", {
+    zoomControl: false,
+    attributionControl: false
+});
+
+/* =====================================================
+   OPEN STREET MAP
+   ===================================================== */
+
+L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        maxZoom: 19
+    }
+).addTo(shipmentMap);
+
+/* =====================================================
+   ORIGIN MARKER
+   ===================================================== */
+
+L.marker(originCoords)
+    .addTo(shipmentMap)
+    .bindPopup(
+        "<strong>" +
+        trackingText("Origin") +
+        "</strong><br>" +
+        escapeHTML(String(origin || ""))
     );
 
+/* =====================================================
+   DESTINATION MARKER
+   ===================================================== */
 
-    /* =====================================================
-       ORIGIN MARKER
-       ===================================================== */
+L.marker(destinationCoords)
+    .addTo(shipmentMap)
+    .bindPopup(
+        "<strong>" +
+        trackingText("Destination") +
+        "</strong><br>" +
+        escapeHTML(String(destination || ""))
+    );
 
-    L.marker(
-        originCoords
-    )
-        .addTo(
-            shipmentMap
-        )
+/* =====================================================
+   CURRENT LOCATION
+   ===================================================== */
+
+if (
+    currentCoords &&
+    current &&
+    current !== "-"
+) {
+
+    L.circleMarker(currentCoords, {
+        radius: 8,
+        weight: 3,
+        fillOpacity: 1
+    })
+        .addTo(shipmentMap)
         .bindPopup(
-            "<strong>Origin</strong><br>" +
-            escapeHTML(
-                String(
-                    origin || ""
-                )
-            )
+            "<strong>" +
+            trackingText("Current Location") +
+            "</strong><br>" +
+            escapeHTML(String(current))
         );
+}
 
+/* =====================================================
+   DASHED ROUTE
+   ===================================================== */
 
-    /* =====================================================
-       DESTINATION MARKER
-       ===================================================== */
-
-    L.marker(
-        destinationCoords
-    )
-        .addTo(
-            shipmentMap
-        )
-        .bindPopup(
-            "<strong>Destination</strong><br>" +
-            escapeHTML(
-                String(
-                    destination || ""
-                )
-            )
-        );
-
-
-    /* =====================================================
-       CURRENT LOCATION
-       ===================================================== */
-
-    if (
-        currentCoords &&
-        current &&
-        current !== "-"
-    ) {
-
-        L.circleMarker(
-            currentCoords,
-            {
-                radius: 8,
-                weight: 3,
-                fillOpacity: 1
-            }
-        )
-            .addTo(
-                shipmentMap
-            )
-            .bindPopup(
-                "<strong>Current Location</strong><br>" +
-                escapeHTML(
-                    String(
-                        current
-                    )
-                )
-            );
-
-    }
-
-
-    /* =====================================================
-       DASHED ROUTE
-       ===================================================== */
-
-    routeLine =
-        L.polyline(
-            [
-                originCoords,
-                destinationCoords
-            ],
-            {
-                color: "#0b4ea2",
-                weight: 4,
-                opacity: 0.9,
-                dashArray: "10, 10"
-            }
-        ).addTo(
-            shipmentMap
-        );
-
-
-    /* =====================================================
-       STATIONARY AIRPLANE
-       ===================================================== */
-
-    const airplaneIcon =
-        L.divIcon({
-
-            className:
-                "stationary-airplane",
-
-            html: `
-                <div class="airplane-wrapper">
-                    <i class="fa-solid fa-plane"></i>
-                </div>
-            `,
-
-            iconSize: [
-                42,
-                42
-            ],
-
-            iconAnchor: [
-                21,
-                21
-            ]
-
-        });
-
-
-    airplaneMarker =
-        L.marker(
-            originCoords,
-            {
-                icon:
-                    airplaneIcon,
-
-                zIndexOffset:
-                    1000,
-
-                interactive:
-                    false
-            }
-        ).addTo(
-            shipmentMap
-        );
-
-
-    /* =====================================================
-       CENTER AIRPLANE BETWEEN ORIGIN & DESTINATION
-       NO ANIMATION
-       ===================================================== */
-
-    placeStationaryAirplane(
+routeLine = L.polyline(
+    [
         originCoords,
         destinationCoords
-    );
+    ],
+    {
+        color: "#0b4ea2",
+        weight: 4,
+        opacity: 0.9,
+        dashArray: "10, 10"
+    }
+).addTo(shipmentMap);
 
+/* =====================================================
+   STATIONARY AIRPLANE
+   ===================================================== */
 
-    /* =====================================================
-       FIT MAP TO ROUTE
-       ===================================================== */
+const airplaneIcon = L.divIcon({
+    className: "stationary-airplane",
+    html: `
+        <div class="airplane-wrapper">
+            <i class="fa-solid fa-plane"></i>
+        </div>
+    `,
+    iconSize: [42, 42],
+    iconAnchor: [21, 21]
+});
 
-    const bounds =
-        L.latLngBounds(
-            [
-                originCoords,
-                destinationCoords
-            ]
-        );
+airplaneMarker = L.marker(
+    originCoords,
+    {
+        icon: airplaneIcon,
+        zIndexOffset: 1000,
+        interactive: false
+    }
+).addTo(shipmentMap);
 
+/* =====================================================
+   CENTER AIRPLANE BETWEEN ORIGIN & DESTINATION
+   NO ANIMATION
+   ===================================================== */
 
-    shipmentMap.fitBounds(
-        bounds,
-        {
-            padding: [
-                40,
-                40
-            ]
-        }
-    );
+placeStationaryAirplane(
+    originCoords,
+    destinationCoords
+);
 
+/* =====================================================
+   FIT MAP TO ROUTE
+   ===================================================== */
 
-    /* =====================================================
-       REFRESH MAP SIZE
-       ===================================================== */
+const bounds = L.latLngBounds([
+    originCoords,
+    destinationCoords
+]);
 
-    requestAnimationFrame(
-        function () {
+shipmentMap.fitBounds(bounds, {
+    padding: [40, 40]
+});
 
-            if (!shipmentMap) {
-                return;
-            }
+/* =====================================================
+   REFRESH MAP SIZE
+   ===================================================== */
 
+requestAnimationFrame(function () {
 
-            shipmentMap.invalidateSize();
+    if (!shipmentMap) {
+        return;
+    }
 
+    shipmentMap.invalidateSize();
 
-            shipmentMap.fitBounds(
-                bounds,
-                {
-                    padding: [
-                        40,
-                        40
-                    ]
-                }
-            );
-
-        }
-    );
+    shipmentMap.fitBounds(bounds, {
+        padding: [40, 40]
+    });
+});
 
 }
 
@@ -2654,4 +2554,7 @@ if (qrTracking && input) {
 
     trackShipment();
 }
-       
+
+       }
+
+   );
