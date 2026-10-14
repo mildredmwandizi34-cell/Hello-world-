@@ -1967,48 +1967,21 @@ function findCoordinates(place) {
 
 
 /* =========================================================
-   DISPLAY MAP
-   ========================================================= */
+DISPLAY MAP
+========================================================= */
 
 function displayMap(origin, current, destination) {
 
-    console.log("MAP ORIGIN:", origin);
-    console.log("MAP CURRENT:", current);
-    console.log("MAP DESTINATION:", destination);
-           
+console.log("MAP ORIGIN:", origin);
+console.log("MAP CURRENT:", current);
+console.log("MAP DESTINATION:", destination);
 
-    console.log(
-        "MAP ORIGIN:",
-        origin
-    );
+const mapElement = getElement("shipmentMap");
 
-    console.log(
-        "MAP CURRENT:",
-        current
-    );
-
-    console.log(
-        "MAP DESTINATION:",
-        destination
-    );
-
-
-    const mapElement =
-        getElement(
-            "shipmentMap"
-        );
-
-
-    if (!mapElement) {
-
-        console.error(
-            "shipmentMap element not found."
-        );
-
-        return;
-
-    }
-);
+if (!mapElement) {
+    console.error("shipmentMap element not found.");
+    return;
+}
 
 
     /* =====================================================
