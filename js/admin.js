@@ -1681,96 +1681,100 @@ async function saveShipment() {
         }
 
 
-/* =========================================================
-   DELETE SHIPMENT
-   ========================================================= */
+
+        /* =========================================================
+DELETE SHIPMENT
+========================================================= */
 
 async function deleteShipment(index) {
 
-    const shipment =
-        shipments[index];
+const shipment = shipments[index];
 
-    if (!shipment)
-        return;
+if (!shipment) {
+    return;
+}
 
+const trackingNumber =
+    shipment.tracking_number ||
+    shipment.trackingNumber ||
+    shipment.tracking;
 
-    const confirmed =
-        confirm(
-            "Delete shipment " +
-            shipment.trackingNumber +
-            "?"
-        );
+if (!trackingNumber) {
+    alert(
+        "Cannot delete shipment: tracking number is missing."
+    );
+    return;
+}
 
+const confirmed = confirm(
+    "Delete shipment " + trackingNumber + "?"
+);
 
-    if (!confirmed)
-        return;
+if (!confirmed) {
+    return;
+}
 
+try {
 
-    try {
+    const { data, error } = await supabaseClient
+        .from("shipments")
+        .delete()
+        .eq("tracking_number", trackingNumber)
+        .select("tracking_number");
 
-        const {
-            error
-        } =
-            await supabaseClient
-                .from("shipments")
-                .delete()
-                .eq(
-                    "tracking_number",
-                    shipment.trackingNumber
-                );
-
-
-        if (error) {
-
-            console.error(error);
-
-            alert(
-                "Shipment could not be deleted.\n\n" +
-                error.message
-            );
-
-            return;
-
-        }
-
-
-        shipments.splice(
-            index,
-            1
-        );
-
-
-        saveLocalBackup();
-
-
-        addActivity(
-            "Shipment " +
-            shipment.trackingNumber +
-            " deleted",
-            "🗑️"
-        );
-
-
-        renderShipments();
-
-updateDashboard();
-
+    if (error) {
+        console.error("Supabase delete error:", error);
 
         alert(
-            "Shipment deleted successfully."
+            "Shipment could not be deleted.\n\n" +
+            error.message
         );
 
+        return;
     }
 
-    catch (error) {
+    if (!data || data.length === 0) {
 
-        console.error(error);
+        console.warn(
+            "No shipment was deleted. Check the tracking number and Supabase permissions.",
+            trackingNumber
+        );
 
         alert(
-            "Unable to delete shipment."
+            "The parcel was not deleted from Supabase.\n\n" +
+            "The record may not match the tracking number, " +
+            "or database permissions may be blocking deletion.\n\n" +
+            "Your dashboard list has not been changed."
         );
 
+        return;
     }
+
+    shipments.splice(index, 1);
+
+    saveLocalBackup();
+
+    addActivity(
+        "Shipment " + trackingNumber + " deleted",
+        "🗑️"
+    );
+
+    renderShipments();
+
+    updateDashboard();
+
+    alert("Shipment deleted successfully.");
+
+} catch (error) {
+
+    console.error("Unexpected delete error:", error);
+
+    alert(
+        "Unable to delete shipment.\n\n" +
+        (error.message || "Unexpected error.")
+    );
+
+}
 
 }
 
