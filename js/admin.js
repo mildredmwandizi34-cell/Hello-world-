@@ -2051,56 +2051,66 @@ function deleteCustomerMessage(index) {
 }
 
 
+
 /* =========================================================
    VIEW RECEIPT
    ========================================================= */
 
 function setupViewReceipt() {
 
-    const button =
-        get("viewReceipt");
+    const button = get("viewReceipt");
 
-    if (!button)
-        return;
+    if (!button) return;
 
+    button.onclick = function () {
 
-    button.onclick =
-        function() {
+        let shipment = null;
 
-            if (
-                currentShipmentIndex < 0
-            ) {
+        // First try the currently selected shipment
+        if (
+            typeof currentShipmentIndex !== "undefined" &&
+            currentShipmentIndex >= 0 &&
+            shipments[currentShipmentIndex]
+        ) {
+            shipment = shipments[currentShipmentIndex];
+        }
 
-                alert(
-                    "Select a shipment first."
-                );
+        // If no shipment is selected, ask for its tracking number
+        if (!shipment) {
+            const tracking = prompt(
+                "Enter the shipment tracking number to open its receipt:"
+            );
 
-                return;
-
-            }
-
-
-            const shipment =
-                shipments[
-                    currentShipmentIndex
-                ];
-
-
-            if (!shipment)
-                return;
-
+            if (!tracking || !tracking.trim()) return;
 
             window.open(
                 "receipt.html?tracking=" +
-                encodeURIComponent(
-                    shipment.trackingNumber
-                ),
+                encodeURIComponent(tracking.trim()),
                 "_blank"
             );
 
-        };
+            return;
+        }
 
+        // Support both tracking field names
+        const tracking =
+            shipment.trackingNumber ||
+            shipment.tracking ||
+            shipment.tracking_number;
+
+        if (!tracking) {
+            alert("This shipment has no tracking number.");
+            return;
+        }
+
+        window.open(
+            "receipt.html?tracking=" +
+            encodeURIComponent(tracking),
+            "_blank"
+        );
+    };
 }
+
 
 
 /* =========================================================
