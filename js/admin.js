@@ -782,52 +782,44 @@ function renderShipments() {
                 </td>
 
 
-                <!-- ACTIONS -->
+                
+<!-- ACTIONS -->
 
-                <td
-                    data-label="Actions"
-                >
+<td data-label="Actions">
 
-                    <div class="control-actions">
+    <div class="control-actions">
 
-                        <button
-                            type="button"
-                            class="control-edit"
-                            onclick="editShipment(${index})"
-                        >
+        <button
+            type="button"
+            class="control-edit"
+            onclick="editShipment(${index})"
+        >
+            <i class="fa-solid fa-pen"></i>
+            Edit
+        </button>
 
-                            <i class="fa-solid fa-pen"></i>
+        <button
+            type="button"
+            class="control-delete"
+            onclick="deleteShipment(${index})"
+        >
+            <i class="fa-solid fa-trash"></i>
+            Delete
+        </button>
 
-                            Edit
+        <button
+            type="button"
+            class="control-edit"
+            onclick="openShipmentReceipt(${index})"
+        >
+            <i class="fa-solid fa-receipt"></i>
+            Open Receipt
+        </button>
 
-                        </button>
+    </div>
 
+</td>
 
-                        <button
-                            type="button"
-                            class="control-delete"
-                            onclick="deleteShipment(${index})"
-                        >
-
-                            <i class="fa-solid fa-trash"></i>
-
-                            Delete
-
-                        </button>
-
-                    </div>
-
-                </td>
-
-            `;
-
-
-            table.appendChild(row);
-
-        }
-    );
-
-}
 
 
 /* =========================================================
