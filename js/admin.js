@@ -1689,42 +1689,47 @@ async function saveShipment() {
 
 async function deleteShipment(index) {
 
-    const shipment =
-        shipments[index];
+    const shipment = shipments[index];
 
-    if (!shipment)
+    if (!shipment) {
         return;
+    }
 
+    const trackingNumber = shipment.trackingNumber;
 
-    const confirmed =
-        confirm(
-            "Delete shipment " +
-            shipment.trackingNumber +
-            "?"
-        );
+    const confirmed = confirm(
+        "Delete shipment " +
+        trackingNumber +
+        "?"
+    );
 
-
-    if (!confirmed)
+    if (!confirmed) {
         return;
-
+    }
 
     try {
 
         const {
+            data,
             error
-        } =
-            await supabaseClient
-                .from("shipments")
-                .delete()
-                .eq(
-                    "tracking_number",
-                    shipment.trackingNumber
-                );
+        } = await supabaseClient
+            .from("shipments")
+            .delete()
+            .eq(
+                "tracking_number",
+                trackingNumber
+            )
+            .select("tracking_number");
 
+
+        /* CHECK FOR DATABASE ERROR */
 
         if (error) {
 
-            console.error(error);
+            console.error(
+                "Delete error:",
+                error
+            );
 
             alert(
                 "Shipment could not be deleted.\n\n" +
@@ -1732,44 +1737,89 @@ async function deleteShipment(index) {
             );
 
             return;
+        }
+
+
+        /* VERIFY THAT A ROW WAS ACTUALLY DELETED */
+
+        if (!data || data.length === 0) {
+
+            alert(
+                "Shipment was NOT deleted from Supabase.\n\n" +
+                "Possible causes:\n" +
+                "- Supabase DELETE permission is blocked by RLS.\n" +
+                "- The tracking number does not match.\n" +
+                "- The database returned no deleted rows.\n\n" +
+                "Tracking Number: " +
+                trackingNumber
+            );
+
+            console.warn(
+                "No shipment row was deleted:",
+                trackingNumber
+            );
+
+            return;
+        }
+
+
+        /* REMOVE SHIPMENT FROM LOCAL ARRAY */
+
+        const actualIndex = shipments.findIndex(
+            item =>
+                item.trackingNumber === trackingNumber
+        );
+
+        if (actualIndex !== -1) {
+
+            shipments.splice(
+                actualIndex,
+                1
+            );
 
         }
 
 
-        shipments.splice(
-            index,
-            1
-        );
-
+        /* SAVE LOCAL BACKUP */
 
         saveLocalBackup();
 
 
+        /* RECORD ACTIVITY */
+
         addActivity(
             "Shipment " +
-            shipment.trackingNumber +
+            trackingNumber +
             " deleted",
             "🗑️"
         );
 
 
+        /* REFRESH DASHBOARD */
+
         renderShipments();
 
-updateDashboard();
+        updateDashboard();
 
 
         alert(
-            "Shipment deleted successfully."
+            "Shipment " +
+            trackingNumber +
+            " deleted successfully from Supabase."
         );
 
     }
 
     catch (error) {
 
-        console.error(error);
+        console.error(
+            "Unexpected deletion error:",
+            error
+        );
 
         alert(
-            "Unable to delete shipment."
+            "Unable to delete shipment.\n\n" +
+            error.message
         );
 
     }
