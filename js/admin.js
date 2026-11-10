@@ -2159,7 +2159,7 @@ document.addEventListener(
 
         loadCustomerMessages();
 
-       loadactivity();
+       loadActivity();
 
         setupViewReceipt();
 
