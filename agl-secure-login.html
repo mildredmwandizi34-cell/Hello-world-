@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AGL Admin Login</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef3f9;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+            border-top: 5px solid #0b4ea2;
+        }
+
+        .logo {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 15px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #083b80;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #0b4ea2;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+        }
+
+        #message {
+            margin-top: 15px;
+            text-align: center;
+            color: #c62828;
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-box">
+
+        <img
+            src="image/agl-logo.png"
+            class="logo"
+            alt="AGL Logo"
+        >
+
+        <h2>Administrator Login</h2>
+
+        <p class="subtitle">
+            American Global Logistics
+        </p>
+
+        <form id="loginForm">
+
+            <label for="email">
+                Administrator Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                required
+                autocomplete="username"
+                placeholder="Enter your email"
+            >
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                required
+                autocomplete="current-password"
+                placeholder="Enter your password"
+            >
+
+            <button
+                type="submit"
+                id="loginBtn"
+            >
+                Login Securely
+            </button>
+
+            <div id="message"></div>
+
+        </form>
+
+        <div class="footer">
+            Secure AGL Administrator Portal
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+
+        const SUPABASE_URL =
+            "https://aptkocjxcwmfatcycdnv.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_DFh11Zpc40ulOTzl53Z2pw_tteoaD7l";
+
+        const ADMIN_UID =
+            "cc8c95b8-f407-486c-a0c8-14503adb6851";
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const message =
+            document.getElementById("message");
+
+        const loginBtn =
+            document.getElementById("loginBtn");
+
+
+        loginForm.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+                message.textContent = "";
+
+                loginBtn.disabled = true;
+
+                loginBtn.textContent =
+                    "Authenticating...";
+
+                const email =
+                    document.getElementById("email")
+                        .value.trim();
+
+                const password =
+                    document.getElementById("password")
+                        .value;
+
+
+                try {
+
+                    const {
+                        data,
+                        error
+                    } =
+                        await supabaseClient.auth
+                            .signInWithPassword({
+                                email: email,
+                                password: password
+                            });
+
+
+                    if (error) {
+                        throw error;
+                    }
+
+
+                    if (
+                        !data.user ||
+                        data.user.id !== ADMIN_UID
+                    ) {
+
+                        await supabaseClient.auth.signOut();
+
+                        throw new Error(
+                            "Access denied. This account is not authorized."
+                        );
+
+                    }
+
+
+                    window.location.replace(
+                        "admin-dashboard.html"
+                    );
+
+                }
+
+                catch(error) {
+
+                    message.textContent =
+                        error.message ||
+                        "Login failed. Please try again.";
+
+                    loginBtn.disabled = false;
+
+                    loginBtn.textContent =
+                        "Login Securely";
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+  </html>
+  
