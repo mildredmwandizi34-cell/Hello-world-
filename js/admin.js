@@ -2197,23 +2197,81 @@ function escapeHTML(value) {
 }
 
 
+
 /* =========================================================
-   INITIALIZE
+   SECURE INITIALIZE
    ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    function() {
+    async function() {
+
+        /* =========================================
+           VERIFY ADMIN SESSION
+        ========================================= */
+
+        const ADMIN_UID =
+            "cc8c95b8-f407-486c-a0c8-14503adb6851";
+
+        try {
+
+            const {
+                data,
+                error
+            } = await supabaseClient.auth.getSession();
+
+            if (error || !data.session) {
+
+                window.location.replace(
+                    "agl-secure-login.html"
+                );
+
+                return;
+            }
+
+            const user =
+                data.session.user;
+
+            if (!user || user.id !== ADMIN_UID) {
+
+                await supabaseClient.auth.signOut();
+
+                window.location.replace(
+                    "agl-secure-login.html"
+                );
+
+                return;
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Admin authentication error:",
+                error
+            );
+
+            window.location.replace(
+                "agl-secure-login.html"
+            );
+
+            return;
+        }
+
+
+        /* =========================================
+           LOAD ADMIN DASHBOARD
+        ========================================= */
 
         loadShipments();
 
         loadCustomerMessages();
 
-       loadActivity();
+        loadActivity();
 
         setupViewReceipt();
 
-               /* =========================================
+
+        /* =========================================
            LIVE SUPABASE REFRESH
         ========================================= */
 
@@ -2227,16 +2285,36 @@ document.addEventListener(
         );
 
 
+        /* =========================================
+           SECURE LOGOUT
+        ========================================= */
+
         const logout =
             get("logoutBtn");
 
         if (logout) {
 
             logout.onclick =
-                function() {
+                async function() {
 
-                    window.location.href =
-                        "admin-login.html";
+                    const {
+                        error
+                    } =
+                        await supabaseClient.auth.signOut();
+
+                    if (error) {
+
+                        alert(
+                            "Logout failed: " +
+                            error.message
+                        );
+
+                        return;
+                    }
+
+                    window.location.replace(
+                        "agl-secure-login.html"
+                    );
 
                 };
 
@@ -2244,3 +2322,4 @@ document.addEventListener(
 
     }
 );
+                       
