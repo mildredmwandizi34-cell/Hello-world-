@@ -736,84 +736,68 @@ async function trackShipment() {
 
     try {
 
-        const {
-            data,
-            error
-        } = await supabaseClient
-
-            .from("shipments")
-
-            .select("*")
-
-            .eq(
-                "tracking_number",
-                tracking
-            )
-
-            .maybeSingle();
-
-
-        if (error) {
-
-            console.error(
-                "Supabase error:",
-                error
-            );
-
-            throw error;
-
-        }
-
-
-        if (!data) {
-
-            showMessage(
-                "Shipment not found. Please check your tracking number.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        console.log(
-            "SHIPMENT FOUND:",
-            data
-        );
-
-
-        displayShipment(data);
-
-
-        const message =
-            getElement("message");
-
-
-        if (message) {
-
-            message.style.display =
-                "none";
-
-        }
-
-
-    } catch (error) {
-
-        console.error(
-            "Tracking error:",
-            error
-        );
-
-
-        showMessage(
-            "Unable to connect to the tracking system. Please try again.",
-            "error"
-        );
-
+        
+const {
+    data,
+    error
+} = await supabaseClient.rpc(
+    "track_shipment",
+    {
+        p_tracking_number: tracking
     }
+);
+
+
+if (error) {
+
+    console.error(
+        "Supabase error:",
+        error
+    );
+
+    throw error;
 
 }
+
+
+const shipment =
+    Array.isArray(data)
+        ? data[0]
+        : data;
+
+
+if (!shipment) {
+
+    showMessage(
+        "Shipment not found. Please check your tracking number.",
+        "error"
+    );
+
+    return;
+
+}
+
+
+console.log(
+    "SHIPMENT FOUND:",
+    shipment
+);
+
+
+displayShipment(shipment);
+
+
+const message =
+    getElement("message");
+
+
+if (message) {
+
+    message.style.display =
+        "none";
+
+}
+       
 
 
 /* =========================================================
