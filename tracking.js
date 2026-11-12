@@ -801,6 +801,23 @@ if (message) {
 }
        
 
+    } catch (error) {
+
+        console.error(
+            "Tracking error:",
+            error
+        );
+
+        showMessage(
+            "Unable to connect to the tracking system. Please try again.",
+            "error"
+        );
+
+    }
+
+}
+
+
 
 /* =========================================================
    DISPLAY SHIPMENT
