@@ -1250,3 +1250,289 @@ footer {
     }
 
    }
+
+
+/* =========================================================
+   SHIPMENT CONTROL CENTER — MISSING STYLES FIX
+========================================================= */
+
+.control-center {
+    background: linear-gradient(135deg, #ffffff, #f1f7fd);
+    padding: 25px;
+    margin: 25px 0 35px;
+    border-radius: 18px;
+    border: 1px solid #d9e7f5;
+    box-shadow: 0 8px 25px rgba(0, 40, 90, 0.08);
+    overflow: hidden;
+}
+
+.control-center-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.control-center-header h2 {
+    color: #083d82;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.control-center-header p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.live-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 30px;
+    background: #e6f8ef;
+    color: #16834b;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.live-dot {
+    width: 9px;
+    height: 9px;
+    background: #20c997;
+    border-radius: 50%;
+}
+
+.control-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.control-stat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #e1ebf5;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 40, 90, 0.04);
+}
+
+.control-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 45px;
+    height: 45px;
+    background: #eaf2ff;
+    color: #0b4ea2;
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+.control-stat strong {
+    display: block;
+    color: #083d82;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.control-stat small {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.live-shipment-panel {
+    background: #ffffff;
+    border: 1px solid #dce8f3;
+    border-radius: 14px;
+    padding: 22px;
+}
+
+.live-shipment-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 22px;
+    color: #083d82;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.live-badge {
+    background: #eaf2ff;
+    color: #1565c0;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+}
+
+.live-shipment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.live-field {
+    min-width: 0;
+    padding: 15px;
+    background: #f5f9fe;
+    border: 1px solid #e7eef7;
+    border-radius: 10px;
+}
+
+.live-field small {
+    display: block;
+    color: #718096;
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.live-field strong {
+    display: block;
+    color: #12345b;
+    font-size: 15px;
+    overflow-wrap: anywhere;
+}
+
+.live-progress-area {
+    margin-top: 25px;
+}
+
+.live-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.live-progress-header strong {
+    color: #0b4ea2;
+}
+
+.live-progress {
+    height: 10px;
+    background: #e5edf5;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.live-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0b4ea2, #20a4f3);
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+.live-update-time {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e8eef5;
+    color: #718096;
+    font-size: 12px;
+}
+
+.live-update-time i {
+    color: #0b4ea2;
+}
+
+.live-update-time strong {
+    color: #334155;
+}
+
+
+/* =========================================================
+   CONTROL CENTER — TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .control-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   CONTROL CENTER — MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .control-center {
+        padding: 15px;
+        border-radius: 14px;
+    }
+
+    .control-center-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .control-center-header h2 {
+        font-size: 20px;
+        line-height: 1.4;
+    }
+
+    .control-center-header p {
+        font-size: 13px;
+    }
+
+    .control-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .control-stat {
+        padding: 15px;
+    }
+
+    .control-stat strong {
+        font-size: 22px;
+    }
+
+    .live-shipment-panel {
+        padding: 14px;
+    }
+
+    .live-shipment-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .live-field {
+        padding: 13px;
+    }
+
+    .live-field strong {
+        font-size: 14px;
+    }
+
+    .live-shipment-title {
+        font-size: 12px;
+    }
+
+       }
+
