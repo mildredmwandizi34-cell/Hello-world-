@@ -688,8 +688,6 @@ function getTrackingNumber() {
 
 async function trackShipment() {
 
-   alert("Tracking function is working!");
-
     const tracking =
         getTrackingNumber();
 
