@@ -947,7 +947,7 @@ function updateDashboard() {
 
 
     const liveActive =
-        get("liveActiveShipments");
+    get("liveActiveCount");
 
     if (liveActive) {
 
@@ -958,7 +958,7 @@ function updateDashboard() {
 
 
     const liveMoving =
-        get("liveMovingShipments");
+    get("liveTransitCount");
 
     if (liveMoving) {
 
